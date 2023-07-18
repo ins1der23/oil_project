@@ -18,18 +18,19 @@ class Worker
         }
     }
 
-    public string position { get; set; }
-
-    public Worker(string name, string surname, (int, int, int) date, string position)
+    
+    public Worker(string name, string surname, (int, int, int) date)
     {
         this.workerId = Interlocked.Increment(ref nextId);
         this.name = name;
         this.surname = surname;
         this.birthday = new DateTime(date.Item1, date.Item2, date.Item3);
-        this.position = position;
     }
 
-    public override string ToString() => $"{this.workerId};{this.name} {this.surname};{this.birthday.ToShortDateString()};{this.age};{this.position}";
+    public override string ToString() 
+    {
+        return $"{this.workerId}. {this.name} {this.surname}, {this.birthday.ToShortDateString()}, {this.age}";
+    } 
 
 
 }
