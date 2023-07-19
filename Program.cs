@@ -23,5 +23,12 @@ Console.WriteLine(client1);
 Client.ChangeFields(client1,"", "", "Хуячечная", "Вася");
 Console.WriteLine(client1);
 Client client2 = new Client("Березовский", "+79224324", "Цирк", "Юра");
-Console.WriteLine(client2);
+Client.AddAgreement(client2, "f:/path");
+
+Client.ChangeAgreement(client2, "c:/path");
+
+Client.DelAgreement(client2);
+
+
+
 
