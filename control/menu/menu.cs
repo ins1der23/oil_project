@@ -12,14 +12,13 @@ public class Menu
         this.choices = menu;
     }
 
-    public static int MenuChoice(Menu menu,string menuChoice)
+    public static int MenuChoice(Menu menu, string menuChoice)
     {
         while (true)
         {
             int choice = GetInteger(menuChoice);
             if (choice > 0 && choice < menu.choices.Length) return choice;
         }
-        
     }
 
     public override string ToString()

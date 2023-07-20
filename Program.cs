@@ -1,5 +1,5 @@
-﻿using static Controller;
-Controller.Start();
+﻿using static Control;
+Control.Start();
 
 
 
