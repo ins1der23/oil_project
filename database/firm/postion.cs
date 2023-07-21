@@ -1,7 +1,7 @@
 using System.Threading;
 using System;
 
-class Position
+public class Position
 {
     static int nextId;
     public int positionId { get; private set; }
