@@ -13,5 +13,5 @@ public class Position
         this.positionName = positionName;
     }
 
-    public override string ToString() => $"{this.positionId}. {this.positionName}";
+    public override string ToString() => $"{this.positionName}";
 }

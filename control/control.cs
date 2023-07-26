@@ -1,26 +1,31 @@
 using System;
 using static InOut;
 using static Menu;
+using static Worker;
 public class Control
 {
     public static void Start()
     {
         DataBase db = new DataBase();
-        db.AppendPosition(new Position(String.Empty));
+        // db.AppendPosition(new Position("Не назначено"));
+        db.AppendPosition(new Position("Директор"));
+        db.AppendPosition(new Position("Начальник производства"));
         while (true)
         {
-            Menu mainMenu = new Menu(MenuText.mainMenu);
+            Menu tempMenu;
+            Menu mainMenu = new Menu(MenuText.menuNames[0], MenuText.mainMenu);
             ShowMenu(mainMenu);
             bool mainFlag = true;
             int choice = MenuChoice(mainMenu, MenuText.menuChoice);
+            int tempIndex = 0;
             switch (choice)
             {
                 case 1: // clients
                     while (mainFlag)
                     {
-                        Menu clientMenu = new Menu(MenuText.clientMenu);
-                        ShowMenu(clientMenu);
-                        choice = MenuChoice(clientMenu, MenuText.menuChoice);
+                        tempMenu = new Menu(MenuText.menuNames[1], MenuText.clientMenu);
+                        ShowMenu(tempMenu);
+                        choice = MenuChoice(tempMenu, MenuText.menuChoice);
                         switch (choice)
                         {
                             case 6:
@@ -32,9 +37,9 @@ public class Control
                 case 2: //claims
                     while (mainFlag)
                     {
-                        Menu claimMenu = new Menu(MenuText.claimMenu);
-                        ShowMenu(claimMenu);
-                        choice = MenuChoice(claimMenu, MenuText.menuChoice);
+                        tempMenu = new Menu(MenuText.menuNames[2], MenuText.claimMenu);
+                        ShowMenu(tempMenu);
+                        choice = MenuChoice(tempMenu, MenuText.menuChoice);
                         switch (choice)
                         {
                             case 3:
@@ -46,19 +51,47 @@ public class Control
                 case 4: // workers
                     while (mainFlag)
                     {
-                        Menu workerMenu = new Menu(MenuText.workerMenu);
-                        ShowMenu(workerMenu);
-                        choice = MenuChoice(workerMenu, MenuText.menuChoice);
+                        tempMenu = new Menu(MenuText.menuNames[3], MenuText.workerMenu);
+                        ShowMenu(tempMenu);
+                        choice = MenuChoice(tempMenu, MenuText.menuChoice);
                         switch (choice)
                         {
                             case 1:
-                                db.AppendWorker(CreateWorker());
+                                Worker worker = CreateWorker();
+                                db.AppendWorker(worker);
+                                ShowString(MenuText.setPosition);
+                                tempMenu = new Menu(String.Empty, MenuText.yesMenu);
+                                ShowMenu(tempMenu);
+                                choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                                switch (choice)
+                                {
+                                    case 1:
+                                        tempMenu = new Menu(MenuText.menuNames[4], db.SelectAllPositions());
+                                        ShowMenu(tempMenu);
+                                        tempIndex = MenuChoice(tempMenu, MenuText.menuChoice) - 1;
+                                        worker.SetPosition(worker, choice - 1);
+                                        break;
+                                }
                                 break;
+
                             case 2:
-                                Console.WriteLine(db.SelectAllWorkers());
+                                ShowStringList(db.SelectAllWorkers());
+                                tempMenu = new Menu(String.Empty, MenuText.choiceMenu);
+                                ShowMenu(tempMenu);
+                                choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                                switch (choice)
+                                {
+                                    case 1:
+                                        tempMenu = new Menu(String.Empty, db.SelectAllWorkers());
+                                        ShowMenu(tempMenu);
+                                        tempIndex = MenuChoice(tempMenu, MenuText.menuChoice) - 1;
+                                        ShowString(db.SelectWorker(tempIndex));
+                                        break;
+                                }
                                 break;
-                            case 4: mainFlag = false;
-                            break;
+                            case 4:
+                                mainFlag = false;
+                                break;
                         }
                     }
                     break;

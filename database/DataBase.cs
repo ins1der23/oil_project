@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 class DataBase
 {
     List<Position> positionsTable;
@@ -16,23 +17,28 @@ class DataBase
     }
 
     public void AppendPosition(Position position) => positionsTable.Add(position);
-    public string SelectAllPositions()
+    public List<string> SelectAllPositions()
     {
-        string output = String.Empty;
+        List<string> output = new List<string>();
         foreach (var position in positionsTable)
         {
-            output += $"{position.ToString()}\n";
+            output.Add(position.ToString());
         }
         return output;
     }
     public void AppendWorker(Worker worker) => workersTable.Add(worker);
-    public string SelectAllWorkers()
+    
+    public string SelectWorker(int workerId)
     {
-        string output = String.Empty;
+       return $"{workersTable[workerId].fullName} {workersTable[workerId].age} {positionsTable[workersTable[workerId].positionId].positionName}";
+    }
+    public List<string> SelectAllWorkers()
+    {
+        List<string> output = new List<string>();
 
         foreach (var item in workersTable)
         {
-            output += $"{item.fullName} {item.age} {positionsTable[item.positionId].positionName}\n";
+            output.Add($"{item.fullName} {item.age} {positionsTable[item.positionId].positionName}");
         }
         return output;
     }

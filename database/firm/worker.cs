@@ -34,7 +34,7 @@ public class Worker
         this.name = name;
         this.surname = surname;
         this.birthday = date;
-        this.positionId = 0;
+        this.positionId = 1;
     }
 
     public void SetPosition(Worker worker, int positionId) => worker.positionId = positionId;

@@ -1,33 +1,48 @@
+using System;
 public static class MenuText
 {
-public static string menuChoice = "Выберете пункт меню";
-public static string[] mainMenu = new string[] {
-                                 "Главное меню",
-                                 "Клиенты",
-                                 "Заявки",
-                                 "Расписание",
-                                 "Сотрудники",
-                                 "Сохранить изменения",
-                                 "Выход"};
-public static string[] clientMenu = new string[] {
-                                 "Клиенты",
-                                 "Показать всех клиентов",
-                                 "Добавить клиента",
-                                 "Найти клиента",
-                                 "Изменить клиента",
-                                 "Удалить клиента",
-                                 "Возврат"};
-public static string[] claimMenu = new string[] {
-                                 "Заявки",
-                                 "Добавить заявку",
-                                 "Найти заявку",
-                                 "Возврат"};
-public static string[] workerMenu = new string[] {
-                                 "Сотрудники",
-                                 "Добавить сотрудника",
-                                 "Показать всех сотрудников",
-                                 "Найти сотрудника",
-                                 "Возврат"};
+public static string menuChoice = "Выберете вариант";
+public static string[] menuNames = new string[] {
+                                "Главное меню",
+                                "Клиенты",
+                                "Заявки",
+                                "Сотрудники",
+                                "Должности"};
+public static List<string> mainMenu = new List<string>() {
+                                "Клиенты",
+                                "Заявки",
+                                "Расписание",
+                                "Сотрудники",
+                                "Сохранить изменения",
+                                "Выход"};
+public static List<string> clientMenu = new List<string>() {
+                                "Показать всех клиентов",
+                                "Добавить клиента",
+                                "Найти клиента",
+                                "Изменить клиента",
+                                "Удалить клиента",
+                                "Возврат"};
+public static List<string> claimMenu = new List<string>() {
+                                "Добавить заявку",
+                                "Найти заявку",
+                                "Возврат"};
+public static List<string> workerMenu = new List<string>() {
+                                "Добавить сотрудника",
+                                "Показать всех сотрудников",
+                                "Найти сотрудника",
+                                "Возврат"};
+public static List<string> choiceMenu = new List<string>() {
+                                "Выбрать запись",
+                                "Возврат"};
+public static List<string> changeMenu = new List<string>() {
+                                "Изменить запись",
+                                "Удалить запись",
+                                "Возврат"};
+
+public static List<string> yesMenu = new List<string>() {
+                                "Да",
+                                "Нет"};
+public static string setPosition = "Назначить должность?";
 
 public static string workerName = "Введите имя";
 public static string workerSurname = "Введите фамилию";
