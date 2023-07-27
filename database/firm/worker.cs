@@ -37,6 +37,12 @@ public class Worker
         this.positionId = 1;
     }
 
+    public void ChangeFields(Worker worker, string name, string surname, DateTime date)
+    {
+        if (name != String.Empty) worker.name = name;
+        if (surname != String.Empty) worker.surname = surname;
+        worker.birthday = date;
+    }
     public void SetPosition(Worker worker, int positionId) => worker.positionId = positionId;
 
     public override string ToString()

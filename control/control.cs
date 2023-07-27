@@ -7,7 +7,6 @@ public class Control
     public static void Start()
     {
         DataBase db = new DataBase();
-        // db.AppendPosition(new Position("Не назначено"));
         db.AppendPosition(new Position("Директор"));
         db.AppendPosition(new Position("Начальник производства"));
         while (true)
@@ -68,24 +67,43 @@ public class Control
                                     case 1:
                                         tempMenu = new Menu(MenuText.menuNames[4], db.SelectAllPositions());
                                         ShowMenu(tempMenu);
-                                        tempIndex = MenuChoice(tempMenu, MenuText.menuChoice) - 1;
-                                        worker.SetPosition(worker, choice - 1);
+                                        tempIndex = MenuChoice(tempMenu, MenuText.menuChoice);
+                                        worker.SetPosition(worker, tempIndex);
                                         break;
                                 }
                                 break;
 
                             case 2:
-                                ShowStringList(db.SelectAllWorkers());
+                                ShowStringList(db.ListWorkers());
                                 tempMenu = new Menu(String.Empty, MenuText.choiceMenu);
                                 ShowMenu(tempMenu);
                                 choice = MenuChoice(tempMenu, MenuText.menuChoice);
                                 switch (choice)
                                 {
-                                    case 1:
-                                        tempMenu = new Menu(String.Empty, db.SelectAllWorkers());
+                                    case 1: //
+                                        tempMenu = new Menu(String.Empty, db.ListWorkers());
                                         ShowMenu(tempMenu);
-                                        tempIndex = MenuChoice(tempMenu, MenuText.menuChoice) - 1;
-                                        ShowString(db.SelectWorker(tempIndex));
+                                        tempIndex = MenuChoice(tempMenu, MenuText.menuChoice);
+                                        ShowString(db.StringWorker(tempIndex));
+                                        tempMenu = new Menu(String.Empty, MenuText.changeMenu);
+                                        ShowMenu(tempMenu);
+                                        choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                                        switch (choice)
+                                        {
+                                            case 1:
+                                                Worker toChange = db.ReturnWorker(tempIndex);
+                                                ChangeWorker(toChange);
+                                                tempMenu = new Menu(MenuText.menuNames[4], db.SelectAllPositions());
+                                                ShowMenu(tempMenu);
+                                                choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                                                toChange.SetPosition(toChange, choice);
+                                                ShowString(db.StringWorker(tempIndex));
+                                                break;
+                                            case 2:
+                                                db.DeleteWorker(tempIndex);
+                                                ShowStringList(db.ListWorkers());
+                                                break;
+                                        }
                                         break;
                                 }
                                 break;
@@ -108,6 +126,15 @@ public class Control
         string surname = GetString(MenuText.workerSurname);
         DateTime birth = GetDate(MenuText.workerBirth);
         return new Worker(name, surname, birth);
+    }
+
+    private static void ChangeWorker(Worker worker)
+    {
+        string name = GetString(MenuText.workerName);
+        string surname = GetString(MenuText.workerSurname);
+        DateTime birth = GetDate(MenuText.workerBirth);
+        worker.ChangeFields(worker, name, surname, birth);
+
     }
 }
 

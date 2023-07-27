@@ -27,23 +27,31 @@ class DataBase
         return output;
     }
     public void AppendWorker(Worker worker) => workersTable.Add(worker);
+    public Worker ReturnWorker(int workerId) => workersTable[workerId - 1];
+    public void DeleteWorker(int workerId) => workersTable.RemoveAt(workerId - 1);
+
+    public string StringWorker(int workerId)
+    {
+        int workerIndex = workerId - 1;
+        return $"{workersTable[workerIndex].fullName} {workersTable[workerIndex].age} {positionsTable[workersTable[workerIndex].positionId - 1].positionName}";
+    }
+
     
-    public string SelectWorker(int workerId)
-    {
-       return $"{workersTable[workerId].fullName} {workersTable[workerId].age} {positionsTable[workersTable[workerId].positionId].positionName}";
-    }
-    public List<string> SelectAllWorkers()
-    {
-        List<string> output = new List<string>();
+   
+    
 
-        foreach (var item in workersTable)
-        {
-            output.Add($"{item.fullName} {item.age} {positionsTable[item.positionId].positionName}");
-        }
-        return output;
-    }
+public List<string> ListWorkers()
+{
+    List<string> output = new List<string>();
 
-    public void AppendClient(Client client) => clientsTable.Add(client);
-    public void AppendPassprot(Passport passport) => passportTable.Add(passport);
+    foreach (var item in workersTable)
+    {
+        output.Add($"{item.fullName} {item.age} {positionsTable[item.positionId - 1].positionName}");
+    }
+    return output;
+}
+
+public void AppendClient(Client client) => clientsTable.Add(client);
+public void AppendPassprot(Passport passport) => passportTable.Add(passport);
 
 }
