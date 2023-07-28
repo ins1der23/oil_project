@@ -8,7 +8,7 @@ public static class InOut
     public static void ShowStringList(List<string> someList)
     {
         foreach (var item in someList)
-            Console.WriteLine(item);
+            Console.WriteLine($"{someList.IndexOf(item) + 1}. {item}");
     }
 
     public static int GetInteger(string text)

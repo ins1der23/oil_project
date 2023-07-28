@@ -47,7 +47,7 @@ public class Control
                         }
                     }
                     break;
-                case 4: // workers
+                case 4: // Сотрудники
                     while (mainFlag)
                     {
                         tempMenu = new Menu(MenuText.menuNames[3], MenuText.workerMenu);
@@ -55,7 +55,7 @@ public class Control
                         choice = MenuChoice(tempMenu, MenuText.menuChoice);
                         switch (choice)
                         {
-                            case 1:
+                            case 1: // Добавить сотрудника
                                 Worker worker = CreateWorker();
                                 db.AppendWorker(worker);
                                 ShowString(MenuText.setPosition);
@@ -64,7 +64,7 @@ public class Control
                                 choice = MenuChoice(tempMenu, MenuText.menuChoice);
                                 switch (choice)
                                 {
-                                    case 1:
+                                    case 1: // Назначить должность
                                         tempMenu = new Menu(MenuText.menuNames[4], db.SelectAllPositions());
                                         ShowMenu(tempMenu);
                                         tempIndex = MenuChoice(tempMenu, MenuText.menuChoice);
@@ -73,14 +73,14 @@ public class Control
                                 }
                                 break;
 
-                            case 2:
+                            case 2: // Показать всех сотрудников
                                 ShowStringList(db.ListWorkers());
                                 tempMenu = new Menu(String.Empty, MenuText.choiceMenu);
                                 ShowMenu(tempMenu);
                                 choice = MenuChoice(tempMenu, MenuText.menuChoice);
                                 switch (choice)
                                 {
-                                    case 1: //
+                                    case 1: // Выбрать запись
                                         tempMenu = new Menu(String.Empty, db.ListWorkers());
                                         ShowMenu(tempMenu);
                                         tempIndex = MenuChoice(tempMenu, MenuText.menuChoice);
@@ -90,7 +90,7 @@ public class Control
                                         choice = MenuChoice(tempMenu, MenuText.menuChoice);
                                         switch (choice)
                                         {
-                                            case 1:
+                                            case 1: // Изменить запись
                                                 Worker toChange = db.ReturnWorker(tempIndex);
                                                 ChangeWorker(toChange);
                                                 tempMenu = new Menu(MenuText.menuNames[4], db.SelectAllPositions());
@@ -99,12 +99,31 @@ public class Control
                                                 toChange.SetPosition(toChange, choice);
                                                 ShowString(db.StringWorker(tempIndex));
                                                 break;
-                                            case 2:
+                                            case 2: // Удалить запись
                                                 db.DeleteWorker(tempIndex);
                                                 ShowStringList(db.ListWorkers());
                                                 break;
                                         }
                                         break;
+                                }
+                                break;
+                            case 3: // Найти сотрудника
+                                string searchName = InOut.GetString("Введите имя сотруника");
+                                List<Worker> searchList = db.WorkersSearch(searchName);
+                                List<string> searchListString = db.ListWorkerSearch(searchList);
+                                ShowStringList(searchListString);
+                                tempMenu = new Menu(String.Empty, MenuText.choiceMenu);
+                                ShowMenu(tempMenu);
+                                choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                                switch (choice)
+                                {
+                                    case 1: // Выбрать запись
+                                    tempMenu = new Menu(String.Empty, searchListString);
+                                    ShowMenu(tempMenu);
+                                    tempIndex = MenuChoice(tempMenu, MenuText.menuChoice);
+                                    Worker toChange = db.WorkerSearchReturn(tempIndex, searchList);
+                                    Console.WriteLine(toChange);
+                                    break;
                                 }
                                 break;
                             case 4:
