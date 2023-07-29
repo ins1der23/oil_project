@@ -31,6 +31,7 @@ public static List<string> workerMenu = new List<string>() {
                                 "Показать всех сотрудников",
                                 "Найти сотрудника",
                                 "Возврат"};
+
 public static List<string> choiceMenu = new List<string>() {
                                 "Выбрать запись",
                                 "Возврат"};

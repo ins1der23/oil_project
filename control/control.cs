@@ -9,6 +9,8 @@ public class Control
         DataBase db = new DataBase();
         db.AppendPosition(new Position("Директор"));
         db.AppendPosition(new Position("Начальник производства"));
+        db.AppendPosition(new Position("Менеджер"));
+        db.AppendPosition(new Position("Дворник"));
         while (true)
         {
             Menu tempMenu;
@@ -72,7 +74,6 @@ public class Control
                                         break;
                                 }
                                 break;
-
                             case 2: // Показать всех сотрудников
                                 ShowStringList(db.ListWorkers());
                                 tempMenu = new Menu(String.Empty, MenuText.choiceMenu);
@@ -84,23 +85,23 @@ public class Control
                                         tempMenu = new Menu(String.Empty, db.ListWorkers());
                                         ShowMenu(tempMenu);
                                         tempIndex = MenuChoice(tempMenu, MenuText.menuChoice);
-                                        ShowString(db.StringWorker(tempIndex));
+                                        Worker toChange = db.ReturnWorker(tempIndex);
+                                        ShowString(db.StringWorker(toChange.workerId));
                                         tempMenu = new Menu(String.Empty, MenuText.changeMenu);
                                         ShowMenu(tempMenu);
                                         choice = MenuChoice(tempMenu, MenuText.menuChoice);
                                         switch (choice)
                                         {
                                             case 1: // Изменить запись
-                                                Worker toChange = db.ReturnWorker(tempIndex);
                                                 ChangeWorker(toChange);
                                                 tempMenu = new Menu(MenuText.menuNames[4], db.SelectAllPositions());
                                                 ShowMenu(tempMenu);
                                                 choice = MenuChoice(tempMenu, MenuText.menuChoice);
                                                 toChange.SetPosition(toChange, choice);
-                                                ShowString(db.StringWorker(tempIndex));
+                                                ShowString(db.StringWorker(toChange.workerId));
                                                 break;
                                             case 2: // Удалить запись
-                                                db.DeleteWorker(tempIndex);
+                                                db.DeleteWorker(toChange.workerId);
                                                 ShowStringList(db.ListWorkers());
                                                 break;
                                         }
@@ -108,7 +109,7 @@ public class Control
                                 }
                                 break;
                             case 3: // Найти сотрудника
-                                string searchName = InOut.GetString("Введите имя сотруника");
+                                string searchName = InOut.GetString(MenuText.workerName);
                                 List<Worker> searchList = db.WorkersSearch(searchName);
                                 List<string> searchListString = db.ListWorkerSearch(searchList);
                                 ShowStringList(searchListString);
@@ -118,12 +119,29 @@ public class Control
                                 switch (choice)
                                 {
                                     case 1: // Выбрать запись
-                                    tempMenu = new Menu(String.Empty, searchListString);
-                                    ShowMenu(tempMenu);
-                                    tempIndex = MenuChoice(tempMenu, MenuText.menuChoice);
-                                    Worker toChange = db.WorkerSearchReturn(tempIndex, searchList);
-                                    Console.WriteLine(toChange);
-                                    break;
+                                        tempMenu = new Menu(String.Empty, searchListString);
+                                        ShowMenu(tempMenu);
+                                        tempIndex = MenuChoice(tempMenu, MenuText.menuChoice);
+                                        Worker toChange = db.WorkerSearchReturn(tempIndex, searchList);
+                                        tempMenu = new Menu(String.Empty, MenuText.changeMenu);
+                                        ShowMenu(tempMenu);
+                                        choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                                        switch (choice)
+                                        {
+                                            case 1: // Изменить запись
+                                                ChangeWorker(toChange);
+                                                tempMenu = new Menu(MenuText.menuNames[4], db.SelectAllPositions());
+                                                ShowMenu(tempMenu);
+                                                choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                                                toChange.SetPosition(toChange, choice);
+                                                ShowString(db.StringWorker(toChange.workerId));
+                                                break;
+                                            case 2: // Удалить запись
+                                                db.DeleteWorker(toChange.workerId);
+                                                ShowStringList(db.ListWorkers());
+                                                break;
+                                        }
+                                        break;
                                 }
                                 break;
                             case 4:
@@ -146,7 +164,6 @@ public class Control
         DateTime birth = GetDate(MenuText.workerBirth);
         return new Worker(name, surname, birth);
     }
-
     private static void ChangeWorker(Worker worker)
     {
         string name = GetString(MenuText.workerName);
