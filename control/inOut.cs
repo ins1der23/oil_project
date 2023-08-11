@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+
 public static class InOut
 {
     public static void ShowMenu(Menu menu) => Console.WriteLine(menu);
