@@ -1,10 +1,9 @@
 using System;
 using static InOut;
 using static Menu;
-using static Worker;
-using static Credintials;
-using static DbConnect;
-public class Control
+using Models;
+using Connection;
+public class Control : ControlInterface
 {
     public static void Start()
     {
@@ -14,20 +13,17 @@ public class Control
         db.AppendPosition(new Position("Менеджер"));
         db.AppendPosition(new Position("Дворник"));
 
-        var dbCon = DbConnect.Instance();
+        DBConnection user = DBConnection.Instance("localhost", "oilproject");
         bool connectFlag = false;
-        int tryCounter = 0;
-        while (!connectFlag && tryCounter < 3)
+        int connectCount = 0;
+        while (!connectFlag && connectCount < 3)
         {
-            Credintials user = new Credintials("localhost", "oilproject", "root");
-            dbCon.Server = user.server;
-            dbCon.DatabaseName = user.databaseName;
-            dbCon.UserName = user.userName;
-            dbCon.Password = Credintials.ReturnPassword(user);
-            connectFlag = dbCon.IsConnect();
-            Console.WriteLine(connectFlag);
-            tryCounter++;
+            user = DBConnection.Instance("localhost", "oilproject");
+            connectFlag = user.IsConnect();
+            connectCount++;
         }
+        user.Close();
+        
         if (connectFlag)
         {
             while (true)
@@ -77,7 +73,7 @@ public class Control
                             switch (choice)
                             {
                                 case 1: // Добавить сотрудника
-                                    Worker worker = CreateWorker();
+                                    Worker worker = ControlInterface.CreateWorker();
                                     db.AppendWorker(worker);
                                     ShowString(MenuText.setPosition);
                                     tempMenu = new Menu(String.Empty, MenuText.yesMenu);
@@ -112,7 +108,7 @@ public class Control
                                             switch (choice)
                                             {
                                                 case 1: // Изменить запись
-                                                    ChangeWorker(toChange);
+                                                    ControlInterface.ChangeWorker(toChange);
                                                     tempMenu = new Menu(MenuText.menuNames[4], db.SelectAllPositions());
                                                     ShowMenu(tempMenu);
                                                     choice = MenuChoice(tempMenu, MenuText.menuChoice);
@@ -148,7 +144,7 @@ public class Control
                                             switch (choice)
                                             {
                                                 case 1: // Изменить запись
-                                                    ChangeWorker(toChange);
+                                                    ControlInterface.ChangeWorker(toChange);
                                                     tempMenu = new Menu(MenuText.menuNames[4], db.SelectAllPositions());
                                                     ShowMenu(tempMenu);
                                                     choice = MenuChoice(tempMenu, MenuText.menuChoice);
@@ -170,29 +166,11 @@ public class Control
                         }
                         break;
                     case 6:
-                        dbCon.Close();
+                        user.Close();
                         return;
                 }
-
             }
         }
-
-    }
-
-    private static Worker CreateWorker()
-    {
-        string name = GetString(MenuText.workerName);
-        string surname = GetString(MenuText.workerSurname);
-        DateTime birth = GetDate(MenuText.workerBirth);
-        return new Worker(name, surname, birth);
-    }
-    private static void ChangeWorker(Worker worker)
-    {
-        string name = GetString(MenuText.workerName);
-        string surname = GetString(MenuText.workerSurname);
-        DateTime birth = GetDate(MenuText.workerBirth);
-        worker.ChangeFields(worker, name, surname, birth);
-
     }
 }
 

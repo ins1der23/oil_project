@@ -1,6 +1,10 @@
+using System.Data.Common;
 using System.Xml;
 using System;
 using System.Collections.Generic;
+using Models;
+using MySql.Data.MySqlClient;
+using Connection;
 class DataBase
 {
     List<Position> positionsTable;
@@ -59,6 +63,19 @@ class DataBase
             output.Add($"{worker.fullName} {worker.age} {positionsTable[worker.positionId - 1].positionName}");
         return output;
     }
+
+    // public List<string> ListWorkers(DbConnect dbCon)
+    // {
+    //     string query = "SELECT * FROM workers;";
+    //     var cmd = new MySqlCommand(query, dbCon.Connection);
+    //     var reader = cmd.ExecuteReader();
+    //     List<string> output = new List<string>();
+    //     while (reader.Read())
+    //     {
+    //         output.Add($"{reader.GetString(1)} {reader.GetString(2)} {reader.GetString(3)}");
+    //     }
+    //     return output;
+    // }
 
     public void AppendClient(Client client) => clientsTable.Add(client);
     public void AppendPassprot(Passport passport) => passportTable.Add(passport);

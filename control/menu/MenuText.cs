@@ -49,9 +49,10 @@ public static class MenuText
     public static string workerSurname = "Введите фамилию";
     public static string workerBirth = "Введите дату рождения Yyyy-mm-dd";
 
-    public static string userName = "Введите имя ползователя ";
-    public static string password = "Введите пароль ";
+    public static string userName = "Введите имя пользователя";
+    public static string password = "Введите пароль";
     public static string inputError = "Неверный ввод";
+    public static string isConnect = "Соединение установлено";
 
 
 
