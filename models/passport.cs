@@ -7,17 +7,13 @@ class Passport
     public int passportSerial { get; set; }
     public int passportNum { get; set; }
     public DateOnly issueDate { get; set; }
-    public string issueAuthority { get; set; }
-    public string address { get; set; }
+    public string? issueAuthority { get; set; }
+    public string? address { get; set; }
 
-    public Passport((int, int) passport, DateOnly issueDate, string issueAuthority, string address)
+    public Passport()
     {
         this.positionId = Interlocked.Increment(ref nextId);
-        this.passportSerial = passport.Item1;
-        this.passportNum = passport.Item2;
-        this.issueDate = issueDate;
-        this.issueAuthority = issueAuthority;
-        this.address = address;
+       
     }
 
     public override string ToString()

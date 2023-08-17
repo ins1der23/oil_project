@@ -9,13 +9,14 @@ namespace Connection
         public string UserName { get; private set; }
         private string Password { get; set; }
         public MySqlConnection? Connection { get; set; }
+        public bool IsConnect { get; private set; }
 
         private DBConnection(string server, string databaseName)
         {
             this.Server = server;
             this.DatabaseName = databaseName;
-            this.UserName = SetUsername();
-            this.Password = SetPassword();
+            this.UserName = "root";//SetUsername();
+            this.Password = "Hacker$arefuck1ngevil";//SetPassword();
         }
 
         private static DBConnection? _instance = null;
@@ -28,8 +29,8 @@ namespace Connection
 
         private string SetUsername() => InOut.GetString(MenuText.userName);
         private string SetPassword() => InOut.GetString(MenuText.password);
-        
-        public bool IsConnect()
+
+        public async Task ConnectAsync()
         {
             if (Connection == null)
             {
@@ -37,23 +38,24 @@ namespace Connection
                 try
                 {
                     Connection = new MySqlConnection(connstring);
-                    Connection.Open();
+                    await Connection.OpenAsync();
+                    IsConnect = true;
                 }
                 catch (MySqlException)
                 {
                     Console.WriteLine(MenuText.inputError);
-                    _instance = null;
                     Connection = null;
-                    return false;
+                    _instance = null;
                 }
             }
-            return true;
         }
+
         public void Close()
         {
             if (Connection != null)
                 Connection.Close();
             Connection = null;
+            IsConnect = false;
         }
     }
 }

@@ -4,14 +4,14 @@ using System;
     public class Position
     {
         static int nextId;
-        public int positionId { get; private set; }
-        public string positionName { get; private set; }
+        public int Id { get; private set; }
+        public string? Name { get; private set; }
 
-        public Position(string positionName)
+        public Position()
         {
-            this.positionId = Interlocked.Increment(ref nextId);
-            this.positionName = positionName;
+            this.Id = Interlocked.Increment(ref nextId);
+            
         }
-        public override string ToString() => $"{this.positionName}";
+        public override string ToString() => $"{Name}";
     }
 

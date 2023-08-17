@@ -1,4 +1,4 @@
 ﻿using static Control;
-Control.Start();
+await Control.Start();
 
 

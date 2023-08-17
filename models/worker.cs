@@ -6,51 +6,48 @@ namespace Models
     public class Worker
     {
         static int nextId;
-        public int workerId { get; private set; }
-        private string name { get; set; }
-        private string surname { get; set; }
-        public string fullName
+        public int Id { get; private set; }
+        public string? Name { get; set; }
+        public string? Surname { get; set; }
+        public string FullName
         {
             get
             {
-                return $"{name} {surname}";
+                return $"{Name} {Surname}";
             }
         }
-        private DateTime birthday { get; set; }
-        public int age
+        public DateTime Birthday { get; set; }
+        public int Age
         {
             get
             {
                 DateTime today = DateTime.Today;
-                int age = today.Year - birthday.Year;
-                if (birthday > today.AddYears(-age)) age--;
+                int age = today.Year - Birthday.Year;
+                if (Birthday > today.AddYears(-age)) age--;
                 return age;
             }
         }
 
-        public int positionId;
+        public int PositionId { get; set; }
 
-
-        public Worker(string name, string surname, DateTime date)
+        public Worker()
         {
-            this.workerId = Interlocked.Increment(ref nextId);
-            this.name = name;
-            this.surname = surname;
-            this.birthday = date;
-            this.positionId = 1;
+            this.Id = Interlocked.Increment(ref nextId);
+            this.PositionId = 1;
         }
 
-        public void ChangeFields(Worker worker, string name, string surname, DateTime date)
-        {
-            if (name != String.Empty) worker.name = name;
-            if (surname != String.Empty) worker.surname = surname;
-            worker.birthday = date;
-        }
-        public void SetPosition(Worker worker, int positionId) => worker.positionId = positionId;
+        public void SetPosition(int positionId) => PositionId = positionId;
 
+        public void ChangeFields(string name, string surname, DateTime date)
+        {
+            if (name != String.Empty) Name = name;
+            if (surname != String.Empty) Surname = surname;
+            Birthday = date;
+        }
         public override string ToString()
         {
-            return $"{this.workerId}. {this.fullName}, {this.age}, {this.positionId}";
+            return $"{Id}. {FullName}, {Age}, {PositionId}";
         }
+
     }
 }
