@@ -89,7 +89,8 @@ public class Control : ControlInterface
                                     await workersList.AddToSqlAsync(user);
                                     break;
                                 case 2: // Показать всех сотрудников
-                                    ShowStringList(workersList.ListWorkers(positions));
+                                    await workersList.GetFromSqlPos(user);
+                                    ShowStringList(workersList.ListWorkers());
                                     tempMenu = new Menu(String.Empty, MenuText.choiceMenu);
                                     ShowMenu(tempMenu);
                                     choice = MenuChoice(tempMenu, MenuText.menuChoice);

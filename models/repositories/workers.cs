@@ -7,6 +7,7 @@ namespace Models
     class Workers
     {
         List<Worker> WorkersList { get; set; }
+
         public Workers()
         {
             WorkersList = new();
@@ -20,6 +21,24 @@ namespace Models
             {
                 string selectQuery = $@"select * from workers";
                 var temp = await user.Connection.QueryAsync<Worker>(selectQuery);
+                WorkersList = temp.ToList();
+                user.Close();
+            }
+        }
+
+        public async Task GetFromSqlPos(DBConnection user)
+        {
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"select * 
+                                    from workers as w, positions as p
+                                    where w.positionId=p.Id";
+                var temp = await user.Connection.QueryAsync<Worker, Position, Worker>(selectQuery, (w, p) =>
+                {
+                    w.Position = p;
+                    return w;
+                });
                 WorkersList = temp.ToList();
                 user.Close();
             }
@@ -42,11 +61,11 @@ namespace Models
             }
         }
 
-        public List<string> ListWorkers(Positions positions)
+        public List<string> ListWorkers()
         {
             List<string> output = new List<string>();
             foreach (var worker in WorkersList)
-                output.Add($"{worker.FullName} {worker.Age} {positions[worker.PositionId - 1].Name}");
+                output.Add($"{worker.FullName} {worker.Age} {worker.Position.Name}");
             return output;
         }
 

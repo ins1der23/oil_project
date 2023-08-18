@@ -11,6 +11,7 @@ namespace Models
         public Positions()
         {
             PositionsList = new();
+            
         }
 
         public async Task GetFromSqlAsync(DBConnection user)

@@ -29,6 +29,7 @@ namespace Models
         }
 
         public int PositionId { get; set; }
+        public virtual Position? Position { get; set; }
 
         public Worker()
         {
