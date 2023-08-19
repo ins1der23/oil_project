@@ -21,7 +21,7 @@ public class Control : ControlInterface
         if (user.IsConnect)
         {
             Workers workersList = new Workers();
-            Positions positions = new Positions();
+            Positions positionsList = new Positions();
             user.Close();
             while (true)
             {
@@ -78,8 +78,8 @@ public class Control : ControlInterface
                                     switch (choice)
                                     {
                                         case 1: // Назначить должность
-                                            await positions.GetFromSqlAsync(user);
-                                            tempMenu = new Menu(MenuText.menuNames[4], positions.SelectAll());
+                                            await positionsList.GetFromSqlAsync(user);
+                                            tempMenu = new Menu(MenuText.menuNames[4], positionsList.ToStringList());
                                             ShowMenu(tempMenu);
                                             choice = MenuChoice(tempMenu, MenuText.menuChoice);
                                             workerToAdd.SetPosition(choice);
@@ -89,18 +89,19 @@ public class Control : ControlInterface
                                     await workersList.AddToSqlAsync(user);
                                     break;
                                 case 2: // Показать всех сотрудников
-                                    await workersList.GetFromSqlPos(user);
-                                    ShowStringList(workersList.ListWorkers());
+                                    await workersList.GetFromSqlAsync(user);
+                                    ShowStringList(workersList.ToStringList());
                                     tempMenu = new Menu(String.Empty, MenuText.choiceMenu);
                                     ShowMenu(tempMenu);
                                     choice = MenuChoice(tempMenu, MenuText.menuChoice);
                                     switch (choice)
                                     {
                                         case 1: // Выбрать запись
-                                            // tempMenu = new Menu(String.Empty, db.ListWorkers());
+                                            tempMenu = new Menu(String.Empty, workersList.ToStringList());
                                             ShowMenu(tempMenu);
-                                            tempIndex = MenuChoice(tempMenu, MenuText.menuChoice);
-                                            // Worker toChange = db.ReturnWorker(tempIndex);
+                                            choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                                            Worker? toChange = workersList.GetWorker(choice);
+                                            Console.WriteLine(toChange);
                                             // ShowString(db.StringWorker(toChange.workerId));
                                             tempMenu = new Menu(String.Empty, MenuText.changeMenu);
                                             ShowMenu(tempMenu);

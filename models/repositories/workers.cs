@@ -1,10 +1,11 @@
 using Connection;
 using MySql.Data.MySqlClient;
 using Dapper;
+using System.Linq;
 
 namespace Models
 {
-    class Workers
+    public class Workers
     {
         List<Worker> WorkersList { get; set; }
 
@@ -14,19 +15,7 @@ namespace Models
         }
         public void AppendWorker(Worker worker) => WorkersList.Add(worker);
 
-        public async Task GetFromSqlAsync(DBConnection user)
-        {
-            await user.ConnectAsync();
-            if (user.IsConnect)
-            {
-                string selectQuery = $@"select * from workers";
-                var temp = await user.Connection.QueryAsync<Worker>(selectQuery);
-                WorkersList = temp.ToList();
-                user.Close();
-            }
-        }
-
-        public async Task GetFromSqlPos(DBConnection user)
+        public async Task GetFromSqlAsync(DBConnection user, int id = 0, string? search = null)
         {
             await user.ConnectAsync();
             if (user.IsConnect)
@@ -43,6 +32,8 @@ namespace Models
                 user.Close();
             }
         }
+
+        public Worker? GetWorker(int id) => WorkersList.Where(w => w.Id == id).SingleOrDefault();
 
         public async Task AddToSqlAsync(DBConnection user)
         {
@@ -61,13 +52,12 @@ namespace Models
             }
         }
 
-        public List<string> ListWorkers()
+        public List<string> ToStringList()
         {
             List<string> output = new List<string>();
             foreach (var worker in WorkersList)
-                output.Add($"{worker.FullName} {worker.Age} {worker.Position.Name}");
+                output.Add($"{worker.Id} {worker.FullName} {worker.Age} {worker.Position.Name}");
             return output;
         }
-
     }
 }

@@ -4,7 +4,7 @@ using Dapper;
 
 namespace Models
 {
-    class Positions
+    public class Positions
     {
         List<Position> PositionsList {get; set;}
 
@@ -26,9 +26,8 @@ namespace Models
             }
         }
 
-        public List<string> SelectAll()
+        public List<string> ToStringList()
         {
-
             List<string> output = new List<string>();
             foreach (var position in PositionsList)
             {

@@ -1,5 +1,6 @@
-using System.Threading;
-using System;
+using Connection;
+using MySql.Data.MySqlClient;
+using Dapper;
 
 namespace Models
 {
@@ -29,12 +30,13 @@ namespace Models
         }
 
         public int PositionId { get; set; }
-        public virtual Position? Position { get; set; }
+        public virtual Position Position { get; set; }
 
         public Worker()
         {
-            this.Id = Interlocked.Increment(ref nextId);
-            this.PositionId = 1;
+            Id = Interlocked.Increment(ref nextId);
+            PositionId = 1;
+            Position = new();
         }
 
         public void SetPosition(int positionId) => PositionId = positionId;
@@ -49,6 +51,5 @@ namespace Models
         {
             return $"{Id}. {FullName}, {Age}, {PositionId}";
         }
-
     }
 }
