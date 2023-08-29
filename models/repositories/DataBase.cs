@@ -30,7 +30,7 @@ class DataBase
         return output;
         // }
         // public Worker ReturnWorker(int workerId) => workersTable[workerId - 1];
-        // public void DeleteWorker(int workerId) => workersTable.RemoveAt(workerId - 1);
+        // 
         // public List<Worker> WorkersSearch(string name)
         // {
         //     List<Worker> output = new List<Worker>();

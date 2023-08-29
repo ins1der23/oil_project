@@ -1,6 +1,7 @@
 using Connection;
 using MySql.Data.MySqlClient;
 using Dapper;
+using static InOut;
 
 namespace Models
 {
@@ -39,17 +40,30 @@ namespace Models
             Position = new();
         }
 
-        public void SetPosition(int positionId) => PositionId = positionId;
-
-        public void ChangeFields(string name, string surname, DateTime date)
+        public static Worker Create()
         {
+            Worker worker = new();
+            worker.Name = GetString(MenuText.workerName);
+            worker.Surname = GetString(MenuText.workerSurname);
+            worker.Birthday = GetDate(MenuText.workerBirth);
+            return worker;
+        }
+
+        public void Change()
+        {
+            string name = GetString(MenuText.workerName);
+            string surname = GetString(MenuText.workerSurname);
+            DateTime birth = GetDate(MenuText.workerBirth);
             if (name != String.Empty) Name = name;
             if (surname != String.Empty) Surname = surname;
-            Birthday = date;
+            Birthday = birth;
         }
+
+        public void SetPosition(int positionId) => PositionId = positionId;
+        
         public override string ToString()
         {
-            return $"{Id}. {FullName}, {Age}, {PositionId}";
+            return $"ID:{Id}, {FullName}, {Age}, {Position.Name}";
         }
     }
 }

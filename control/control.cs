@@ -4,7 +4,7 @@ using Models;
 using Connection;
 using MySql.Data.MySqlClient;
 using Dapper;
-public class Control : ControlInterface
+public class Control
 {
     public static async Task Start()
     {
@@ -70,7 +70,7 @@ public class Control : ControlInterface
                             switch (choice)
                             {
                                 case 1: // Добавить сотрудника
-                                    Worker workerToAdd = ControlInterface.CreateWorker();
+                                    Worker workerToAdd = Worker.Create();
                                     ShowString(MenuText.setPosition);
                                     tempMenu = new Menu(String.Empty, MenuText.yesMenu);
                                     ShowMenu(tempMenu);
@@ -86,7 +86,7 @@ public class Control : ControlInterface
                                             break;
                                     }
                                     workersList.AppendWorker(workerToAdd);
-                                    await workersList.AddToSqlAsync(user);
+                                    await workersList.AddSqlAsync(user);
                                     break;
                                 case 2: // Показать всех сотрудников
                                     await workersList.GetFromSqlAsync(user);
@@ -100,25 +100,29 @@ public class Control : ControlInterface
                                             tempMenu = new Menu(String.Empty, workersList.ToStringList());
                                             ShowMenu(tempMenu);
                                             choice = MenuChoice(tempMenu, MenuText.menuChoice);
-                                            Worker? toChange = workersList.GetWorker(choice);
-                                            Console.WriteLine(toChange);
-                                            // ShowString(db.StringWorker(toChange.workerId));
+                                            Worker? workerToChange = workersList.GetFromList(choice);
+                                            ShowString(workerToChange.ToString());
                                             tempMenu = new Menu(String.Empty, MenuText.changeMenu);
                                             ShowMenu(tempMenu);
                                             choice = MenuChoice(tempMenu, MenuText.menuChoice);
                                             switch (choice)
                                             {
                                                 case 1: // Изменить запись
-                                                    // ControlInterface.ChangeWorker(toChange);
-                                                    // tempMenu = new Menu(MenuText.menuNames[4], db.SelectAllPositions());
+                                                    workerToChange.Change();
+                                                    await positionsList.GetFromSqlAsync(user);
+                                                    tempMenu = new Menu(MenuText.menuNames[4], positionsList.ToStringList());
                                                     ShowMenu(tempMenu);
                                                     choice = MenuChoice(tempMenu, MenuText.menuChoice);
-                                                    // toChange.SetPosition(toChange, choice);
-                                                    // ShowString(db.StringWorker(toChange.workerId));
+                                                    workerToChange.SetPosition(choice);
+                                                    ShowStringList(workersList.ToStringList());
+                                                    await workersList.ChangeSqlAsync(user);
                                                     break;
                                                 case 2: // Удалить запись
-                                                    // db.DeleteWorker(toChange.workerId);
-                                                    // ShowStringList(db.ListWorkers());
+                                                    workersList.DeleteWorker(workerToChange.Id);
+                                                    ShowStringList(workersList.ToStringList());
+                                                    workersList.RemoveAll(x => x != null);
+                                                    workersList.AppendWorker(workerToChange);
+                                                    await workersList.DeleteSqlAsync(user);
                                                     break;
                                             }
                                             break;
