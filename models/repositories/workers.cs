@@ -15,6 +15,8 @@ namespace Models
         }
         public void AppendWorker(Worker worker) => WorkersList.Add(worker);
         public void DeleteWorker(int id) => WorkersList.Remove(WorkersList.Where(w => w.Id == id).Single());
+        public void Clear() => WorkersList = new();
+
         public async Task GetFromSqlAsync(DBConnection user, int id = 0, string? search = null)
         {
             await user.ConnectAsync();

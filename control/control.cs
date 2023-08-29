@@ -114,13 +114,11 @@ public class Control
                                                     ShowMenu(tempMenu);
                                                     choice = MenuChoice(tempMenu, MenuText.menuChoice);
                                                     workerToChange.SetPosition(choice);
-                                                    ShowStringList(workersList.ToStringList());
                                                     await workersList.ChangeSqlAsync(user);
                                                     break;
                                                 case 2: // Удалить запись
                                                     workersList.DeleteWorker(workerToChange.Id);
-                                                    ShowStringList(workersList.ToStringList());
-                                                    workersList.RemoveAll(x => x != null);
+                                                    workersList.Clear();
                                                     workersList.AppendWorker(workerToChange);
                                                     await workersList.DeleteSqlAsync(user);
                                                     break;
