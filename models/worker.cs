@@ -32,14 +32,12 @@ namespace Models
 
         public int PositionId { get; set; }
         public virtual Position Position { get; set; }
-
         public Worker()
         {
             Id = Interlocked.Increment(ref nextId);
             PositionId = 1;
             Position = new();
         }
-
         public static Worker Create()
         {
             Worker worker = new();
@@ -48,7 +46,6 @@ namespace Models
             worker.Birthday = GetDate(MenuText.workerBirth);
             return worker;
         }
-
         public void Change()
         {
             string name = GetString(MenuText.workerName);
@@ -58,12 +55,8 @@ namespace Models
             if (surname != String.Empty) Surname = surname;
             Birthday = birth;
         }
-
         public void SetPosition(int positionId) => PositionId = positionId;
-        
-        public override string ToString()
-        {
-            return $"ID:{Id}, {FullName}, {Age}, {Position.Name}";
-        }
+
+        public override string ToString() => $"ID:{Id}, {FullName}, {Age}, {Position.Name}";
     }
 }

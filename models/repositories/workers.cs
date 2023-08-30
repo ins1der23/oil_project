@@ -13,18 +13,19 @@ namespace Models
         {
             WorkersList = new();
         }
-        public void AppendWorker(Worker worker) => WorkersList.Add(worker);
-        public void DeleteWorker(int id) => WorkersList.Remove(WorkersList.Where(w => w.Id == id).Single());
-        public void Clear() => WorkersList = new();
 
-        public async Task GetFromSqlAsync(DBConnection user, int id = 0, string? search = null)
+        public void Clear() => WorkersList = new();
+        public void AppendWorker(Worker worker) => WorkersList.Add(worker);
+        // public void DeleteWorker(int id) => WorkersList.Remove(WorkersList.Where(w => w.Id == id).Single());
+        public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
             await user.ConnectAsync();
             if (user.IsConnect)
             {
-                string selectQuery = $@"select * 
+                string selectQuery = $@"select *
                                     from workers as w, positions as p
-                                    where w.positionId=p.Id";
+                                    where w.positionId=p.Id 
+                                    and (w.surname like ""%{search}%"" or w.name like""%{search}%"")";
                 var temp = await user.Connection.QueryAsync<Worker, Position, Worker>(selectQuery, (w, p) =>
                 {
                     w.Position = p;
@@ -34,10 +35,8 @@ namespace Models
                 user.Close();
             }
         }
-
-        public Worker? GetById(int id) => WorkersList.Where(w => w.Id == id).SingleOrDefault();
+        // public Worker? GetById(int id) => WorkersList.Where(w => w.Id == id).SingleOrDefault();
         public Worker GetFromList(int index) => WorkersList[index - 1];
-
         public async Task AddSqlAsync(DBConnection user)
         {
             await user.ConnectAsync();
@@ -69,7 +68,6 @@ namespace Models
                 user.Close();
             }
         }
-
         public async Task DeleteSqlAsync(DBConnection user)
         {
             await user.ConnectAsync();
@@ -81,7 +79,6 @@ namespace Models
                 user.Close();
             }
         }
-
         public List<string> ToStringList()
         {
             List<string> output = new List<string>();
