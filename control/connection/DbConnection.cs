@@ -8,6 +8,7 @@ namespace Connection
         public string DatabaseName { get; set; }
         public string UserName { get; private set; }
         private string Password { get; set; }
+        public int UserId { get; set; }
         public MySqlConnection? Connection { get; set; }
         public bool IsConnect { get; private set; }
 
@@ -29,6 +30,16 @@ namespace Connection
 
         private string SetUsername() => InOut.GetString(MenuText.userName);
         private string SetPassword() => InOut.GetString(MenuText.password);
+        public int GetUserId()
+        {
+            string choice = UserName;
+            switch (choice)
+            {
+                case "root":
+                    return 1;
+            }
+            return 0;
+        }
 
         public async Task ConnectAsync()
         {

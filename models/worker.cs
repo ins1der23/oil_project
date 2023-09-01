@@ -32,11 +32,13 @@ namespace Models
 
         public int PositionId { get; private set; }
         public virtual Position Position { get; set; }
+        public virtual ICollection<Client> Clients { get; set; }
         public Worker()
         {
             Id = Interlocked.Increment(ref nextId);
             PositionId = 1;
             Position = new();
+            // Clients = new();
         }
         public static Worker Create()
         {

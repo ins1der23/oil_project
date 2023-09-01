@@ -14,7 +14,7 @@ namespace Models
         }
         public void Clear() => WorkersList = new();
         public void AppendWorker(Worker worker) => WorkersList.Add(worker);
-        // public void DeleteWorker(int id) => WorkersList.Remove(WorkersList.Where(w => w.Id == id).Single());
+        public Worker GetFromList(int index) => WorkersList[index - 1];
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
             await user.ConnectAsync();
@@ -34,8 +34,7 @@ namespace Models
                 user.Close();
             }
         }
-        // public Worker? GetById(int id) => WorkersList.Where(w => w.Id == id).SingleOrDefault();
-        public Worker GetFromList(int index) => WorkersList[index - 1];
+
         public async Task AddSqlAsync(DBConnection user)
         {
             await user.ConnectAsync();
@@ -85,5 +84,8 @@ namespace Models
                 output.Add(worker.ToString());
             return output;
         }
+
+        // public Worker? GetById(int id) => WorkersList.Where(w => w.Id == id).SingleOrDefault();
+        // public void DeleteWorker(int id) => WorkersList.Remove(WorkersList.Where(w => w.Id == id).Single());
     }
 }

@@ -5,50 +5,64 @@ using System.Threading;
 
 namespace Models
 {
-    class Client
+    public class Client
     {
         static int nextId;
-        public int positionId { get; private set; }
-        public string address { get; set; }
-        public string phone { get; set; }
-        public string contact { get; set; }
-        public string name { get; set; }
-        public string agreement { private get; set; }
-        public int passportId { get; set; }
+        public int Id { get; private set; }
+        public string? Name { get; set; }
+        public int AddressId { get; private set; }
+        public virtual Address Address { get; private set; }
+        public int Phone { get; set; }
+        public string? Contact { get; set; }
+        public string? Agreement { private get; set; }
+        public virtual ICollection<Passport> Passports { private get; set; }
+        public virtual ICollection<Mailing> Mailings { get; set; }
+        public virtual ICollection<Claim> Claims { get; set; }
+        public int OwnerId { get; set; }
+        public virtual Worker Owner { get; set; }
+        public bool ToDelete { get; set; }
 
-        public Client(string address, string phone, string name, string contact)
+        public Client()
         {
-            this.positionId = Interlocked.Increment(ref nextId);
-            this.address = address;
-            this.phone = phone;
-            this.name = name;
-            this.contact = contact;
-            this.agreement = String.Empty;
-            this.passportId = 0;
+            Id = Interlocked.Increment(ref nextId);
+            Address = new Address();
+            // Passports = new Passport();
+            // Mailings = new Mailing();
+            // Claims = new Claim();
+            Owner = new Worker();
+            ToDelete = false;
         }
-        public static void ChangeFields(Client client, string address, string phone, string name, string contact)
-        {
-            if (address != String.Empty)
-                client.address = address;
-            if (phone != String.Empty)
-                client.phone = phone;
-            if (name != String.Empty)
-                client.name = name;
-            if (contact != String.Empty)
-                client.contact = contact;
-        }
-        public static void AddAgreement(Client client, string path) => client.agreement = path;
-        public static void ChangeAgreement(Client client, string path)
-        {
-            if (path != String.Empty) client.agreement = path;
-        }
-        public static void DelAgreement(Client client) => client.agreement = String.Empty;
-        public static void SetPassportId(Client client, int passportId) => client.passportId = passportId;
 
-        public override string ToString()
-        {
-            bool agreementCheck = this.agreement != String.Empty ? true : false;
-            return $"{this.positionId}. {this.address}, {this.phone}, {this.name}, {this.contact}, {agreementCheck}.";
-        }
+
+
+
+
+
+
+
+
+        // public static void ChangeFields(Client client, string address, string phone, string name, string contact)
+        // {
+        //     if (address != String.Empty)
+        //         client.address = address;
+        //     if (phone != String.Empty)
+        //         client.phone = phone;
+        //     if (name != String.Empty)
+        //         client.name = name;
+        //     if (contact != String.Empty)
+        //         client.contact = contact;
+        // }
+        // public static void AddAgreement(Client client, string path) => client.agreement = path;
+        // public static void ChangeAgreement(Client client, string path)
+        // {
+        //     if (path != String.Empty) client.agreement = path;
+        // }
+        // public static void DelAgreement(Client client) => client.agreement = String.Empty;
+        // public static void SetPassportId(Client client, int passportId) => client.passportId = passportId;
+
+        // public override string ToString()
+        // {
+            
+        // }
     }
 }

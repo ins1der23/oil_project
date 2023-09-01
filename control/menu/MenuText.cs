@@ -12,7 +12,7 @@ public static class MenuText
                                 "Заявки",
                                 "Расписание",
                                 "Сотрудники",
-                                "Сохранить изменения",
+                                "Тест",
                                 "Выход"};
     public static List<string> claimMenu = new List<string>() {
                                 "Добавить заявку",
@@ -49,6 +49,11 @@ public static class MenuText
                                 "Изменить данные клиента",
                                 "Договоры",
                                 "Возврат"};
+
+    // Adresses
+    public static string addrName = "Введите название";
+    public static string houseNum = "Введите номер дома";
+
 
     // Agreements
     public static List<string> agreement = new List<string>() {

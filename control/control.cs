@@ -45,7 +45,7 @@ public class Control
                                     switch (choice)
                                     {
                                         case 1: // Выбрать
-                                            
+
                                             break;
                                         case 2: // Добавить
                                             break;
@@ -58,7 +58,7 @@ public class Control
                                     switch (choice)
                                     {
                                         case 1: // Выбрать
-                                        break;
+                                            break;
                                     }
                                     break;
                                 case 3: // Возврат
@@ -191,6 +191,11 @@ public class Control
                                     break;
                             }
                         }
+                        break;
+                    case 5: // Тест
+                        var toAdd = new Address();
+                        toAdd.Create();
+                        Console.WriteLine(toAdd);
                         break;
                     case 6:
                         user.Close();
