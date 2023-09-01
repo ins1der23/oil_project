@@ -8,12 +8,10 @@ namespace Models
     public class Workers
     {
         List<Worker> WorkersList { get; set; }
-
         public Workers()
         {
             WorkersList = new();
         }
-
         public void Clear() => WorkersList = new();
         public void AppendWorker(Worker worker) => WorkersList.Add(worker);
         // public void DeleteWorker(int id) => WorkersList.Remove(WorkersList.Where(w => w.Id == id).Single());
@@ -22,10 +20,11 @@ namespace Models
             await user.ConnectAsync();
             if (user.IsConnect)
             {
-                string selectQuery = $@"select *
+                string selectQuery = @$"select *
                                     from workers as w, positions as p
-                                    where w.positionId=p.Id 
-                                    and (w.surname like ""%{search}%"" or w.name like""%{search}%"")";
+                                    where w.positionId=p.Id
+                                    and (w.surname like ""%{search}%"" or w.name like ""%{search}%"")
+                                    order by positionId";
                 var temp = await user.Connection.QueryAsync<Worker, Position, Worker>(selectQuery, (w, p) =>
                 {
                     w.Position = p;

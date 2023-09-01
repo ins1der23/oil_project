@@ -29,8 +29,7 @@ public class Control
                 Menu mainMenu = new Menu(MenuText.menuNames[0], MenuText.mainMenu);
                 ShowMenu(mainMenu);
                 bool mainFlag = true;
-                int choice = MenuChoice(mainMenu, MenuText.menuChoice);
-                int tempIndex = 0;
+                int choice = MenuChoice(mainMenu, MenuText.choice);
                 switch (choice)
                 {
                     case 1: // Клиенты
@@ -38,7 +37,7 @@ public class Control
                         {
                             tempMenu = new Menu(MenuText.menuNames[1], MenuText.clientMenu);
                             ShowMenu(tempMenu);
-                            choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                            choice = MenuChoice(tempMenu, MenuText.choice);
                             switch (choice)
                             {
                                 case 6:
@@ -52,7 +51,7 @@ public class Control
                         {
                             tempMenu = new Menu(MenuText.menuNames[2], MenuText.claimMenu);
                             ShowMenu(tempMenu);
-                            choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                            choice = MenuChoice(tempMenu, MenuText.choice);
                             switch (choice)
                             {
                                 case 3:
@@ -64,48 +63,48 @@ public class Control
                     case 4: // Сотрудники
                         while (mainFlag)
                         {
-                            tempMenu = new Menu(MenuText.menuNames[3], MenuText.workerMenu);
+                            tempMenu = new Menu(MenuText.menuNames[3], MenuText.showOrFind);
                             ShowMenu(tempMenu);
-                            choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                            choice = MenuChoice(tempMenu, MenuText.choice);
                             switch (choice)
                             {
-                                case 1: // Добавить сотрудника
-                                    Worker workerToAdd = Worker.Create();
-                                    ShowString(MenuText.setPosition);
-                                    tempMenu = new Menu(String.Empty, MenuText.yesMenu);
-                                    ShowMenu(tempMenu);
-                                    choice = MenuChoice(tempMenu, MenuText.menuChoice);
-                                    switch (choice)
-                                    {
-                                        case 1: // Назначить должность
-                                            await positionsList.GetFromSqlAsync(user);
-                                            tempMenu = new Menu(MenuText.menuNames[4], positionsList.ToStringList());
-                                            ShowMenu(tempMenu);
-                                            choice = MenuChoice(tempMenu, MenuText.menuChoice);
-                                            workerToAdd.SetPosition(choice);
-                                            break;
-                                    }
-                                    workersList.Clear();
-                                    workersList.AppendWorker(workerToAdd);
-                                    await workersList.AddSqlAsync(user);
-                                    break;
-                                case 2: // Показать всех сотрудников
+                                case 1: // Показать всех сотрудников
                                     await workersList.GetFromSqlAsync(user);
                                     ShowStringList(workersList.ToStringList());
-                                    tempMenu = new Menu(String.Empty, MenuText.choiceMenu);
+                                    tempMenu = new Menu(String.Empty, MenuText.addOrchoose);
                                     ShowMenu(tempMenu);
-                                    choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                                    choice = MenuChoice(tempMenu, MenuText.choice);
                                     switch (choice)
                                     {
-                                        case 1: // Выбрать запись
+                                        case 1: // Добавить сотрудника
+                                            Worker workerToAdd = Worker.Create();
+                                            ShowString(MenuText.setPosition);
+                                            tempMenu = new Menu(String.Empty, MenuText.yesOrNo);
+                                            ShowMenu(tempMenu);
+                                            choice = MenuChoice(tempMenu, MenuText.choice);
+                                            switch (choice)
+                                            {
+                                                case 1: // Назначить должность
+                                                    await positionsList.GetFromSqlAsync(user);
+                                                    tempMenu = new Menu(MenuText.menuNames[4], positionsList.ToStringList());
+                                                    ShowMenu(tempMenu);
+                                                    choice = MenuChoice(tempMenu, MenuText.choice);
+                                                    workerToAdd.SetPosition(choice);
+                                                    break;
+                                            }
+                                            workersList.Clear();
+                                            workersList.AppendWorker(workerToAdd);
+                                            await workersList.AddSqlAsync(user);
+                                            break;
+                                        case 2: // Выбрать запись
                                             tempMenu = new Menu(String.Empty, workersList.ToStringList());
                                             ShowMenu(tempMenu);
-                                            choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                                            choice = MenuChoice(tempMenu, MenuText.choice);
                                             Worker? workerToChange = workersList.GetFromList(choice);
                                             ShowString(workerToChange.ToString());
-                                            tempMenu = new Menu(String.Empty, MenuText.changeMenu);
+                                            tempMenu = new Menu(String.Empty, MenuText.changeOrDelete);
                                             ShowMenu(tempMenu);
-                                            choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                                            choice = MenuChoice(tempMenu, MenuText.choice);
                                             switch (choice)
                                             {
                                                 case 1: // Изменить запись
@@ -113,7 +112,7 @@ public class Control
                                                     await positionsList.GetFromSqlAsync(user);
                                                     tempMenu = new Menu(MenuText.menuNames[4], positionsList.ToStringList());
                                                     ShowMenu(tempMenu);
-                                                    choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                                                    choice = MenuChoice(tempMenu, MenuText.choice);
                                                     workerToChange.SetPosition(choice);
                                                     ShowString(workerToChange.ToString());
                                                     await workersList.ChangeSqlAsync(user);
@@ -127,24 +126,24 @@ public class Control
                                             break;
                                     }
                                     break;
-                                case 3: // Найти сотрудника
+                                case 2: // Найти сотрудника
                                     string searchName = InOut.GetString(MenuText.workerName);
                                     await workersList.GetFromSqlAsync(user, searchName);
                                     ShowStringList(workersList.ToStringList());
-                                    tempMenu = new Menu(String.Empty, MenuText.choiceMenu);
+                                    tempMenu = new Menu(String.Empty, MenuText.choose);
                                     ShowMenu(tempMenu);
-                                    choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                                    choice = MenuChoice(tempMenu, MenuText.choice);
                                     switch (choice)
                                     {
                                         case 1: // Выбрать запись
                                             tempMenu = new Menu(String.Empty, workersList.ToStringList());
                                             ShowMenu(tempMenu);
-                                            choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                                            choice = MenuChoice(tempMenu, MenuText.choice);
                                             Worker? workerToChange = workersList.GetFromList(choice);
                                             ShowString(workerToChange.ToString());
-                                            tempMenu = new Menu(String.Empty, MenuText.changeMenu);
+                                            tempMenu = new Menu(String.Empty, MenuText.changeOrDelete);
                                             ShowMenu(tempMenu);
-                                            choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                                            choice = MenuChoice(tempMenu, MenuText.choice);
                                             switch (choice)
                                             {
                                                 case 1: // Изменить запись
@@ -152,7 +151,7 @@ public class Control
                                                     await positionsList.GetFromSqlAsync(user);
                                                     tempMenu = new Menu(MenuText.menuNames[4], positionsList.ToStringList());
                                                     ShowMenu(tempMenu);
-                                                    choice = MenuChoice(tempMenu, MenuText.menuChoice);
+                                                    choice = MenuChoice(tempMenu, MenuText.choice);
                                                     workerToChange.SetPosition(choice);
                                                     ShowString(workerToChange.ToString());
                                                     await workersList.ChangeSqlAsync(user);
@@ -166,7 +165,7 @@ public class Control
                                             break;
                                     }
                                     break;
-                                case 4:
+                                case 3:
                                     mainFlag = false;
                                     break;
                             }

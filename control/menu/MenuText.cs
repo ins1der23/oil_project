@@ -1,7 +1,6 @@
 using System;
 public static class MenuText
 {
-    public static string menuChoice = "Выберете вариант";
     public static string[] menuNames = new string[] {
                                 "Главное меню",
                                 "Клиенты",
@@ -26,36 +25,41 @@ public static class MenuText
                                 "Добавить заявку",
                                 "Найти заявку",
                                 "Возврат"};
-    public static List<string> workerMenu = new List<string>() {
-                                "Добавить сотрудника",
-                                "Показать всех сотрудников",
-                                "Найти сотрудника",
+
+    // Common
+    public static string choice = "Выберете вариант";
+    public static List<string> showOrFind = new List<string>() {
+                                "Показать",
+                                "Найти",
                                 "Возврат"};
 
-    public static List<string> choiceMenu = new List<string>() {
-                                "Выбрать запись",
-                                "Возврат"};
-    public static List<string> changeMenu = new List<string>() {
-                                "Изменить запись",
-                                "Удалить запись",
+    public static List<string> addOrchoose = new List<string>() {
+                                "Добавить",
+                                "Выбрать",
                                 "Возврат"};
 
-    public static List<string> yesMenu = new List<string>() {
+    public static List<string> choose = new List<string>() {
+                                "Выбрать",
+                                "Возврат"};
+    public static List<string> changeOrDelete = new List<string>() {
+                                "Изменить",
+                                "Удалить",
+                                "Возврат"};
+
+    public static List<string> yesOrNo = new List<string>() {
                                 "Да",
                                 "Нет"};
+    // Workers
     public static string setPosition = "Назначить должность?";
-
     public static string workerName = "Введите имя";
     public static string workerSurname = "Введите фамилию";
     public static string workerBirth = "Введите дату рождения Yyyy-mm-dd";
 
+    // Connection
     public static string userName = "Введите имя пользователя";
     public static string password = "Введите пароль";
     public static string inputError = "Неверный ввод";
     public static string isConnect = "Соединение установлено";
-
-
-
 }
 
 
