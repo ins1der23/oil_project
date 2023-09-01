@@ -14,13 +14,6 @@ public static class MenuText
                                 "Сотрудники",
                                 "Сохранить изменения",
                                 "Выход"};
-    public static List<string> clientMenu = new List<string>() {
-                                "Показать всех клиентов",
-                                "Добавить клиента",
-                                "Найти клиента",
-                                "Изменить клиента",
-                                "Удалить клиента",
-                                "Возврат"};
     public static List<string> claimMenu = new List<string>() {
                                 "Добавить заявку",
                                 "Найти заявку",
@@ -29,7 +22,7 @@ public static class MenuText
     // Common
     public static string choice = "Выберете вариант";
     public static List<string> showOrFind = new List<string>() {
-                                "Показать",
+                                "Показать всё",
                                 "Найти",
                                 "Возврат"};
 
@@ -49,6 +42,23 @@ public static class MenuText
     public static List<string> yesOrNo = new List<string>() {
                                 "Да",
                                 "Нет"};
+    // Clients
+    public static List<string> client = new List<string>() {
+                                "Добавить заявку",
+                                "Показать все заявки",
+                                "Изменить данные клиента",
+                                "Договоры",
+                                "Возврат"};
+
+    // Agreements
+    public static List<string> agreement = new List<string>() {
+                                "Прикрепить скан",
+                                "Посмотреть скан",
+                                "Создать договор",
+                                "Распечатать договор",
+                                "Изменить договор",
+                                "Возврат"};
+
     // Workers
     public static string setPosition = "Назначить должность?";
     public static string workerName = "Введите имя";

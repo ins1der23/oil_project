@@ -2,31 +2,31 @@ using System.Linq;
 using static InOut;
 using System;
 
-public class Menu
+namespace Models
 {
-    string name { get; set; }
-    List<string> choices { get; set; }
-
-    public Menu(string menuName, List<string> menu)
+    public class Menu
     {
-        this.name = menuName;
-        this.choices = menu;
-    }
-
-    public static int MenuChoice(Menu menu, string menuChoice)
-    {
-        while (true)
+        public string Name { get; set; }
+        public List<string> Choices { get; set; }
+        public Menu(List<string> choices, string name = "")
         {
-            int choice = GetInteger(menuChoice);
-            if (choice > 0 && choice <= menu.choices.Count) return choice;
+            Name = name;
+            Choices = choices;
         }
-    }
-
-    public override string ToString()
-    {
-        string output = String.Empty;
-        for (int i = 0; i < this.choices.Count; i++)
-            output += $"{i+1}. {this.choices[i]}\n";
-        return $"{this.name}\n{output}";
+        public int MenuChoice(string menuChoice)
+        {
+            while (true)
+            {
+                int choice = GetInteger(menuChoice);
+                if (choice > 0 && choice <= Choices.Count) return choice;
+            }
+        }
+        public override string ToString()
+        {
+            string output = String.Empty;
+            for (int i = 0; i < this.Choices.Count; i++)
+                output += $"{i + 1}. {this.Choices[i]}\n";
+            return $"{this.Name}\n{output}";
+        }
     }
 }

@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System;
+using Models;
 
 public static class InOut
 {
-    public static void ShowMenu(Menu menu) => Console.WriteLine(menu);
+    public static void ShowMenu(this Menu menu) => Console.WriteLine(menu);
     public static void ShowString(string text) => Console.WriteLine(text);
 
     public static void ShowStringList(List<string> someList)
