@@ -7,7 +7,6 @@ public class Control
 {
     public static async Task Start()
     {
-        DataBase db = new DataBase();
         DBConnection user = DBConnection.Instance("localhost", "oilproject");
         int connectCount = 0;
         while (!user.IsConnect && connectCount < 3)
@@ -21,6 +20,7 @@ public class Control
         {
             Workers workersList = new Workers();
             Positions positionsList = new Positions();
+            var toFind = string.Empty;
             user.Close();
             while (true)
             {
@@ -114,7 +114,7 @@ public class Control
                                                     break;
                                             }
                                             workersList.Clear();
-                                            workersList.AppendWorker(workerToAdd);
+                                            workersList.Append(workerToAdd);
                                             await workersList.AddSqlAsync(user);
                                             break;
                                         case 2: // Выбрать 
@@ -140,7 +140,7 @@ public class Control
                                                     break;
                                                 case 2: // Удалить 
                                                     workersList.Clear();
-                                                    workersList.AppendWorker(workerToChange);
+                                                    workersList.Append(workerToChange);
                                                     await workersList.DeleteSqlAsync(user);
                                                     break;
                                             }
@@ -148,8 +148,8 @@ public class Control
                                     }
                                     break;
                                 case 2: // Найти 
-                                    string searchName = InOut.GetString(MenuText.workerName);
-                                    await workersList.GetFromSqlAsync(user, searchName);
+                                    toFind = InOut.GetString(MenuText.workerName);
+                                    await workersList.GetFromSqlAsync(user, toFind);
                                     ShowStringList(workersList.ToStringList());
                                     tempMenu = new Menu(MenuText.choose);
                                     tempMenu.ShowMenu();
@@ -179,7 +179,7 @@ public class Control
                                                     break;
                                                 case 2: // Удалить 
                                                     workersList.Clear();
-                                                    workersList.AppendWorker(workerToChange);
+                                                    workersList.Append(workerToChange);
                                                     await workersList.DeleteSqlAsync(user);
                                                     break;
                                             }
@@ -193,9 +193,11 @@ public class Control
                         }
                         break;
                     case 5: // Тест
-                        var toAdd = new Address();
-                        toAdd.Create();
-                        Console.WriteLine(toAdd);
+                        Console.WriteLine("Добавьте новый адрес");
+                        Console.WriteLine("Введите название города");
+                        toFind = InOut.GetString(MenuText.cityName);
+
+
                         break;
                     case 6:
                         user.Close();

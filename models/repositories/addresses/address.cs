@@ -33,8 +33,8 @@ namespace Models
         {
             City.Create();
             District.Name = GetString(MenuText.houseNum);
-            Location = Location.Create();
-            Street = Street.Create();
+            Location.Create();
+            Street.Create();
             HouseNum = GetString(MenuText.houseNum);
         }
 

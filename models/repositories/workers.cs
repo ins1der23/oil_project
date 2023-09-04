@@ -13,7 +13,7 @@ namespace Models
             WorkersList = new();
         }
         public void Clear() => WorkersList = new();
-        public void AppendWorker(Worker worker) => WorkersList.Add(worker);
+        public void Append(Worker worker) => WorkersList.Add(worker);
         public Worker GetFromList(int index) => WorkersList[index - 1];
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
@@ -34,7 +34,6 @@ namespace Models
                 user.Close();
             }
         }
-
         public async Task AddSqlAsync(DBConnection user)
         {
             await user.ConnectAsync();

@@ -1,3 +1,6 @@
+using MySql.Data.MySqlClient;
+using Dapper;
+using Connection;
 using static InOut;
 
 namespace Models
@@ -15,12 +18,9 @@ namespace Models
             Id = Interlocked.Increment(ref nextId);
             City = new();
         }
-        public void Create()
-        {
-            Name = GetString(MenuText.addrName);
-        }
-
+        public void Create() => Name = GetString(MenuText.districtName);
     }
+
     public class Districts
     {
         List<District> DistrictsList { get; set; }

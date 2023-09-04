@@ -18,12 +18,7 @@ namespace Models
             Id = Interlocked.Increment(ref nextId);
             City = new();
         }
-        public static Location Create()
-        {
-            Location location = new();
-            location.Name = GetString(MenuText.addrName);
-            return location;
-        }
+        public void Create() => Name = GetString(MenuText.locationName);
 
         public override string ToString() => $"{City.Name}, ID:{Id}, {Name}";
     }
@@ -55,15 +50,12 @@ namespace Models
                 user.Close();
             }
         }
-        public override string ToString()
+        public List<string> ToStringList()
         {
-            string output = String.Empty;
-            foreach (var location in LocationsList)
-                output += location.ToString() + "\n";
+            List<string> output = new List<string>();
+            foreach (var item in LocationsList)
+                output.Add(item.ToString());
             return output;
         }
-
-
-
     }
 }

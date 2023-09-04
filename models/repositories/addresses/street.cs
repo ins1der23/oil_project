@@ -15,12 +15,7 @@ namespace Models
             Id = Interlocked.Increment(ref nextId);
             City = new();
         }
-        public static Street Create()
-        {
-            Street street = new();
-            street.Name = GetString(MenuText.addrName);
-            return street;
-        }
+        public void Create() => Name = GetString(MenuText.streetName);
     }
 
     public class Streets

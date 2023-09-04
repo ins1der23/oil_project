@@ -51,7 +51,10 @@ public static class MenuText
                                 "Возврат"};
 
     // Adresses
-    public static string addrName = "Введите название";
+    public static string cityName = "Введите название города";
+    public static string districtName = "Введите название района";
+    public static string locationName = "Введите название микрорайона";
+    public static string streetName = "Введите название улицы";
     public static string houseNum = "Введите номер дома";
 
 
