@@ -20,15 +20,19 @@ public static class MenuText
                                 "Возврат"};
 
     // Common
+
+    public static string inputError = "Неверный ввод";
     public static string choice = "Выберете вариант";
+    public static string inputName = "Введите название";
+    public static string notFound = "Не найдено";
+    public static string addSome = "Добавить?";
     public static List<string> showOrFind = new List<string>() {
                                 "Показать всё",
                                 "Найти",
                                 "Возврат"};
-
     public static List<string> addOrchoose = new List<string>() {
-                                "Добавить",
                                 "Выбрать",
+                                "Добавить",
                                 "Возврат"};
 
     public static List<string> choose = new List<string>() {
@@ -51,10 +55,15 @@ public static class MenuText
                                 "Возврат"};
 
     // Adresses
-    public static string cityName = "Введите название города";
-    public static string districtName = "Введите название района";
-    public static string locationName = "Введите название микрорайона";
-    public static string streetName = "Введите название улицы";
+    public static string addAddress = "Добавить новый адрес?";
+    public static string cityName =
+    "Введите название города или оставьте поле пустым для показа всех";
+    public static string districtName =
+    "Введите название района или оставьте поле пустым для показа всех";
+    public static string locationName =
+    "Введите название микрорайона или оставьте поле пустым для показа всех";
+    public static string streetName =
+    "Введите название улицы или оставьте поле пустым для показа всех";
     public static string houseNum = "Введите номер дома";
 
 
@@ -76,7 +85,6 @@ public static class MenuText
     // Connection
     public static string userName = "Введите имя пользователя";
     public static string password = "Введите пароль";
-    public static string inputError = "Неверный ввод";
     public static string isConnect = "Соединение установлено";
 }
 

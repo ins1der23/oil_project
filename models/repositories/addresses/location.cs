@@ -26,11 +26,17 @@ namespace Models
     public class Locations
     {
         List<Location> LocationsList { get; set; }
+        public bool IsEmpty
+        {
+            get => (!LocationsList.Any());
+        }
 
         public Locations()
         {
             LocationsList = new();
+
         }
+        public Location GetFromList(int index) => LocationsList[index - 1];
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
             await user.ConnectAsync();

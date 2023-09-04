@@ -1,4 +1,5 @@
 using static InOut;
+using static MenuText;
 using Models;
 using Connection;
 using MySql.Data.MySqlClient;
@@ -91,14 +92,42 @@ public class Control
                             {
                                 case 1: // Показать все
                                     await workersList.GetFromSqlAsync(user);
-                                    ShowStringList(workersList.ToStringList());
+                                    workersList.ToStringList().ShowStringList();
                                     tempMenu = new Menu(MenuText.addOrchoose);
                                     tempMenu.ShowMenu();
                                     choice = tempMenu.MenuChoice(MenuText.choice);
                                     switch (choice)
                                     {
-                                        case 1: // Добавить 
-                                            Worker workerToAdd = Worker.Create();
+                                        case 1: // Выбрать 
+                                            tempMenu = new Menu(workersList.ToStringList(), MenuText.menuNames[3]);
+                                            tempMenu.ShowMenu();
+                                            choice = tempMenu.MenuChoice(MenuText.choice);
+                                            Worker? workerToChange = workersList.GetFromList(choice);
+                                            ShowString(workerToChange.ToString());
+                                            tempMenu = new Menu(MenuText.changeOrDelete);
+                                            tempMenu.ShowMenu();
+                                            choice = tempMenu.MenuChoice(MenuText.choice);
+                                            switch (choice)
+                                            {
+                                                case 1: // Изменить работника
+                                                    workerToChange.Change();
+                                                    await positionsList.GetFromSqlAsync(user);
+                                                    tempMenu = new Menu(positionsList.ToStringList(), MenuText.menuNames[4]);
+                                                    tempMenu.ShowMenu();
+                                                    choice = tempMenu.MenuChoice(MenuText.choice);
+                                                    workerToChange.SetPosition(choice);
+                                                    ShowString(workerToChange.ToString());
+                                                    await workersList.ChangeSqlAsync(user);
+                                                    break;
+                                                case 2: // Удалить работника
+                                                    workersList.Clear();
+                                                    workersList.Append(workerToChange);
+                                                    await workersList.DeleteSqlAsync(user);
+                                                    break;
+                                            }
+                                            break;
+                                        case 2: // Добавить работника
+                                            var workerToAdd = Worker.Create();
                                             ShowString(MenuText.setPosition);
                                             tempMenu = new Menu(MenuText.yesOrNo);
                                             tempMenu.ShowMenu();
@@ -117,46 +146,18 @@ public class Control
                                             workersList.Append(workerToAdd);
                                             await workersList.AddSqlAsync(user);
                                             break;
-                                        case 2: // Выбрать 
-                                            tempMenu = new Menu(workersList.ToStringList(), MenuText.menuNames[3]);
-                                            tempMenu.ShowMenu();
-                                            choice = tempMenu.MenuChoice(MenuText.choice);
-                                            Worker? workerToChange = workersList.GetFromList(choice);
-                                            ShowString(workerToChange.ToString());
-                                            tempMenu = new Menu(MenuText.changeOrDelete);
-                                            tempMenu.ShowMenu();
-                                            choice = tempMenu.MenuChoice(MenuText.choice);
-                                            switch (choice)
-                                            {
-                                                case 1: // Изменить 
-                                                    workerToChange.Change();
-                                                    await positionsList.GetFromSqlAsync(user);
-                                                    tempMenu = new Menu(positionsList.ToStringList(), MenuText.menuNames[4]);
-                                                    tempMenu.ShowMenu();
-                                                    choice = tempMenu.MenuChoice(MenuText.choice);
-                                                    workerToChange.SetPosition(choice);
-                                                    ShowString(workerToChange.ToString());
-                                                    await workersList.ChangeSqlAsync(user);
-                                                    break;
-                                                case 2: // Удалить 
-                                                    workersList.Clear();
-                                                    workersList.Append(workerToChange);
-                                                    await workersList.DeleteSqlAsync(user);
-                                                    break;
-                                            }
-                                            break;
                                     }
                                     break;
-                                case 2: // Найти 
+                                case 2: // Найти работника
                                     toFind = InOut.GetString(MenuText.workerName);
                                     await workersList.GetFromSqlAsync(user, toFind);
-                                    ShowStringList(workersList.ToStringList());
+                                    workersList.ToStringList().ShowStringList();
                                     tempMenu = new Menu(MenuText.choose);
                                     tempMenu.ShowMenu();
                                     choice = tempMenu.MenuChoice(MenuText.choice);
                                     switch (choice)
                                     {
-                                        case 1: // Выбрать 
+                                        case 1: // Выбрать работника
                                             tempMenu = new Menu(workersList.ToStringList(), MenuText.menuNames[3]);
                                             tempMenu.ShowMenu();
                                             choice = tempMenu.MenuChoice(MenuText.choice);
@@ -167,7 +168,7 @@ public class Control
                                             choice = tempMenu.MenuChoice(MenuText.choice);
                                             switch (choice)
                                             {
-                                                case 1: // Изменить
+                                                case 1: // Изменить работника
                                                     workerToChange.Change();
                                                     await positionsList.GetFromSqlAsync(user);
                                                     tempMenu = new Menu(positionsList.ToStringList(), MenuText.menuNames[4]);
@@ -177,7 +178,7 @@ public class Control
                                                     ShowString(workerToChange.ToString());
                                                     await workersList.ChangeSqlAsync(user);
                                                     break;
-                                                case 2: // Удалить 
+                                                case 2: // Удалить работника
                                                     workersList.Clear();
                                                     workersList.Append(workerToChange);
                                                     await workersList.DeleteSqlAsync(user);
@@ -193,11 +194,130 @@ public class Control
                         }
                         break;
                     case 5: // Тест
-                        Console.WriteLine("Добавьте новый адрес");
-                        Console.WriteLine("Введите название города");
-                        toFind = InOut.GetString(MenuText.cityName);
-
-
+                        mainFlag = true;
+                        while (mainFlag)
+                        {
+                            choice = MenuToChoice(MenuText.yesOrNo, MenuText.addAddress);
+                            if (choice == 2)
+                            {
+                                mainFlag = false;
+                                break;
+                            }
+                            var addressToAdd = new Address();
+                            toFind = InOut.GetString(MenuText.cityName);
+                            var cityList = new Cities();
+                            await cityList.GetFromSqlAsync(user, toFind);
+                            if (cityList.IsEmpty)
+                            {
+                                ShowString(MenuText.notFound);
+                                choice = MenuToChoice(MenuText.yesOrNo, MenuText.addSome);
+                                switch (choice)
+                                {
+                                    case 1: // Добавить город
+                                        var cityToAdd = new City();
+                                        break;
+                                    case 2: // выход
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                cityList.ToStringList().ShowStringList();
+                                tempMenu = new Menu(MenuText.addOrchoose);
+                                tempMenu.ShowMenu();
+                                choice = tempMenu.MenuChoice(MenuText.choice);
+                                switch (choice)
+                                {
+                                    case 1: // Выбрать город
+                                        choice = MenuToChoice(cityList.ToStringList());
+                                        addressToAdd.City = cityList.GetFromList(choice);
+                                        addressToAdd.CityId = addressToAdd.City.Id;
+                                        break;
+                                    case 2: // Добавить город
+                                        var cityToAdd = new City();
+                                        break;
+                                }
+                            }
+                            if (!cityList.IsEmpty)
+                            {
+                                if (addressToAdd.CityId == 1) // Если Екатеринбург
+                                {
+                                    toFind = InOut.GetString(MenuText.districtName); // Районы
+                                    var districtList = new Districts();
+                                    await districtList.GetFromSqlAsync(user, toFind);
+                                    if (districtList.IsEmpty)
+                                    {
+                                        ShowString(MenuText.notFound);
+                                    }
+                                    else
+                                    {
+                                        choice = MenuToChoice(districtList.ToStringList(), MenuText.choice);
+                                        addressToAdd.District = districtList.GetFromList(choice);
+                                        addressToAdd.DistrictId = addressToAdd.District.Id;
+                                    }
+                                    toFind = InOut.GetString(MenuText.locationName); // Микрорайоны
+                                    var locationList = new Locations();
+                                    await locationList.GetFromSqlAsync(user, toFind);
+                                    if (locationList.IsEmpty)
+                                    {
+                                        ShowString(MenuText.notFound);
+                                    }
+                                    else
+                                    {
+                                        choice = MenuToChoice(locationList.ToStringList(), MenuText.choice);
+                                        addressToAdd.Location = locationList.GetFromList(choice);
+                                        addressToAdd.LocationId = addressToAdd.Location.Id;
+                                    }
+                                }
+                                toFind = InOut.GetString(MenuText.streetName); // Улицы
+                                var streetList = new Streets();
+                                await streetList.GetFromSqlAsync(user, toFind);
+                                streetList.ToStringList().ShowStringList();
+                                if (streetList.IsEmpty)
+                                {
+                                    ShowString(MenuText.notFound);
+                                    choice = MenuToChoice(MenuText.yesOrNo, MenuText.addSome);
+                                    switch (choice)
+                                    {
+                                        case 1: // Добавить улицу
+                                            var streetToAdd = new Street();
+                                            streetToAdd.Name = GetString(MenuText.inputName);
+                                            streetToAdd.CityId = addressToAdd.City.Id;
+                                            streetList.Clear();
+                                            streetList.Append(streetToAdd);
+                                            await streetList.AddSqlAsync(user);
+                                            addressToAdd.Street = streetToAdd;
+                                            addressToAdd.StreetId = streetToAdd.Id;
+                                            Console.WriteLine(addressToAdd);
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    choice = MenuToChoice(MenuText.addOrchoose);
+                                    switch (choice)
+                                    {
+                                        case 1: // Выбрать улицу
+                                            choice = MenuToChoice(streetList.ToStringList());
+                                            addressToAdd.Street = streetList.GetFromList(choice);
+                                            addressToAdd.StreetId = addressToAdd.Street.Id;
+                                            break;
+                                        case 2: // Добавить улицу
+                                            var streetToAdd = new Street();
+                                            streetToAdd.Name = GetString(MenuText.inputName);
+                                            streetToAdd.CityId = addressToAdd.City.Id;
+                                            streetList.Clear();
+                                            streetList.Append(streetToAdd);
+                                            await streetList.AddSqlAsync(user);
+                                            addressToAdd.Street = streetToAdd;
+                                            addressToAdd.StreetId = streetToAdd.Id;
+                                            break;
+                                    }
+                                }
+                                addressToAdd.HouseNum = GetString(MenuText.houseNum);
+                                Console.WriteLine(addressToAdd);
+                            }
+                        }
                         break;
                     case 6:
                         user.Close();

@@ -23,16 +23,23 @@ namespace Models
         }
 
         public void Create() => Name = GetString(MenuText.cityName);
+        public override string ToString() => $"ID:{Id}, {Name}";
+        
     }
     public class Cities
     {
         List<City> CitiesList { get; set; }
+        public bool IsEmpty
+        {
+            get => (!CitiesList.Any());
+        }
 
         public Cities()
         {
             CitiesList = new();
         }
         public void Append(City city) => CitiesList.Add(city);
+        public City GetFromList(int index) => CitiesList[index - 1];
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
             await user.ConnectAsync();
@@ -40,8 +47,8 @@ namespace Models
             {
                 string selectQuery = $@"select *
                                     from cities as c 
-                                    and (c.name like ""%{search}%"")
-                                    order by c.name";
+                                    where c.name like ""%{search}%""
+                                    order by c.Id";
                 var temp = await user.Connection.QueryAsync<City>(selectQuery);
                 CitiesList = temp.ToList();
                 user.Close();

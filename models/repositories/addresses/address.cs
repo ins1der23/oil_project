@@ -38,7 +38,12 @@ namespace Models
             HouseNum = GetString(MenuText.houseNum);
         }
 
-        public override string ToString() => $"ID:{Id}, {City.Name}, {Location.Name}, {Street.Name}, {HouseNum}";
+        public override string ToString()
+        {
+
+            string insert = CityId == 1 ? $"{DistrictId}. {District.Name}\n{LocationId}. {Location.Name}\n" : String.Empty;
+            return $"ID:{Id} \n{CityId} {City.Name}\n{insert}{Street.Name}, {HouseNum}";
+        }
     }
     class Addresses
     {
