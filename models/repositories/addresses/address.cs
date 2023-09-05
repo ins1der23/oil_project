@@ -29,20 +29,11 @@ namespace Models
             Street = new();
         }
 
-        public void Create()
-        {
-            City.Create();
-            District.Name = GetString(MenuText.houseNum);
-            Location.Create();
-            Street.Create();
-            HouseNum = GetString(MenuText.houseNum);
-        }
-
         public override string ToString()
         {
 
-            string insert = CityId == 1 ? $"{DistrictId}. {District.Name}\n{LocationId}. {Location.Name}\n" : String.Empty;
-            return $"ID:{Id} \n{CityId} {City.Name}\n{insert}{Street.Name}, {HouseNum}";
+            string insert = CityId == 1 ? $"{District.Name} {Location.Name}" : String.Empty;
+            return $"ID:{Id} {City.Name} {insert} {Street.Name} {HouseNum}";
         }
     }
     class Addresses
@@ -52,6 +43,7 @@ namespace Models
         {
             AddressList = new();
         }
+        public void Append(Address address) => AddressList.Add(address);
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
             await user.ConnectAsync();
@@ -88,6 +80,24 @@ namespace Models
                 user.Close();
             }
         }
+        public async Task AddSqlAsync(DBConnection user)
+        {
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"insert addresses
+                    (cityId, districtId, locationId, streetId, houseNum)
+                    values (
+                    @{nameof(Address.CityId)},
+                    @{nameof(Address.DistrictId)},
+                    @{nameof(Address.LocationId)},
+                    @{nameof(Address.StreetId)},
+                    @{nameof(Address.HouseNum)})";
+                await user.Connection.ExecuteAsync(selectQuery, AddressList);
+                user.Close();
+            }
+        }
+
         public override string ToString()
         {
             string output = String.Empty;

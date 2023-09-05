@@ -19,7 +19,6 @@ namespace Models
             Id = Interlocked.Increment(ref nextId);
             City = new();
         }
-        public void Create() => Name = GetString(MenuText.streetName);
         public override string ToString() => $"{City.Name}, ID:{Id}, {Name}";
     }
 
@@ -37,10 +36,11 @@ namespace Models
             StreetsList = new();
         }
 
-        public void Clear() => StreetsList = new();
+        public void Clear() => StreetsList.Clear();
         public void Append(Street street) => StreetsList.Add(street);
         public Street GetFromList(int index) => StreetsList[index - 1];
-        public async Task GetFromSqlAsync(DBConnection user, string search = "")
+        public Street GetByName(string name) => StreetsList.Where(s => s.Name == name).FirstOrDefault();
+        public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 1)
         {
             await user.ConnectAsync();
             if (user.IsConnect)
@@ -48,6 +48,7 @@ namespace Models
                 string selectQuery = $@"select *
                                     from streets as s, cities as c 
                                     where s.cityId=c.Id 
+                                    and c.Id = {id}
                                     and (s.name like ""%{search}%"")
                                     order by s.name";
                 var temp = await user.Connection.QueryAsync<Street, City, Street>(selectQuery, (s, c) =>

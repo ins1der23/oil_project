@@ -1,4 +1,5 @@
-﻿using static Control;
-await Control.Start();
+﻿using Controller;
+
+await MainControl.Start();
 
 

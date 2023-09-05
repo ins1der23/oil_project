@@ -26,6 +26,8 @@ public static class MenuText
     public static string inputName = "Введите название";
     public static string notFound = "Не найдено";
     public static string addSome = "Добавить?";
+    public static string chooseSome = "Выбрать?";
+
     public static List<string> showOrFind = new List<string>() {
                                 "Показать всё",
                                 "Найти",
@@ -33,7 +35,8 @@ public static class MenuText
     public static List<string> addOrchoose = new List<string>() {
                                 "Выбрать",
                                 "Добавить",
-                                "Возврат"};
+                                "Возврат",
+                                "Выход"};
 
     public static List<string> choose = new List<string>() {
                                 "Выбрать",
@@ -45,7 +48,8 @@ public static class MenuText
 
     public static List<string> yesOrNo = new List<string>() {
                                 "Да",
-                                "Нет"};
+                                "Нет",
+                                "Выход"};
     // Clients
     public static List<string> client = new List<string>() {
                                 "Добавить заявку",
