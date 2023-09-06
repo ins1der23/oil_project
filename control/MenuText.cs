@@ -36,24 +36,19 @@ public static class MenuText
     public static List<string> searchAgain = new List<string>() {
                                 "Повторить поиск",
                                 "Возврат в главное меню"};
-    
     public static List<string> chooseOrSearchAgain = new List<string>() {
                                 "Выбрать добавленное",
                                 "Повторить поиск",
                                 "Возврат в главное меню"};
-
     public static List<string> searchAgainOrAdd = new List<string>() {
                                 "Повторить поиск",
                                 "Добавить",
                                 "Возврат в главное меню"};
-
-
     public static List<string> addOrchoose = new List<string>() {
                                 "Выбрать",
                                 "Добавить",
                                 "Возврат",
                                 "Выход"};
-
     public static List<string> choose = new List<string>() {
                                 "Выбрать",
                                 "Возврат"};
@@ -61,19 +56,20 @@ public static class MenuText
                                 "Изменить",
                                 "Удалить",
                                 "Возврат"};
-
     public static List<string> yesOrNo = new List<string>() {
                                 "Да",
                                 "Нет",
                                 "Выход"};
     // Clients
+    public static string clientSearch =
+    "Введите название клиента или оставьте поле пустым для показа всех";
+
     public static List<string> client = new List<string>() {
                                 "Добавить заявку",
                                 "Показать все заявки",
                                 "Изменить данные клиента",
                                 "Договоры",
                                 "Возврат"};
-
     // Adresses
     public static string addAddress = "Добавить новый адрес?";
     public static string cityName =
@@ -85,7 +81,6 @@ public static class MenuText
     public static string streetName =
     "Введите название улицы или оставьте поле пустым для показа всех";
     public static string houseNum = "Введите номер дома";
-
 
     // Agreements
     public static List<string> agreement = new List<string>() {

@@ -1,6 +1,8 @@
 using static InOut;
 using static MenuText;
+using Testing;
 using AddressBook;
+using ClientBook;
 using Models;
 using Connection;
 using MySql.Data.MySqlClient;
@@ -200,7 +202,7 @@ namespace Controller
                             }
                             break;
                         case 5: // Тест
-                            await AddressControl.AddAddress();
+                            await Test.Start();
                             break;
                         case 6:
                             user.Close();

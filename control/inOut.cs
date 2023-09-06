@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System;
 using Models;
+using System.Linq;
+
 
 public static class InOut
 {
@@ -19,7 +21,7 @@ public static class InOut
         menu.ShowMenu();
         return menu.MenuChoice(MenuText.choice);
     }
-        public static int GetInteger(string text)
+    public static int GetInteger(string text)
     {
         int num = 0;
         bool flag = true;
@@ -50,5 +52,6 @@ public static class InOut
         output += Console.ReadLine();
         return output;
     }
-
+    public static string PrepareToSearch(this string text) =>
+    new string(text.Where(c => !char.IsPunctuation(c)).ToArray()).ToLower();
 }

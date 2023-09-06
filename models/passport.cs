@@ -6,7 +6,7 @@ namespace Models
     public class Passport
     {
         static int nextId;
-        public int positionId { get; private set; }
+        public int Id { get; private set; }
         public int passportSerial { get; set; }
         public int passportNum { get; set; }
         public DateOnly issueDate { get; set; }
@@ -15,7 +15,7 @@ namespace Models
 
         public Passport()
         {
-            this.positionId = Interlocked.Increment(ref nextId);
+            Id = Interlocked.Increment(ref nextId);
 
         }
 

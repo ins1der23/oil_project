@@ -19,7 +19,10 @@ namespace Models
         public int StreetId { get; set; }
         public virtual Street Street { get; set; }
         public string? HouseNum { get; set; }
-
+        public string FullAddress
+        {
+            get => $"{City.Name}, {Location.Name}, {Street.Name}, {HouseNum}";
+        }
         public Address()
         {
             Id = Interlocked.Increment(ref nextId);
@@ -28,13 +31,7 @@ namespace Models
             Location = new();
             Street = new();
         }
-
-        public override string ToString()
-        {
-
-            string insert = CityId == 1 ? $"{District.Name} {Location.Name}" : String.Empty;
-            return $"ID:{Id} {City.Name} {insert} {Street.Name} {HouseNum}";
-        }
+        public override string ToString() => $"ID:{Id} {FullAddress}";
     }
     class Addresses
     {
@@ -75,7 +72,7 @@ namespace Models
                         StreetId = x.StreetId,
                         Street = streets.Where(s => s.Id == x.StreetId).First(),
                         HouseNum = x.HouseNum
-                    }).ToList();
+                    }).Where(y => y.FullAddress.ToLower().Contains(search)).ToList();
                 }
                 user.Close();
             }

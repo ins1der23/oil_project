@@ -35,7 +35,7 @@ namespace Models
             DistrictsList = new();
         }
         public District GetFromList(int index) => DistrictsList[index - 1];
-         public async Task GetFromSqlAsync(DBConnection user, string search = "")
+        public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
             await user.ConnectAsync();
             if (user.IsConnect)

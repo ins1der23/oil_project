@@ -7,20 +7,20 @@ using MySql.Data.MySqlClient;
 
 namespace AddressBook
 {
-    public class AddressControl
+    public class AddAddress
     {
-        public static async Task AddAddress()
+        public static async Task Start()
         {
             var user = MainControl.user;
             var addressToAdd = new Address();
             var cityList = new Cities(); // Города
-            string toFind;
+            string searchString;
             bool flag = true;
             int choice;
             while (flag)
             {
-                toFind = InOut.GetString(MenuText.cityName); // Найти город
-                await cityList.GetFromSqlAsync(user, toFind);
+                searchString = InOut.GetString(MenuText.cityName); // Найти город
+                await cityList.GetFromSqlAsync(user, searchString);
                 if (cityList.IsEmpty)
                 {
                     choice = MenuToChoice(MenuText.searchAgainOrAdd, MenuText.notFound); // Не найдено
@@ -52,8 +52,8 @@ namespace AddressBook
                 flag = true;
                 while (flag)
                 {
-                    toFind = InOut.GetString(MenuText.districtName); // Найти район
-                    await districtList.GetFromSqlAsync(MainControl.user, toFind);
+                    searchString = InOut.GetString(MenuText.districtName); // Найти район
+                    await districtList.GetFromSqlAsync(MainControl.user, searchString);
                     if (districtList.IsEmpty)
                     {
                         choice = MenuToChoice(MenuText.searchAgain, MenuText.notFound); // Не найдено
@@ -78,8 +78,8 @@ namespace AddressBook
                 flag = true;
                 while (flag)
                 {
-                    toFind = InOut.GetString(MenuText.locationName); // Найти микрорайон
-                    await locationList.GetFromSqlAsync(user, toFind);
+                    searchString = InOut.GetString(MenuText.locationName); // Найти микрорайон
+                    await locationList.GetFromSqlAsync(user, searchString);
                     if (locationList.IsEmpty)
                     {
                         choice = MenuToChoice(MenuText.searchAgain, MenuText.notFound); // Не найдено
@@ -101,8 +101,8 @@ namespace AddressBook
             flag = true;
             while (flag)
             {
-                toFind = InOut.GetString(MenuText.streetName); // Найти улицу
-                await streetList.GetFromSqlAsync(user, toFind);
+                searchString = InOut.GetString(MenuText.streetName); // Найти улицу
+                await streetList.GetFromSqlAsync(user, searchString);
                 if (streetList.IsEmpty)
                 {
                     choice = MenuToChoice(MenuText.searchAgainOrAdd, MenuText.notFound); // Не найдено
