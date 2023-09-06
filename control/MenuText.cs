@@ -26,12 +26,28 @@ public static class MenuText
     public static string inputName = "Введите название";
     public static string notFound = "Не найдено";
     public static string addSome = "Добавить?";
+    public static string added = "Успешно добавлено";
     public static string chooseSome = "Выбрать?";
 
     public static List<string> showOrFind = new List<string>() {
                                 "Показать всё",
                                 "Найти",
-                                "Возврат"};
+                                "Возврат в главное меню"};
+    public static List<string> searchAgain = new List<string>() {
+                                "Повторить поиск",
+                                "Возврат в главное меню"};
+    
+    public static List<string> chooseOrSearchAgain = new List<string>() {
+                                "Выбрать добавленное",
+                                "Повторить поиск",
+                                "Возврат в главное меню"};
+
+    public static List<string> searchAgainOrAdd = new List<string>() {
+                                "Повторить поиск",
+                                "Добавить",
+                                "Возврат в главное меню"};
+
+
     public static List<string> addOrchoose = new List<string>() {
                                 "Выбрать",
                                 "Добавить",

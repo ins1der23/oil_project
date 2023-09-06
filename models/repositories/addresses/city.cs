@@ -40,7 +40,7 @@ namespace Models
         public void Clear() => CitiesList.Clear();
         public void Append(City city) => CitiesList.Add(city);
         public City GetFromList(int index) => CitiesList[index - 1];
-        public City GetByName(string name) => CitiesList.Where(s => s.Name == name).FirstOrDefault();
+        public City GetByName(string name) => CitiesList.Where(s => s.Name == name).First();
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
             await user.ConnectAsync();

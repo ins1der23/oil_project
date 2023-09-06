@@ -1,5 +1,6 @@
 using static InOut;
 using static MenuText;
+using AddressBook;
 using Models;
 using Connection;
 using MySql.Data.MySqlClient;
@@ -18,7 +19,6 @@ namespace Controller
             int connectCount = 0;
             while (!user.IsConnect && connectCount < 3)
             {
-                // user = DBConnection.Instance("localhost", "oilproject");
                 await user.ConnectAsync();
                 connectCount++;
             }
@@ -200,20 +200,7 @@ namespace Controller
                             }
                             break;
                         case 5: // Тест
-                            mainFlag = true;
-                            while (mainFlag)
-                            {
-                                choice = MenuToChoice(MenuText.yesOrNo, MenuText.addAddress); //Добавить адрес
-                                switch (choice)
-                                {
-                                    case 1:
-                                        await AddressControl.Start(1);
-                                        break;
-                                    case 3:
-                                        mainFlag = false;
-                                        break;
-                                }
-                            }
+                            await AddressControl.AddAddress();
                             break;
                         case 6:
                             user.Close();
