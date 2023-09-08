@@ -15,7 +15,8 @@ namespace ClientBook
             var clientToFind = new Client();
             var searchString = InOut.GetString(MenuText.clientSearch);
             var clientList = new Clients();
-            // await cityList.GetFromSqlAsync(user, searchString);
+            await clientList.GetFromSqlAsync(user);
+            Console.WriteLine(clientList);
         }
     }
 

@@ -49,7 +49,7 @@ namespace Models
                         StreetId = x.StreetId,
                         Street = streets.Where(s => s.Id == x.StreetId).First(),
                         HouseNum = x.HouseNum
-                    }).ToList();
+                    }).Where(a => a.Id == clients.Where(c => c.AddressId == a.Id).First().AddressId).ToList(); // !!!
                     ClientList = clients.Select(x => new Client
                     {
                         Id = x.Id,

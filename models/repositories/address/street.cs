@@ -2,6 +2,7 @@ using MySql.Data.MySqlClient;
 using Dapper;
 using Connection;
 using static InOut;
+using System.Collections;
 
 namespace Models
 
@@ -22,7 +23,7 @@ namespace Models
         public override string ToString() => $"{City.Name}, ID:{Id}, {Name}";
     }
 
-    public class Streets
+    public class Streets : IEnumerable
     {
         List<Street> StreetsList
         { get; set; }
@@ -36,6 +37,7 @@ namespace Models
             StreetsList = new();
         }
 
+        public IEnumerator GetEnumerator() => StreetsList.GetEnumerator();
         public void Clear() => StreetsList.Clear();
         public void Append(Street street) => StreetsList.Add(street);
         public Street GetFromList(int index) => StreetsList[index - 1];
@@ -71,6 +73,17 @@ namespace Models
                     values (
                     @{nameof(Street.Name)},
                     @{nameof(Street.CityId)})";
+                await user.Connection.ExecuteAsync(selectQuery, StreetsList);
+                user.Close();
+            }
+        }
+        public async Task DeleteSqlAsync(DBConnection user)
+        {
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"delete from streets 
+                                        where Id = @{nameof(Street.Id)};";
                 await user.Connection.ExecuteAsync(selectQuery, StreetsList);
                 user.Close();
             }

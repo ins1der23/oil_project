@@ -2,6 +2,7 @@ using MySql.Data.MySqlClient;
 using Dapper;
 using Connection;
 using static InOut;
+using System.Collections;
 
 namespace Models
 {
@@ -23,7 +24,7 @@ namespace Models
         public override string ToString() => $"ID:{Id}, {Name}, {City.Name}";
     }
 
-    public class Districts
+    public class Districts : IEnumerable
     {
         List<District> DistrictsList { get; set; }
         public bool IsEmpty
@@ -34,6 +35,7 @@ namespace Models
         {
             DistrictsList = new();
         }
+        public IEnumerator GetEnumerator() => DistrictsList.GetEnumerator();
         public District GetFromList(int index) => DistrictsList[index - 1];
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
