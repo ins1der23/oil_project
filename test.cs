@@ -26,80 +26,57 @@ namespace Testing
             await loacationList.GetFromSqlAsync(user);
             await streetList.GetFromSqlAsync(user);
 
-            foreach (TempClient item in clientList)
-            {
-                item.Name = $"{item.Street}, {item.HouseNum}";
-            }
-
-            var clients = (
-                from TempClient client in clientList
-                select client).ToList();
 
 
-            var uniqueClients = clients.Where(c => clients.Count(x => x.FullAddress == c.FullAddress) == 1).OrderBy(c => c.Street);
-            var repeatedClients = clients.Where(c => clients.Count(x => x.FullAddress == c.FullAddress) > 1).OrderBy(c => c.Street);
-            var repeatedGroups = repeatedClients.GroupBy(c => c.FullAddress);
-          
-            int addressId = 1;
-            var toAddList = new List<TempClient>();
-            foreach (var item in uniqueClients)
-            {
-                item.AddressId = addressId;
-                toAddList.Add(item);
-                addressId++;
-            }
-            foreach (var group in repeatedGroups)
-            {
-                foreach (var address in group)
-                {
-                    address.AddressId = addressId;
-                    toAddList.Add(address);
-                }
-                addressId++;
-            }
-            toAddList = toAddList.OrderBy(c => c.Street).ToList();
-            TempClients executeList = new TempClients();
-            foreach (TempClient item in toAddList)
-            {
-                executeList.Add(item);
-                clientList.Add(item);
-            }
-
-            foreach (TempClient item in clientList)
-            {
-                Console.WriteLine($"{item.FullAddress}, {item.AddressId}");
-            }
-           
             
+            var clients = ToWorkingList(clientList);
+            var distinctClients = clients.DistinctBy(c => c.AddressId).OrderBy(c => c.Street).ToList();
+            clientList.ToWriteList(distinctClients);
+            Console.WriteLine(clientList.Count());
+            await clientList.WriteToAddressesSqlAsync(user);
 
 
+            // Получить список из TempClients для работы
+            List<TempClient> ToWorkingList(TempClients clientList)
+            {
+                var clients = (
+                                from TempClient client in clientList
+                                select client).ToList();
+                return clients;
+            }
 
-
-            Console.WriteLine($"Всего адресов = {clients.Count()}");
-            Console.WriteLine($"Уникальных адресов  = {uniqueClients.Count()}");
-            Console.WriteLine($"Повторяющихся адресов = {repeatedGroups.Count()}");
-            Console.WriteLine($"Адресов к изменению = {executeList.Count()}");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            // Присвоить ID уникальным адресам
+            void UniqueClients(TempClients clientList)
+            {
+                var clients = ToWorkingList(clientList);
+                var uniqueClients = clients.Where(c => clients.Count(x => x.AddressId == c.AddressId) == 1).OrderBy(c => c.Street);
+                var repeatedClients = clients.Where(c => clients.Count(x => x.AddressId == c.AddressId) > 1).OrderBy(c => c.Street);
+                var repeatedGroups = repeatedClients.GroupBy(c => c.AddressId);
+                int addressId = 1;
+                var toAddList = new List<TempClient>();
+                foreach (var item in uniqueClients)
+                {
+                    item.AddressId = addressId;
+                    toAddList.Add(item);
+                    addressId++;
+                }
+                foreach (var group in repeatedGroups)
+                {
+                    foreach (var item in group)
+                    {
+                        item.AddressId = addressId;
+                        toAddList.Add(item);
+                    }
+                    addressId++;
+                }
+                toAddList = toAddList.OrderBy(c => c.Street).ToList();
+                clientList.Clear();
+                clientList.ToWriteList(toAddList);
+                Console.WriteLine($"Всего клиентов = {clients.Count()}");
+                Console.WriteLine($"Уникальных адресов  = {uniqueClients.Count()}");
+                Console.WriteLine($"Повторяющихся адресов = {repeatedGroups.Count()}");
+                Console.WriteLine($"Адресов к изменению = {clientList.Count()}");
+            }
         }
     }
 }

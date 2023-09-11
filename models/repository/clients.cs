@@ -56,7 +56,6 @@ namespace Models
                         Name = x.Name,
                         Phone = x.Phone,
                         Address = addressList.Where(a => a.Id == x.AddressId).First(),
-                        Contact = x.Contact,
                         Agreement = x.Agreement,
                         Comment = x.Comment,
                         Owner = workers.Where(w => w.Id == x.OwnerId).First(),

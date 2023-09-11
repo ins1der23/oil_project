@@ -14,18 +14,24 @@ namespace Models
         public int AddressId { get; private set; }
         public virtual Address Address { get; set; }
         public double Phone { get; set; }
-        public string? Contact { get; set; }
         public string? Agreement { get; set; }
         public virtual ICollection<Passport> Passports { private get; set; }
         public virtual ICollection<Mailing> Mailings { get; set; }
         public virtual ICollection<Claim> Claims { get; set; }
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
         public int OwnerId { get; set; }
         public virtual Worker Owner { get; set; }
         public bool ToDelete { get; set; }
         public bool AgreementCheck
         {
             get => Agreement != null ? true : false;
+        }
+        public string FullName
+        {
+            get
+            {
+                return $"{Name,-35}{Address.Location,-15}{Address.Street,-35}{Address.HouseNum,-20}";
+            }
         }
 
         public Client()
@@ -39,9 +45,9 @@ namespace Models
             ToDelete = false;
         }
         public override string ToString()
-        {
-            return $"ID:{Id}. {Name}. {Phone}. {Address.FullAddress}";
-        }
+    {
+        return $"{Id,-5}{FullName}{Phone,-10}";
+    }
     }
 }
 

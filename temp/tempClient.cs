@@ -18,11 +18,11 @@ public class TempClient
     public string Street { get; set; }
     public int StreetId { get; set; }
     public string HouseNum { get; set; }
-    public string FullAddress
+    public string FullName
     {
         get
         {
-            return $"{Location,-15}{Street,-35}{HouseNum,-20}";
+            return $"{Name,-35}{Location,-15}{Street,-35}{HouseNum,-20}";
         }
     }
     public int AddressId { get; set; }
@@ -31,14 +31,14 @@ public class TempClient
 
     public override string ToString()
     {
-        return $"Id={Id}. {Location}, {Street}:{HouseNum}, {AddressId}, {Phone}, {Comment}";
+        return $"{Id,-5}{FullName}{Phone,-10}";
     }
 }
 public class TempClients : IEnumerable
 {
     List<TempClient> ClientList { get; set; }
-    
-    
+
+
     public TempClients()
     {
         ClientList = new List<TempClient>();
@@ -47,6 +47,17 @@ public class TempClients : IEnumerable
     public void Clear() => ClientList.Clear();
     public void Add(TempClient client) => ClientList.Add(client);
     public int Count() => ClientList.Count();
+
+    public void ToWriteList(List<TempClient> toAddList)
+    {
+        ClientList.Clear();
+        foreach (var item in toAddList)
+        {
+            ClientList.Add(item);
+        }
+    }
+
+
     public async Task GetFromSqlAsync(DBConnection user, string search = "")
     {
         await user.ConnectAsync();
@@ -80,6 +91,42 @@ public class TempClients : IEnumerable
                     @{nameof(TempClient.Street)},
                     @{nameof(TempClient.StreetId)},
                     @{nameof(TempClient.HouseNum)},
+                    @{nameof(TempClient.AddressId)},
+                    @{nameof(TempClient.Phone)},
+                    @{nameof(TempClient.Comment)})";
+            await user.Connection.ExecuteAsync(selectQuery, ClientList);
+            user.Close();
+        }
+    }
+
+    public async Task WriteToAddressesSqlAsync(DBConnection user) // запись в основные адреса
+    {
+        await user.ConnectAsync();
+        if (user.IsConnect)
+        {
+            string selectQuery = $@"insert Addresses
+                    (id, cityId, districtId, locationId, streetId, houseNum)
+                    values (
+                    @{nameof(TempClient.AddressId)},
+                    @{nameof(TempClient.CityId)},
+                    @{nameof(TempClient.DistrictId)},
+                    @{nameof(TempClient.LocationId)},
+                    @{nameof(TempClient.StreetId)},
+                    @{nameof(TempClient.HouseNum)})";
+            await user.Connection.ExecuteAsync(selectQuery, ClientList);
+            user.Close();
+        }
+    }
+    public async Task WriteToClientsSqlAsync(DBConnection user) // запись в основных клиентов 
+    {
+        await user.ConnectAsync();
+        if (user.IsConnect)
+        {
+            string selectQuery = $@"insert Clients
+                    (id, name, addressId, phone, comment)
+                    values (
+                    @{nameof(TempClient.Id)},
+                    @{nameof(TempClient.Name)},
                     @{nameof(TempClient.AddressId)},
                     @{nameof(TempClient.Phone)},
                     @{nameof(TempClient.Comment)})";
