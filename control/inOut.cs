@@ -15,11 +15,17 @@ public static class InOut
             Console.WriteLine($"{someList.IndexOf(item) + 1}. {item}");
     }
 
-    public static int MenuToChoice(List<string> menuChoices, string menuName = "")
+    /// <summary>
+    /// Формирование и показ меню из списка string и возврат int значения выбора 
+    /// </summary>
+    /// <param name="menuChoices">Список для меню</param>
+    /// <param name="menuName">Строка названия</param>
+    /// <returns></returns>
+    public static int MenuToChoice(List<string> menuChoices, string menuName = "") 
     {
         var menu = new Menu(menuChoices, menuName);
         menu.ShowMenu();
-        return menu.MenuChoice(MenuText.choice);
+        return menu.MenuChoice(MenuText.choiceOrEmpty);
     }
     public static int GetInteger(string text)
     {
@@ -28,7 +34,7 @@ public static class InOut
         do
         {
             Console.Write($"{text}: ");
-            flag = int.TryParse(Console.ReadLine(), out num);
+            flag = int.TryParse(Console.ReadLine(), out num) || num == 0;
         } while (!flag);
         return num;
     }
@@ -53,5 +59,5 @@ public static class InOut
         return output;
     }
     public static string PrepareToSearch(this string text) =>
-    new string(text.Where(c => !char.IsPunctuation(c)).ToArray()).ToLower();
+    new string(text.Where(c => !char.IsPunctuation(c)).ToArray()).Replace(" ","").ToLower();
 }

@@ -3,10 +3,9 @@ using MySql.Data.MySqlClient;
 using Dapper;
 using System.Linq;
 
-
 namespace Models
 {
-    public class Clients
+    public class Clients : IRepository
     {
         List<Client> ClientList { get; set; }
 
@@ -15,6 +14,27 @@ namespace Models
             ClientList = new();
         }
 
+        public Client GetFromList(int index) => ClientList[index - 1];
+        public List<Client> ToWorkingList() => ClientList.Select(c => c).ToList();
+
+        public void ToWriteList(List<Client> toAddList)
+        {
+            ClientList.Clear();
+            ClientList = toAddList.Select(c => c).ToList();
+        }
+
+
+        /// <summary>
+        /// Формирование списка из ClientList для создания меню 
+        /// </summary>
+        /// <returns> список из Client.ToString()</returns>
+        public List<string> ToStringList()
+        {
+            List<string> output = new List<string>();
+            foreach (var item in ClientList)
+                output.Add(item.ToString());
+            return output;
+        }
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
             await user.ConnectAsync();
@@ -49,7 +69,7 @@ namespace Models
                         StreetId = x.StreetId,
                         Street = streets.Where(s => s.Id == x.StreetId).First(),
                         HouseNum = x.HouseNum
-                    }).Where(a => a.Id == clients.Where(c => c.AddressId == a.Id).First().AddressId).ToList(); // !!!
+                    }).ToList(); // !!! Where(a => a.Id == clients.Where(c => c.AddressId == a.Id).First().AddressId).
                     ClientList = clients.Select(x => new Client
                     {
                         Id = x.Id,
@@ -58,9 +78,9 @@ namespace Models
                         Address = addressList.Where(a => a.Id == x.AddressId).First(),
                         Agreement = x.Agreement,
                         Comment = x.Comment,
-                        Owner = workers.Where(w => w.Id == x.OwnerId).First(),
+                        Owner = workers.Where(w => w.Id == x.OwnerId).FirstOrDefault(),
                         ToDelete = x.ToDelete
-                    }).ToList();
+                    }).Where(c => (c.FullName + c.Phone).Replace(" ", "").ToLower().Contains(search)).ToList();
                 }
                 user.Close();
             }

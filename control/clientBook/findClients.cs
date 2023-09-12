@@ -7,13 +7,15 @@ using MySql.Data.MySqlClient;
 
 namespace ClientBook
 {
-    public class ChangeClient
+    public class FindClients
     {
-        public static async Task Start()
+        public static async Task<Clients> Start()
         {
             var user = MainControl.user;
+            var searchString = InOut.GetString(MenuText.searchString).PrepareToSearch();
             var clientList = new Clients();
             await clientList.GetFromSqlAsync(user, searchString);
+            return clientList;
         }
     }
 

@@ -30,7 +30,7 @@ namespace Models
         {
             get
             {
-                return $"{Name,-35}{Address.Location,-15}{Address.Street,-35}{Address.HouseNum,-20}";
+                return $"{Name,-35}{Address.FullAddress}";
             }
         }
 
@@ -38,16 +38,16 @@ namespace Models
         {
             Id = Interlocked.Increment(ref nextId);
             Address = new Address();
-            // Passports = new Passport();
+            Passports = new List<Passport>();
             // Mailings = new Mailing();
             // Claims = new Claim();
             Owner = new Worker();
             ToDelete = false;
         }
         public override string ToString()
-    {
-        return $"{Id,-5}{FullName}{Phone,-10}";
-    }
+        {
+            return $"{FullName}{Phone,-10}";
+        }
     }
 }
 

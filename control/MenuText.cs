@@ -23,12 +23,18 @@ public static class MenuText
 
     public static string inputError = "Неверный ввод";
     public static string choice = "Выберете вариант";
+    public static string choiceOrEmpty = "Выберете вариант или оставьте поле пустым, если нет подходящего";
     public static string inputName = "Введите название";
     public static string notFound = "Не найдено";
     public static string addSome = "Добавить?";
     public static string added = "Успешно добавлено";
     public static string chooseSome = "Выбрать?";
+    public static string searchString =
+    "Введите текст для поиска или оставьте поле пустым для показа всех";
 
+    public static List<string> findSome = new List<string>() {
+                                "Найти",
+                                "Возврат в главное меню"};
     public static List<string> showOrFind = new List<string>() {
                                 "Показать всё",
                                 "Найти",
@@ -61,9 +67,8 @@ public static class MenuText
                                 "Нет",
                                 "Выход"};
     // Clients
-    public static string clientSearch =
-    "Введите название клиента или оставьте поле пустым для показа всех";
-
+    public static string clientName = "Введите название клиента";
+    
     public static List<string> client = new List<string>() {
                                 "Добавить заявку",
                                 "Показать все заявки",

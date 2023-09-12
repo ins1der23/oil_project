@@ -7,16 +7,21 @@ using MySql.Data.MySqlClient;
 
 namespace ClientBook
 {
-    public class FindClient
+    public class AddClient
     {
         public static async Task Start()
         {
             var user = MainControl.user;
-            var clientToFind = new Client();
-            var searchString = InOut.GetString(MenuText.clientSearch);
+            var clientToAdd = new Client();
+            clientToAdd.Name = InOut.GetString(MenuText.clientName);
+            
             var clientList = new Clients();
-            await clientList.GetFromSqlAsync(user);
-            Console.WriteLine(clientList);
+            await clientList.GetFromSqlAsync(user, searchString);
+            
+            
+
+
+            
         }
     }
 

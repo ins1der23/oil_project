@@ -1,6 +1,7 @@
 using static InOut;
 using static MenuText;
 using Testing;
+using Temp;
 using AddressBook;
 using ClientBook;
 using Models;
@@ -42,40 +43,47 @@ namespace Controller
                         case 1: // Клиенты
                             while (mainFlag)
                             {
-                                tempMenu = new Menu(MenuText.showOrFind, MenuText.menuNames[1]);
+                                tempMenu = new Menu(MenuText.findSome, MenuText.menuNames[1]);
                                 tempMenu.ShowMenu();
                                 choice = tempMenu.MenuChoice(MenuText.choice);
+                                bool levelOneFlag = true;
                                 switch (choice)
                                 {
-                                    case 1:  // Показать все
-                                        tempMenu = new Menu(MenuText.addOrchoose, MenuText.menuNames[1]);
-                                        tempMenu.ShowMenu();
-                                        choice = tempMenu.MenuChoice(MenuText.choice);
-                                        switch (choice)
+                                    case 1:  // Найти клиента
+                                        while (levelOneFlag)
                                         {
-                                            case 1: // Выбрать
+                                            var clientList = await FindClients.Start();
+                                            choice = MenuToChoice(clientList.ToStringList());
+                                            if (choice == 0)
+                                            {
+                                                choice = MenuToChoice(MenuText.searchAgainOrAdd);
+                                                switch (choice)
+                                                {
+                                                    case 0: // возврат в подменю
+                                                        levelOneFlag = false;
+                                                        break;
+                                                    case 2: // добавить клиента
+                                                        System.Console.WriteLine("Добавить клиента");
+                                                        break;
+                                                    case 3: // возврат в главное меню
+                                                        levelOneFlag = false;
+                                                        mainFlag = false;
+                                                        break;
+                                                }
 
-                                                break;
-                                            case 2: // Добавить
-                                                break;
+                                            }
+                                            var ClientToChange = clientList.GetFromList(choice);
+
                                         }
                                         break;
-                                    case 2: // Найти
-                                        tempMenu = new Menu(MenuText.choose, MenuText.menuNames[1]);
-                                        tempMenu.ShowMenu();
-                                        choice = tempMenu.MenuChoice(MenuText.choice);
-                                        switch (choice)
-                                        {
-                                            case 1: // Выбрать
-                                                break;
-                                        }
-                                        break;
-                                    case 3: // Возврат
+                                    case 2: // Возврат
                                         mainFlag = false;
                                         break;
                                 }
                             }
                             break;
+
+
                         case 2: //Заявки
                             while (mainFlag)
                             {

@@ -21,7 +21,7 @@ namespace Models
         public string? HouseNum { get; set; }
         public string FullAddress
         {
-            get => $"{City.Name}, {Location.Name}, {Street.Name}, {HouseNum}";
+            get => $"{City.Name,-15}{Location.Name,-17}{Street.Name,-28}{HouseNum,-15}";
         }
         public Address()
         {
@@ -41,6 +41,30 @@ namespace Models
             AddressList = new();
         }
         public void Append(Address address) => AddressList.Add(address);
+
+
+        public List<Address> ToWorkingList() => AddressList.Select(c => c).ToList(); // Список для работы с LINQ
+        public void ToWriteList(List<Address> toAddList) // Список для записи в БД 
+        {
+            AddressList.Clear();
+            AddressList = toAddList.Select(c => c).ToList();
+        }
+
+
+        /// <summary>
+        /// Формирование списка из AddressList для создания меню 
+        /// </summary>
+        /// <returns> список из Address.ToString()</returns>
+        public List<string> ToStringList()
+        {
+            List<string> output = new List<string>();
+            foreach (var item in AddressList)
+                output.Add(item.ToString());
+            return output;
+        }
+
+
+        // Работа с SQL
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
             await user.ConnectAsync();
@@ -72,7 +96,7 @@ namespace Models
                         StreetId = x.StreetId,
                         Street = streets.Where(s => s.Id == x.StreetId).First(),
                         HouseNum = x.HouseNum
-                    }).Where(y => y.FullAddress.ToLower().Contains(search)).ToList();
+                    }).Where(a => a.FullAddress.ToLower().Replace(" ", "").Contains(search)).ToList();
                 }
                 user.Close();
             }
@@ -82,7 +106,7 @@ namespace Models
             await user.ConnectAsync();
             if (user.IsConnect)
             {
-                string selectQuery = $@"insert addresses
+                string selectQuery = $@"insert Addresses
                     (cityId, districtId, locationId, streetId, houseNum)
                     values (
                     @{nameof(Address.CityId)},
@@ -95,6 +119,23 @@ namespace Models
             }
         }
 
+        public async Task ChangeSqlAsync(DBConnection user)
+        {
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"update Addresses set 
+                    cityId = @{nameof(Address.CityId)},
+                    districtId = @{nameof(Address.DistrictId)},                    
+                    locationId = @{nameof(Address.LocationId)},                    
+                    streetId = @{nameof(Address.StreetId)},
+                    HouseNum = @{nameof(Address.HouseNum)}
+                    where Id = @{nameof(Address.Id)};";
+                await user.Connection.ExecuteAsync(selectQuery, AddressList);
+                user.Close();
+            }
+        }
+
         public override string ToString()
         {
             string output = String.Empty;
@@ -102,5 +143,7 @@ namespace Models
                 output += address.ToString() + "\n";
             return output;
         }
+
+
     }
 }

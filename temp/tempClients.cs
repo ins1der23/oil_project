@@ -8,16 +8,16 @@ using System.Collections;
 public class TempClient
 {
     public int Id { get; set; }
-    public string Name { get; set; }
-    public string City { get; set; }
+    public string? Name { get; set; }
+    public string? City { get; set; }
     public int CityId { get; set; }
-    public string District { get; set; }
+    public string? District { get; set; }
     public int DistrictId { get; set; }
-    public string Location { get; set; }
+    public string? Location { get; set; }
     public int LocationId { get; set; }
-    public string Street { get; set; }
+    public string? Street { get; set; }
     public int StreetId { get; set; }
-    public string HouseNum { get; set; }
+    public string? HouseNum { get; set; }
     public string FullName
     {
         get
@@ -27,7 +27,7 @@ public class TempClient
     }
     public int AddressId { get; set; }
     public double Phone { get; set; }
-    public string Comment { get; set; }
+    public string? Comment { get; set; }
 
     public override string ToString()
     {
@@ -37,8 +37,6 @@ public class TempClient
 public class TempClients : IEnumerable
 {
     List<TempClient> ClientList { get; set; }
-
-
     public TempClients()
     {
         ClientList = new List<TempClient>();
@@ -51,33 +49,29 @@ public class TempClients : IEnumerable
     public void ToWriteList(List<TempClient> toAddList)
     {
         ClientList.Clear();
-        foreach (var item in toAddList)
-        {
-            ClientList.Add(item);
-        }
+        ClientList = toAddList.Select(c => c).ToList();
     }
 
-
     public async Task GetFromSqlAsync(DBConnection user, string search = "")
-    {
-        await user.ConnectAsync();
-        if (user.IsConnect)
         {
-            string selectQuery = $@"select *
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"select *
                                     from tempClients as c
                                     where c.name like ""%{search}%""
                                     order by c.id";
-            var temp = await user.Connection.QueryAsync<TempClient>(selectQuery);
-            ClientList = temp.ToList();
-            user.Close();
+                var temp = await user.Connection.QueryAsync<TempClient>(selectQuery);
+                ClientList = temp.ToList();
+                user.Close();
+            }
         }
-    }
-    public async Task AddSqlAsync(DBConnection user)
-    {
-        await user.ConnectAsync();
-        if (user.IsConnect)
+        public async Task AddSqlAsync(DBConnection user)
         {
-            string selectQuery = $@"insert tempClients
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"insert tempClients
                     (id, name, city, cityId, district, districtId, location, locationId, street, streetId, houseNum, addressId, phone, comment)
                     values (
                     @{nameof(TempClient.Id)},
@@ -94,17 +88,17 @@ public class TempClients : IEnumerable
                     @{nameof(TempClient.AddressId)},
                     @{nameof(TempClient.Phone)},
                     @{nameof(TempClient.Comment)})";
-            await user.Connection.ExecuteAsync(selectQuery, ClientList);
-            user.Close();
+                await user.Connection.ExecuteAsync(selectQuery, ClientList);
+                user.Close();
+            }
         }
-    }
 
-    public async Task WriteToAddressesSqlAsync(DBConnection user) // запись в основные адреса
-    {
-        await user.ConnectAsync();
-        if (user.IsConnect)
+        public async Task WriteToAddressesSqlAsync(DBConnection user) // запись в основные адреса
         {
-            string selectQuery = $@"insert Addresses
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"insert Addresses
                     (id, cityId, districtId, locationId, streetId, houseNum)
                     values (
                     @{nameof(TempClient.AddressId)},
@@ -113,16 +107,16 @@ public class TempClients : IEnumerable
                     @{nameof(TempClient.LocationId)},
                     @{nameof(TempClient.StreetId)},
                     @{nameof(TempClient.HouseNum)})";
-            await user.Connection.ExecuteAsync(selectQuery, ClientList);
-            user.Close();
+                await user.Connection.ExecuteAsync(selectQuery, ClientList);
+                user.Close();
+            }
         }
-    }
-    public async Task WriteToClientsSqlAsync(DBConnection user) // запись в основных клиентов 
-    {
-        await user.ConnectAsync();
-        if (user.IsConnect)
+        public async Task WriteToClientsSqlAsync(DBConnection user) // запись в основных клиентов 
         {
-            string selectQuery = $@"insert Clients
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"insert Clients
                     (id, name, addressId, phone, comment)
                     values (
                     @{nameof(TempClient.Id)},
@@ -130,16 +124,16 @@ public class TempClients : IEnumerable
                     @{nameof(TempClient.AddressId)},
                     @{nameof(TempClient.Phone)},
                     @{nameof(TempClient.Comment)})";
-            await user.Connection.ExecuteAsync(selectQuery, ClientList);
-            user.Close();
+                await user.Connection.ExecuteAsync(selectQuery, ClientList);
+                user.Close();
+            }
         }
-    }
-    public async Task ChangeSqlAsync(DBConnection user)
-    {
-        await user.ConnectAsync();
-        if (user.IsConnect)
+        public async Task ChangeSqlAsync(DBConnection user)
         {
-            string selectQuery = $@"update tempClients set 
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"update tempClients set 
                     name = @{nameof(TempClient.Name)},
                     city = @{nameof(TempClient.City)},
                     cityId = @{nameof(TempClient.CityId)},
@@ -154,21 +148,21 @@ public class TempClients : IEnumerable
                     Phone = @{nameof(TempClient.Phone)},
                     Comment = @{nameof(TempClient.Comment)}
                     where Id = @{nameof(TempClient.Id)};";
-            await user.Connection.ExecuteAsync(selectQuery, ClientList);
-            user.Close();
+                await user.Connection.ExecuteAsync(selectQuery, ClientList);
+                user.Close();
+            }
         }
-    }
-    public async Task DeleteSqlAsync(DBConnection user)
-    {
-        await user.ConnectAsync();
-        if (user.IsConnect)
+        public async Task DeleteSqlAsync(DBConnection user)
         {
-            string selectQuery = $@"delete from tempClients 
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"delete from tempClients 
                                         where Id = @{nameof(TempClient.Id)};";
-            await user.Connection.ExecuteAsync(selectQuery, ClientList);
-            user.Close();
+                await user.Connection.ExecuteAsync(selectQuery, ClientList);
+                user.Close();
+            }
         }
-    }
 
     public override string ToString()
     {

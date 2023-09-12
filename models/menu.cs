@@ -18,14 +18,14 @@ namespace Models
             while (true)
             {
                 int choice = GetInteger(menuChoice);
-                if (choice > 0 && choice <= Choices.Count) return choice;
+                if (choice >= 0 && choice <= Choices.Count) return choice;
             }
         }
         public override string ToString()
         {
             string output = String.Empty;
             for (int i = 0; i < this.Choices.Count; i++)
-                output += $"{i + 1}. {this.Choices[i]}\n";
+                output += $"{i + 1,-4}{this.Choices[i]}\n";
             return $"{this.Name}\n{output}";
         }
     }
