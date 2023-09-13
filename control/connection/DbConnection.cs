@@ -8,7 +8,11 @@ namespace Connection
         public string DatabaseName { get; set; }
         public string UserName { get; private set; }
         private string Password { get; set; }
-        public int UserId { get; set; }
+        public int UserId
+        {
+            get => UserName == "root" ? 3 : 1;
+
+        }
         public MySqlConnection? Connection { get; set; }
         public bool IsConnect { get; private set; }
 
@@ -28,8 +32,8 @@ namespace Connection
             return _instance;
         }
 
-        private string SetUsername() => InOut.GetString(MenuText.userName);
-        private string SetPassword() => InOut.GetString(MenuText.password);
+        private string SetUsername() => InOut.GetString(Text.userName);
+        private string SetPassword() => InOut.GetString(Text.password);
         public int GetUserId()
         {
             string choice = UserName;
@@ -38,7 +42,7 @@ namespace Connection
                 case "root":
                     return 1;
             }
-            return 0;
+            return 3;
         }
 
         public async Task ConnectAsync()
@@ -54,7 +58,7 @@ namespace Connection
                 }
                 catch (MySqlException)
                 {
-                    Console.WriteLine(MenuText.inputError);
+                    Console.WriteLine(Text.inputError);
                     Connection = null;
                     _instance = null;
                 }

@@ -8,7 +8,6 @@ namespace Models
 {
     public class Address
     {
-        static int nextId;
         public int Id { get; set; }
         public int CityId { get; set; }
         public virtual City City { get; set; }
@@ -21,27 +20,31 @@ namespace Models
         public string? HouseNum { get; set; }
         public string FullAddress
         {
-            get => $"{City.Name,-15}{Location.Name,-17}{Street.Name,-28}{HouseNum,-15}";
+            get => $"{City.Name,-15}{Location.Name,-17}{Street.Name,-28}{HouseNum,-10}";
         }
         public Address()
         {
-            Id = Interlocked.Increment(ref nextId);
             City = new();
             District = new();
             Location = new();
             Street = new();
         }
-        public override string ToString() => $"ID:{Id} {FullAddress}";
+        public override string ToString() => $"{FullAddress}";
     }
-    class Addresses
+    public class Addresses
     {
-        List<Address> AddressList { get; set; }
+        public List<Address> AddressList { get; set; }
+        public bool IsEmpty
+        {
+            get => (!AddressList.Any());
+        }
         public Addresses()
         {
             AddressList = new();
         }
         public void Append(Address address) => AddressList.Add(address);
-
+        public Address GetFromList(int index) => AddressList[index - 1];
+        public Address GetById(int id) => AddressList.Where(a => a.Id == id).First();
 
         public List<Address> ToWorkingList() => AddressList.Select(c => c).ToList(); // Список для работы с LINQ
         public void ToWriteList(List<Address> toAddList) // Список для записи в БД 

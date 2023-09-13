@@ -43,16 +43,16 @@ namespace Models
         public static Worker Create()
         {
             Worker worker = new();
-            worker.Name = GetString(MenuText.workerName);
-            worker.Surname = GetString(MenuText.workerSurname);
-            worker.Birthday = GetDate(MenuText.workerBirth);
+            worker.Name = GetString(Text.workerName);
+            worker.Surname = GetString(Text.workerSurname);
+            worker.Birthday = GetDate(Text.workerBirth);
             return worker;
         }
         public void Change()
         {
-            string name = GetString(MenuText.workerName);
-            string surname = GetString(MenuText.workerSurname);
-            DateTime birth = GetDate(MenuText.workerBirth);
+            string name = GetString(Text.workerName);
+            string surname = GetString(Text.workerSurname);
+            DateTime birth = GetDate(Text.workerBirth);
             if (name != String.Empty) Name = name;
             if (surname != String.Empty) Surname = surname;
             Birthday = birth;

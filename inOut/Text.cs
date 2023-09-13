@@ -1,5 +1,5 @@
 using System;
-public static class MenuText
+public static class Text
 {
     public static string[] menuNames = new string[] {
                                 "Главное меню",
@@ -23,9 +23,9 @@ public static class MenuText
 
     public static string inputError = "Неверный ввод";
     public static string choice = "Выберете вариант";
-    public static string choiceOrEmpty = "Выберете вариант или оставьте поле пустым, если нет подходящего";
+    public static string choiceOrEmpty = "Выберете вариант или просто нажмите Enter, если нет подходящего";
     public static string inputName = "Введите название";
-    public static string notFound = "Не найдено";
+    public static string notFound = "\nНе найдено\n";
     public static string addSome = "Добавить?";
     public static string added = "Успешно добавлено";
     public static string chooseSome = "Выбрать?";
@@ -49,7 +49,7 @@ public static class MenuText
     public static List<string> searchAgainOrAdd = new List<string>() {
                                 "Повторить поиск",
                                 "Добавить",
-                                "Возврат в главное меню"};
+                                "Возврат в предыдущее меню"};
     public static List<string> addOrchoose = new List<string>() {
                                 "Выбрать",
                                 "Добавить",
@@ -64,11 +64,14 @@ public static class MenuText
                                 "Возврат"};
     public static List<string> yesOrNo = new List<string>() {
                                 "Да",
+                                "Нет"};
+    public static List<string> yesNoOrExit = new List<string>() {
+                                "Да",
                                 "Нет",
                                 "Выход"};
     // Clients
     public static string clientName = "Введите название клиента";
-    
+
     public static List<string> client = new List<string>() {
                                 "Добавить заявку",
                                 "Показать все заявки",
@@ -76,6 +79,7 @@ public static class MenuText
                                 "Договоры",
                                 "Возврат"};
     // Adresses
+    public static string addressHead = "Добавьте адрес";
     public static string addAddress = "Добавить новый адрес?";
     public static string cityName =
     "Введите название города или оставьте поле пустым для показа всех";

@@ -1,6 +1,6 @@
 using static InOut;
-using static MenuText;
-using AddressBook;
+using static Text;
+using Handbooks;
 using Controller;
 using Models;
 using Connection;
@@ -15,15 +15,13 @@ namespace Testing
     {
         public static async Task Start()
         {
+            Console.Clear();
             var user = MainControl.user;
             var clientList = new Clients();
-            await clientList.GetFromSqlAsync(user);
-            var clientsToChange = clientList.ToWorkingList();
-            clientsToChange.ForEach(c => c.OwnerId = 1);
-            clientList.ToWriteList(clientsToChange);
-            
-            
-            
+            await clientList.GetFromSqlAsync(user, "Наш склад");
+            Console.WriteLine(clientList);
+            var client = clientList.GetFromList();
+            Console.WriteLine(client.InfoToString());
         }
     }
 }

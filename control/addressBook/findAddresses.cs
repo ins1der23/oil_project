@@ -1,22 +1,22 @@
 using static InOut;
-using static MenuText;
+using static Text;
 using Controller;
 using Models;
 using Connection;
 using MySql.Data.MySqlClient;
 
-namespace AddressBook
+namespace Handbooks
 {
     public class FindAddresses
+
     {
-        static async Task<Addresses> Start()
+        public static async Task<Addresses> Start()
         {
             var user = MainControl.user;
-            var searchString = InOut.GetString(MenuText.searchString).PrepareToSearch();
+            var forSearch = InOut.GetString(searchString).PrepareToSearch();
             var addressList = new Addresses();
-            await addressList.GetFromSqlAsync(user, searchString);
+            await addressList.GetFromSqlAsync(user, forSearch);
             return addressList;
-            
         }
     }
 }

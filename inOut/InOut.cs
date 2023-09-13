@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using Models;
 using System.Linq;
+using static Text;
 
 
 public static class InOut
@@ -21,11 +22,13 @@ public static class InOut
     /// <param name="menuChoices">Список для меню</param>
     /// <param name="menuName">Строка названия</param>
     /// <returns></returns>
-    public static int MenuToChoice(List<string> menuChoices, string menuName = "") 
+    public static int MenuToChoice(List<string> menuChoices, string menuName = "", string invite = "")
     {
+        Console.Clear();
         var menu = new Menu(menuChoices, menuName);
         menu.ShowMenu();
-        return menu.MenuChoice(MenuText.choiceOrEmpty);
+        if (menuChoices.Count() == 0) ShowString(Text.notFound);
+        return menu.MenuChoice(invite);
     }
     public static int GetInteger(string text)
     {
@@ -39,6 +42,17 @@ public static class InOut
         return num;
     }
 
+    public static double GetDouble(string text)
+    {
+        double num = 0;
+        bool flag = true;
+        do
+        {
+            Console.Write($"{text}: ");
+            flag = double.TryParse(Console.ReadLine(), out num) || num == 0;
+        } while (!flag);
+        return num;
+    }
     public static DateTime GetDate(string text)
     {
         DateTime date = new DateTime();
@@ -54,10 +68,11 @@ public static class InOut
     public static string GetString(string text)
     {
         string output = String.Empty;
+        Console.Clear();
         Console.Write($"{text}: ");
-        output += Console.ReadLine();
+        output += Console.ReadLine().Trim();
         return output;
     }
     public static string PrepareToSearch(this string text) =>
-    new string(text.Where(c => !char.IsPunctuation(c)).ToArray()).Replace(" ","").ToLower();
+    new string(text.Where(c => !char.IsPunctuation(c)).ToArray()).Replace(" ", "").ToLower();
 }

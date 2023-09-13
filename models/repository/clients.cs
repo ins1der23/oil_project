@@ -2,6 +2,7 @@ using Connection;
 using MySql.Data.MySqlClient;
 using Dapper;
 using System.Linq;
+using static InOut;
 
 namespace Models
 {
@@ -13,10 +14,14 @@ namespace Models
         {
             ClientList = new();
         }
-
-        public Client GetFromList(int index) => ClientList[index - 1];
+        public bool IsEmpty
+        {
+            get => (!ClientList.Any());
+        }
+        public Client GetFromList(int index = 1) => ClientList[index - 1];
+        public void Clear() => ClientList.Clear();
+        public void Append(Client client) => ClientList.Add(client);
         public List<Client> ToWorkingList() => ClientList.Select(c => c).ToList();
-
         public void ToWriteList(List<Client> toAddList)
         {
             ClientList.Clear();
@@ -37,6 +42,7 @@ namespace Models
         }
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
+            search = search.PrepareToSearch();
             await user.ConnectAsync();
             if (user.IsConnect)
             {
@@ -80,11 +86,46 @@ namespace Models
                         Comment = x.Comment,
                         Owner = workers.Where(w => w.Id == x.OwnerId).FirstOrDefault(),
                         ToDelete = x.ToDelete
-                    }).Where(c => (c.FullName + c.Phone).Replace(" ", "").ToLower().Contains(search)).ToList();
+                    }).Where(c => (c.FullName + c.Phone).PrepareToSearch().Contains(search)).ToList();
                 }
                 user.Close();
             }
         }
+
+        public async Task AddSqlAsync(DBConnection user)
+        {
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"insert Clients
+                    (name, addressId, phone, agreement, comment, ownerId, toDelete)
+                    values (
+                    @{nameof(Client.Name)},
+                    @{nameof(Client.AddressId)},
+                    @{nameof(Client.Phone)},
+                    @{nameof(Client.Agreement)},
+                    @{nameof(Client.Comment)},
+                    @{nameof(Client.OwnerId)},
+                    @{nameof(Client.ToDelete)})";
+                await user.Connection.ExecuteAsync(selectQuery, ClientList);
+                user.Close();
+            }
+        }
+
+        public async Task DeleteSqlAsync(DBConnection user)
+        {
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"delete from clients 
+                                        where Id = @{nameof(Client.Id)};";
+                await user.Connection.ExecuteAsync(selectQuery, ClientList);
+                user.Close();
+            }
+        }
+
+
+
         public override string ToString()
         {
             string output = String.Empty;

@@ -20,7 +20,6 @@ namespace Models
             City = new();
         }
 
-        public void Create() => Name = GetString(MenuText.districtName);
         public override string ToString() => $"ID:{Id}, {Name}, {City.Name}";
     }
 

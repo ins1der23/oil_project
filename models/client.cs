@@ -11,10 +11,10 @@ namespace Models
         static int nextId;
         public int Id { get; set; }
         public string? Name { get; set; }
-        public int AddressId { get; private set; }
+        public int AddressId { get; set; }
         public virtual Address Address { get; set; }
         public double Phone { get; set; }
-        public string? Agreement { get; set; }
+        public string Agreement { get; set; }
         public virtual ICollection<Passport> Passports { private get; set; }
         public virtual ICollection<Mailing> Mailings { get; set; }
         public virtual ICollection<Claim> Claims { get; set; }
@@ -24,7 +24,7 @@ namespace Models
         public bool ToDelete { get; set; }
         public bool AgreementCheck
         {
-            get => Agreement != null ? true : false;
+            get => Agreement != String.Empty ? true : false;
         }
         public string FullName
         {
@@ -38,6 +38,7 @@ namespace Models
         {
             Id = Interlocked.Increment(ref nextId);
             Address = new Address();
+            Agreement = String.Empty;
             Passports = new List<Passport>();
             // Mailings = new Mailing();
             // Claims = new Claim();
@@ -47,6 +48,18 @@ namespace Models
         public override string ToString()
         {
             return $"{FullName}{Phone,-10}";
+        }
+        public string InfoToString()
+        {
+            string yesOrNo = AgreementCheck == true ? "Есть" : "Нет";
+            return @$"
+            Название клиента:         {Name}
+            Адрес клиента:            {Address.FullAddress}
+            Телефон клиента:          {Phone}
+            Комментарий:              {Comment}
+            Договор:                  {yesOrNo}
+            Ответственный сотрудник:  {Owner.FullName}
+            ";
         }
     }
 }

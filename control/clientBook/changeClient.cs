@@ -1,11 +1,12 @@
 using static InOut;
-using static MenuText;
+using static Text;
 using Controller;
 using Models;
 using Connection;
 using MySql.Data.MySqlClient;
 
-namespace ClientBook
+namespace Handbooks
+
 {
     public class ChangeClient
     {

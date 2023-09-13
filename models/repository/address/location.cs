@@ -19,8 +19,7 @@ namespace Models
             Id = Interlocked.Increment(ref nextId);
             City = new();
         }
-        public void Create() => Name = GetString(MenuText.locationName);
-
+        
         public override string ToString() => $"{City.Name}, ID:{Id}, {Name}";
     }
 
