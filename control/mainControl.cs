@@ -1,5 +1,5 @@
 using static InOut;
-using static Text;
+using MenusAndChoices;
 using Testing;
 using Temp;
 using Handbooks;
@@ -42,11 +42,10 @@ namespace Controller
                             {
                                 var clientList = new Clients();
                                 var clientToChange = new Client();
-
-                                choice = MenuToChoice(Text.findSome, "КЛИЕНТЫ", Text.choice);
+                                choice = MenuToChoice(Text.findSome, "КЛИЕНТЫ", Text.choice); // Меню поиска
                                 bool levelOneFlag = true;
                                 switch (choice)
-                                { 
+                                {
                                     case 1:  // Найти клиента
                                         while (levelOneFlag)
                                         {
@@ -73,8 +72,21 @@ namespace Controller
                                                         break;
                                                 }
                                             }
-                                            Console.WriteLine(clientToChange);
-                                            Console.ReadLine();
+                                        }
+                                        ShowString(ClientText.Summary(clientToChange));
+                                        levelOneFlag = true;
+                                        while (levelOneFlag)
+                                        {
+                                            choice = MenuToChoice(ClientText.options, invite: Text.choice, clear: false); // Меню выбора клиента
+                                            switch (choice)
+                                            {
+                                                case 0:
+                                                    ShowString(ClientText.Summary(clientToChange));
+                                                    break;
+                                                case 6:
+                                                    levelOneFlag = false;
+                                                    break;
+                                            }
                                         }
                                         break;
                                     case 2: // Возврат в главное меню

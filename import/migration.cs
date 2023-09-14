@@ -23,13 +23,15 @@ namespace Temp
             await loacationList.GetFromSqlAsync(user);
             await streetList.GetFromSqlAsync(user);
 
-
+            // чтобы не ругался
             await AddClients(clientList);
+            await AddAddresses(clientList);
+            UniqueClients(clientList);
 
             async Task AddClients(TempClients clientList)
             {
                 Console.WriteLine(clientList.Count());
-                if (Console.ReadKey().Key == ConsoleKey.Enter) await clientList.WriteToClientsSqlAsync(user);
+                await clientList.WriteToClientsSqlAsync(user);
             }
 
             async Task AddAddresses(TempClients clientList)
@@ -38,7 +40,7 @@ namespace Temp
                 var distinctClients = clients.DistinctBy(c => c.AddressId).OrderBy(c => c.Street).ToList();
                 clientList.ToWriteList(distinctClients);
                 Console.WriteLine(clientList.Count());
-                if (Console.ReadKey().Key == ConsoleKey.Enter) await clientList.WriteToAddressesSqlAsync(user);
+                await clientList.WriteToAddressesSqlAsync(user);
             }
 
 

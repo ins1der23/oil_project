@@ -1,5 +1,5 @@
 using static InOut;
-using static Text;
+using MenusAndChoices;
 using Controller;
 using Models;
 using Connection;
@@ -13,7 +13,7 @@ namespace Handbooks
         public static async Task<Addresses> Start()
         {
             var user = MainControl.user;
-            var forSearch = InOut.GetString(searchString).PrepareToSearch();
+            var forSearch = InOut.GetString(Text.searchString).PrepareToSearch();
             var addressList = new Addresses();
             await addressList.GetFromSqlAsync(user, forSearch);
             return addressList;

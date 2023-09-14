@@ -1,5 +1,5 @@
 using static InOut;
-using static Text;
+using MenusAndChoices;
 using Controller;
 using Models;
 using Connection;

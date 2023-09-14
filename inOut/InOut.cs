@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System;
 using Models;
 using System.Linq;
-using static Text;
+using MenusAndChoices;
 
 
 public static class InOut
@@ -21,10 +21,12 @@ public static class InOut
     /// </summary>
     /// <param name="menuChoices">Список для меню</param>
     /// <param name="menuName">Строка названия</param>
+    /// <param name="invite">Строка ввода выбора</param>
+    /// <param name="clear">Переключатель очистки экрана</param>
     /// <returns></returns>
-    public static int MenuToChoice(List<string> menuChoices, string menuName = "", string invite = "")
+    public static int MenuToChoice(List<string> menuChoices, string menuName = "", string invite = "", bool clear = true)
     {
-        Console.Clear();
+        if (clear) Console.Clear();
         var menu = new Menu(menuChoices, menuName);
         menu.ShowMenu();
         if (menuChoices.Count() == 0) ShowString(Text.notFound);
@@ -70,7 +72,7 @@ public static class InOut
         string output = String.Empty;
         Console.Clear();
         Console.Write($"{text}: ");
-        output += Console.ReadLine().Trim();
+        output += Console.ReadLine()!.Trim();
         return output;
     }
     public static string PrepareToSearch(this string text) =>

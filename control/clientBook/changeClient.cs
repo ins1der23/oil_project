@@ -1,5 +1,5 @@
 using static InOut;
-using static Text;
+using MenusAndChoices;
 using Controller;
 using Models;
 using Connection;
@@ -14,7 +14,7 @@ namespace Handbooks
         {
             var user = MainControl.user;
             var clientList = new Clients();
-            await clientList.GetFromSqlAsync(user, searchString);
+            await clientList.GetFromSqlAsync(user);
         }
     }
 

@@ -1,5 +1,5 @@
 using static InOut;
-using static Text;
+using MenusAndChoices;
 using Controller;
 using Models;
 using Connection;
@@ -132,7 +132,7 @@ namespace Handbooks
             choice = MenuToChoice(streetList.ToStringList(), Text.choice);
             addressToAdd.Street = streetList.GetFromList(choice);
             addressToAdd.StreetId = addressToAdd.Street.Id;
-            addressToAdd.HouseNum = GetString(houseNum);
+            addressToAdd.HouseNum = GetString(Text.houseNum);
             var addressList = new Addresses();
             addressList.Append(addressToAdd);
             await addressList.AddSqlAsync(user);

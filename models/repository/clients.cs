@@ -81,10 +81,12 @@ namespace Models
                         Id = x.Id,
                         Name = x.Name,
                         Phone = x.Phone,
+                        AddressId = x.AddressId,
                         Address = addressList.Where(a => a.Id == x.AddressId).First(),
                         Agreement = x.Agreement,
                         Comment = x.Comment,
-                        Owner = workers.Where(w => w.Id == x.OwnerId).FirstOrDefault(),
+                        OwnerId = x.OwnerId,
+                        Owner = workers.Where(w => w.Id == x.OwnerId).First(),
                         ToDelete = x.ToDelete
                     }).Where(c => (c.FullName + c.Phone).PrepareToSearch().Contains(search)).ToList();
                 }
@@ -97,7 +99,7 @@ namespace Models
             await user.ConnectAsync();
             if (user.IsConnect)
             {
-                string selectQuery = $@"insert Clients
+                string selectQuery = $@"insert clients
                     (name, addressId, phone, agreement, comment, ownerId, toDelete)
                     values (
                     @{nameof(Client.Name)},
@@ -112,6 +114,24 @@ namespace Models
             }
         }
 
+        public async Task ChangeSqlAsync(DBConnection user)
+        {
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"update clients set
+                    name = @{nameof(Client.Name)},
+                    addressId = @{nameof(Client.AddressId)},
+                    phone = @{nameof(Client.Phone)},
+                    agreement = @{nameof(Client.Agreement)},
+                    comment = @{nameof(Client.Comment)},
+                    ownerId = @{nameof(Client.OwnerId)},
+                    toDelete = @{nameof(Client.ToDelete)}
+                    where Id = @{nameof(Client.Id)};";
+                await user.Connection.ExecuteAsync(selectQuery, ClientList);
+                user.Close();
+            }
+        }
         public async Task DeleteSqlAsync(DBConnection user)
         {
             await user.ConnectAsync();

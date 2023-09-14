@@ -1,5 +1,5 @@
 using static InOut;
-using static Text;
+using MenusAndChoices;
 using Handbooks;
 using Controller;
 using Models;
@@ -18,10 +18,18 @@ namespace Testing
             Console.Clear();
             var user = MainControl.user;
             var clientList = new Clients();
-            await clientList.GetFromSqlAsync(user, "Наш склад");
+            await clientList.GetFromSqlAsync(user);
             Console.WriteLine(clientList);
-            var client = clientList.GetFromList();
-            Console.WriteLine(client);
+            var clients = clientList.ToWorkingList();
+            clients.ForEach(c => c.OwnerId = 3);
+            foreach (var item in clients)
+            {
+                Console.WriteLine($"{item.OwnerId}     {item.AddressId}");
+            }
+            clientList.ToWriteList(clients);
+            await clientList.ChangeSqlAsync(user);
+
+
         }
     }
 }
