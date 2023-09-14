@@ -1,4 +1,5 @@
 using System;
+using Models;
 public static class Text
 {
     public static string[] menuNames = new string[] {
@@ -71,6 +72,19 @@ public static class Text
                                 "Выход"};
     // Clients
     public static string clientName = "Введите название клиента";
+
+    public static string ClientSum(Client client)
+        {
+            string yesOrNo = client.AgreementCheck == true ? "Есть" : "Отсутствует";
+            return @$"
+        Название клиента:         {client.Name}
+        Адрес клиента:            {client.Address.FullAddress}
+        Телефон клиента:          {client.Phone}
+        Комментарий:              {client.Comment}
+        Договор:                  {yesOrNo}
+        Ответственный сотрудник:  {client.Owner.FullName}
+        ";
+        }
 
     public static List<string> client = new List<string>() {
                                 "Добавить заявку",

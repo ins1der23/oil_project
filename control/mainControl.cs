@@ -40,37 +40,44 @@ namespace Controller
                         case 1: // Клиенты
                             while (mainFlag)
                             {
-                                choice = MenuToChoice(Text.findSome, "Меню клиенты", Text.choice);
+                                var clientList = new Clients();
+                                var clientToChange = new Client();
+
+                                choice = MenuToChoice(Text.findSome, "КЛИЕНТЫ", Text.choice);
                                 bool levelOneFlag = true;
                                 switch (choice)
-                                {
+                                { 
                                     case 1:  // Найти клиента
                                         while (levelOneFlag)
                                         {
-                                            var clientList = await FindClients.Start();
+                                            clientList = await FindClients.Start();
                                             choice = MenuToChoice(clientList.ToStringList(), "Найденные клиенты", Text.choiceOrEmpty);
-                                            if (choice == 0)
+                                            if (choice != 0)
+                                            {
+                                                clientToChange = clientList.GetFromList(choice);
+                                                levelOneFlag = false;
+                                            }
+                                            else
                                             {
                                                 choice = MenuToChoice(Text.searchAgainOrAdd, invite: Text.choice);
                                                 switch (choice)
                                                 {
                                                     case 0: // Повторить поиск
-                                                        levelOneFlag = false;
                                                         break;
                                                     case 2: // добавить клиента
                                                         await AddClient.Start();
                                                         levelOneFlag = false;
                                                         break;
-                                                    case 3: // возврат в главное меню
+                                                    case 3: // возврат в предыдущее меню
                                                         levelOneFlag = false;
-                                                        mainFlag = false;
                                                         break;
                                                 }
                                             }
+                                            Console.WriteLine(clientToChange);
+                                            Console.ReadLine();
                                         }
-                                        var clientsToChange = new Client(); // логика возвращения клиента
                                         break;
-                                    case 2: // Возврат
+                                    case 2: // Возврат в главное меню
                                         mainFlag = false;
                                         break;
                                 }

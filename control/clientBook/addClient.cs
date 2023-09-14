@@ -56,7 +56,7 @@ namespace Handbooks
             await clientList.AddSqlAsync(user);
             await clientList.GetFromSqlAsync(user, clientToAdd.FullName);
             clientToAdd = clientList.GetFromList();
-            ShowString(clientToAdd.InfoToString());
+            ShowString(Text.ClientSum(clientToAdd));
             choice = MenuToChoice(Text.yesOrNo, "Сохранить клиента?", Text.choice);
             if (choice != 1) await clientList.DeleteSqlAsync(user);
             ShowString("КЛИЕНТ УСПЕШНО ДОБАВЛЕН");

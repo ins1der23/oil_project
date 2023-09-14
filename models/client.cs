@@ -49,18 +49,7 @@ namespace Models
         {
             return $"{FullName}{Phone,-10}";
         }
-        public string InfoToString()
-        {
-            string yesOrNo = AgreementCheck == true ? "Есть" : "Нет";
-            return @$"
-            Название клиента:         {Name}
-            Адрес клиента:            {Address.FullAddress}
-            Телефон клиента:          {Phone}
-            Комментарий:              {Comment}
-            Договор:                  {yesOrNo}
-            Ответственный сотрудник:  {Owner.FullName}
-            ";
-        }
+
     }
 }
 

@@ -21,7 +21,7 @@ namespace Testing
             await clientList.GetFromSqlAsync(user, "Наш склад");
             Console.WriteLine(clientList);
             var client = clientList.GetFromList();
-            Console.WriteLine(client.InfoToString());
+            Console.WriteLine(client);
         }
     }
 }
