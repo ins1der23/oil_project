@@ -14,17 +14,17 @@ namespace Models
         public int AddressId { get; set; }
         public virtual Address Address { get; set; }
         public double Phone { get; set; }
-        public string Agreement { get; set; }
         public virtual ICollection<Passport> Passports { private get; set; }
         public virtual ICollection<Mailing> Mailings { get; set; }
         public virtual ICollection<Claim> Claims { get; set; }
+        public virtual ICollection<Agreement> Agreements { get; set; }
         public string? Comment { get; set; }
         public int OwnerId { get; set; }
         public virtual Worker Owner { get; set; }
         public bool ToDelete { get; set; }
         public bool AgreementCheck
         {
-            get => Agreement != String.Empty ? true : false;
+            get => Agreements.Any() ? true : false;
         }
         public string FullName
         {
@@ -38,8 +38,8 @@ namespace Models
         {
             Id = Interlocked.Increment(ref nextId);
             Address = new Address();
-            Agreement = String.Empty;
             Passports = new List<Passport>();
+            Agreements = new List<Agreement>();
             // Mailings = new Mailing();
             // Claims = new Claim();
             Owner = new Worker();

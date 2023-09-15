@@ -1,4 +1,4 @@
-namespace Config
+namespace Controller
 {
     static class Setters
     {

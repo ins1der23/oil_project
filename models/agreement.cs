@@ -1,16 +1,26 @@
-using Config;
+using Controller;
 
 namespace Models
 {
-    class Agreement
+    public class Agreement
     {
-        public static DateTime Date { get; set; } = DateTime.Today;
-        public string AgreemNum { get; set; }
+        public int Id { get; set; }
+        public static DateTime Date { get; set; }
+        public string Name { get; set; }
+        public string ScanPath { get; set; }
+        public int ClientId { get; set; }
+        public virtual Client Client { get; set; }
+        public int PassportId { get; set; }
+        public virtual Passport Passport { get; set; }
         static int nextNum = ResetNum(nextNum);
 
         public Agreement()
         {
-            AgreemNum = $"{Date.Month} - {Interlocked.Increment(ref nextNum)}";
+            Name = $"{Date.Month} - {Interlocked.Increment(ref nextNum)}";
+            ScanPath = String.Empty;
+            Client = new();
+            Passport = new();
+            Date = DateTime.Today;
         }
         private static int ResetNum(int num)
         {

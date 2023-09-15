@@ -48,7 +48,7 @@ namespace Handbooks
                 flag = false;
             }
             clientToAdd.Phone = GetDouble("Введите телефон");
-            clientToAdd.Agreement = GetString("Укажите путь к договору");
+            // clientToAdd.Agreement = GetString("Укажите путь к договору");
             clientToAdd.OwnerId = user.UserId;
             clientToAdd.Comment = GetString("Введите комментарий");
             var clientList = new Clients();

@@ -50,6 +50,7 @@ namespace Models
                             select d.id, d.name from districts as d;
                             select l.id, l.name from locations as l;
                             select s.id, s.name from streets as s;
+                            select * from agreements as agr;
                             select * from addresses as a;
                             select w.id, w.name, w.surname from workers as w;
                             select * from clients";
@@ -63,6 +64,7 @@ namespace Models
                     var addresses = temp.Read<Address>();
                     var workers = temp.Read<Worker>();
                     var clients = temp.Read<Client>();
+                    var agreementList = temp.Read<Agreement>();
                     var addressList = addresses.Select(x => new Address
                     {
                         Id = x.Id,
@@ -83,7 +85,7 @@ namespace Models
                         Phone = x.Phone,
                         AddressId = x.AddressId,
                         Address = addressList.Where(a => a.Id == x.AddressId).First(),
-                        Agreement = x.Agreement,
+                        Agreements = agreementList.Select(agr => agr).Where(agr => agr.ClientId == x.Id).ToList(),
                         Comment = x.Comment,
                         OwnerId = x.OwnerId,
                         Owner = workers.Where(w => w.Id == x.OwnerId).First(),
@@ -105,7 +107,6 @@ namespace Models
                     @{nameof(Client.Name)},
                     @{nameof(Client.AddressId)},
                     @{nameof(Client.Phone)},
-                    @{nameof(Client.Agreement)},
                     @{nameof(Client.Comment)},
                     @{nameof(Client.OwnerId)},
                     @{nameof(Client.ToDelete)})";
@@ -123,7 +124,6 @@ namespace Models
                     name = @{nameof(Client.Name)},
                     addressId = @{nameof(Client.AddressId)},
                     phone = @{nameof(Client.Phone)},
-                    agreement = @{nameof(Client.Agreement)},
                     comment = @{nameof(Client.Comment)},
                     ownerId = @{nameof(Client.OwnerId)},
                     toDelete = @{nameof(Client.ToDelete)}

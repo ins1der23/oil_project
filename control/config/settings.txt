@@ -1,0 +1,3 @@
+Setters.numResetter = false;
+Setters.anotherResetter = false;
+Setters.someResetter = true;
