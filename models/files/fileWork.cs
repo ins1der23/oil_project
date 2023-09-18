@@ -1,7 +1,7 @@
 using System.IO;
-namespace FileWork
+namespace Models
 {
-    class FileToWork
+    class FileWork
     {
         public string Path { get; set; }
         public List<string> Lines { get; set; }
@@ -9,11 +9,13 @@ namespace FileWork
         {
             get => Lines.Any() ? true : false;
         }
-        public FileToWork(string path)
+        public FileWork(string path)
         {
             Path = path;
             Lines = new List<string>();
         }
+        public void Clear() => Lines.Clear();
+        public void Append(string toAdd) => Lines.Add(toAdd);
         public async Task Read()
         {
             StreamReader reader = new StreamReader(Path);
@@ -24,6 +26,15 @@ namespace FileWork
             }
             reader.Close();
 
+        }
+        public async Task Write()
+        {
+            StreamWriter writer = new StreamWriter(Path, false);
+            foreach (var item in Lines)
+            {
+                await writer.WriteLineAsync(item);
+            }
+            writer.Close();
         }
     }
 }

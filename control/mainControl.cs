@@ -13,10 +13,11 @@ namespace Controller
     {
         public static async Task Start()
         {
-            await MainSettings.Set();
-            var user = MainSettings.user;
-            if (!user.IsConnect) return;
-            user.Close();
+            if (!await Settings.Connect()) return;
+            ShowString(Text.connected);
+            Console.ReadLine();
+            await Settings.Set();
+            var user = Settings.user;
             Workers workersList = new Workers();
             Positions positionsList = new Positions();
             var toFind = string.Empty;
@@ -191,7 +192,7 @@ namespace Controller
                         await Test.Start();
                         break;
                     case 6:
-                        user.Close();
+                        await.Settings.Save();
                         return;
                 }
             }

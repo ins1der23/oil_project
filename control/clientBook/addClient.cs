@@ -11,8 +11,7 @@ namespace Handbooks
     {
         public static async Task Start()
         {
-
-            var user = MainControl.user;
+            var user = Settings.user;
             var clientToAdd = new Client();
             int choice;
             do
@@ -62,7 +61,7 @@ namespace Handbooks
             ShowString("КЛИЕНТ УСПЕШНО ДОБАВЛЕН");
 
 
-            
+
         }
     }
 }

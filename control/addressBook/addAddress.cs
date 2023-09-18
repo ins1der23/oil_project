@@ -12,7 +12,7 @@ namespace Handbooks
     {
         public static async Task<Address> Start()
         {
-            var user = MainControl.user;
+            var user = Settings.user;
             var addressToAdd = new Address();
             var cityList = new Cities(); // Города
             string searchString;
@@ -55,7 +55,7 @@ namespace Handbooks
                 while (flag)
                 {
                     searchString = InOut.GetString(Text.districtName); // Найти район
-                    await districtList.GetFromSqlAsync(MainControl.user, searchString);
+                    await districtList.GetFromSqlAsync(Settings.user, searchString);
                     if (districtList.IsEmpty)
                     {
                         choice = MenuToChoice(Text.searchAgain, Text.notFound); // Не найдено

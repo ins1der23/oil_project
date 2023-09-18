@@ -11,7 +11,7 @@ namespace Handbooks
     {
         public static async Task<Clients> Start()
         {
-            var user = MainControl.user;
+            var user = Settings.user;
             var searchString = InOut.GetString(Text.searchString);
             var clientList = new Clients();
             await clientList.GetFromSqlAsync(user, searchString);

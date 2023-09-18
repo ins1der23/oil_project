@@ -13,7 +13,7 @@ namespace Temp
     {
         public static async Task Start()
         {
-            var user = MainControl.user;
+            var user = Settings.user;
             TempClients clientList = new TempClients();
             var districtList = new Districts();
             var loacationList = new Locations();

@@ -12,7 +12,7 @@ namespace Handbooks
     {
         public static async Task Start()
         {
-            var user = MainControl.user;
+            var user = Settings.user;
             var clientList = new Clients();
             await clientList.GetFromSqlAsync(user);
         }

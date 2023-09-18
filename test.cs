@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 using System.Linq;
 using System.IO;
 using System.Collections;
-using FileWork;
+
 
 namespace Testing
 {
@@ -16,8 +16,11 @@ namespace Testing
     {
         public static async Task Start()
         {
-           await MainSettings.Set();
-           Console.WriteLine(Setters.numResetter);
+           await Settings.Set();
+           Console.WriteLine(Settings.numResetter);
+           Console.ReadLine();
+           Settings.numResetter.Status = false;
+           await Settings.Save();
            Console.ReadLine();
            
            

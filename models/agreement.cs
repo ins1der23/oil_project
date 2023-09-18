@@ -24,10 +24,10 @@ namespace Models
         }
         private static int ResetNum(int num)
         {
-            if (Date.Day < 10 && Setters.numResetter)
+            if (Date.Day < 10 && Settings.numResetter.Status)
             {
                 nextNum = 0;
-                Setters.numResetter = false;
+                Settings.numResetter.Status = false;
             }
             return nextNum;
         }

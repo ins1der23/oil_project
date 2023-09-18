@@ -25,6 +25,8 @@ namespace MenusAndChoices
 
         // Common
 
+        public static string connected = "Connected!";
+
         public static string inputError = "Неверный ввод";
         public static string choice = "Выберете вариант";
         public static string choiceOrEmpty = "Выберете вариант или просто нажмите Enter, если нет подходящего";
