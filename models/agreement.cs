@@ -1,3 +1,4 @@
+using static InOut;
 using Controller;
 
 namespace Models
@@ -11,7 +12,7 @@ namespace Models
         public int ClientId { get; set; }
         public string FileName 
         {
-            get => $"{Name} от {Date.ToShortDateString()}_{Client.Address.ShortAddress}";
+            get => $"{Name} от {Date.ToShortDateString()}_{Client.Address.ShortAddress.PrepareToFileName()}";
         }
         public virtual Client Client { get; set; }
         public virtual Passport Passport { get; set; }

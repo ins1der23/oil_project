@@ -13,6 +13,7 @@ namespace Handbooks
         {
             var user = Settings.user;
             string sourcePath = InOut.GetString(AgrText.scanPath);
+            string folder = "/agreements/";
             Console.WriteLine(sourcePath);
             if (sourcePath == String.Empty)
             {
@@ -22,7 +23,7 @@ namespace Handbooks
             sourcePath = sourcePath.Replace("\"", String.Empty);
             Console.WriteLine(sourcePath);
             FileInfo sourceFile = new FileInfo(sourcePath);
-            string receivePath = $"{Settings.scanPath}/agreements/{agreement.FileName}{sourceFile.Extension}";
+            string receivePath = $"{Settings.scanPath}{folder}{agreement.FileName}{sourceFile.Extension}";
             if (sourceFile.Exists) sourceFile.CopyTo(receivePath, true);
             else Console.WriteLine("ОШИБКА");
             agreement.ScanPath = receivePath;

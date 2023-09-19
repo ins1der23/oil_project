@@ -68,11 +68,11 @@ public static class InOut
     }
 
 
-/// <summary>
-/// Получение строки из консоли с приглашением ко вводу
-/// </summary>
-/// <param name="text"> Приглашение к вводу текста</param>
-/// <returns>Строка из консоли</returns>
+    /// <summary>
+    /// Получение строки из консоли с приглашением ко вводу
+    /// </summary>
+    /// <param name="text"> Приглашение к вводу текста</param>
+    /// <returns>Строка из консоли</returns>
     public static string GetString(string text)
     {
         string output = String.Empty;
@@ -83,4 +83,13 @@ public static class InOut
     }
     public static string PrepareToSearch(this string text) =>
     new string(text.Where(c => !char.IsPunctuation(c)).ToArray()).Replace(" ", "").ToLower();
+
+    public static string PrepareToFileName(this string text)
+    {
+        string restrict = "<>:\"/\\|?*";
+        text = new String(text.Select(ch => restrict.Contains(ch) ? '-' : ch).ToArray());
+        return text;
+
+
+    }
 }

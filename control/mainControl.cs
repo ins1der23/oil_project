@@ -70,10 +70,10 @@ namespace Controller
                                     }
                                     if (clientToChange.Name != String.Empty)
                                     {
-                                        ShowString(ClientText.Summary(clientToChange));
                                         levelOneFlag = true;
                                         while (levelOneFlag)
                                         {
+                                            ShowString(ClientText.Summary(clientToChange));
                                             choice = MenuToChoice(ClientText.options, invite: Text.choice, clear: false); // Меню выбора клиента
                                             switch (choice)
                                             {

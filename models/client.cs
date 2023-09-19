@@ -32,6 +32,14 @@ namespace Models
                 return $"{Name,-35}{Address.FullAddress}";
             }
         }
+        public string ShortName
+        {
+            get
+            {
+                return $"{Name}, {Address.ShortAddress}";
+            }
+        }
+
 
         public Client()
         {

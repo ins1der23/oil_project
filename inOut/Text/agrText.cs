@@ -13,7 +13,7 @@ namespace MenusAndChoices
                                 "Посмотреть все договоры",
                                 "Ничего не делать"};
 
-        public static string scanPath = "Укажите путь к скану договора";
+        public static string scanPath = "Перетащите в это окошко скан договора";
         public static string Summary(this Agreement agreement)
         {
             Console.Clear();
@@ -23,7 +23,7 @@ namespace MenusAndChoices
             return @$"
         Название договора:        {agreement.Name}
         Дата договора             {date}
-        Название клиента:         {agreement.Client.FullName}
+        Название клиента:         {agreement.Client.ShortName}
         Скан договора             {scanCheck}
         ";
         }
