@@ -54,8 +54,13 @@ namespace Controller
                                                 case 0: // Повторить поиск
                                                     break;
                                                 case 2: // добавить клиента
-                                                    await AddClient.Start();
-                                                    levelOneFlag = false;
+                                                    var clientNew = await AddClient.Start();
+                                                    if (clientNew != null)
+                                                    {
+                                                        clientToChange = clientNew;
+                                                        levelOneFlag = false;
+                                                    }
+                                                    
                                                     break;
                                                 case 3: // возврат в предыдущее меню
                                                     levelOneFlag = false;
@@ -70,10 +75,12 @@ namespace Controller
                                         choice = MenuToChoice(ClientText.options, invite: Text.choice, clear: false); // Меню выбора клиента
                                         switch (choice)
                                         {
-                                            case 0:
+                                            case 0: // показ Summary по клиенту
                                                 ShowString(ClientText.Summary(clientToChange));
                                                 break;
-                                            case 6:
+                                            case 4: //А что с договорами?
+                                                break;
+                                            case 5: // Вернуться к поиску клиента
                                                 levelOneFlag = false;
                                                 break;
                                         }
@@ -192,7 +199,7 @@ namespace Controller
                         await Test.Start();
                         break;
                     case 6:
-                        await.Settings.Save();
+                        await Settings.Save();
                         return;
                 }
             }

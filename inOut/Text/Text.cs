@@ -78,22 +78,7 @@ namespace MenusAndChoices
         // Clients
         public static string clientName = "Введите название клиента";
 
-        public static string ClientSum(Client client)
-        {
-            Console.Clear();
-            string yesOrNo = client.AgreementCheck == true ? "Есть" : "Отсутствует";
-            return @$"
-        Название клиента:         {client.Name}
-        Адрес клиента:            {client.Address.FullAddress}
-        Телефон клиента:          {client.Phone}
-        Комментарий:              {client.Comment}
-        Договор:                  {yesOrNo}
-        Ответственный сотрудник:  {client.Owner.FullName}
-        ";
-        }
-
-        
-        // Adresses
+                // Adresses
         public static string addressHead = "Добавьте адрес";
         public static string addAddress = "Добавить новый адрес?";
         public static string cityName =

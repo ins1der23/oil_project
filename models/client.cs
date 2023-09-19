@@ -8,9 +8,8 @@ namespace Models
 {
     public class Client
     {
-        static int nextId;
         public int Id { get; set; }
-        public string? Name { get; set; }
+        public string Name { get; set; }
         public int AddressId { get; set; }
         public virtual Address Address { get; set; }
         public double Phone { get; set; }
@@ -36,7 +35,7 @@ namespace Models
 
         public Client()
         {
-            Id = Interlocked.Increment(ref nextId);
+            Name = String.Empty;
             Address = new Address();
             Passports = new List<Passport>();
             Agreements = new List<Agreement>();

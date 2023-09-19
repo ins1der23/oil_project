@@ -16,18 +16,9 @@ namespace Testing
     {
         public static async Task Start()
         {
-           await Settings.Set();
-           Console.WriteLine(Settings.numResetter);
-           Console.ReadLine();
-           Settings.numResetter.Status = false;
-           await Settings.Save();
-           Console.ReadLine();
-           
-           
-
-
-
-
+            Client client = new();
+            client.Name = "Лучший друган-алкаш";
+            await AgreementControl.Start(client);
         }
     }
 }

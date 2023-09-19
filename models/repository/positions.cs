@@ -4,7 +4,7 @@ using Dapper;
 
 namespace Models
 {
-    public class Positions
+    public class Positions 
     {
         List<Position> PositionsList {get; set;}
 

@@ -144,7 +144,13 @@ namespace Models
             }
         }
 
-
+        public async Task SetId(DBConnection user) // получение Id из SQL для нового клиента, 
+        {
+            await AddSqlAsync(user);
+            Client client = GetFromList();
+            if(client.Address == null || client.Name == String.Empty) return;
+            await GetFromSqlAsync(user, client.FullName);
+        }
 
         public override string ToString()
         {

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Models
 {
-    public class Workers
+    public class Workers : IRepository
     {
         List<Worker> WorkersList { get; set; }
         public Workers()
@@ -83,8 +83,5 @@ namespace Models
                 output.Add(worker.ToString());
             return output;
         }
-
-        // public Worker? GetById(int id) => WorkersList.Where(w => w.Id == id).SingleOrDefault();
-        // public void DeleteWorker(int id) => WorkersList.Remove(WorkersList.Where(w => w.Id == id).Single());
     }
 }
