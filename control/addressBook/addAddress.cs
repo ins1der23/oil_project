@@ -134,8 +134,7 @@ namespace Handbooks
             addressToAdd.StreetId = addressToAdd.Street.Id;
             addressToAdd.HouseNum = GetString(Text.houseNum);
             var addressList = new Addresses();
-            addressList.Append(addressToAdd);
-            await addressList.AddSqlAsync(user);
+            addressToAdd = await addressList.SaveGetId(user, addressToAdd);
             ShowString("АДРЕС УПЕШНО ДОБАВЛЕН");
             return addressToAdd;
         }

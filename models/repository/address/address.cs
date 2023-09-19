@@ -22,6 +22,14 @@ namespace Models
         {
             get => $"{City.Name,-15}{Location.Name,-17}{Street.Name,-28}{HouseNum,-10}";
         }
+        public string ShortAddress
+        {
+            get 
+            {
+                if(CityId == 1) return $"{Street.Name}, {HouseNum}";
+                else return $"{City.Name}, {Street.Name}, {HouseNum}";
+            } 
+        }
         public Address()
         {
             City = new();
@@ -31,6 +39,10 @@ namespace Models
         }
         public override string ToString() => $"{FullAddress}";
     }
+
+
+
+
     public class Addresses
     {
         public List<Address> AddressList { get; set; }
@@ -43,7 +55,8 @@ namespace Models
             AddressList = new();
         }
         public void Append(Address address) => AddressList.Add(address);
-        public Address GetFromList(int index) => AddressList[index - 1];
+        public void Clear() => AddressList.Clear();
+        public Address GetFromList(int index = 1) => AddressList[index - 1];
         public Address GetById(int id) => AddressList.Where(a => a.Id == id).First();
 
         public List<Address> ToWorkingList() => AddressList.Select(c => c).ToList(); // Список для работы с LINQ
@@ -70,6 +83,7 @@ namespace Models
         // Работа с SQL
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
+            search = search.PrepareToSearch();
             await user.ConnectAsync();
             if (user.IsConnect)
             {
@@ -99,7 +113,7 @@ namespace Models
                         StreetId = x.StreetId,
                         Street = streets.Where(s => s.Id == x.StreetId).First(),
                         HouseNum = x.HouseNum
-                    }).Where(a => a.FullAddress.ToLower().Replace(" ", "").Contains(search)).ToList();
+                    }).Where(a => a.FullAddress.PrepareToSearch().Contains(search)).ToList();
                 }
                 user.Close();
             }
@@ -137,6 +151,17 @@ namespace Models
                 await user.Connection.ExecuteAsync(selectQuery, AddressList);
                 user.Close();
             }
+        }
+
+        public async Task<Address> SaveGetId(DBConnection user, Address address) // получение Id из SQL для нового клиента 
+        {
+            if (address.CityId == 0) return address;
+            Clear();
+            Append(address);
+            await AddSqlAsync(user);
+            await GetFromSqlAsync(user, address.FullAddress);
+            address = GetFromList();
+            return address;
         }
 
         public override string ToString()

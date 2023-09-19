@@ -67,6 +67,12 @@ public static class InOut
         return date;
     }
 
+
+/// <summary>
+/// Получение строки из консоли с приглашением ко вводу
+/// </summary>
+/// <param name="text"> Приглашение к вводу текста</param>
+/// <returns>Строка из консоли</returns>
     public static string GetString(string text)
     {
         string output = String.Empty;

@@ -55,12 +55,12 @@ namespace Controller
                                                     break;
                                                 case 2: // добавить клиента
                                                     var clientNew = await AddClient.Start();
-                                                    if (clientNew != null)
+                                                    if (clientNew.Name != String.Empty)
                                                     {
                                                         clientToChange = clientNew;
                                                         levelOneFlag = false;
                                                     }
-                                                    
+
                                                     break;
                                                 case 3: // возврат в предыдущее меню
                                                     levelOneFlag = false;
@@ -68,21 +68,25 @@ namespace Controller
                                             }
                                         }
                                     }
-                                    ShowString(ClientText.Summary(clientToChange));
-                                    levelOneFlag = true;
-                                    while (levelOneFlag)
+                                    if (clientToChange.Name != String.Empty)
                                     {
-                                        choice = MenuToChoice(ClientText.options, invite: Text.choice, clear: false); // Меню выбора клиента
-                                        switch (choice)
+                                        ShowString(ClientText.Summary(clientToChange));
+                                        levelOneFlag = true;
+                                        while (levelOneFlag)
                                         {
-                                            case 0: // показ Summary по клиенту
-                                                ShowString(ClientText.Summary(clientToChange));
-                                                break;
-                                            case 4: //А что с договорами?
-                                                break;
-                                            case 5: // Вернуться к поиску клиента
-                                                levelOneFlag = false;
-                                                break;
+                                            choice = MenuToChoice(ClientText.options, invite: Text.choice, clear: false); // Меню выбора клиента
+                                            switch (choice)
+                                            {
+                                                case 0: // показ Summary по клиенту
+                                                    ShowString(ClientText.Summary(clientToChange));
+                                                    break;
+                                                case 4: //А что с договорами?
+                                                    await AgrControl.Start(clientToChange);
+                                                    break;
+                                                case 5: // Вернуться к поиску клиента
+                                                    levelOneFlag = false;
+                                                    break;
+                                            }
                                         }
                                     }
                                     break;

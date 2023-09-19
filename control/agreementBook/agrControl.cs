@@ -7,7 +7,7 @@ using Controller;
 namespace Handbooks
 
 {
-    public class AgreementControl
+    public class AgrControl
     {
         public static async Task Start(Client client)
         {
@@ -20,14 +20,16 @@ namespace Handbooks
                 agreement.ClientId = client.Id;
                 agreement.Client = client;
             }
-
-            ShowString(agreement.Summary());
             int choice;
             while (flag)
             {
+                ShowString(agreement.Summary());
                 choice = MenuToChoice(AgrText.options, client.FullName, Text.choice, false);
                 switch (choice)
                 {
+                    case 1:
+                        await AttachScan.Start(agreement);
+                        break;
                     case 6:
                         return;
                 }

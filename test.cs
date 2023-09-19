@@ -18,7 +18,11 @@ namespace Testing
         {
             Client client = new();
             client.Name = "Лучший друган-алкаш";
-            await AgreementControl.Start(client);
+            await AgrControl.Start(client);
+
+
+
         }
+
     }
 }

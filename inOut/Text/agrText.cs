@@ -10,7 +10,7 @@ namespace MenusAndChoices
                                 "Показать скан",
                                 "Распечатать договор",
                                 "Изменить договор",
-                                "Создать новый договор",
+                                "Посмотреть все договоры",
                                 "Ничего не делать"};
 
         public static string scanPath = "Укажите путь к скану договора";
@@ -18,7 +18,7 @@ namespace MenusAndChoices
         {
             Console.Clear();
             if (agreement == null) return "Договор отсутствует";
-            DateTime date = agreement.Date;
+            string date = agreement.Date.ToShortDateString();
             string scanCheck = agreement.ScanCheck == true ? "Есть" : "Отсутствует";
             return @$"
         Название договора:        {agreement.Name}

@@ -10,6 +10,8 @@ namespace Controller
     static class Settings
     {
         static string path = "control/config/settings.txt";
+        public static string scanPath = "D:/oilproject/scans";
+        
         static FileWork settings = new FileWork(path);
         public static Setter numResetter = new Setter("numResetter");
 

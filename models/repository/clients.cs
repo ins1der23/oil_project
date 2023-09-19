@@ -21,13 +21,12 @@ namespace Models
         public Client GetFromList(int index = 1) => ClientList[index - 1];
         public void Clear() => ClientList.Clear();
         public void Append(Client client) => ClientList.Add(client);
-        public List<Client> ToWorkingList() => ClientList.Select(c => c).ToList();
-        public void ToWriteList(List<Client> toAddList)
-        {
-            ClientList.Clear();
-            ClientList = toAddList.Select(c => c).ToList();
-        }
-
+        // public List<Client> ToWorkingList() => ClientList.Select(c => c).ToList();
+        // public void ToWriteList(List<Client> toAddList)
+        // {
+        //     ClientList.Clear();
+        //     ClientList = toAddList.Select(c => c).ToList();
+        // }
 
         /// <summary>
         /// Формирование списка из ClientList для создания меню 
@@ -50,9 +49,9 @@ namespace Models
                             select d.id, d.name from districts as d;
                             select l.id, l.name from locations as l;
                             select s.id, s.name from streets as s;
-                            select * from agreements as agr;
                             select * from addresses as a;
                             select w.id, w.name, w.surname from workers as w;
+                            select * from agreements as agr;
                             select * from clients";
 
                 using (var temp = await user.Connection.QueryMultipleAsync(sql))
@@ -63,8 +62,8 @@ namespace Models
                     var streets = temp.Read<Street>();
                     var addresses = temp.Read<Address>();
                     var workers = temp.Read<Worker>();
-                    var clients = temp.Read<Client>();
                     var agreementList = temp.Read<Agreement>();
+                    var clients = temp.Read<Client>();
                     var addressList = addresses.Select(x => new Address
                     {
                         Id = x.Id,
@@ -144,12 +143,15 @@ namespace Models
             }
         }
 
-        public async Task SetId(DBConnection user) // получение Id из SQL для нового клиента, 
+        public async Task<Client> SaveGetId(DBConnection user, Client client) // получение Id из SQL для нового клиента 
         {
+            if (client.AddressId == 0 || client.Name == String.Empty) return client;
+            Clear();
+            Append(client);
             await AddSqlAsync(user);
-            Client client = GetFromList();
-            if(client.Address == null || client.Name == String.Empty) return;
             await GetFromSqlAsync(user, client.FullName);
+            client = GetFromList();
+            return client;
         }
 
         public override string ToString()

@@ -22,7 +22,7 @@ namespace Handbooks
             {
                 Addresses addressList = await FindAddresses.Start();
                 choice = MenuToChoice(addressList.ToStringList(), "Найденные адреса", Text.choiceOrEmpty);
-                if (choice != 0) 
+                if (choice != 0)
                 {
                     clientToAdd.AddressId = addressList.GetFromList(choice).Id;
                     clientToAdd.Address = addressList.GetFromList(choice);
@@ -44,7 +44,8 @@ namespace Handbooks
                             }
                             break;
                         case 3: // Возврат в предыдущее меню
-                            return clientToAdd;
+                            ShowString("КЛИЕНТ НЕ ДОБАВЛЕН");
+                            return new Client();
                     }
                 }
                 flag = false;
@@ -57,11 +58,12 @@ namespace Handbooks
             if (choice == 1)
             {
                 var clientList = new Clients();
-                clientList.Append(clientToAdd);
-                await clientList.AddSqlAsync(user);
+                clientToAdd = await clientList.SaveGetId(user, clientToAdd);
                 ShowString("КЛИЕНТ УСПЕШНО ДОБАВЛЕН");
+                return clientToAdd;
             }
-            return clientToAdd;
+            ShowString("КЛИЕНТ НЕ ДОБАВЛЕН");
+            return new Client();
         }
     }
 }
