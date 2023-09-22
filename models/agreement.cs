@@ -10,9 +10,13 @@ namespace Models
         public string Name { get; set; }
         public string ScanPath { get; set; }
         public int ClientId { get; set; }
-        public string FileName 
+        public string FileName
         {
             get => $"{Name} от {Date.ToShortDateString()}_{Client.Address.ShortAddress.PrepareToFileName()}";
+        }
+        public string SearchString
+        {
+            get => $"and agr.name like \"%{Name}%\" and date = \"{Date.ToString("yyyy-MM.dd")}\"";
         }
         public virtual Client Client { get; set; }
         public virtual Passport Passport { get; set; }

@@ -13,7 +13,7 @@ namespace MenusAndChoices
                                 "Посмотреть все договоры",
                                 "Ничего не делать"};
 
-        public static string scanPath = "Перетащите в это окошко скан договора";
+        public static string scanPath = "Перетащите в это окно скан договора";
         public static string Summary(this Agreement agreement)
         {
             Console.Clear();

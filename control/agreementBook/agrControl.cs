@@ -9,23 +9,30 @@ namespace Handbooks
 {
     public class AgrControl
     {
-        public static async Task Start(Client client)
+        public static async Task Start(Client clientToChange)
         {
             var user = Settings.user;
             bool flag = true;
-            Agreement agreement = new();
-            if (client.Agreements.Any()) agreement = client.Agreements.OrderBy(agr => agr.Date).Last();
+            var agreement = new Agreement();
+
+            if (clientToChange.Agreements.Any())
+            {
+                agreement = clientToChange.Agreements.OrderBy(agr => agr.Date).Last();
+                agreement.Client = clientToChange;
+            }
             else
             {
-                agreement.ClientId = client.Id;
-                agreement.Client = client;
-                client.Agreements.Add(agreement);
+                agreement.ClientId = clientToChange.Id;
+                clientToChange.Agreements.Add(agreement);
+                var agrList = new Agreements();
+                agreement = await agrList.SaveNewGetId(user, agreement);
+                agreement.Client = clientToChange;
             }
             int choice;
             while (flag)
             {
                 ShowString(agreement.Summary());
-                choice = MenuToChoice(AgrText.options, invite: Text.choice, clear : false);
+                choice = MenuToChoice(AgrText.options, invite: Text.choice, clear: false);
                 switch (choice)
                 {
                     case 1:
@@ -34,9 +41,7 @@ namespace Handbooks
                     case 6:
                         return;
                 }
-
             }
-
         }
     }
 }

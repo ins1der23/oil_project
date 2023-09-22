@@ -27,6 +27,8 @@ namespace Handbooks
             if (sourceFile.Exists) sourceFile.CopyTo(receivePath, true);
             else Console.WriteLine("ОШИБКА");
             agreement.ScanPath = receivePath;
+            var agrList = new Agreements();
+            agreement = await agrList.SaveChanges(user, agreement);
             return agreement;
         }
     }
