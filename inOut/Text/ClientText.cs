@@ -12,6 +12,8 @@ namespace MenusAndChoices
                                 "А что с договорами?",
                                 "Вернуться к поиску клиента"};
 
+        public static string clientName = "Введите название клиента";
+
         public static string Summary(Client client)
         {
             Console.Clear();

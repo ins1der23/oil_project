@@ -76,9 +76,8 @@ namespace MenusAndChoices
                                 "Нет",
                                 "Выход"};
         // Clients
-        public static string clientName = "Введите название клиента";
 
-                // Adresses
+        // Adresses
         public static string addressHead = "Добавьте адрес";
         public static string addAddress = "Добавить новый адрес?";
         public static string cityName =
@@ -92,13 +91,7 @@ namespace MenusAndChoices
         public static string houseNum = "Введите номер дома";
 
         // Agreements
-        public static List<string> agreement = new List<string>() {
-                                "Прикрепить скан",
-                                "Посмотреть скан",
-                                "Создать договор",
-                                "Распечатать договор",
-                                "Изменить договор",
-                                "Возврат"};
+
 
         // Workers
         public static string setPosition = "Назначить должность?";
