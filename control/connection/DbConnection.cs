@@ -9,9 +9,21 @@ namespace Connection
         public string DatabaseName { get; set; }
         public string UserName { get; private set; }
         private string Password { get; set; }
+
         public int UserId
         {
-            get => UserName == "root" ? 3 : 1;
+            get
+            {
+                string choice = UserName;
+                switch (choice)
+                {
+                    case "misha":
+                        return 1;
+                    case "diana_s":
+                        return 3;
+                }
+                return 2;
+            }
 
         }
         public MySqlConnection? Connection { get; set; }
@@ -21,8 +33,8 @@ namespace Connection
         {
             this.Server = server;
             this.DatabaseName = databaseName;
-            this.UserName = "misha";//SetUsername();
-            this.Password = "M1shaisa$martguy";//SetPassword();
+            this.UserName = "diana_s";//SetUsername();
+            this.Password = "Diana1sthebe$tmanager";//SetPassword();
         }
 
         private static DBConnection? _instance = null;
