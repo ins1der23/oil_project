@@ -39,10 +39,6 @@ namespace Models
         }
         public override string ToString() => $"{FullAddress}";
     }
-
-
-
-
     public class Addresses
     {
         public List<Address> AddressList { get; set; }
@@ -87,12 +83,11 @@ namespace Models
             await user.ConnectAsync();
             if (user.IsConnect)
             {
-                string sql = @"select c.id, c.name from cities as c;
-                            select d.id, d.name from districts as d;
-                            select l.id, l.name from locations as l;
-                            select s.id, s.name from streets as s;
-                            select a.Id, a.cityId, a.districtId, a.locationId, a.streetId, a.houseNum
-                            from addresses as a";
+                string sql = @"select * from cities as c;
+                            select * from districts as d;
+                            select * from locations as l;
+                            select * from streets as s;
+                            select * from addresses as a";
 
                 using (var temp = await user.Connection.QueryMultipleAsync(sql))
                 {

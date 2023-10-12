@@ -17,11 +17,30 @@ namespace Testing
     {
         public static async Task Start()
         {
-            string filePath = @"C:\Users\Миша\Pictures\i.jpg";
-            string name = "explorer.exe";
-            string argument = "/separate";
-            var process = new StartProcess(name, filePath, argument);
-            await Task.Delay(1000);
+            var locationList = new Locations();
+            await locationList.GetFromSqlAsync(Settings.user);
+            var locToWork = locationList.ToWorkingList();
+            var addressList = new Addresses();
+            await addressList.GetFromSqlAsync(Settings.user);
+            var addrToWork = addressList.ToWorkingList();
+
+            foreach (var address in addrToWork)
+            {
+                address.DistrictId = locToWork.Where(l => l.Id == address.LocationId).First().DistrictId;
+            }
+            addressList.Clear();
+            Console.WriteLine(addressList);
+            Console.ReadLine();
+            addressList.ToWriteList(addrToWork);
+            Console.WriteLine(addressList);
+            await addressList.ChangeSqlAsync(Settings.user);
+
+
+
+            Console.ReadLine();
+
+
+
         }
 
     }

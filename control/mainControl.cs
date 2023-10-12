@@ -68,25 +68,23 @@ namespace Controller
                                             }
                                         }
                                     }
-                                    if (clientToChange.Name != String.Empty)
+                                    // добавить проверку заполнености клиента
+                                    levelOneFlag = true;
+                                    while (levelOneFlag)
                                     {
-                                        levelOneFlag = true;
-                                        while (levelOneFlag)
+                                        ShowString(ClientText.Summary(clientToChange));
+                                        choice = MenuToChoice(ClientText.options, invite: Text.choice, clear: false); // Меню выбора клиента
+                                        switch (choice)
                                         {
-                                            ShowString(ClientText.Summary(clientToChange));
-                                            choice = MenuToChoice(ClientText.options, invite: Text.choice, clear: false); // Меню выбора клиента
-                                            switch (choice)
-                                            {
-                                                case 0: // показ Summary по клиенту
-                                                    ShowString(ClientText.Summary(clientToChange));
-                                                    break;
-                                                case 4: //А что с договорами?
-                                                    await AgrControl.Start(clientToChange);
-                                                    break;
-                                                case 5: // Вернуться к поиску клиента
-                                                    levelOneFlag = false;
-                                                    break;
-                                            }
+                                            case 0: // показ Summary по клиенту
+                                                ShowString(ClientText.Summary(clientToChange));
+                                                break;
+                                            case 4: //А что с договорами?
+                                                await AgrControl.Start(clientToChange);
+                                                break;
+                                            case 5: // Вернуться к поиску клиента
+                                                levelOneFlag = false;
+                                                break;
                                         }
                                     }
                                     break;

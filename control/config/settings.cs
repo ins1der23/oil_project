@@ -9,15 +9,15 @@ namespace Controller
     /// </summary>
     static class Settings
     {
-        static string path = "control/config/settings.txt";
-        public static string scanPath = "D:/oilproject/scans";
+        static string configPath = "X:/oilproject/config/settings.txt";
+        public static string scanPath = "X:/oilproject/scans";
         
-        static FileWork settings = new FileWork(path);
+        static FileWork settings = new FileWork(configPath);
         public static Setter numResetter = new Setter("numResetter");
 
         public static DBConnection user
         {
-            get => DBConnection.Instance("localhost", "oilproject");
+            get => DBConnection.Instance("192.168.1.3", "oilproject");
         }
 
         public static async Task<bool> Connect()

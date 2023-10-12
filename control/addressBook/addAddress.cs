@@ -47,43 +47,16 @@ namespace Handbooks
             choice = MenuToChoice(cityList.ToStringList(), Text.choice);
             addressToAdd.City = cityList.GetFromList(choice);
             addressToAdd.CityId = addressToAdd.City.Id;
-            var districtList = new Districts(); // Районы
-            await districtList.GetFromSqlAsync(user);
-            if (!districtList.IsEmpty)
-            {
-                flag = true;
-                while (flag)
-                {
-                    searchString = InOut.GetString(Text.districtName); // Найти район
-                    await districtList.GetFromSqlAsync(Settings.user, searchString);
-                    if (districtList.IsEmpty)
-                    {
-                        choice = MenuToChoice(Text.searchAgain, Text.notFound); // Не найдено
-                        switch (choice)
-                        {
-                            case 1: // Повторить поиск
-                                break;
-                            case 2: // Выход
-                                ShowString("АДРЕС НЕ ДОБАВЛЕН");
-                                return new Address();
-                        }
-                    }
-                    else flag = false;
-                }
-                choice = MenuToChoice(districtList.ToStringList(), Text.choice);
-                addressToAdd.District = districtList.GetFromList(choice);
-                addressToAdd.DistrictId = addressToAdd.District.Id;
-            }
             var locationList = new Locations(); // Микрорайоны
             await locationList.GetFromSqlAsync(user);
-            if (!locationList.IsEmpty)
+            if (locationList.IsNotEmpty)
             {
                 flag = true;
                 while (flag)
                 {
                     searchString = InOut.GetString(Text.locationName); // Найти микрорайон
                     await locationList.GetFromSqlAsync(user, searchString);
-                    if (locationList.IsEmpty)
+                    if (!locationList.IsNotEmpty)
                     {
                         choice = MenuToChoice(Text.searchAgain, Text.notFound); // Не найдено
                         switch (choice)
@@ -100,6 +73,7 @@ namespace Handbooks
                 choice = MenuToChoice(locationList.ToStringList(), Text.choice);
                 addressToAdd.Location = locationList.GetFromList(choice);
                 addressToAdd.LocationId = addressToAdd.Location.Id;
+                addressToAdd.DistrictId = addressToAdd.Location.DistrictId;
             }
             var streetList = new Streets(); // Улицы
             flag = true;

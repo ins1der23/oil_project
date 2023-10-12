@@ -21,8 +21,8 @@ namespace Connection
         {
             this.Server = server;
             this.DatabaseName = databaseName;
-            this.UserName = "root";//SetUsername();
-            this.Password = "Hacker$arefuck1ngevil";//SetPassword();
+            this.UserName = "misha";//SetUsername();
+            this.Password = "M1shaisa$martguy";//SetPassword();
         }
 
         private static DBConnection? _instance = null;
@@ -40,10 +40,12 @@ namespace Connection
             string choice = UserName;
             switch (choice)
             {
-                case "root":
+                case "misha":
                     return 1;
+                case "diana_s":
+                    return 3;
             }
-            return 3;
+            return 2;
         }
 
         public async Task ConnectAsync()
@@ -65,7 +67,6 @@ namespace Connection
                 }
             }
         }
-
         public void Close()
         {
             if (Connection != null)
