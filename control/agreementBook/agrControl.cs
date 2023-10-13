@@ -12,9 +12,7 @@ namespace Handbooks
         public static async Task Start(Client clientToChange)
         {
             var user = Settings.user;
-            bool flag = true;
             var agreement = new Agreement();
-
             if (clientToChange.Agreements.Any()) agreement = clientToChange.Agreements.OrderBy(agr => agr.Date).Last();
             else
             {
@@ -25,6 +23,7 @@ namespace Handbooks
             }
             agreement.Client = clientToChange;
             int choice;
+            bool flag = true;
             while (flag)
             {
                 ShowString(agreement.Summary());

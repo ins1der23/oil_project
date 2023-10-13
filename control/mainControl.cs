@@ -14,6 +14,7 @@ namespace Controller
         public static async Task Start()
         {
             if (!await Settings.Connect()) return;
+            Console.WindowWidth = 150;
             ShowString(Text.connected);
             Console.ReadLine();
             await Settings.Set();
@@ -28,74 +29,8 @@ namespace Controller
                 switch (choice)
                 {
                     case 1: // Клиенты
-                        while (mainFlag)
-                        {
-                            var clientList = new Clients();
-                            var clientToChange = new Client();
-                            choice = MenuToChoice(Text.findSome, "КЛИЕНТЫ", Text.choice); // Меню поиска
-                            bool levelOneFlag = true;
-                            switch (choice)
-                            {
-                                case 1:  // Найти клиента
-                                    while (levelOneFlag)
-                                    {
-                                        clientList = await FindClients.Start();
-                                        choice = MenuToChoice(clientList.ToStringList(), "Найденные клиенты", Text.choiceOrEmpty);
-                                        if (choice != 0)
-                                        {
-                                            clientToChange = clientList.GetFromList(choice);
-                                            levelOneFlag = false;
-                                        }
-                                        else
-                                        {
-                                            choice = MenuToChoice(Text.searchAgainOrAdd, invite: Text.choice);
-                                            switch (choice)
-                                            {
-                                                case 0: // Повторить поиск
-                                                    break;
-                                                case 2: // добавить клиента
-                                                    var clientNew = await AddClient.Start();
-                                                    if (clientNew.Name != String.Empty)
-                                                    {
-                                                        clientToChange = clientNew;
-                                                        levelOneFlag = false;
-                                                    }
-
-                                                    break;
-                                                case 3: // возврат в предыдущее меню
-                                                    levelOneFlag = false;
-                                                    break;
-                                            }
-                                        }
-                                    }
-                                    // добавить проверку заполнености клиента
-                                    levelOneFlag = true;
-                                    while (levelOneFlag)
-                                    {
-                                        ShowString(ClientText.Summary(clientToChange));
-                                        choice = MenuToChoice(ClientText.options, invite: Text.choice, clear: false); // Меню выбора клиента
-                                        switch (choice)
-                                        {
-                                            case 0: // показ Summary по клиенту
-                                                ShowString(ClientText.Summary(clientToChange));
-                                                break;
-                                            case 4: //А что с договорами?
-                                                await AgrControl.Start(clientToChange);
-                                                break;
-                                            case 5: // Вернуться к поиску клиента
-                                                levelOneFlag = false;
-                                                break;
-                                        }
-                                    }
-                                    break;
-                                case 2: // Возврат в главное меню
-                                    mainFlag = false;
-                                    break;
-                            }
-                        }
+                        await ClientControl.Start();
                         break;
-
-
                     case 2: //Заявки
                         while (mainFlag)
                         {

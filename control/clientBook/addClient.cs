@@ -14,14 +14,14 @@ namespace Handbooks
             int choice;
             do
             {
-                clientToAdd.Name = InOut.GetString("Обязательно введите имя клиента");
+                clientToAdd.Name = InOut.GetString(ClientText.nameRestrict);
             } while (clientToAdd.Name == String.Empty);
-            ShowString("\nВЫБОР АДРЕСА");
+            ShowString(ClientText.addressChosing);
             bool flag = true;
             while (flag)
             {
                 Addresses addressList = await FindAddresses.Start();
-                choice = MenuToChoice(addressList.ToStringList(), "Найденные адреса", Text.choiceOrEmpty);
+                choice = MenuToChoice(addressList.ToStringList(), ClientText.addressesFound, Text.choiceOrEmpty);
                 if (choice != 0)
                 {
                     clientToAdd.AddressId = addressList.GetFromList(choice).Id;
@@ -29,7 +29,7 @@ namespace Handbooks
                 }
                 else
                 {
-                    choice = MenuToChoice(Text.searchAgainOrAdd, "АДРЕС НЕ ВЫБРАН");
+                    choice = MenuToChoice(Text.searchAgainOrAdd, ClientText.addressNotChoosen);
                     switch (choice)
                     {
                         case 1: // Повторить поиск
@@ -44,25 +44,25 @@ namespace Handbooks
                             }
                             break;
                         case 3: // Возврат в предыдущее меню
-                            ShowString("КЛИЕНТ НЕ ДОБАВЛЕН");
+                            ShowString(ClientText.clientNotAdded);
                             return new Client();
                     }
                 }
                 flag = false;
             }
-            clientToAdd.Phone = GetDouble("Введите телефон");
+            clientToAdd.Phone = GetDouble(ClientText.inputPhone);
             clientToAdd.OwnerId = user.UserId;
-            clientToAdd.Comment = GetString("Введите комментарий");
+            clientToAdd.Comment = GetString(ClientText.inputComment);
             ShowString(ClientText.Summary(clientToAdd));
-            choice = MenuToChoice(Text.yesOrNo, "Сохранить клиента?", Text.choice);
+            choice = MenuToChoice(Text.yesOrNo, ClientText.saveClient, Text.choice);
             if (choice == 1)
             {
                 var clientList = new Clients();
                 clientToAdd = await clientList.SaveGetId(user, clientToAdd);
-                ShowString("КЛИЕНТ УСПЕШНО ДОБАВЛЕН");
+                ShowString(ClientText.clientAdded);
                 return clientToAdd;
             }
-            ShowString("КЛИЕНТ НЕ ДОБАВЛЕН");
+            ShowString(ClientText.clientNotAdded);
             return new Client();
         }
     }

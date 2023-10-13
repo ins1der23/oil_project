@@ -25,7 +25,7 @@ namespace Models
         {
             string output = String.Empty;
             for (int i = 0; i < this.Choices.Count; i++)
-                output += $"{i + 1,-4}{this.Choices[i]}\n";
+                output += $"  {i + 1,-5}{this.Choices[i]}\n";
             return $"{this.Name}\n{output}";
         }
     }

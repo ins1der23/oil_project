@@ -21,8 +21,6 @@ namespace Models
         public Client GetFromList(int index = 1) => ClientList[index - 1];
         public void Clear() => ClientList.Clear();
         public void Append(Client client) => ClientList.Add(client);
-
-
         public List<Client> ToWorkingList() => ClientList.Select(c => c).ToList();
         public void ToWriteList(List<Client> toAddList)
         {

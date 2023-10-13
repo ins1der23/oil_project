@@ -17,30 +17,7 @@ namespace Testing
     {
         public static async Task Start()
         {
-            var locationList = new Locations();
-            await locationList.GetFromSqlAsync(Settings.user);
-            var locToWork = locationList.ToWorkingList();
-            var addressList = new Addresses();
-            await addressList.GetFromSqlAsync(Settings.user);
-            var addrToWork = addressList.ToWorkingList();
-
-            foreach (var address in addrToWork)
-            {
-                address.DistrictId = locToWork.Where(l => l.Id == address.LocationId).First().DistrictId;
-            }
-            addressList.Clear();
-            Console.WriteLine(addressList);
-            Console.ReadLine();
-            addressList.ToWriteList(addrToWork);
-            Console.WriteLine(addressList);
-            await addressList.ChangeSqlAsync(Settings.user);
-
-
-
-            Console.ReadLine();
-
-
-
+            await ClientControl.Start();
         }
 
     }

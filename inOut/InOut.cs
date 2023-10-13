@@ -8,7 +8,17 @@ using MenusAndChoices;
 public static class InOut
 {
     public static void ShowMenu(this Menu menu) => Console.WriteLine(menu);
-    public static void ShowString(string text) => Console.WriteLine(text);
+    /// <summary>
+    /// Вывести строку в консоль
+    /// </summary>
+    /// <param name="text"> Текст для вывода</param>
+    /// <param name="clear"> Очистить консоль </param>
+    public static void ShowString(string text, bool clear = false)
+    {
+        if (clear) Console.Clear();
+        Console.WriteLine(text);
+    }
+
 
     public static void ShowStringList(this List<string> someList)
     {

@@ -5,14 +5,21 @@ namespace MenusAndChoices
 {
     public static class ClientText
     {
+        // ClientControl
+
+        public static string menuName = "КЛИЕНТЫ";
+        public static List<string> findClient = new List<string>() {
+                                "Поиск клиента",
+                                "Возврат в главное меню"};
+
+        public static string clientFound = "Найденные клиенты";
         public static List<string> options = new List<string>() {
                                 "Добавить заявку",
                                 "Показать все заявки",
                                 "Изменить данные клиента",
-                                "А что с договорами?",
+                                "Создать новый договор или посмотреть существующий",
+                                "Удалить клиента",
                                 "Вернуться к поиску клиента"};
-
-        public static string clientName = "Введите название клиента";
 
         public static string Summary(Client client)
         {
@@ -27,5 +34,22 @@ namespace MenusAndChoices
         Ответственный сотрудник:  {client.Owner.FullName}
         ";
         }
+
+        // AddClient
+        public static string nameRestrict = "Обязательно введите название клиента";
+        public static string addressChosing = "\nВЫБОР АДРЕСА";
+        public static string addressesFound = "Найденные адреса";
+        public static string addressNotChoosen = "АДРЕС НЕ ВЫБРАН";
+        public static string clientNotAdded = "КЛИЕНТ НЕ ДОБАВЛЕН";
+        public static string inputPhone = "Введите телефон";
+        public static string inputComment = "Введите комментарий";
+        public static string saveClient = "Сохранить клиента?";
+        public static string clientAdded = "КЛИЕНТ УСПЕШНО ДОБАВЛЕН";
+
+        // DelClient
+        public static string delClient = "ТОЧНО УДАЛИТЬ ЭТОГО КЛИЕНТА???";
+        public static string clientDeleted = "КЛИЕНТ УСПЕШНО УДАЛЕН";
+
+
     }
 }
