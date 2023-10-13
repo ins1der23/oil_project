@@ -52,6 +52,18 @@ namespace Models
             Owner = new Worker();
             ToDelete = false;
         }
+        public void Change(string name, Address address, double phone, string comment)
+        {
+            if (name != String.Empty) Name = name;
+            if (address.Id != 0)
+            {
+                Address = address;
+                AddressId = address.Id;
+            }
+            if (phone != 0) Phone = phone;
+            if (comment != String.Empty) Comment = comment;
+        }
+
         public override string ToString()
         {
             return $"{FullName}{Phone,-10}";

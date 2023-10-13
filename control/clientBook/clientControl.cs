@@ -63,11 +63,15 @@ namespace Handbooks
                                     case 0: // показ Summary по клиенту
                                         ShowString(ClientText.Summary(clientToChange));
                                         break;
-                                    case 4: //А что с договорами?
+                                    case 3: // Изменить данные клиента
+                                        await ChangeClient.Start(clientToChange);
+                                        break;
+                                    case 4: //Создать новый договор или посмотреть существующий
                                         await AgrControl.Start(clientToChange);
                                         break;
                                     case 5: //Удалить клиента
                                         bool delCheck = await DelClient.Start(clientToChange);
+                                        clientToChange = new Client();
                                         if (delCheck) levelOneFlag = false;
                                         break;
                                     case 6: // Вернуться к поиску клиента
@@ -81,9 +85,7 @@ namespace Handbooks
                         return;
                 }
             }
-
         }
-
     }
 }
 

@@ -11,7 +11,7 @@ namespace Controller
     {
         static string configPath = "X:/oilproject/config/settings.txt";
         public static string scanPath = "X:/oilproject/scans";
-        
+
         static FileWork settings = new FileWork(configPath);
         public static Setter numResetter = new Setter("numResetter");
 
@@ -33,13 +33,14 @@ namespace Controller
             user.Close();
             return status;
         }
-        public static async Task Set()
+        public static async Task<bool> Set()
         {
-            await settings.Read();
-            if (settings.IsNotEmpty)
-                numResetter.Status = settings.Lines.Where(l => l.ToLower().Contains("numresetter"))
-                                                    .First().ToLower().Contains("true");
+            bool checkFile = await settings.Read();
+            if (!checkFile) return false;
+            numResetter.Status = settings.Lines.Where(l => l.ToLower().Contains("numresetter"))
+                                                .First().ToLower().Contains("true");
             numResetter.ResetByDate();
+            return true;
         }
         public static async Task Save()
         {

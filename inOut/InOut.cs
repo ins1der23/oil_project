@@ -38,7 +38,7 @@ public static class InOut
     {
         if (clear) Console.Clear();
         var menu = new Menu(menuChoices, menuName);
-        menu.ShowMenu();
+        Console.WriteLine(menu);
         if (menuChoices.Count() == 0) ShowString(Text.notFound);
         return menu.MenuChoice(invite);
     }
@@ -56,6 +56,7 @@ public static class InOut
 
     public static double GetDouble(string text)
     {
+        Console.Clear();
         double num = 0;
         bool flag = true;
         do
@@ -67,6 +68,7 @@ public static class InOut
     }
     public static DateTime GetDate(string text)
     {
+        Console.Clear();
         DateTime date = new DateTime();
         bool flag = true;
         do

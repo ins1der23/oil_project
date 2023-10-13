@@ -35,9 +35,14 @@ namespace MenusAndChoices
         ";
         }
 
+        public static List<string> searchAgainOrAdd = new List<string>() {
+                                "Повторить поиск",
+                                "Добавить адрес",
+                                "Возврат в предыдущее меню"};
+
         // AddClient
         public static string nameRestrict = "Обязательно введите название клиента";
-        public static string addressChosing = "\nВЫБОР АДРЕСА";
+        public static string addressChoosing = "\nВЫБОР АДРЕСА";
         public static string addressesFound = "Найденные адреса";
         public static string addressNotChoosen = "АДРЕС НЕ ВЫБРАН";
         public static string clientNotAdded = "КЛИЕНТ НЕ ДОБАВЛЕН";
@@ -45,6 +50,18 @@ namespace MenusAndChoices
         public static string inputComment = "Введите комментарий";
         public static string saveClient = "Сохранить клиента?";
         public static string clientAdded = "КЛИЕНТ УСПЕШНО ДОБАВЛЕН";
+
+        // ChangeClient
+
+        public static string changeName = "Введите новое название клиента или оставьте поле пустым, если не хотите менять";
+        public static string changeAddress = "Изменить адрес?";
+        public static string addressChoosen = "АДРЕС ВЫБРАН";
+        public static string addressNotChanged = "АДРЕС НЕ ИЗМЕНЕН";
+        public static string changePhone = "Введите новый телефон или оставьте поле пустым, если не хотите менять";
+        public static string changeComment = "Введите новый комментарий или оставьте поле пустым, если не хотите менять";
+        public static string confirmChanges = "Применить изменения?";
+        public static string clientChanged = "КЛИЕНТ ИЗМЕНЕН";
+        public static string clientNotChanged = "КЛИЕНТ НЕ ИЗМЕНЕН";
 
         // DelClient
         public static string delClient = "ТОЧНО УДАЛИТЬ ЭТОГО КЛИЕНТА???";

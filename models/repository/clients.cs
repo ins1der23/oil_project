@@ -101,7 +101,7 @@ namespace Models
             if (user.IsConnect)
             {
                 string selectQuery = $@"insert clients
-                    (name, addressId, phone, agreement, comment, ownerId, toDelete)
+                    (name, addressId, phone, comment, ownerId, toDelete)
                     values (
                     @{nameof(Client.Name)},
                     @{nameof(Client.AddressId)},
@@ -149,6 +149,17 @@ namespace Models
             Clear();
             Append(client);
             await AddSqlAsync(user);
+            await GetFromSqlAsync(user, client.FullName);
+            client = GetFromList();
+            return client;
+        }
+
+        public async Task<Client> SaveChanges(DBConnection user, Client client) // сохранение измениий и возврат измененного клиента
+        {
+            if (client.Id == 0) return client;
+            Clear();
+            Append(client);
+            await ChangeSqlAsync(user);
             await GetFromSqlAsync(user, client.FullName);
             client = GetFromList();
             return client;

@@ -30,10 +30,5 @@ namespace MenusAndChoices
         Скан договора             {scanCheck}
         ";
         }
-
-
-
-
-
     }
 }

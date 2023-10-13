@@ -13,11 +13,23 @@ namespace Controller
     {
         public static async Task Start()
         {
-            if (!await Settings.Connect()) return;
             Console.WindowWidth = 150;
-            ShowString(Text.connected);
-            Console.ReadLine();
-            await Settings.Set();
+            bool check = await Settings.Connect();
+            if (!check)
+            {
+                ShowString(SettingsText.noConnection, true);
+                await Task.Delay(1000);
+                return;
+            }
+            ShowString(SettingsText.connected, true);
+            await Task.Delay(1000);
+            check = await Settings.Set();
+            if (!check)
+            {
+                ShowString(SettingsText.noPath);
+                await Task.Delay(1000);
+                return;
+            }
             var user = Settings.user;
             Workers workersList = new Workers();
             Positions positionsList = new Positions();
@@ -140,7 +152,6 @@ namespace Controller
                         return;
                 }
             }
-
         }
     }
 }

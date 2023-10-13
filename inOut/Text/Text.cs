@@ -25,7 +25,7 @@ namespace MenusAndChoices
 
         // Common
 
-        public static string connected = "Connected!";
+        
 
         public static string inputError = "Неверный ввод";
         public static string choice = "Выберете вариант";
@@ -75,8 +75,7 @@ namespace MenusAndChoices
                                 "Да",
                                 "Нет",
                                 "Выход"};
-        // Clients
-
+        
         // Adresses
         public static string addressHead = "Добавьте адрес";
         public static string addAddress = "Добавить новый адрес?";

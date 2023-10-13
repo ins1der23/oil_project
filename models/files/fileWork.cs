@@ -1,40 +1,50 @@
+using static InOut;
 using System.IO;
+
 namespace Models
 {
     class FileWork
     {
         public string Path { get; set; }
+        private FileInfo FileInfo { get; set; }
         public List<string> Lines { get; set; }
-        public bool IsNotEmpty
-        {
-            get => Lines.Any() ? true : false;
-        }
+
         public FileWork(string path)
         {
+            FileInfo = new FileInfo(path);
             Path = path;
             Lines = new List<string>();
         }
         public void Clear() => Lines.Clear();
         public void Append(string toAdd) => Lines.Add(toAdd);
-        public async Task Read()
+        public async Task<bool> Read()
         {
-            StreamReader reader = new StreamReader(Path);
-            string? line;
-            while ((line = await reader.ReadLineAsync()) != null)
+            if (FileInfo.Exists)
             {
-                Lines.Add(line);
+                StreamReader reader = new StreamReader(Path);
+                string? line;
+                while ((line = await reader.ReadLineAsync()) != null)
+                {
+                    Lines.Add(line);
+                }
+                reader.Close();
+                return true;
             }
-            reader.Close();
-
+            return false;
         }
-        public async Task Write()
+        public async Task<bool> Write()
         {
-            StreamWriter writer = new StreamWriter(Path, false);
-            foreach (var item in Lines)
+            if (FileInfo.Exists)
             {
-                await writer.WriteLineAsync(item);
+                StreamWriter writer = new StreamWriter(Path, false);
+                foreach (var item in Lines)
+                {
+                    await writer.WriteLineAsync(item);
+                }
+                writer.Close();
+                return true;
             }
-            writer.Close();
+            return false;
         }
     }
 }

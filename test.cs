@@ -17,7 +17,8 @@ namespace Testing
     {
         public static async Task Start()
         {
-            await ClientControl.Start();
+            Client client = new();
+            await ChangeClient.Start(client);
         }
 
     }
