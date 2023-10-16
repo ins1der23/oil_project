@@ -8,7 +8,6 @@ namespace Models
 {
     public class Location
     {
-        static int nextId;
         public int Id { get; set; }
         public string Name { get; set; }
         public int CityId { get; set; }
@@ -17,7 +16,6 @@ namespace Models
         public virtual District District { get; set; }
         public Location()
         {
-            Id = Interlocked.Increment(ref nextId);
             Name = String.Empty;
             City = new();
             District = new();
@@ -29,9 +27,9 @@ namespace Models
     public class Locations : IEnumerable
     {
         List<Location> LocationsList { get; set; }
-        public bool IsNotEmpty
+        public bool IsEmpty
         {
-            get => (LocationsList.Any());
+            get => (!LocationsList.Any());
         }
 
         public Locations()

@@ -34,13 +34,15 @@ public static class InOut
     /// <param name="invite">Строка ввода выбора</param>
     /// <param name="clear">Переключатель очистки экрана</param>
     /// <returns></returns>
-    public static int MenuToChoice(List<string> menuChoices, string menuName = "", string invite = "", bool clear = true)
+    public static int MenuToChoice(List<string> menuChoices, string menuName = "", string invite = "", bool clear = true, bool noNull = false)
     {
         if (clear) Console.Clear();
         var menu = new Menu(menuChoices, menuName);
         Console.WriteLine(menu);
         if (menuChoices.Count() == 0) ShowString(Text.notFound);
-        return menu.MenuChoice(invite);
+        if (noNull) return menu.MenuChoice(invite, true);
+        else return menu.MenuChoice(invite);
+
     }
     public static int GetInteger(string text)
     {

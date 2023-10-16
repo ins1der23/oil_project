@@ -20,61 +20,62 @@ namespace Handbooks
             int choice;
             while (flag)
             {
-                searchString = InOut.GetString(Text.cityName); // Найти город
+                searchString = InOut.GetString(AddrText.cityName); // Найти город
                 await cityList.GetFromSqlAsync(user, searchString);
                 if (cityList.IsEmpty)
                 {
-                    choice = MenuToChoice(Text.searchAgainOrAdd, Text.notFound); // Не найдено
+                    choice = MenuToChoice(Text.searchAgainOrAdd, Text.notFound, Text.choice); // Не найдено
                     switch (choice)
                     {
                         case 1: // Повторить поиск
                             break;
                         case 2: // Добавить
-                            var streetToAdd = new City();
-                            streetToAdd.Name = GetString(Text.inputName);
+                            var cityToAdd = new City();
+                            cityToAdd.Name = GetString(Text.inputName);
                             cityList.Clear();
-                            cityList.Append(streetToAdd);
+                            cityList.Append(cityToAdd);
                             await cityList.AddSqlAsync(user);
-                            ShowString(Text.added);
+                            ShowString(AddrText.cityAdded);
+                            await Task.Delay(1000);
                             break;
                         case 3: // Выход
-                            ShowString("АДРЕС НЕ ДОБАВЛЕН");
+                            ShowString(AddrText.addressNotAdded);
+                            await Task.Delay(1000);
                             return new Address();
                     }
                 }
                 else flag = false;
             }
-            choice = MenuToChoice(cityList.ToStringList(), Text.choice);
+            choice = MenuToChoice(cityList.ToStringList(), AddrText.cities, Text.choice, noNull: true);
             addressToAdd.City = cityList.GetFromList(choice);
             addressToAdd.CityId = addressToAdd.City.Id;
+
             var locationList = new Locations(); // Микрорайоны
-            await locationList.GetFromSqlAsync(user);
-            if (locationList.IsNotEmpty)
+            flag = true;
+            while (flag)
             {
-                flag = true;
-                while (flag)
+                searchString = InOut.GetString(Text.locationName); // Найти микрорайон
+                await locationList.GetFromSqlAsync(user, searchString);
+                if (locationList.IsEmpty)
                 {
-                    searchString = InOut.GetString(Text.locationName); // Найти микрорайон
-                    await locationList.GetFromSqlAsync(user, searchString);
-                    if (!locationList.IsNotEmpty)
+                    choice = MenuToChoice(Text.searchAgain, Text.notFound, Text.choice); // Не найдено
+                    switch (choice)
                     {
-                        choice = MenuToChoice(Text.searchAgain, Text.notFound); // Не найдено
-                        switch (choice)
-                        {
-                            case 1: // Повторить поиск
-                                break;
-                            case 2: // Выход
-                                ShowString("АДРЕС НЕ ДОБАВЛЕН");
-                                return new Address();
-                        }
+                        case 1: // Повторить поиск
+                            break;
+                        case 2: // Выход
+                            ShowString(AddrText.addressNotAdded);
+                            await Task.Delay(1000);
+                            return new Address();
                     }
-                    else flag = false;
                 }
-                choice = MenuToChoice(locationList.ToStringList(), Text.choice);
-                addressToAdd.Location = locationList.GetFromList(choice);
-                addressToAdd.LocationId = addressToAdd.Location.Id;
-                addressToAdd.DistrictId = addressToAdd.Location.DistrictId;
+                else flag = false;
             }
+            choice = MenuToChoice(locationList.ToStringList(), AddrText.locations, Text.choice, noNull: true);
+            addressToAdd.Location = locationList.GetFromList(choice);
+            addressToAdd.LocationId = addressToAdd.Location.Id;
+            addressToAdd.DistrictId = addressToAdd.Location.DistrictId;
+
             var streetList = new Streets(); // Улицы
             flag = true;
             while (flag)
@@ -97,19 +98,21 @@ namespace Handbooks
                             ShowString(Text.added);
                             break;
                         case 3: // Выход
-                            ShowString("АДРЕС НЕ ДОБАВЛЕН");
+                            ShowString(AddrText.addressNotAdded);
+                            await Task.Delay(1000);
                             return new Address();
                     }
                 }
                 else flag = false;
             }
-            choice = MenuToChoice(streetList.ToStringList(), Text.choice);
+            choice = MenuToChoice(streetList.ToStringList(), AddrText.streets, Text.choice, noNull: true);
             addressToAdd.Street = streetList.GetFromList(choice);
             addressToAdd.StreetId = addressToAdd.Street.Id;
             addressToAdd.HouseNum = GetString(Text.houseNum);
             var addressList = new Addresses();
             addressToAdd = await addressList.SaveGetId(user, addressToAdd);
-            ShowString("АДРЕС УПЕШНО ДОБАВЛЕН");
+            ShowString(AddrText.addressAdded);
+            await Task.Delay(1000);
             return addressToAdd;
         }
     }

@@ -7,8 +7,7 @@ namespace Models
 {
     public class City
     {
-        static int nextId;
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public string? Name { get; set; }
         public virtual Districts Districts { get; private set; }
         public virtual Locations Locations { get; private set; }
@@ -16,13 +15,12 @@ namespace Models
 
         public City()
         {
-            Id = Interlocked.Increment(ref nextId);
             Districts = new();
             Locations = new();
             Streets = new();
         }
 
-        public override string ToString() => $"ID:{Id}, {Name}";
+        public override string ToString() => $"{Name}";
 
     }
     public class Cities

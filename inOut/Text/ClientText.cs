@@ -21,6 +21,10 @@ namespace MenusAndChoices
                                 "Удалить клиента",
                                 "Вернуться к поиску клиента"};
 
+        public static List<string> searchAgainOrAddClient = new List<string>() {
+                                "Повторить поиск клиента",
+                                "Добавить клиента",
+                                "Возврат в предыдущее меню"};
         public static string Summary(Client client)
         {
             Console.Clear();
@@ -35,15 +39,9 @@ namespace MenusAndChoices
         ";
         }
 
-        public static List<string> searchAgainOrAdd = new List<string>() {
-                                "Повторить поиск",
-                                "Добавить адрес",
-                                "Возврат в предыдущее меню"};
-
         // AddClient
-        public static string nameRestrict = "Обязательно введите название клиента";
+        public static string nameRestrict = "ОБЯЗАТЕЛЬНО введите название клиента";
         public static string addressChoosing = "\nВЫБОР АДРЕСА";
-        public static string addressesFound = "Найденные адреса";
         public static string addressNotChoosen = "АДРЕС НЕ ВЫБРАН";
         public static string clientNotAdded = "КЛИЕНТ НЕ ДОБАВЛЕН";
         public static string inputPhone = "Введите телефон";

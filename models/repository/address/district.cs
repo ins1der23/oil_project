@@ -8,19 +8,17 @@ namespace Models
 {
     public class District
     {
-        static int nextId;
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public string? Name { get; set; }
         public int CityId { get; private set; }
         public virtual City City { get; set; }
 
         public District()
         {
-            Id = Interlocked.Increment(ref nextId);
             City = new();
         }
 
-        public override string ToString() => $"ID:{Id}, {Name}, {City.Name}";
+        public override string ToString() => $"{Name}, {City.Name}";
     }
 
     public class Districts : IEnumerable

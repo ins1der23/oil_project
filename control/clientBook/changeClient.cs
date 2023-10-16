@@ -23,18 +23,16 @@ namespace Handbooks
                     bool flag = true;
                     while (flag)
                     {
-                        Addresses addressList = await FindAddresses.Start();
-                        choice = MenuToChoice(addressList.ToStringList(), ClientText.addressesFound, Text.choiceOrEmpty);
-                        if (choice != 0)
+                        address = await FindAddress.Start();
+                        if (address.Id != 0)
                         {
-                            address = addressList.GetFromList(choice);
                             ShowString(ClientText.addressChoosen);
                             await Task.Delay(1000);
                             flag = false;
                         }
                         else
                         {
-                            choice = MenuToChoice(ClientText.searchAgainOrAdd, ClientText.addressNotChoosen, Text.choice); // Повторить поиск или добавить адрес
+                            choice = MenuToChoice(AddrText.searchAgainOrAddAddress, ClientText.addressNotChoosen, Text.choice); // Повторить поиск или добавить адрес
                             switch (choice)
                             {
                                 case 1: // Повторить поиск

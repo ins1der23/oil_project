@@ -32,18 +32,15 @@ namespace Handbooks
                             }
                             else
                             {
-                                choice = MenuToChoice(Text.searchAgainOrAdd, invite: Text.choice);
+                                choice = MenuToChoice(ClientText.searchAgainOrAddClient, invite: Text.choice);
                                 switch (choice)
                                 {
                                     case 0: // Повторить поиск
                                         break;
                                     case 2: // добавить клиента
                                         var clientNew = await AddClient.Start();
-                                        if (clientNew.Name != String.Empty)
-                                        {
-                                            clientToChange = clientNew;
-                                            levelOneFlag = false;
-                                        }
+                                        if (clientNew.Name != String.Empty) clientToChange = clientNew;
+                                        levelOneFlag = false;
                                         break;
                                     case 3: // возврат в предыдущее меню
                                         levelOneFlag = false;

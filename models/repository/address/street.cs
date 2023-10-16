@@ -9,18 +9,16 @@ namespace Models
 {
     public class Street
     {
-        static int nextId;
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public string? Name { get; set; }
         public int CityId { get; set; }
         public virtual City City { get; set; }
 
         public Street()
         {
-            Id = Interlocked.Increment(ref nextId);
             City = new();
         }
-        public override string ToString() => $"{City.Name}, ID:{Id}, {Name}";
+        public override string ToString() => $"{City.Name}, {Name}";
     }
 
     public class Streets : IEnumerable

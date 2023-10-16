@@ -20,22 +20,24 @@ namespace Handbooks
             bool flag = true;
             while (flag)
             {
-                Addresses addressList = await FindAddresses.Start();
-                choice = MenuToChoice(addressList.ToStringList(), ClientText.addressesFound, Text.choiceOrEmpty);
-                if (choice != 0)
+                Address address = await FindAddress.Start();
+                if (address.Id != 0)
                 {
-                    clientToAdd.AddressId = addressList.GetFromList(choice).Id;
-                    clientToAdd.Address = addressList.GetFromList(choice);
+                    clientToAdd.AddressId = address.Id;
+                    clientToAdd.Address = address;
+                    ShowString(ClientText.addressChoosen);
+                    await Task.Delay(1000);
+                    flag = false;
                 }
                 else
                 {
-                    choice = MenuToChoice(ClientText.searchAgainOrAdd, ClientText.addressNotChoosen);
+                    choice = MenuToChoice(AddrText.searchAgainOrAddAddress, ClientText.addressNotChoosen, Text.choice);
                     switch (choice)
                     {
                         case 1: // Повторить поиск
                             break;
-                        case 2: // Добавить
-                            Address address = await AddAddress.Start();
+                        case 2: // Добавить адрес
+                            address = await AddAddress.Start();
                             if (address.Id != 0)
                             {
                                 clientToAdd.AddressId = address.Id;
@@ -45,24 +47,26 @@ namespace Handbooks
                             break;
                         case 3: // Возврат в предыдущее меню
                             ShowString(ClientText.clientNotAdded);
+                            await Task.Delay(1000);
                             return new Client();
                     }
                 }
-                flag = false;
             }
             clientToAdd.Phone = GetDouble(ClientText.inputPhone);
             clientToAdd.OwnerId = user.UserId;
             clientToAdd.Comment = GetString(ClientText.inputComment);
             ShowString(ClientText.Summary(clientToAdd));
-            choice = MenuToChoice(Text.yesOrNo, ClientText.saveClient, Text.choice);
+            choice = MenuToChoice(Text.yesOrNo, ClientText.saveClient, Text.choice, clear: false, noNull: true);
             if (choice == 1)
             {
                 var clientList = new Clients();
                 clientToAdd = await clientList.SaveGetId(user, clientToAdd);
                 ShowString(ClientText.clientAdded);
+                await Task.Delay(1000);
                 return clientToAdd;
             }
             ShowString(ClientText.clientNotAdded);
+            await Task.Delay(1000);
             return new Client();
         }
     }

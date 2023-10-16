@@ -79,8 +79,7 @@ namespace MenusAndChoices
         // Adresses
         public static string addressHead = "Добавьте адрес";
         public static string addAddress = "Добавить новый адрес?";
-        public static string cityName =
-        "Введите название города или оставьте поле пустым для показа всех";
+        
         public static string districtName =
         "Введите название района или оставьте поле пустым для показа всех";
         public static string locationName =

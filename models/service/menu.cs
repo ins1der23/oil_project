@@ -13,12 +13,17 @@ namespace Models
             Name = name;
             Choices = choices;
         }
-        public int MenuChoice(string menuChoice)
+        public int MenuChoice(string menuChoice, bool noNull = false)
         {
             while (true)
             {
                 int choice = GetInteger(menuChoice);
-                if (choice >= 0 && choice <= Choices.Count) return choice;
+                if (noNull)
+                {
+                    if (choice > 0 && choice <= Choices.Count) return choice;
+                }
+                else
+                    if (choice >= 0 && choice <= Choices.Count) return choice;
             }
         }
         public override string ToString()
