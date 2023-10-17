@@ -20,20 +20,27 @@ namespace Models
         public string? HouseNum { get; set; }
         public string FullAddress
         {
-            get => $"{City.Name,-15}{Location.Name,-17}{Street.Name,-28}{HouseNum,-10}";
+            get 
+            {
+                if (CityId == 1) return $"{City.Name,-15}{Location.Name,-17}{Street.Name,-28}{HouseNum,-12}";
+                else return $"{City.Name,-15}{Street.Name,-28}{HouseNum,-12}";
+            }
+            
         }
         public string ShortAddress
         {
-            get 
+            get
             {
-                if(CityId == 1) return $"{Street.Name}, {HouseNum}";
+                if (CityId == 1) return $"{Street.Name}, {HouseNum}";
                 else return $"{City.Name}, {Street.Name}, {HouseNum}";
-            } 
+            }
         }
         public Address()
         {
             City = new();
+            DistrictId = 8;
             District = new();
+            LocationId = 41;
             Location = new();
             Street = new();
         }

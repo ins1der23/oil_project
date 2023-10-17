@@ -15,6 +15,7 @@ namespace Controller
         {
             Console.WindowWidth = 150;
             bool check = await Settings.Connect();
+            await Task.Delay(2000);
             if (!check)
             {
                 ShowString(SettingsText.noConnection, true);

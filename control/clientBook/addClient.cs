@@ -31,25 +31,32 @@ namespace Handbooks
                 }
                 else
                 {
-                    choice = MenuToChoice(AddrText.searchAgainOrAddAddress, ClientText.addressNotChoosen, Text.choice);
-                    switch (choice)
+                    bool levOneFlag = true;
+                    while (levOneFlag)
                     {
-                        case 1: // Повторить поиск
-                            break;
-                        case 2: // Добавить адрес
-                            address = await AddAddress.Start();
-                            if (address.Id != 0)
-                            {
-                                clientToAdd.AddressId = address.Id;
-                                clientToAdd.Address = address;
-                                flag = false;
-                            }
-                            break;
-                        case 3: // Возврат в предыдущее меню
-                            ShowString(ClientText.clientNotAdded);
-                            await Task.Delay(1000);
-                            return new Client();
+                        choice = MenuToChoice(AddrText.searchAgainOrAddAddress, ClientText.addressNotChoosen, Text.choice);
+                        switch (choice)
+                        {
+                            case 1: // Повторить поиск
+                                levOneFlag = false;
+                                break;
+                            case 2: // Добавить адрес
+                                address = await AddAddress.Start();
+                                if (address.Id != 0)
+                                {
+                                    clientToAdd.AddressId = address.Id;
+                                    clientToAdd.Address = address;
+                                    levOneFlag = false;
+                                    flag = false;
+                                }
+                                break;
+                            case 3: // Возврат в предыдущее меню
+                                ShowString(ClientText.clientNotAdded);
+                                await Task.Delay(1000);
+                                return new Client();
+                        }
                     }
+
                 }
             }
             clientToAdd.Phone = GetDouble(ClientText.inputPhone);

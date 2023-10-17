@@ -10,13 +10,14 @@ namespace Models
     public class Street
     {
         public int Id { get; set; }
-        public string? Name { get; set; }
+        public string Name { get; set; }
         public int CityId { get; set; }
         public virtual City City { get; set; }
 
         public Street()
         {
             City = new();
+            Name = String.Empty;
         }
         public override string ToString() => $"{City.Name}, {Name}";
     }
@@ -38,7 +39,7 @@ namespace Models
         public IEnumerator GetEnumerator() => StreetsList.GetEnumerator();
         public void Clear() => StreetsList.Clear();
         public void Append(Street street) => StreetsList.Add(street);
-        public Street GetFromList(int index) => StreetsList[index - 1];
+        public Street GetFromList(int index = 1) => StreetsList[index - 1];
         public Street GetByName(string name) => StreetsList.Where(s => s.Name == name).First();
         public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 1)
         {
@@ -85,6 +86,17 @@ namespace Models
                 await user.Connection.ExecuteAsync(selectQuery, StreetsList);
                 user.Close();
             }
+        }
+
+        public async Task<Street> SaveGetId(DBConnection user, Street street) // получение Id из SQL для новой улицы 
+        {
+            if (street.Name == String.Empty) return street;
+            Clear();
+            Append(street);
+            await AddSqlAsync(user);
+            await GetFromSqlAsync(user, street.Name, street.CityId);
+            street = GetFromList();
+            return street;
         }
         public List<string> ToStringList()
         {

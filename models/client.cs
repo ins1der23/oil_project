@@ -80,25 +80,6 @@ namespace Models
 
 
 
-// public static void ChangeFields(Client client, string address, string phone, string name, string contact)
-// {
-//     if (address != String.Empty)
-//         client.address = address;
-//     if (phone != String.Empty)
-//         client.phone = phone;
-//     if (name != String.Empty)
-//         client.name = name;
-//     if (contact != String.Empty)
-//         client.contact = contact;
-// }
-// public static void AddAgreement(Client client, string path) => client.agreement = path;
-// public static void ChangeAgreement(Client client, string path)
-// {
-//     if (path != String.Empty) client.agreement = path;
-// }
-// public static void DelAgreement(Client client) => client.agreement = String.Empty;
-// public static void SetPassportId(Client client, int passportId) => client.passportId = passportId;
-
 
 
 

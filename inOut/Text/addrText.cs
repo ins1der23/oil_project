@@ -18,7 +18,12 @@ namespace MenusAndChoices
         public static string cities = "ГОРОДА";
         public static string locations = "МИКРОРАЙОНЫ";
         public static string streets = "УЛИЦЫ";
-
+        public static List<string> searchAgainOrAddStreet = new List<string>() {
+                                "Повторить поиск улицы",
+                                "Добавить улицу",
+                                "Возврат в предыдущее меню"};
+        public static string streetAdded = "УЛИЦА ДОБАВЛЕНА";
+        public static string streetChoosen = "УЛИЦА ВЫБРАНА";
         public static string addressAdded = "АДРЕС УПЕШНО ДОБАВЛЕН";
 
 
