@@ -12,7 +12,11 @@ namespace MenusAndChoices
         // AddAddress
         public static string addressSearch = "Введите текст для поиска и добавления АДРЕСА или оставьте поле пустым для показа всех";
         public static string cityName = "Введите название города или оставьте поле пустым для показа всех";
-
+        public static List<string> searchAgainOrAddCity = new List<string>() {
+                                "Повторить поиск города",
+                                "Добавить город",
+                                "Возврат в предыдущее меню"};
+        public static string cityChoosen = "ГОРОД ВЫБРАН";
         public static string cityAdded = "ГОРОД ДОБАВЛЕН";
         public static string addressNotAdded = "АДРЕС НЕ ДОБАВЛЕН";
         public static string cities = "ГОРОДА";

@@ -21,20 +21,31 @@ namespace Handbooks
             {
                 searchString = InOut.GetString(AddrText.cityName); // Найти город
                 await cityList.GetFromSqlAsync(user, searchString);
-                if (cityList.IsEmpty)
+                choice = MenuToChoice(cityList.ToStringList(), AddrText.cities, Text.choiceOrEmpty);
+                if (choice != 0)
                 {
-                    choice = MenuToChoice(Text.searchAgainOrAdd, Text.notFound, Text.choice); // Не найдено
+                    addressToAdd.City = cityList.GetFromList(choice);
+                    addressToAdd.CityId = addressToAdd.City.Id;
+                    ShowString(AddrText.cityChoosen);
+                    await Task.Delay(1000);
+                    flag = false;
+                }
+                else
+                {
+                    choice = MenuToChoice(AddrText.searchAgainOrAddCity, AddrText.cities, Text.choice, noNull: true); // Не найдено
                     switch (choice)
                     {
-                        case 1: // Повторить поиск
+                        case 1: // Повторить поиск города
                             break;
-                        case 2: // Добавить
+                        case 2: // Добавить город
                             var cityToAdd = new City();
                             cityToAdd.Name = GetString(Text.inputName);
-                            cityList.Clear();
-                            cityList.Append(cityToAdd);
-                            await cityList.AddSqlAsync(user);
+                            cityToAdd = await cityList.SaveGetId(user, cityToAdd);
                             ShowString(AddrText.cityAdded);
+                            await Task.Delay(1000);
+                            addressToAdd.City = cityToAdd;
+                            addressToAdd.CityId = addressToAdd.City.Id;
+                            ShowString(AddrText.cityChoosen);
                             await Task.Delay(1000);
                             break;
                         case 3: // Выход
@@ -43,11 +54,7 @@ namespace Handbooks
                             return new Address();
                     }
                 }
-                else flag = false;
             }
-            choice = MenuToChoice(cityList.ToStringList(), AddrText.cities, Text.choice, noNull: true);
-            addressToAdd.City = cityList.GetFromList(choice);
-            addressToAdd.CityId = addressToAdd.City.Id;
             if (addressToAdd.CityId == 1) // Если Екатеринбург
             {
                 var locationList = new Locations(); // Микрорайоны

@@ -86,7 +86,7 @@ namespace Models
                         OwnerId = x.OwnerId,
                         Owner = workers.Where(w => w.Id == x.OwnerId).First(),
                         ToDelete = x.ToDelete
-                    }).Where(c => (c.FullName + c.Phone).PrepareToSearch().Contains(search)).ToList();
+                    }).Where(c => c.FullName.PrepareToSearch().Contains(search)).ToList();
                 }
                 user.Close();
             }

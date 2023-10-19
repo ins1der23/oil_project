@@ -36,7 +36,7 @@ namespace Models
         }
         public void Clear() => CitiesList.Clear();
         public void Append(City city) => CitiesList.Add(city);
-        public City GetFromList(int index) => CitiesList[index - 1];
+        public City GetFromList(int index = 1) => CitiesList[index - 1];
         public City GetByName(string name) => CitiesList.Where(s => s.Name == name).First();
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
@@ -65,6 +65,16 @@ namespace Models
             }
         }
 
+        public async Task<City> SaveGetId(DBConnection user, City city) // получение Id из SQL для новой улицы 
+        {
+            if (city.Name == String.Empty) return city;
+            Clear();
+            Append(city);
+            await AddSqlAsync(user);
+            await GetFromSqlAsync(user, city.Name);
+            city = GetFromList();
+            return city;
+        }
         public List<string> ToStringList()
         {
             List<string> output = new List<string>();
