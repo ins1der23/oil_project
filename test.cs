@@ -4,11 +4,6 @@ using Handbooks;
 using Controller;
 using Models;
 using Connection;
-using MySql.Data.MySqlClient;
-using System.Linq;
-using System.IO;
-using System.Collections;
-using System.Diagnostics;
 
 
 namespace Testing
@@ -17,8 +12,8 @@ namespace Testing
     {
         public static async Task Start()
         {
-            Client client = new();
-            await ChangeClient.Start(client);
+            
+            await Task.Delay(1000);
         }
 
     }

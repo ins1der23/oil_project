@@ -2,10 +2,6 @@ using Handbooks;
 using Controller;
 using Models;
 using Connection;
-using MySql.Data.MySqlClient;
-using System.Linq;
-
-using System.Collections;
 
 namespace Temp
 {

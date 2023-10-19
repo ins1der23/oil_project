@@ -1,4 +1,3 @@
-using MySql.Data.MySqlClient;
 using Connection;
 using Models;
 
@@ -17,7 +16,7 @@ namespace Controller
 
         public static DBConnection user
         {
-            get => DBConnection.Instance("192.168.1.3", "oilproject");
+            get => DBConnection.Instance("profit.dns-cloud.net", "oilproject");
         }
 
         public static async Task<bool> Connect()

@@ -1,6 +1,3 @@
-using System.Threading;
-using System;
-
 namespace Models
 {
     public class Position

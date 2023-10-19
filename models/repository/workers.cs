@@ -1,7 +1,4 @@
 using Connection;
-using MySql.Data.MySqlClient;
-using Dapper;
-using System.Linq;
 
 namespace Models
 {

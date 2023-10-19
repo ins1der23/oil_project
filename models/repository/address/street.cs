@@ -1,8 +1,5 @@
-using MySql.Data.MySqlClient;
-using Dapper;
 using Connection;
 using static InOut;
-using System.Collections;
 
 namespace Models
 

@@ -3,6 +3,7 @@ using MenusAndChoices;
 using Controller;
 using static InOut;
 
+
 namespace Handbooks
 {
     public class ChangeAgr

@@ -1,8 +1,4 @@
 using Connection;
-using MySql.Data.MySqlClient;
-using Dapper;
-using System.Linq;
-using System.Collections;
 
 
 public class TempClient

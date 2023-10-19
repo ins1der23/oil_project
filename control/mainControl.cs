@@ -5,7 +5,6 @@ using Temp;
 using Handbooks;
 using Models;
 using Connection;
-using MySql.Data.MySqlClient;
 
 namespace Controller
 {
