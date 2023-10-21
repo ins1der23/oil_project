@@ -55,14 +55,14 @@ namespace Handbooks
                     }
                 }
             }
-            if (addressToAdd.CityId == 1) // Если Екатеринбург
+            /*if (addressToAdd.CityId == 1) // Если Екатеринбург*/
             {
                 var locationList = new Locations(); // Микрорайоны
                 flag = true;
                 while (flag)
                 {
                     searchString = InOut.GetString(Text.locationName); // Найти микрорайон
-                    await locationList.GetFromSqlAsync(user, searchString);
+                    await locationList.GetFromSqlAsync(user, searchString, addressToAdd.CityId);
                     if (locationList.IsEmpty)
                     {
                         choice = MenuToChoice(Text.searchAgain, Text.notFound, Text.choice); // Не найдено

@@ -12,7 +12,7 @@ namespace Controller
     {
         public static async Task Start()
         {
-            Console.WindowWidth = 150;
+            Console.WindowWidth = 200;
             bool check = await Settings.Connect();
             await Task.Delay(2000);
             if (!check)

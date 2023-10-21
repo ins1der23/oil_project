@@ -1,4 +1,5 @@
 using Connection;
+using MenusAndChoices;
 using static InOut;
 
 namespace Models
@@ -7,13 +8,14 @@ namespace Models
     public class City
     {
         public int Id { get; set; }
-        public string? Name { get; set; }
+        public string Name { get; set; }
         public virtual Districts Districts { get; private set; }
         public virtual Locations Locations { get; private set; }
         public virtual Streets Streets { get; private set; }
 
         public City()
         {
+            Name = String.Empty;
             Districts = new();
             Locations = new();
             Streets = new();

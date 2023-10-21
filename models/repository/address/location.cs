@@ -37,7 +37,7 @@ namespace Models
         public List<Location> ToWorkingList() => LocationsList.Select(c => c).ToList(); // Список для работы с LINQ
         public Location GetFromList(int index) => LocationsList[index - 1];
 
-        public async Task GetFromSqlAsync(DBConnection user, string search = "")
+        public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 1)
         {
             search = search.PrepareToSearch();
             await user.ConnectAsync();
@@ -60,7 +60,7 @@ namespace Models
                         City = cities.Where(c => c.Id == x.CityId).First(),
                         DistrictId = x.DistrictId,
                         District = districts.Where(d => d.Id == x.DistrictId).First(),
-                    }).Where(l => l.Name.PrepareToSearch().Contains(search)).ToList();
+                    }).Where(l => l.Name.PrepareToSearch().Contains(search)).Where(l => l.CityId == id).ToList();
                 }
                 user.Close();
             }

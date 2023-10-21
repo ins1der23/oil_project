@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,14 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PublishAot>false</PublishAot>
-    <!-- <SelfContained>true</SelfContained> -->
-    <!-- <RuntimeIdentifier>win-x64</RuntimeIdentifier> -->
-    <!-- <PublishSingleFile>true</PublishSingleFile> -->
-    <!-- <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract> -->
-    <!-- <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract> -->
-    <!-- <InvariantGlobalization>false</InvariantGlobalization> -->
-    <!-- <EnableCompressionInSingleFile>false</EnableCompressionInSingleFile> -->
-    <!-- <DebugType>embedded</DebugType> -->
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +22,7 @@
     <Using Include="System.Collections.Generic" />
     <Using Include="System.IO" />
     <Using Include="System.Linq" /> -->
+    <SupportedPlatform Include="windows" />
     <Using Include="MySql.Data.MySqlClient" />
     <Using Include="Dapper" />
     <Using Include="System.Diagnostics" />
