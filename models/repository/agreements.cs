@@ -34,7 +34,7 @@ namespace Models
             return output;
         }
 
-        public async Task GetFromSqlAsync(DBConnection user, string searchString = "", int id = 0)
+        public async Task GetFromSqlAsyncOld(DBConnection user, string searchString = "", int id = 0)
         {
             await user.ConnectAsync();
             if (user.IsConnect)
@@ -58,6 +58,39 @@ namespace Models
                 user.Close();
             }
         }
+
+        public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 0)
+        {
+            search = search.PrepareToSearch();
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string sql = @"select * from clients as c;
+                            select * from passports as p;
+                            select * from agreements as a";
+
+                using (var temp = await user.Connection.QueryMultipleAsync(sql))
+                {
+                    var clients = temp.Read<Client>();
+                    var passports = temp.Read<Passport>();
+                    var agreements = temp.Read<Agreement>();
+                    AgreementList = agreements.Select(x => new Agreement
+                    {
+                        Id = x.Id,
+                        Date = x.Date,
+                        Name = x.Name,
+                        ScanPath = x.ScanPath,
+                        ClientId = x.ClientId,
+                        Client = clients.Where(c => c.Id == x.ClientId).First(),
+                        PassportId = x.PassportId,
+                        Passport = passports.Where(p => p.Id == x.PassportId).First(),
+                        
+                    }).Where(a => a.SearchString.PrepareToSearch().Contains(search) || a.Id == id).ToList();
+                }
+                user.Close();
+            }
+        }
+
         public async Task AddSqlAsync(DBConnection user)
         {
             await user.ConnectAsync();
@@ -128,7 +161,7 @@ namespace Models
             Clear();
             Append(agreement);
             await ChangeSqlAsync(user);
-            await GetFromSqlAsync(user, id : agreement.Id);
+            await GetFromSqlAsync(user, id: agreement.Id);
             agreement = GetFromList();
             return agreement;
         }

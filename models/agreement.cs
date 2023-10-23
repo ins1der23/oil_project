@@ -19,7 +19,7 @@ namespace Models
         }
         public string SearchString
         {
-            get => $"and agr.name like \"%{Name}%\" and date = \"{Date.ToString("yyyy-MM.dd")}\"";
+            get => $"{Name}{Date}";
         }
 
         public bool ScanCheck
