@@ -11,7 +11,7 @@ namespace Handbooks
     {
         public static async Task<Agreement> Start(Agreement agreement)
         {
-            var user = Settings.user;
+            var user = Settings.User;
             string sourcePath = InOut.GetString(AgrText.scanPath);
             string folder = "/agreements/";
             Console.WriteLine(sourcePath);

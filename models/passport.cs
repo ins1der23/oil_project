@@ -3,24 +3,25 @@ namespace Models
 {
     public class Passport
     {
-        static int nextId;
-        public int Id { get; private set; }
-        public int passportSerial { get; set; }
-        public int passportNum { get; set; }
-        public DateOnly issueDate { get; set; }
-        public string? issueAuthority { get; set; }
-        public string? address { get; set; }
-
+        public int Id { get; set; }
+        public int PassportSerial { get; set; }
+        public double PassportNum { get; set; }
+        public DateTime IssueDate { get; set; }
+        public string IssueAuthority { get; set; }
+        public string Registration { get; set; }
+        public int ClientId { get; set; }
+        public virtual Client Client { get; set; }
         public Passport()
         {
-            Id = Interlocked.Increment(ref nextId);
-
+            IssueAuthority = String.Empty;
+            Registration = String.Empty;
+            Client = new();
         }
 
         public override string ToString()
         {
-            string passport = $"{this.passportSerial} {this.passportNum} выдан {this.issueAuthority} {this.issueDate}";
-            return $"{passport}\n Адрес регистрации: {this.address}";
+            string passport = $"{this.PassportSerial} {this.PassportNum} выдан {this.IssueAuthority} {this.IssueDate.Date}";
+            return $"{passport}\n Адрес регистрации: {this.Registration}";
 
         }
 

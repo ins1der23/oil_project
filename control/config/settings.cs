@@ -8,13 +8,13 @@ namespace Controller
     /// </summary>
     static class Settings
     {
-        static string configPath = "X:/oilproject/config/settings.txt";
+        static readonly string configPath = "X:/oilproject/config/settings.txt";
         public static string scanPath = "X:/oilproject/scans";
 
-        static FileWork settings = new FileWork(configPath);
-        public static Setter numResetter = new Setter("numResetter");
+        static readonly FileWork settings = new(configPath);
+        public static Setter numResetter = new("numResetter");
 
-        public static DBConnection user
+        public static DBConnection User
         {
             get => DBConnection.Instance("profit.dns-cloud.net", "oilproject");
         }
@@ -25,11 +25,11 @@ namespace Controller
             int connectCount = 0;
             while (!status && connectCount < 3)
             {
-                await user.ConnectAsync();
+                await User.ConnectAsync();
                 connectCount++;
-                status = user.IsConnect;
+                status = User.IsConnect;
             }
-            user.Close();
+            User.Close();
             return status;
         }
         public static async Task<bool> Set()

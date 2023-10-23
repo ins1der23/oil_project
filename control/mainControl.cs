@@ -12,7 +12,7 @@ namespace Controller
     {
         public static async Task Start()
         {
-            Console.WindowWidth = 200;
+            Console.WindowWidth = 180;
             bool check = await Settings.Connect();
             await Task.Delay(2000);
             if (!check)
@@ -30,7 +30,7 @@ namespace Controller
                 await Task.Delay(1000);
                 return;
             }
-            var user = Settings.user;
+            var user = Settings.User;
             Workers workersList = new Workers();
             Positions positionsList = new Positions();
             var toFind = string.Empty;

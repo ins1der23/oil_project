@@ -11,7 +11,7 @@ namespace Handbooks
     {
         public static async Task Start(Client clientToChange)
         {
-            var user = Settings.user;
+            var user = Settings.User;
             var agreement = new Agreement();
             if (clientToChange.Agreements.Any()) agreement = clientToChange.Agreements.OrderBy(agr => agr.Date).Last();
             else

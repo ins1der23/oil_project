@@ -11,7 +11,7 @@ namespace Handbooks
     {
         public static async Task<Client> Start(Client client)
         {
-            var user = Settings.user;
+            var user = Settings.User;
             string name = GetString(ClientText.changeName);
             Address address = new Address();
             int choice = MenuToChoice(Text.yesOrNo, ClientText.changeAddress, Text.choice); // Изменить адрес?

@@ -6,12 +6,13 @@ namespace Models
     public class District
     {
         public int Id { get; set; }
-        public string? Name { get; set; }
-        public int CityId { get; private set; }
+        public string Name { get; set; }
+        public int CityId { get; set; }
         public virtual City City { get; set; }
 
         public District()
         {
+            Name = String.Empty;
             City = new();
         }
 
@@ -30,7 +31,9 @@ namespace Models
             DistrictsList = new();
         }
         public IEnumerator GetEnumerator() => DistrictsList.GetEnumerator();
-        public District GetFromList(int index) => DistrictsList[index - 1];
+        public void Clear() => DistrictsList.Clear();
+        public void Append(District district) => DistrictsList.Add(district);
+        public District GetFromList(int index = 1) => DistrictsList[index - 1];
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
             await user.ConnectAsync();
@@ -50,9 +53,32 @@ namespace Models
                 user.Close();
             }
         }
+        public async Task AddSqlAsync(DBConnection user)
+        {
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"insert districts 
+                    (name, cityId)
+                    values (@{nameof(District.Name)},
+                            @{nameof(District.CityId)})";
+                await user.Connection.ExecuteAsync(selectQuery, DistrictsList);
+                user.Close();
+            }
+        }
+        public async Task<District> SaveGetId(DBConnection user, District district) // получение Id из SQL для нового района
+        {
+            if (district.Name == String.Empty) return district;
+            Clear();
+            Append(district);
+            await AddSqlAsync(user);
+            await GetFromSqlAsync(user, district.Name);
+            district = GetFromList();
+            return district;
+        }
         public List<string> ToStringList()
         {
-            List<string> output = new List<string>();
+            List<string> output = new();
             foreach (var item in DistrictsList)
                 output.Add(item.ToString());
             return output;

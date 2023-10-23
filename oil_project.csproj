@@ -1,5 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
@@ -14,22 +13,13 @@
     <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
     <DebugType>embedded</DebugType>
   </PropertyGroup>
-
   <ItemGroup>
-    <!-- <Using Include="System" />
-    <Using Include="System.Threading" />
-    <Using Include="System.Threading.Tasks" />
-    <Using Include="System.Collections.Generic" />
-    <Using Include="System.IO" />
-    <Using Include="System.Linq" /> -->
     <SupportedPlatform Include="windows" />
     <Using Include="MySql.Data.MySqlClient" />
     <Using Include="Dapper" />
     <Using Include="System.Diagnostics" />
     <Using Include="System.Collections" />
-    <Using Include="System.Globalization" />
     <PackageReference Include="Dapper" Version="2.0.143" />
     <PackageReference Include="MySql.Data" Version="8.1.0" />
   </ItemGroup>
-
 </Project>

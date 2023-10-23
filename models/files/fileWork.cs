@@ -21,7 +21,7 @@ namespace Models
         {
             if (FileInfo.Exists)
             {
-                StreamReader reader = new StreamReader(Path);
+                StreamReader reader = new(Path);
                 string? line;
                 while ((line = await reader.ReadLineAsync()) != null)
                 {
@@ -36,7 +36,7 @@ namespace Models
         {
             if (FileInfo.Exists)
             {
-                StreamWriter writer = new StreamWriter(Path, false);
+                StreamWriter writer = new(Path, false);
                 foreach (var item in Lines)
                 {
                     await writer.WriteLineAsync(item);

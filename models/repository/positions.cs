@@ -2,14 +2,13 @@ using Connection;
 
 namespace Models
 {
-    public class Positions 
+    public class Positions
     {
-        List<Position> PositionsList {get; set;}
+        List<Position> PositionsList { get; set; }
 
         public Positions()
         {
             PositionsList = new();
-            
         }
 
         public async Task GetFromSqlAsync(DBConnection user)

@@ -34,7 +34,6 @@ namespace Models
         public virtual Clients Clients { get; set; }
         public Worker()
         {
-            Id = Interlocked.Increment(ref nextId);
             PositionId = 1;
             Position = new();
             Clients = new();

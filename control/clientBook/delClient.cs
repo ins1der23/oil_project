@@ -9,7 +9,7 @@ namespace Handbooks
     {
         public static async Task<bool> Start(Client clientToDelete)
         {
-            var user = Settings.user;
+            var user = Settings.User;
             bool flag = true;
             int choice;
             while (flag)

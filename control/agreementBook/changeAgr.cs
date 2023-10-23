@@ -10,7 +10,7 @@ namespace Handbooks
     {
         public static async Task<Agreement> Start(Agreement agreement)
         {
-            var user = Settings.user;
+            var user = Settings.User;
             string name = GetString(AgrText.changeName);
             DateTime date = GetDate(AgrText.changeDate);
             agreement.Change(name, date);

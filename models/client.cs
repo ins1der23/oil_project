@@ -8,17 +8,15 @@ namespace Models
         public int AddressId { get; set; }
         public virtual Address Address { get; set; }
         public double Phone { get; set; }
-        public virtual ICollection<Passport> Passports { private get; set; }
-        public virtual ICollection<Mailing> Mailings { get; set; }
-        public virtual ICollection<Claim> Claims { get; set; }
-        public virtual ICollection<Agreement> Agreements { get; set; }
         public string? Comment { get; set; }
         public int OwnerId { get; set; }
         public virtual Worker Owner { get; set; }
+        public virtual ICollection<Agreement> Agreements { get; set; }
+        public virtual ICollection<Passport> Passports { private get; set; }
         public bool ToDelete { get; set; }
         public bool AgreementCheck
         {
-            get => Agreements.Any() ? true : false;
+            get => Agreements.Any();
         }
         public string FullName
         {
@@ -40,11 +38,9 @@ namespace Models
         {
             Name = String.Empty;
             Address = new Address();
-            Passports = new List<Passport>();
-            Agreements = new List<Agreement>();
-            // Mailings = new Mailing();
-            // Claims = new Claim();
             Owner = new Worker();
+            Agreements = new List<Agreement>();
+            Passports = new List<Passport>();
             ToDelete = false;
         }
         public void Change(string name, Address address, double phone, string comment)

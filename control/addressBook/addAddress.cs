@@ -11,7 +11,7 @@ namespace Handbooks
     {
         public static async Task<Address> Start()
         {
-            var user = Settings.user;
+            var user = Settings.User;
             var addressToAdd = new Address();
             var cityList = new Cities(); // Города
             string searchString;
@@ -39,7 +39,8 @@ namespace Handbooks
                             break;
                         case 2: // Добавить город
                             var cityToAdd = new City();
-                            cityToAdd.Name = GetString(Text.inputName);
+                            string name = GetString(Text.inputName);
+                            cityToAdd.Name = name;
                             cityToAdd = await cityList.SaveGetId(user, cityToAdd);
                             ShowString(AddrText.cityAdded);
                             await Task.Delay(1000);
@@ -47,6 +48,19 @@ namespace Handbooks
                             addressToAdd.CityId = addressToAdd.City.Id;
                             ShowString(AddrText.cityChoosen);
                             await Task.Delay(1000);
+                            District district = new();
+                            district.Name = name;
+                            district.CityId = cityToAdd.Id;
+                            var districtList = new Districts();
+                            district = await districtList.SaveGetId(user, district);
+                            Location location = new();
+                            location.Name = name;
+                            location.CityId = cityToAdd.Id;
+                            location.DistrictId = district.Id;
+                            Locations locations = new();
+                            locations.Append(location);
+                            await locations.AddSqlAsync(user);
+                            flag = false;
                             break;
                         case 3: // Выход
                             ShowString(AddrText.addressNotAdded);
@@ -55,34 +69,32 @@ namespace Handbooks
                     }
                 }
             }
-            /*if (addressToAdd.CityId == 1) // Если Екатеринбург*/
+
+            var locationList = new Locations(); // Микрорайоны
+            flag = true;
+            while (flag)
             {
-                var locationList = new Locations(); // Микрорайоны
-                flag = true;
-                while (flag)
+                searchString = InOut.GetString(Text.locationName); // Найти микрорайон
+                await locationList.GetFromSqlAsync(user, searchString, addressToAdd.CityId);
+                if (locationList.IsEmpty)
                 {
-                    searchString = InOut.GetString(Text.locationName); // Найти микрорайон
-                    await locationList.GetFromSqlAsync(user, searchString, addressToAdd.CityId);
-                    if (locationList.IsEmpty)
+                    choice = MenuToChoice(Text.searchAgain, Text.notFound, Text.choice); // Не найдено
+                    switch (choice)
                     {
-                        choice = MenuToChoice(Text.searchAgain, Text.notFound, Text.choice); // Не найдено
-                        switch (choice)
-                        {
-                            case 1: // Повторить поиск
-                                break;
-                            case 2: // Выход
-                                ShowString(AddrText.addressNotAdded);
-                                await Task.Delay(1000);
-                                return new Address();
-                        }
+                        case 1: // Повторить поиск
+                            break;
+                        case 2: // Выход
+                            ShowString(AddrText.addressNotAdded);
+                            await Task.Delay(1000);
+                            return new Address();
                     }
-                    else flag = false;
                 }
-                choice = MenuToChoice(locationList.ToStringList(), AddrText.locations, Text.choice, noNull: true);
-                addressToAdd.Location = locationList.GetFromList(choice);
-                addressToAdd.LocationId = addressToAdd.Location.Id;
-                addressToAdd.DistrictId = addressToAdd.Location.DistrictId;
+                else flag = false;
             }
+            choice = MenuToChoice(locationList.ToStringList(), AddrText.locations, Text.choice, noNull: true);
+            addressToAdd.Location = locationList.GetFromList(choice);
+            addressToAdd.LocationId = addressToAdd.Location.Id;
+            addressToAdd.DistrictId = addressToAdd.Location.DistrictId;
 
             var streetList = new Streets(); // Улицы
             flag = true;

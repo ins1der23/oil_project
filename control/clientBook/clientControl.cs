@@ -10,7 +10,7 @@ namespace Handbooks
     {
         public static async Task Start()
         {
-            var user = Settings.user;
+            var user = Settings.User;
             var clientList = new Clients();
             var clientToChange = new Client();
             bool mainFlag = true;

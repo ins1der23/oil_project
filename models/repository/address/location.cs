@@ -18,7 +18,14 @@ namespace Models
             District = new();
         }
 
-        public override string ToString() => $"{City.Name}, {District.Name}, {Name}";
+        public override string ToString()
+        {
+            if (City.Id == 1)
+                return $"{City.Name}, {District.Name}, {Name}";
+            else
+                return $"{Name}";
+        }
+
     }
 
     public class Locations : IEnumerable
@@ -34,6 +41,9 @@ namespace Models
             LocationsList = new();
         }
         public IEnumerator GetEnumerator() => LocationsList.GetEnumerator();
+
+        public void Clear() => LocationsList.Clear();
+        public void Append(Location location) => LocationsList.Add(location);
         public List<Location> ToWorkingList() => LocationsList.Select(c => c).ToList(); // Список для работы с LINQ
         public Location GetFromList(int index) => LocationsList[index - 1];
 
@@ -62,6 +72,21 @@ namespace Models
                         District = districts.Where(d => d.Id == x.DistrictId).First(),
                     }).Where(l => l.Name.PrepareToSearch().Contains(search)).Where(l => l.CityId == id).ToList();
                 }
+                user.Close();
+            }
+        }
+
+        public async Task AddSqlAsync(DBConnection user)
+        {
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"insert locations 
+                    (name, cityId, districtId)
+                    values (@{nameof(Location.Name)},
+                            @{nameof(Location.CityId)},
+                            @{nameof(Location.DistrictId)})";
+                await user.Connection.ExecuteAsync(selectQuery, LocationsList);
                 user.Close();
             }
         }

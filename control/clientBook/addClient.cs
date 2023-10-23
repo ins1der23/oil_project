@@ -9,7 +9,7 @@ namespace Handbooks
     {
         public static async Task<Client> Start()
         {
-            var user = Settings.user;
+            var user = Settings.User;
             var clientToAdd = new Client();
             int choice;
             do

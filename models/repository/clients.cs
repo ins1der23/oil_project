@@ -49,6 +49,7 @@ namespace Models
                             select * from addresses as a;
                             select w.id, w.name, w.surname from workers as w;
                             select * from agreements as agr;
+                            select * from passports as p;
                             select * from clients";
 
                 using (var temp = await user.Connection.QueryMultipleAsync(sql))
@@ -60,6 +61,7 @@ namespace Models
                     var addresses = temp.Read<Address>();
                     var workers = temp.Read<Worker>();
                     var agreementList = temp.Read<Agreement>();
+                    var passportList = temp.Read<Passport>();
                     var clients = temp.Read<Client>();
                     var addressList = addresses.Select(x => new Address
                     {
@@ -81,7 +83,8 @@ namespace Models
                         Phone = x.Phone,
                         AddressId = x.AddressId,
                         Address = addressList.Where(a => a.Id == x.AddressId).First(),
-                        Agreements = agreementList.Select(agr => agr).Where(agr => agr.ClientId == x.Id).ToList(),
+                        Agreements = agreementList.Where(agr => agr.ClientId == x.Id).ToList(),
+                        Passports = passportList.Where(p => p.ClientId == x.Id).ToList(),
                         Comment = x.Comment,
                         OwnerId = x.OwnerId,
                         Owner = workers.Where(w => w.Id == x.OwnerId).First(),
