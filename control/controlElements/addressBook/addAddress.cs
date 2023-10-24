@@ -26,6 +26,9 @@ namespace Handbooks
                 {
                     addressToAdd.City = cityList.GetFromList(choice);
                     addressToAdd.CityId = addressToAdd.City.Id;
+                    Console.WriteLine(addressToAdd.City.Name);
+                    Console.WriteLine(addressToAdd.CityId);
+                    Console.ReadLine();
                     ShowString(AddrText.cityChoosen);
                     await Task.Delay(1000);
                     flag = false;
@@ -46,6 +49,9 @@ namespace Handbooks
                             await Task.Delay(1000);
                             addressToAdd.City = cityToAdd;
                             addressToAdd.CityId = addressToAdd.City.Id;
+                            Console.WriteLine(addressToAdd.CityId);
+                            Console.ReadLine();
+
                             ShowString(AddrText.cityChoosen);
                             await Task.Delay(1000);
                             District district = new()
@@ -76,7 +82,7 @@ namespace Handbooks
             var locationList = new Locations(); // Микрорайоны
             if (!forPassport)
             {
-                
+
                 flag = true;
                 while (flag)
                 {

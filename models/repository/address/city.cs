@@ -15,7 +15,8 @@ namespace Models
 
         public City()
         {
-            Name = String.Empty;
+            Id = 999;
+            Name = string.Empty;
             Districts = new();
             Locations = new();
             Streets = new();
@@ -80,7 +81,7 @@ namespace Models
         public List<string> ToStringList()
         {
             List<string> output = new();
-            for (int i = 1; i < CitiesList.Count; i++)
+            for (int i = 0; i < CitiesList.Count; i++)
             {
                 output.Add(CitiesList[i].ToString());
             }

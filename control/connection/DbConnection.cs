@@ -20,6 +20,8 @@ namespace Connection
                         return 1;
                     case "diana_s":
                         return 3;
+                    default:
+                        break;
                 }
                 return 2;
             }
@@ -30,10 +32,12 @@ namespace Connection
 
         private DBConnection(string server, string databaseName)
         {
-            this.Server = server;
-            this.DatabaseName = databaseName;
-            this.UserName = "diana_s";//SetUsername();
-            this.Password = "Diana1sthebe$tmanager";//SetPassword();
+            Server = server;
+            DatabaseName = databaseName;
+            UserName = "root";
+            Password = "Hacker$arefuck1ngevil";
+            // UserName = "diana_s";//SetUsername();
+            // Password = "Diana1sthebe$tmanager";//SetPassword();
         }
 
         private static DBConnection? _instance = null;

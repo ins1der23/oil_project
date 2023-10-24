@@ -62,4 +62,23 @@ public class Passports
             user.Close();
         }
     }
+
+    // public async Task AddSqlAsync(DBConnection user)
+    //     {
+    //         await user.ConnectAsync();
+    //         if (user.IsConnect)
+    //         {
+    //             string selectQuery = $@"insert passports
+    //                 (name, addressId, phone, comment, ownerId, toDelete)
+    //                 values (
+    //                 @{nameof(Client.Name)},
+    //                 @{nameof(Client.AddressId)},
+    //                 @{nameof(Client.Phone)},
+    //                 @{nameof(Client.Comment)},
+    //                 @{nameof(Client.OwnerId)},
+    //                 @{nameof(Client.ToDelete)})";
+    //             await user.Connection.ExecuteAsync(selectQuery, ClientList);
+    //             user.Close();
+    //         }
+    //     }
 }

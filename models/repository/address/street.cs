@@ -13,6 +13,7 @@ namespace Models
 
         public Street()
         {
+            Id = 999;
             City = new();
             Name = String.Empty;
         }

@@ -12,7 +12,8 @@ namespace Models
 
         public District()
         {
-            Name = String.Empty;
+            Id = 999;
+            Name = string.Empty;
             City = new();
         }
 
@@ -33,7 +34,7 @@ namespace Models
         public IEnumerator GetEnumerator() => DistrictsList.GetEnumerator();
         public void Clear() => DistrictsList.Clear();
         public void Append(District district) => DistrictsList.Add(district);
-        public District GetFromList(int index = 1) => DistrictsList[index - 1];
+        public District GetFromList(int index = 1) => DistrictsList[index];
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
             await user.ConnectAsync();

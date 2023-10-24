@@ -14,7 +14,7 @@ namespace Models
         public virtual Location Location { get; set; }
         public int StreetId { get; set; }
         public virtual Street Street { get; set; }
-        public string? HouseNum { get; set; }
+        public string HouseNum { get; set; }
         public string FlatNum { get; set; }
         public string FullAddress
         {
@@ -37,11 +37,13 @@ namespace Models
 
         public Address()
         {
+            Id = 999;
             City = new();
             District = new();
             Location = new();
             Street = new();
-            FlatNum = String.Empty;
+            HouseNum = string.Empty;
+            FlatNum = string.Empty;
         }
         public override string ToString() => $"{FullAddress}";
     }
@@ -50,7 +52,7 @@ namespace Models
         public List<Address> AddressList { get; set; }
         public bool IsEmpty
         {
-            get => (!AddressList.Any());
+            get => !AddressList.Any();
         }
         public Addresses()
         {

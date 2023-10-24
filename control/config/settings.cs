@@ -16,7 +16,8 @@ namespace Controller
 
         public static DBConnection User
         {
-            get => DBConnection.Instance("profit.dns-cloud.net", "oilproject");
+            // get => DBConnection.Instance("profit.dns-cloud.net", "oilproject");
+            get => DBConnection.Instance("127.0.0.1", "oilproject");
         }
 
         public static async Task<bool> Connect()

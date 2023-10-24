@@ -13,7 +13,8 @@ namespace Models
         public virtual District District { get; set; }
         public Location()
         {
-            Name = String.Empty;
+            Id = 999;
+            Name = string.Empty;
             City = new();
             District = new();
         }

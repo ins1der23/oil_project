@@ -4,8 +4,6 @@ namespace Models
     public class Passport
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
         public int Serial { get; set; }
         public double Number { get; set; }
         public DateTime IssueDate { get; set; }
@@ -17,10 +15,9 @@ namespace Models
         public string SearchString => $"{Serial}{Number}";
         public Passport()
         {
-            Name = string.Empty;
-            Surname = string.Empty;
             IssueAuthority = string.Empty;
             Client = new();
+            RegistrationId = 999;
             Registration = new();
         }
 
