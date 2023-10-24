@@ -86,7 +86,7 @@ namespace MenusAndChoices
         "Введите название микрорайона или оставьте поле пустым для показа всех";
         public static string streetName =
         "Введите название улицы или оставьте поле пустым для показа всех";
-        public static string houseNum = "Введите номер дома";
+        
 
         // Agreements
 

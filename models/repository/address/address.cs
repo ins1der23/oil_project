@@ -15,14 +15,15 @@ namespace Models
         public int StreetId { get; set; }
         public virtual Street Street { get; set; }
         public string? HouseNum { get; set; }
+        public string FlatNum { get; set; }
         public string FullAddress
         {
-            get 
+            get
             {
                 if (CityId == 1) return $"{City.Name,-15}{Location.Name,-17}{Street.Name,-28}{HouseNum,-12}";
                 else return $"{City.Name,-15}{Street.Name,-28}{HouseNum,-12}";
             }
-            
+
         }
         public string ShortAddress
         {
@@ -32,14 +33,15 @@ namespace Models
                 else return $"{City.Name}, {Street.Name}, {HouseNum}";
             }
         }
+        public string RegAddress => $"{City.Name,-15}{Street.Name,-28}{HouseNum,-12}-{FlatNum,-10}";
+
         public Address()
         {
             City = new();
-            DistrictId = 8;
             District = new();
-            LocationId = 41;
             Location = new();
             Street = new();
+            FlatNum = String.Empty;
         }
         public override string ToString() => $"{FullAddress}";
     }
@@ -71,11 +73,15 @@ namespace Models
         /// Формирование списка из AddressList для создания меню 
         /// </summary>
         /// <returns> список из Address.ToString()</returns>
-        public List<string> ToStringList()
+        public List<string> ToStringList(bool forPassport = false)
         {
-            List<string> output = new List<string>();
-            foreach (var item in AddressList)
-                output.Add(item.ToString());
+            List<string> output = new();
+            if (forPassport)
+                foreach (var item in AddressList)
+                    output.Add(item.RegAddress);
+            else
+                foreach (var item in AddressList)
+                    output.Add(item.FullAddress);
             return output;
         }
 
@@ -111,7 +117,8 @@ namespace Models
                         Location = locations.Where(l => l.Id == x.LocationId).First(),
                         StreetId = x.StreetId,
                         Street = streets.Where(s => s.Id == x.StreetId).First(),
-                        HouseNum = x.HouseNum
+                        HouseNum = x.HouseNum,
+                        FlatNum = x.FlatNum
                     }).Where(a => a.FullAddress.PrepareToSearch().Contains(search)).ToList();
                 }
                 user.Close();
@@ -123,13 +130,14 @@ namespace Models
             if (user.IsConnect)
             {
                 string selectQuery = $@"insert Addresses
-                    (cityId, districtId, locationId, streetId, houseNum)
+                    (cityId, districtId, locationId, streetId, houseNum, flatNum)
                     values (
                     @{nameof(Address.CityId)},
                     @{nameof(Address.DistrictId)},
                     @{nameof(Address.LocationId)},
                     @{nameof(Address.StreetId)},
-                    @{nameof(Address.HouseNum)})";
+                    @{nameof(Address.HouseNum)},
+                    @{nameof(Address.FlatNum)})";
                 await user.Connection.ExecuteAsync(selectQuery, AddressList);
                 user.Close();
             }
@@ -145,7 +153,8 @@ namespace Models
                     districtId = @{nameof(Address.DistrictId)},                    
                     locationId = @{nameof(Address.LocationId)},                    
                     streetId = @{nameof(Address.StreetId)},
-                    HouseNum = @{nameof(Address.HouseNum)}
+                    houseNum = @{nameof(Address.HouseNum)},
+                    flatNum = @{nameof(Address.FlatNum)}
                     where Id = @{nameof(Address.Id)};";
                 await user.Connection.ExecuteAsync(selectQuery, AddressList);
                 user.Close();
@@ -158,7 +167,7 @@ namespace Models
             Clear();
             Append(address);
             await AddSqlAsync(user);
-            await GetFromSqlAsync(user, address.FullAddress);
+            await GetFromSqlAsync(user, address.RegAddress);
             address = GetFromList();
             return address;
         }

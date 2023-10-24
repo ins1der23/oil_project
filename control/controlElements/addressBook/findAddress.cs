@@ -10,7 +10,7 @@ namespace Handbooks
     public class FindAddress
 
     {
-        public static async Task<Address> Start()
+        public static async Task<Address> Start(bool forPassport = false)
         {
             var user = Settings.User;
             var forSearch = InOut.GetString(AddrText.addressSearch).PrepareToSearch();
@@ -21,7 +21,7 @@ namespace Handbooks
             int choice;
             while (flag)
             {
-                choice = MenuToChoice(addressList.ToStringList(), AddrText.addressesFound, Text.choiceOrEmpty);
+                choice = MenuToChoice(addressList.ToStringList(forPassport), AddrText.addressesFound, Text.choiceOrEmpty);
                 if (choice != 0) address = addressList.GetFromList(choice);
                 flag = false;
             }

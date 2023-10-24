@@ -79,9 +79,11 @@ namespace Models
         }
         public List<string> ToStringList()
         {
-            List<string> output = new List<string>();
-            foreach (var item in CitiesList)
-                output.Add(item.ToString());
+            List<string> output = new();
+            for (int i = 1; i < CitiesList.Count; i++)
+            {
+                output.Add(CitiesList[i].ToString());
+            }
             return output;
         }
     }

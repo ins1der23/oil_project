@@ -1,5 +1,4 @@
 using Connection;
-using static InOut;
 
 namespace Models
 {
@@ -31,7 +30,7 @@ namespace Models
         /// <returns> список из Client.ToString()</returns>
         public List<string> ToStringList()
         {
-            List<string> output = new List<string>();
+            List<string> output = new();
             foreach (var item in ClientList)
                 output.Add(item.ToString());
             return output;
@@ -74,7 +73,8 @@ namespace Models
                         Location = locations.Where(l => l.Id == x.LocationId).First(),
                         StreetId = x.StreetId,
                         Street = streets.Where(s => s.Id == x.StreetId).First(),
-                        HouseNum = x.HouseNum
+                        HouseNum = x.HouseNum,
+                        FlatNum = x.FlatNum
                     }).ToList();
                     ClientList = clients.Select(x => new Client
                     {

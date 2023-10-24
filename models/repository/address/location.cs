@@ -45,7 +45,7 @@ namespace Models
         public void Clear() => LocationsList.Clear();
         public void Append(Location location) => LocationsList.Add(location);
         public List<Location> ToWorkingList() => LocationsList.Select(c => c).ToList(); // Список для работы с LINQ
-        public Location GetFromList(int index) => LocationsList[index - 1];
+        public Location GetFromList(int index = 1) => LocationsList[index - 1];
 
         public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 1)
         {
@@ -93,9 +93,11 @@ namespace Models
 
         public List<string> ToStringList()
         {
-            List<string> output = new List<string>();
-            foreach (var item in LocationsList)
-                output.Add(item.ToString());
+            List<string> output = new();
+            for (int i = 1; i < LocationsList.Count; i++)
+            {
+                output.Add(LocationsList[i].ToString());
+            }
             return output;
         }
     }
