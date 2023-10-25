@@ -1,5 +1,4 @@
 using Connection;
-using static InOut;
 
 namespace Models
 {
@@ -15,8 +14,7 @@ namespace Models
         public int StreetId { get; set; }
         public virtual Street Street { get; set; }
         public string HouseNum { get; set; }
-        public string FlatNum { get; set; }
-        public string FullAddress
+        public string LongString
         {
             get
             {
@@ -25,7 +23,7 @@ namespace Models
             }
 
         }
-        public string ShortAddress
+        public string ShortString
         {
             get
             {
@@ -33,21 +31,17 @@ namespace Models
                 else return $"{City.Name}, {Street.Name}, {HouseNum}";
             }
         }
-        public string RegAddress => $"{City.Name,-15}{Street.Name,-28}{HouseNum,-12}-{FlatNum,-10}";
-
         public Address()
         {
-            Id = 999;
             City = new();
             District = new();
             Location = new();
             Street = new();
             HouseNum = string.Empty;
-            FlatNum = string.Empty;
         }
-        public override string ToString() => $"{FullAddress}";
+        public override string ToString() => $"{LongString}";
     }
-    public class Addresses
+    public class Addresses : IRepository
     {
         public List<Address> AddressList { get; set; }
         public bool IsEmpty
@@ -75,15 +69,11 @@ namespace Models
         /// Формирование списка из AddressList для создания меню 
         /// </summary>
         /// <returns> список из Address.ToString()</returns>
-        public List<string> ToStringList(bool forPassport = false)
+        public List<string> ToStringList()
         {
             List<string> output = new();
-            if (forPassport)
-                foreach (var item in AddressList)
-                    output.Add(item.RegAddress);
-            else
-                foreach (var item in AddressList)
-                    output.Add(item.FullAddress);
+            foreach (var item in AddressList)
+                output.Add(item.LongString);
             return output;
         }
 
@@ -119,9 +109,8 @@ namespace Models
                         Location = locations.Where(l => l.Id == x.LocationId).First(),
                         StreetId = x.StreetId,
                         Street = streets.Where(s => s.Id == x.StreetId).First(),
-                        HouseNum = x.HouseNum,
-                        FlatNum = x.FlatNum
-                    }).Where(a => a.FullAddress.PrepareToSearch().Contains(search)).ToList();
+                        HouseNum = x.HouseNum
+                    }).Where(a => a.LongString.PrepareToSearch().Contains(search)).ToList();
                 }
                 user.Close();
             }
@@ -138,8 +127,7 @@ namespace Models
                     @{nameof(Address.DistrictId)},
                     @{nameof(Address.LocationId)},
                     @{nameof(Address.StreetId)},
-                    @{nameof(Address.HouseNum)},
-                    @{nameof(Address.FlatNum)})";
+                    @{nameof(Address.HouseNum)})";
                 await user.Connection.ExecuteAsync(selectQuery, AddressList);
                 user.Close();
             }
@@ -155,8 +143,7 @@ namespace Models
                     districtId = @{nameof(Address.DistrictId)},                    
                     locationId = @{nameof(Address.LocationId)},                    
                     streetId = @{nameof(Address.StreetId)},
-                    houseNum = @{nameof(Address.HouseNum)},
-                    flatNum = @{nameof(Address.FlatNum)}
+                    houseNum = @{nameof(Address.HouseNum)}
                     where Id = @{nameof(Address.Id)};";
                 await user.Connection.ExecuteAsync(selectQuery, AddressList);
                 user.Close();
@@ -169,7 +156,7 @@ namespace Models
             Clear();
             Append(address);
             await AddSqlAsync(user);
-            await GetFromSqlAsync(user, address.RegAddress);
+            await GetFromSqlAsync(user, address.LongString);
             address = GetFromList();
             return address;
         }
@@ -181,7 +168,6 @@ namespace Models
                 output += address.ToString() + "\n";
             return output;
         }
-
 
     }
 }

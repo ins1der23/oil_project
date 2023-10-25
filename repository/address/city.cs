@@ -15,7 +15,6 @@ namespace Models
 
         public City()
         {
-            Id = 999;
             Name = string.Empty;
             Districts = new();
             Locations = new();

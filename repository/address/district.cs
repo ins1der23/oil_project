@@ -12,7 +12,6 @@ namespace Models
 
         public District()
         {
-            Id = 999;
             Name = string.Empty;
             City = new();
         }

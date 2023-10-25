@@ -12,20 +12,20 @@ namespace Handbooks
             var user = Settings.User;
             var passportToAdd = new Passport
             {
-                Serial = GetInteger(PassportText.serial),
                 Number = GetDouble(PassportText.number),
+                // IssuedBy = await FindIssuedBy.Start();
                 IssueDate = GetDate(PassportText.date),
-                IssueAuthority = GetString(PassportText.authority)
             };
+
             int choice = MenuToChoice(Text.yesOrNo, PassportText.addRegistration, Text.choice, noNull: true);
             switch (choice)
             {
                 case 1: // Добавить регистрацию
-                    ShowString(AddrText.addressChoosing); 
+                    ShowString(AddrText.addressChoosing);
                     bool flag = true;
                     while (flag)
                     {
-                        Address address = await FindAddress.Start(forPassport: true);
+                        Address address = await FindAddress.Start();
                         if (address.Id != 0)
                         {
                             passportToAdd.RegistrationId = address.Id;
@@ -46,7 +46,7 @@ namespace Handbooks
                                         levOneFlag = false;
                                         break;
                                     case 2: // Добавить адрес
-                                        address = await AddAddress.Start(forPassport: true);
+                                        address = await AddAddress.Start();
                                         if (address.Id != 0)
                                         {
                                             passportToAdd.RegistrationId = address.Id;
@@ -67,6 +67,8 @@ namespace Handbooks
                     }
                     break;
                 case 2: // Не добавлять регистрацию
+                    ShowString(AddrText.addressNotChoosen);
+                    await Task.Delay(1000);
                     break;
             }
             ShowString(PassportText.Summary(passportToAdd));

@@ -11,7 +11,7 @@ namespace Controller
     public class MainControl
     {
         public static async Task Start()
-        {
+        {   
             Console.WindowWidth = 180;
             bool check = await Settings.Connect();
             await Task.Delay(2000);

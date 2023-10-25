@@ -4,6 +4,7 @@ using Dapper;
 using System.Linq;
 using static InOut;
 using System.Threading;
+using K4os.Hash.xxHash;
 
 namespace Models
 {
@@ -28,7 +29,7 @@ namespace Models
         /// <returns> список из Agreement.ToString()</returns>
         public List<string> ToStringList()
         {
-            List<string> output = new List<string>();
+            List<string> output = new();
             foreach (var item in AgreementList)
                 output.Add(item.ToString());
             return output;
@@ -83,7 +84,7 @@ namespace Models
                         ClientId = x.ClientId,
                         Client = clients.Where(c => c.Id == x.ClientId).First(),
                         PassportId = x.PassportId,
-                        Passport = passports.Where(p => p.Id == x.PassportId).First(),
+                        Passport = x.PassportId !=0 ? passports.Where(p => p.Id == x.PassportId).First() : new(),
                         
                     }).Where(a => a.SearchString.PrepareToSearch().Contains(search) || a.Id == id).ToList();
                 }

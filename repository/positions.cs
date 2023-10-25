@@ -22,7 +22,6 @@ namespace Models
                 user.Close();
             }
         }
-
         public List<string> ToStringList()
         {
             List<string> output = new List<string>();
@@ -32,9 +31,5 @@ namespace Models
             }
             return output;
         }
-
-
-
-
     }
 }

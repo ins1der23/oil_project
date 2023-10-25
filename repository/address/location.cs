@@ -13,7 +13,6 @@ namespace Models
         public virtual District District { get; set; }
         public Location()
         {
-            Id = 999;
             Name = string.Empty;
             City = new();
             District = new();
@@ -95,7 +94,7 @@ namespace Models
         public List<string> ToStringList()
         {
             List<string> output = new();
-            for (int i = 1; i < LocationsList.Count; i++)
+            for (int i = 0; i < LocationsList.Count; i++)
             {
                 output.Add(LocationsList[i].ToString());
             }

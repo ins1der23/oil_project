@@ -38,44 +38,22 @@ namespace Models
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
             search = search.PrepareToSearch();
+            Addresses addressSql = new();
+            await addressSql.GetFromSqlAsync(user);
+            var addressList = addressSql.ToWorkingList();
             await user.ConnectAsync();
             if (user.IsConnect)
             {
-                string sql = @"select c.id, c.name from cities as c;
-                            select d.id, d.name from districts as d;
-                            select l.id, l.name from locations as l;
-                            select s.id, s.name from streets as s;
-                            select * from addresses as a;
-                            select w.id, w.name, w.surname from workers as w;
+                string sql = @"select * from workers as w;
                             select * from agreements as agr;
                             select * from passports as p;
                             select * from clients";
-
                 using (var temp = await user.Connection.QueryMultipleAsync(sql))
                 {
-                    var cities = temp.Read<City>();
-                    var districts = temp.Read<District>();
-                    var locations = temp.Read<Location>();
-                    var streets = temp.Read<Street>();
-                    var addresses = temp.Read<Address>();
                     var workers = temp.Read<Worker>();
                     var agreementList = temp.Read<Agreement>();
                     var passportList = temp.Read<Passport>();
                     var clients = temp.Read<Client>();
-                    var addressList = addresses.Select(x => new Address
-                    {
-                        Id = x.Id,
-                        CityId = x.CityId,
-                        City = cities.Where(c => c.Id == x.CityId).First(),
-                        DistrictId = x.DistrictId,
-                        District = districts.Where(d => d.Id == x.DistrictId).First(),
-                        LocationId = x.LocationId,
-                        Location = locations.Where(l => l.Id == x.LocationId).First(),
-                        StreetId = x.StreetId,
-                        Street = streets.Where(s => s.Id == x.StreetId).First(),
-                        HouseNum = x.HouseNum,
-                        FlatNum = x.FlatNum
-                    }).ToList();
                     ClientList = clients.Select(x => new Client
                     {
                         Id = x.Id,
@@ -164,7 +142,6 @@ namespace Models
             client = GetFromList();
             return client;
         }
-
         public override string ToString()
         {
             string output = String.Empty;
@@ -172,11 +149,5 @@ namespace Models
                 output += item.ToString() + "\n";
             return output;
         }
-
-
-
-
-
-
     }
 }

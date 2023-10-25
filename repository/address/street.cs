@@ -13,9 +13,8 @@ namespace Models
 
         public Street()
         {
-            Id = 999;
             City = new();
-            Name = String.Empty;
+            Name = string.Empty;
         }
         public override string ToString() => $"{City.Name}, {Name}";
     }

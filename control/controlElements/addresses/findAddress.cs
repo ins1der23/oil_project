@@ -10,18 +10,18 @@ namespace Handbooks
     public class FindAddress
 
     {
-        public static async Task<Address> Start(bool forPassport = false)
+        public static async Task<Address> Start()
         {
             var user = Settings.User;
-            var forSearch = InOut.GetString(AddrText.addressSearch).PrepareToSearch();
+            string search = InOut.GetString(AddrText.addressSearch).PrepareToSearch();
             var addressList = new Addresses();
-            await addressList.GetFromSqlAsync(user, forSearch);
+            await addressList.GetFromSqlAsync(user, search);
             bool flag = true;
             var address = new Address();
             int choice;
             while (flag)
             {
-                choice = MenuToChoice(addressList.ToStringList(forPassport), AddrText.addressesFound, Text.choiceOrEmpty);
+                choice = MenuToChoice(addressList.ToStringList(), AddrText.addressesFound, Text.choiceOrEmpty);
                 if (choice != 0) address = addressList.GetFromList(choice);
                 flag = false;
             }

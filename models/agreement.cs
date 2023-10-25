@@ -15,7 +15,7 @@ namespace Models
         public virtual Passport Passport { get; set; }
         public string FileName
         {
-            get => $"{Name} от {Date.ToShortDateString()}_{Client.Name},{Client.Address.ShortAddress.PrepareToFileName()}";
+            get => $"{Name} от {Date.ToShortDateString()}_{Client.Name},{Client.Address.ShortString.PrepareToFileName()}";
         }
         public string SearchString
         {

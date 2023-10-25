@@ -1,4 +1,3 @@
-using System;
 using Models;
 
 namespace MenusAndChoices
@@ -31,7 +30,7 @@ namespace MenusAndChoices
             string yesOrNo = client.AgreementCheck == true ? "Есть" : "Отсутствует";
             return @$"
         Название клиента:         {client.Name}
-        Адрес клиента:            {client.Address.FullAddress}
+        Адрес клиента:            {client.Address.LongString}
         Телефон клиента:          {client.Phone}
         Комментарий:              {client.Comment}
         Договор:                  {yesOrNo}
@@ -41,7 +40,7 @@ namespace MenusAndChoices
 
         // AddClient
         public static readonly string nameRestrict = "ОБЯЗАТЕЛЬНО введите название клиента";
-        
+
         public static readonly string clientNotAdded = "КЛИЕНТ НЕ ДОБАВЛЕН";
         public static readonly string inputPhone = "Введите телефон";
         public static readonly string inputComment = "Введите комментарий";
@@ -51,7 +50,7 @@ namespace MenusAndChoices
         // ChangeClient
 
         public static readonly string changeName = "Введите новое название клиента или оставьте поле пустым, если не хотите менять";
-        
+
         public static readonly string changePhone = "Введите новый телефон или оставьте поле пустым, если не хотите менять";
         public static readonly string changeComment = "Введите новый комментарий или оставьте поле пустым, если не хотите менять";
         public static readonly string confirmChanges = "Применить изменения?";

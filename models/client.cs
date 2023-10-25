@@ -22,14 +22,14 @@ namespace Models
         {
             get
             {
-                return $"{Name,-35}{Address.FullAddress}";
+                return $"{Name,-35}{Address.LongString}";
             }
         }
         public string ShortName
         {
             get
             {
-                return $"{Name}, {Address.ShortAddress}";
+                return $"{Name}, {Address.ShortString}";
             }
         }
 
