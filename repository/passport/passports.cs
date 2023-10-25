@@ -15,29 +15,30 @@ namespace Models
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
             search = search.PrepareToSearch();
-            Addresses addressSql = new();
-            await addressSql.GetFromSqlAsync(user);
-            var addressList = addressSql.ToWorkingList();
+            Registrations registrations = new();
+            await registrations.GetFromSqlAsync(user);
+            var regList = registrations.ToWorkingList();
             await user.ConnectAsync();
             if (user.IsConnect)
             {
                 string sql = @"select * from clients as cl;
+                               select * from issueds as i;
                                select * from passports;";
 
                 using (var temp = await user.Connection.QueryMultipleAsync(sql))
                 {
                     var clients = temp.Read<Client>();
-                    var passports = temp.Read<Passport>();
                     var issued = temp.Read<IssuedBy>();
+                    var passports = temp.Read<Passport>();
                     PassportList = passports.Select(x => new Passport
                     {
                         Id = x.Id,
                         Number = x.Number,
                         IssuedId = x.IssuedId,
-                        IssuedBy = issued.First(i => i.Id == x.IssuedId),
+                        IssuedBy = x.IssuedId != 0 ? issued.First(i => i.Id == x.IssuedId) : new(),
                         IssueDate = x.IssueDate,
                         RegistrationId = x.RegistrationId,
-                        Registration = x.RegistrationId !=0 ?addressList.First(a => a.Id == x.RegistrationId) : new(),
+                        Registration = x.RegistrationId != 0 ? regList.First(a => a.Id == x.RegistrationId) : new(),
                         Client = clients.First(cl => cl.Id == x.ClientId),
                     }).Where(p => p.SearchString.PrepareToSearch().Contains(search)).ToList();
                 }

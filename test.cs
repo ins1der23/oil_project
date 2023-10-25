@@ -21,7 +21,6 @@ namespace Testing
             await clients.GetFromSqlAsync(user);
             Console.WriteLine("Clients OK");
             await Task.Delay(1000);
-            await Task.Delay(1000);
             Passports passports = new();
             await passports.GetFromSqlAsync(user);
             Console.WriteLine("Passports OK");
@@ -33,9 +32,7 @@ namespace Testing
             Agreements agreements = new();
             await agreements.GetFromSqlAsync(user);
             Console.WriteLine("Agreements OK");
-
-
-
+            await IssuedControl.Start();
         }
 
     }

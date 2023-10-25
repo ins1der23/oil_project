@@ -12,6 +12,7 @@ namespace Models
         }
 
         public void Clear() => RegistrationList.Clear();
+        public List<Registration> ToWorkingList() => RegistrationList.Select(c => c).ToList(); // Список для работы с LINQ
 
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {

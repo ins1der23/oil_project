@@ -11,14 +11,14 @@ namespace Handbooks
         {
             var user = Settings.User;
             Issueds issueds = new();
-            string search = GetString(IssuedByText.name);
+            string search = GetString(IssuedByText.search);
             await issueds.GetFromSqlAsync(user, search);
             bool flag = true;
             IssuedBy issuedBy = new();
             int choice;
             while (flag)
             {
-                choice = MenuToChoice(issueds.ToStringList(), AddrText.addressesFound, Text.choiceOrEmpty);
+                choice = MenuToChoice(issueds.ToStringList(), IssuedByText.issuedFound, Text.choiceOrEmpty);
                 if (choice != 0) issuedBy = issueds.GetFromList(choice);
                 flag = false;
             }
