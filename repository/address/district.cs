@@ -44,7 +44,7 @@ namespace Models
                                     where d.cityId=c.Id 
                                     and (d.name like ""%{search}%"")
                                     order by d.name";
-                var temp = await user.Connection.QueryAsync<District, City, District>(selectQuery, (d, c) =>
+                var temp = await user.Connection!.QueryAsync<District, City, District>(selectQuery, (d, c) =>
                 {
                     d.City = c;
                     return d;
@@ -62,7 +62,7 @@ namespace Models
                     (name, cityId)
                     values (@{nameof(District.Name)},
                             @{nameof(District.CityId)})";
-                await user.Connection.ExecuteAsync(selectQuery, DistrictsList);
+                await user.Connection!.ExecuteAsync(selectQuery, DistrictsList);
                 user.Close();
             }
         }

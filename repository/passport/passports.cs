@@ -25,7 +25,7 @@ namespace Models
                                select * from issueds as i;
                                select * from passports;";
 
-                using (var temp = await user.Connection.QueryMultipleAsync(sql))
+                using (var temp = await user.Connection!.QueryMultipleAsync(sql))
                 {
                     var clients = temp.Read<Client>();
                     var issued = temp.Read<IssuedBy>();
@@ -58,6 +58,16 @@ namespace Models
             throw new NotImplementedException();
         }
 
+        public Task ChangeSqlAsync(DBConnection user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteSqlAsync(DBConnection user)
+        {
+            throw new NotImplementedException();
+        }
+
         // public async Task AddSqlAsync(DBConnection user)
         //     {
         //         await user.ConnectAsync();
@@ -76,6 +86,7 @@ namespace Models
         //             user.Close();
         //         }
         //     }
+
 
     }
 }

@@ -11,28 +11,26 @@ namespace Handbooks
     {
         public static async Task<Client> Start(Client client)
         {
-            var clientOld = client;
-            var user = Settings.User;
+            Client clientOld = (Client)client.Clone();
             string name = GetString(ClientText.changeName);
             Address address = new();
-            int choice = MenuToChoice(Text.yesOrNo, AddrText.changeAddress, Text.choice); // Изменить адрес?
+            int choice = await MenuToChoice(Text.yesOrNo, AddrText.changeAddress, Text.choice); // Изменить адрес?
             switch (choice)
             {
                 case 1: // Да
-                    ShowString(AddrText.addressChoosing);
+                    await ShowString(AddrText.addressChoosing, delay: 100);
                     bool flag = true;
                     while (flag)
                     {
                         address = await FindAddress.Start();
                         if (address.Id != 0)
                         {
-                            ShowString(AddrText.addressChoosen);
-                            await Task.Delay(1000);
+                            await ShowString(AddrText.addressChoosen);
                             flag = false;
                         }
                         else
                         {
-                            choice = MenuToChoice(AddrText.searchAgainOrAddAddress, AddrText.addressNotChoosen, Text.choice); // Повторить поиск или добавить адрес
+                            choice = await MenuToChoice(AddrText.searchAgainOrAddAddress, AddrText.addressNotChoosen, Text.choice); // Повторить поиск или добавить адрес
                             switch (choice)
                             {
                                 case 1: // Повторить поиск
@@ -40,12 +38,10 @@ namespace Handbooks
                                 case 2: // Добавить
                                     address = await AddAddress.Start();
                                     if (address.Id != 0) flag = false;
-                                    ShowString(AddrText.addressChoosen);
-                                    await Task.Delay(1000);
+                                    await ShowString(AddrText.addressChoosen);
                                     break;
                                 case 3: // Возврат в предыдущее меню
-                                    ShowString(AddrText.addressNotChanged, true);
-                                    await Task.Delay(1000);
+                                    await ShowString(AddrText.addressNotChanged, true);
                                     flag = false;
                                     break;
                             }
@@ -58,19 +54,18 @@ namespace Handbooks
             double phone = GetDouble(ClientText.changePhone);
             string comment = GetString(ClientText.changeComment);
             client.Change(name, address, phone, comment);
-            ShowString(ClientText.Summary(client));
-            InOut.MenuToChoice(Text.yesOrNo, ClientText.confirmChanges, Text.choice, false);
+            await ShowString(client.Summary(), delay: 100);
+            choice = await MenuToChoice(Text.yesOrNo, ClientText.confirmChanges, Text.choice, false);
             switch (choice)
             {
                 case 1:
                     var clientList = new Clients();
-                    await clientList.SaveChanges(user, client);
-                    ShowString(ClientText.clientChanged);
-                    await Task.Delay(1000);
+                    var user = Settings.User;
+                    client = await clientList.SaveChanges(user, client);
+                    await ShowString(ClientText.clientChanged);
                     return client;
                 case 2:
-                    ShowString(ClientText.clientNotChanged);
-                    await Task.Delay(1000);
+                    await ShowString(ClientText.clientNotChanged);
                     return clientOld;
             }
             return client;

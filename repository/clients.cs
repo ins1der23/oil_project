@@ -48,7 +48,7 @@ namespace Models
                             select * from agreements as agr;
                             select * from passports as p;
                             select * from clients";
-                using (var temp = await user.Connection.QueryMultipleAsync(sql))
+                using (var temp = await user.Connection!.QueryMultipleAsync(sql))
                 {
                     var workers = temp.Read<Worker>();
                     var agreementList = temp.Read<Agreement>();
@@ -87,7 +87,7 @@ namespace Models
                     @{nameof(Client.Comment)},
                     @{nameof(Client.OwnerId)},
                     @{nameof(Client.ToDelete)})";
-                await user.Connection.ExecuteAsync(selectQuery, ClientList);
+                await user.Connection!.ExecuteAsync(selectQuery, ClientList);
                 user.Close();
             }
         }
@@ -105,7 +105,7 @@ namespace Models
                     ownerId = @{nameof(Client.OwnerId)},
                     toDelete = @{nameof(Client.ToDelete)}
                     where Id = @{nameof(Client.Id)};";
-                await user.Connection.ExecuteAsync(selectQuery, ClientList);
+                await user.Connection!.ExecuteAsync(selectQuery, ClientList);
                 user.Close();
             }
         }
@@ -116,7 +116,7 @@ namespace Models
             {
                 string selectQuery = $@"delete from clients 
                                         where Id = @{nameof(Client.Id)};";
-                await user.Connection.ExecuteAsync(selectQuery, ClientList);
+                await user.Connection!.ExecuteAsync(selectQuery, ClientList);
                 user.Close();
             }
         }
@@ -149,5 +149,7 @@ namespace Models
                 output += item.ToString() + "\n";
             return output;
         }
+
+        
     }
 }

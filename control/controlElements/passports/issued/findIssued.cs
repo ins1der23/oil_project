@@ -18,7 +18,7 @@ namespace Handbooks
             int choice;
             while (flag)
             {
-                choice = MenuToChoice(issueds.ToStringList(), IssuedByText.issuedFound, Text.choiceOrEmpty);
+                choice = await MenuToChoice(issueds.ToStringList(), IssuedByText.issuedFound, Text.choiceOrEmpty);
                 if (choice != 0) issuedBy = issueds.GetFromList(choice);
                 flag = false;
             }

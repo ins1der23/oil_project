@@ -32,7 +32,7 @@ namespace Testing
             Agreements agreements = new();
             await agreements.GetFromSqlAsync(user);
             Console.WriteLine("Agreements OK");
-            await IssuedControl.Start();
+            await CityControl.Start();
         }
 
     }

@@ -57,7 +57,7 @@ public class TempClients : IEnumerable
                                     from tempClients as c
                                     where c.name like ""%{search}%""
                                     order by c.id";
-                var temp = await user.Connection.QueryAsync<TempClient>(selectQuery);
+                var temp = await user.Connection!.QueryAsync<TempClient>(selectQuery);
                 ClientList = temp.ToList();
                 user.Close();
             }
@@ -84,7 +84,7 @@ public class TempClients : IEnumerable
                     @{nameof(TempClient.AddressId)},
                     @{nameof(TempClient.Phone)},
                     @{nameof(TempClient.Comment)})";
-                await user.Connection.ExecuteAsync(selectQuery, ClientList);
+                await user.Connection!.ExecuteAsync(selectQuery, ClientList);
                 user.Close();
             }
         }
@@ -103,7 +103,7 @@ public class TempClients : IEnumerable
                     @{nameof(TempClient.LocationId)},
                     @{nameof(TempClient.StreetId)},
                     @{nameof(TempClient.HouseNum)})";
-                await user.Connection.ExecuteAsync(selectQuery, ClientList);
+                await user.Connection!.ExecuteAsync(selectQuery, ClientList);
                 user.Close();
             }
         }
@@ -120,7 +120,7 @@ public class TempClients : IEnumerable
                     @{nameof(TempClient.AddressId)},
                     @{nameof(TempClient.Phone)},
                     @{nameof(TempClient.Comment)})";
-                await user.Connection.ExecuteAsync(selectQuery, ClientList);
+                await user.Connection!.ExecuteAsync(selectQuery, ClientList);
                 user.Close();
             }
         }
@@ -144,7 +144,7 @@ public class TempClients : IEnumerable
                     Phone = @{nameof(TempClient.Phone)},
                     Comment = @{nameof(TempClient.Comment)}
                     where Id = @{nameof(TempClient.Id)};";
-                await user.Connection.ExecuteAsync(selectQuery, ClientList);
+                await user.Connection!.ExecuteAsync(selectQuery, ClientList);
                 user.Close();
             }
         }
@@ -155,7 +155,7 @@ public class TempClients : IEnumerable
             {
                 string selectQuery = $@"delete from tempClients 
                                         where Id = @{nameof(TempClient.Id)};";
-                await user.Connection.ExecuteAsync(selectQuery, ClientList);
+                await user.Connection!.ExecuteAsync(selectQuery, ClientList);
                 user.Close();
             }
         }

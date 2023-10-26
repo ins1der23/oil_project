@@ -5,7 +5,7 @@ namespace MenusAndChoices
 {
     public static class AgrText
     {
-        public static List<string> options = new List<string>() {
+        public static readonly List<string> options = new List<string>() {
                                 "Прикрепить скан",
                                 "Показать скан",
                                 "Изменить договор",
@@ -13,10 +13,10 @@ namespace MenusAndChoices
                                 "Посмотреть все договоры",
                                 "Ничего не делать"};
 
-        public static string scanPath = "Перетащите в это окно скан договора";
-        public static string noScan = "Скан договора отсутствует";
-        public static string changeName = "Введите новое название договора или оставьте поле пустым, если не хотите менять";
-        public static string changeDate = "Введите новую дату договора в формате dd-mm-yy";
+        public static readonly string scanPath = "Перетащите в это окно скан договора";
+        public static readonly string noScan = "Скан договора отсутствует";
+        public static readonly string changeName = "Введите новое название договора или оставьте поле пустым, если не хотите менять";
+        public static readonly string changeDate = "Введите новую дату договора в формате dd-mm-yy";
         public static string Summary(this Agreement agreement)
         {
             Console.Clear();

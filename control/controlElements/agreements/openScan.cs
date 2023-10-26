@@ -10,8 +10,7 @@ namespace Handbooks
         {
             if (agreement.ScanPath == String.Empty)
             {
-                ShowString(AgrText.noScan);
-                await Task.Delay(1000);
+                await ShowString(AgrText.noScan);
                 return;
             }
             string filePath = $"\"{agreement.ScanPath.Replace("/", "\\")}\"";

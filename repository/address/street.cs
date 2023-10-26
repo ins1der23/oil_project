@@ -49,7 +49,7 @@ namespace Models
                                     and c.Id = {id}
                                     and (s.name like ""%{search}%"")
                                     order by s.name";
-                var temp = await user.Connection.QueryAsync<Street, City, Street>(selectQuery, (s, c) =>
+                var temp = await user.Connection!.QueryAsync<Street, City, Street>(selectQuery, (s, c) =>
                 {
                     s.City = c;
                     return s;
@@ -69,7 +69,7 @@ namespace Models
                     values (
                     @{nameof(Street.Name)},
                     @{nameof(Street.CityId)})";
-                await user.Connection.ExecuteAsync(selectQuery, StreetsList);
+                await user.Connection!.ExecuteAsync(selectQuery, StreetsList);
                 user.Close();
             }
         }
@@ -80,7 +80,7 @@ namespace Models
             {
                 string selectQuery = $@"delete from streets 
                                         where Id = @{nameof(Street.Id)};";
-                await user.Connection.ExecuteAsync(selectQuery, StreetsList);
+                await user.Connection!.ExecuteAsync(selectQuery, StreetsList);
                 user.Close();
             }
         }

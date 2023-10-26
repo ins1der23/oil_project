@@ -24,7 +24,7 @@ namespace MenusAndChoices
                                 "Повторить поиск клиента",
                                 "Добавить клиента",
                                 "Возврат в предыдущее меню"};
-        public static string Summary(Client client)
+        public static string Summary(this Client client)
         {
             Console.Clear();
             string yesOrNo = client.AgreementCheck == true ? "Есть" : "Отсутствует";
@@ -37,6 +37,8 @@ namespace MenusAndChoices
         Ответственный сотрудник:  {client.Owner.FullName}
         ";
         }
+        public static readonly string returnToSearch = "ВОЗВРАЩАЕМСЯ К ПОИСКУ КЛИЕНТА";
+
 
         // AddClient
         public static readonly string nameRestrict = "ОБЯЗАТЕЛЬНО введите название клиента";
@@ -60,6 +62,7 @@ namespace MenusAndChoices
         // DelClient
         public static readonly string delClient = "ТОЧНО УДАЛИТЬ ЭТОГО КЛИЕНТА???";
         public static readonly string clientDeleted = "КЛИЕНТ УСПЕШНО УДАЛЕН";
+        public static readonly string clientNotDeleted = "КЛИЕНТ НЕ УДАЛЕН";
 
 
     }

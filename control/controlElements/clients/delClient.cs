@@ -7,32 +7,30 @@ namespace Handbooks
 {
     class DelClient
     {
-        public static async Task<bool> Start(Client clientToDelete)
+        public static async Task<Client> Start(Client clientToDelete)
         {
-            var user = Settings.User;
             bool flag = true;
             int choice;
             while (flag)
             {
-                ShowString(ClientText.Summary(clientToDelete), true);
-                choice = MenuToChoice(Text.yesOrNo, ClientText.delClient, Text.choice, false); // Точно удалить?
+                await ShowString(ClientText.Summary(clientToDelete), true, delay: 100);
+                choice = await MenuToChoice(Text.yesOrNo, ClientText.delClient, Text.choice, clear: false, noNull: true); // Точно удалить?
                 switch (choice)
                 {
-                    case 0:
-                        break;
                     case 1: // Да
                         var clientList = new Clients();
                         clientList.Append(clientToDelete);
+                        var user = Settings.User;
                         await clientList.DeleteSqlAsync(user);
-                        ShowString(ClientText.clientDeleted);
-                        await Task.Delay(1000);
-                        return true;
+                        await ShowString(ClientText.clientDeleted);
+                        return new Client();
                     case 2: // Нет
                         flag = false;
+                        await ShowString(ClientText.clientNotDeleted);
                         break;
                 }
             }
-            return false;
+            return clientToDelete;
         }
     }
 }

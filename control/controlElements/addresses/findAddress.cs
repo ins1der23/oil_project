@@ -21,7 +21,7 @@ namespace Handbooks
             int choice;
             while (flag)
             {
-                choice = MenuToChoice(addressList.ToStringList(), AddrText.addressesFound, Text.choiceOrEmpty);
+                choice = await MenuToChoice(addressList.ToStringList(), AddrText.addressesFound, Text.choiceOrEmpty);
                 if (choice != 0) address = addressList.GetFromList(choice);
                 flag = false;
             }

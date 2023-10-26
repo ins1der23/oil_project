@@ -21,7 +21,7 @@ namespace Models
             if (user.IsConnect)
             {
                 string selectQuery = $@"select * from issueds where name like ""%{search}%""";
-                var temp = await user.Connection.QueryAsync<IssuedBy>(selectQuery);
+                var temp = await user.Connection!.QueryAsync<IssuedBy>(selectQuery);
                 IssuedList = temp.ToList();
                 user.Close();
             }
@@ -35,7 +35,30 @@ namespace Models
                     (name)
                     values (
                     @{nameof(IssuedBy.Name)})";
-                await user.Connection.ExecuteAsync(selectQuery, IssuedList);
+                await user.Connection!.ExecuteAsync(selectQuery, IssuedList);
+                user.Close();
+            }
+        }
+        public async Task ChangeSqlAsync(DBConnection user)
+        {
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"update issueds set
+                    name = @{nameof(IssuedBy.Name)}
+                    where Id = @{nameof(IssuedBy.Id)};";
+                await user.Connection!.ExecuteAsync(selectQuery, IssuedList);
+                user.Close();
+            }
+        }
+        public async Task DeleteSqlAsync(DBConnection user)
+        {
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"delete from issueds 
+                                        where Id = @{nameof(IssuedBy.Id)};";
+                await user.Connection!.ExecuteAsync(selectQuery, IssuedList);
                 user.Close();
             }
         }
@@ -57,6 +80,8 @@ namespace Models
                 output.Add(item.ToString());
             return output;
         }
+
+
 
 
     }

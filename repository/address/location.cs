@@ -57,7 +57,7 @@ namespace Models
                             select * from districts as d;
                             select * from locations as l;";
 
-                using (var temp = await user.Connection.QueryMultipleAsync(sql))
+                using (var temp = await user.Connection!.QueryMultipleAsync(sql))
                 {
                     var cities = temp.Read<City>();
                     var districts = temp.Read<District>();
@@ -86,7 +86,7 @@ namespace Models
                     values (@{nameof(Location.Name)},
                             @{nameof(Location.CityId)},
                             @{nameof(Location.DistrictId)})";
-                await user.Connection.ExecuteAsync(selectQuery, LocationsList);
+                await user.Connection!.ExecuteAsync(selectQuery, LocationsList);
                 user.Close();
             }
         }

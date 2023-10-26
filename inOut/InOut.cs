@@ -10,10 +10,11 @@ public static class InOut
     /// </summary>
     /// <param name="text"> Текст для вывода</param>
     /// <param name="clear"> Очистить консоль </param>
-    public static void ShowString(string text, bool clear = false)
+    public static async Task ShowString(string text, bool clear = false, int delay = 1000)
     {
         if (clear) Console.Clear();
         Console.WriteLine(text);
+        await Task.Delay(delay);
     }
 
 
@@ -31,13 +32,13 @@ public static class InOut
     /// <param name="invite">Строка ввода выбора</param>
     /// <param name="clear">Переключатель очистки экрана</param>
     /// <returns></returns>
-    public static int MenuToChoice(List<string> menuChoices, string menuName = "", string invite = "", bool clear = true, bool noNull = false)
+    public static async Task<int> MenuToChoice(List<string> menuChoices, string menuName = "", string invite = "", bool clear = true, bool noNull = false)
     {
         if (clear) Console.Clear();
         var menu = new Menu(menuChoices, menuName);
         Console.WriteLine(menu);
-        if (menuChoices.Count() == 0) ShowString(Text.notFound);
-        if (noNull) return menu.MenuChoice(invite, true);
+        if (menuChoices.Count == 0) await ShowString(Text.notFound);
+        if (noNull) return menu.MenuChoice(invite, noNull:true);
         else return menu.MenuChoice(invite);
 
     }
@@ -68,7 +69,7 @@ public static class InOut
     public static DateTime GetDate(string text)
     {
         Console.Clear();
-        DateTime date = new DateTime();
+        DateTime date = new();
         bool flag = true;
         do
         {
@@ -84,10 +85,10 @@ public static class InOut
     /// </summary>
     /// <param name="text"> Приглашение к вводу текста</param>
     /// <returns>Строка из консоли</returns>
-    public static string GetString(string text)
+    public static string GetString(string text, bool clear = true)
     {
         string output = String.Empty;
-        Console.Clear();
+        if (clear) Console.Clear();
         Console.Write($"{text}: ");
         output += Console.ReadLine()!.Trim();
         return output;

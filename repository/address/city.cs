@@ -5,7 +5,7 @@ using static InOut;
 namespace Models
 
 {
-    public class City
+    public class City : IModels, ICloneable
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -20,10 +20,33 @@ namespace Models
             Locations = new();
             Streets = new();
         }
+        public void Change(string name)
+        {
+            if (name != string.Empty) Name = name;
+        }
 
         public override string ToString() => $"{Name}";
 
+        public object Clone()
+        {
+            City city = (City)MemberwiseClone();
+            city.Districts = Districts;
+            city.Locations = Locations;
+            city.Streets = Streets;
+            return city;
+        }
     }
+
+
+
+
+
+
+
+
+
+
+
     public class Cities
     {
         List<City> CitiesList { get; set; }
@@ -49,7 +72,7 @@ namespace Models
                                     from cities as c 
                                     where c.name like ""%{search}%""
                                     order by c.Id";
-                var temp = await user.Connection.QueryAsync<City>(selectQuery);
+                var temp = await user.Connection!.QueryAsync<City>(selectQuery);
                 CitiesList = temp.ToList();
                 user.Close();
             }
@@ -62,12 +85,25 @@ namespace Models
                 string selectQuery = $@"insert cities 
                     (name)
                     values (@{nameof(City.Name)})";
-                await user.Connection.ExecuteAsync(selectQuery, CitiesList);
+                await user.Connection!.ExecuteAsync(selectQuery, CitiesList);
                 user.Close();
             }
         }
 
-        public async Task<City> SaveGetId(DBConnection user, City city) // получение Id из SQL для новой улицы 
+        public async Task ChangeSqlAsync(DBConnection user)
+        {
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"update cities set
+                    name = @{nameof(City.Name)}
+                    where Id = @{nameof(City.Id)};";
+                await user.Connection!.ExecuteAsync(selectQuery, CitiesList);
+                user.Close();
+            }
+        }
+
+        public async Task<City> SaveGetId(DBConnection user, City city) // получение Id из SQL для нового города 
         {
             if (city.Name == String.Empty) return city;
             Clear();

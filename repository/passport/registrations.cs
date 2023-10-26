@@ -24,7 +24,7 @@ namespace Models
                             select * from streets as s;
                             select * from registrations as r";
 
-                using (var temp = await user.Connection.QueryMultipleAsync(sql))
+                using (var temp = await user.Connection!.QueryMultipleAsync(sql))
                 {
                     var cities = temp.Read<City>();
                     var streets = temp.Read<Street>();
@@ -53,6 +53,11 @@ namespace Models
             throw new NotImplementedException();
         }
         public List<string> ToStringList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ChangeSqlAsync(DBConnection user)
         {
             throw new NotImplementedException();
         }

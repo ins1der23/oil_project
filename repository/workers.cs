@@ -22,7 +22,7 @@ namespace Models
                                     where w.positionId=p.Id
                                     and (w.surname like ""%{search}%"" or w.name like ""%{search}%"")
                                     order by positionId";
-                var temp = await user.Connection.QueryAsync<Worker, Position, Worker>(selectQuery, (w, p) =>
+                var temp = await user.Connection!.QueryAsync<Worker, Position, Worker>(selectQuery, (w, p) =>
                 {
                     w.Position = p;
                     return w;
@@ -43,7 +43,7 @@ namespace Models
                     @{nameof(Worker.Surname)},
                     @{nameof(Worker.Birthday)},
                     @{nameof(Worker.PositionId)})";
-                await user.Connection.ExecuteAsync(selectQuery, WorkersList);
+                await user.Connection!.ExecuteAsync(selectQuery, WorkersList);
                 user.Close();
             }
         }
@@ -58,7 +58,7 @@ namespace Models
                     birthday = @{nameof(Worker.Birthday)},  
                     positionId = @{nameof(Worker.PositionId)}
                     where Id = @{nameof(Worker.Id)};";
-                await user.Connection.ExecuteAsync(selectQuery, WorkersList);
+                await user.Connection!.ExecuteAsync(selectQuery, WorkersList);
                 user.Close();
             }
         }
@@ -69,7 +69,7 @@ namespace Models
             {
                 string selectQuery = $@"delete from workers 
                                         where Id = @{nameof(Worker.Id)};";
-                await user.Connection.ExecuteAsync(selectQuery, WorkersList);
+                await user.Connection!.ExecuteAsync(selectQuery, WorkersList);
                 user.Close();
             }
         }

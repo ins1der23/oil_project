@@ -34,32 +34,6 @@ namespace Models
                 output.Add(item.ToString());
             return output;
         }
-
-        public async Task GetFromSqlAsyncOld(DBConnection user, string searchString = "", int id = 0)
-        {
-            await user.ConnectAsync();
-            if (user.IsConnect)
-            {
-                string selectQuery = id == 0 ? $@"select *
-                                    from agreements as agr, clients as cl 
-                                    where agr.clientId=cl.Id 
-                                    {searchString}
-                                    order by agr.name" : $@"select *
-                                    from agreements as agr, clients as cl 
-                                    where agr.clientId=cl.Id 
-                                    and agr.id = {id}
-                                    order by agr.name";
-
-                var temp = await user.Connection.QueryAsync<Agreement, Client, Agreement>(selectQuery, (agr, cl) =>
-                {
-                    agr.Client = cl;
-                    return agr;
-                });
-                AgreementList = temp.ToList();
-                user.Close();
-            }
-        }
-
         public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 0)
         {
             search = search.PrepareToSearch();
@@ -70,7 +44,7 @@ namespace Models
                             select * from passports as p;
                             select * from agreements as a";
 
-                using (var temp = await user.Connection.QueryMultipleAsync(sql))
+                using (var temp = await user.Connection!.QueryMultipleAsync(sql))
                 {
                     var clients = temp.Read<Client>();
                     var passports = temp.Read<Passport>();
@@ -84,8 +58,8 @@ namespace Models
                         ClientId = x.ClientId,
                         Client = clients.Where(c => c.Id == x.ClientId).First(),
                         PassportId = x.PassportId,
-                        Passport = x.PassportId !=0 ? passports.Where(p => p.Id == x.PassportId).First() : new(),
-                        
+                        Passport = x.PassportId != 0 ? passports.Where(p => p.Id == x.PassportId).First() : new(),
+
                     }).Where(a => a.SearchString.PrepareToSearch().Contains(search) || a.Id == id).ToList();
                 }
                 user.Close();
@@ -104,7 +78,7 @@ namespace Models
                     @{nameof(Agreement.Name)},
                     @{nameof(Agreement.ScanPath)},
                     @{nameof(Agreement.ClientId)})";
-                await user.Connection.ExecuteAsync(selectQuery, AgreementList);
+                await user.Connection!.ExecuteAsync(selectQuery, AgreementList);
                 user.Close();
             }
         }
@@ -119,7 +93,7 @@ namespace Models
                     scanPath = @{nameof(Agreement.ScanPath)},
                     clientId = @{nameof(Agreement.ClientId)}
                     where Id = @{nameof(Agreement.Id)};";
-                await user.Connection.ExecuteAsync(selectQuery, AgreementList);
+                await user.Connection!.ExecuteAsync(selectQuery, AgreementList);
                 user.Close();
             }
         }
@@ -130,7 +104,7 @@ namespace Models
             {
                 string selectQuery = $@"delete from agreements 
                                         where Id = @{nameof(Agreement.Id)};";
-                await user.Connection.ExecuteAsync(selectQuery, AgreementList);
+                await user.Connection!.ExecuteAsync(selectQuery, AgreementList);
                 user.Close();
             }
         }
@@ -140,7 +114,7 @@ namespace Models
         /// <param name="user">экземпляр DBConnection для связи с базой</param>
         /// <param name="agreement">экземпляр agreement != null, которому нужно присвоить Id</param>
         /// <returns>agreement с присвоенным Id</returns>
-        public async Task<Agreement> SaveNewGetId(DBConnection user, Agreement agreement) // 
+        public async Task<Agreement> SaveGetId(DBConnection user, Agreement agreement) // 
         {
             if (agreement.ClientId == 0) return agreement;
             Clear();

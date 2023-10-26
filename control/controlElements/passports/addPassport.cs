@@ -17,11 +17,11 @@ namespace Handbooks
                 IssueDate = GetDate(PassportText.date),
             };
 
-            int choice = MenuToChoice(Text.yesOrNo, PassportText.addRegistration, Text.choice, noNull: true);
+            int choice = await MenuToChoice(Text.yesOrNo, PassportText.addRegistration, Text.choice, noNull: true);
             switch (choice)
             {
                 case 1: // Добавить регистрацию
-                    ShowString(AddrText.addressChoosing);
+                    await ShowString(AddrText.addressChoosing, delay: 100);
                     bool flag = true;
                     while (flag)
                     {
@@ -30,8 +30,7 @@ namespace Handbooks
                         {
                             passportToAdd.RegistrationId = address.Id;
                             passportToAdd.Registration = address;
-                            ShowString(AddrText.addressChoosen);
-                            await Task.Delay(1000);
+                            await ShowString(AddrText.addressChoosen);
                             flag = false;
                         }
                         else
@@ -39,7 +38,7 @@ namespace Handbooks
                             bool levOneFlag = true;
                             while (levOneFlag)
                             {
-                                choice = MenuToChoice(AddrText.searchOrAddContinue, AddrText.addressNotChoosen, Text.choice);
+                                choice = await MenuToChoice(AddrText.searchOrAddContinue, AddrText.addressNotChoosen, Text.choice);
                                 switch (choice)
                                 {
                                     case 1: // Повторить поиск
@@ -56,8 +55,7 @@ namespace Handbooks
                                         }
                                         break;
                                     case 3: // Продолжить без добавления адреса
-                                        ShowString(AddrText.addressNotChoosen);
-                                        await Task.Delay(1000);
+                                        await ShowString(AddrText.addressNotChoosen);
                                         levOneFlag = false;
                                         flag = false;
                                         break;
@@ -67,28 +65,24 @@ namespace Handbooks
                     }
                     break;
                 case 2: // Не добавлять регистрацию
-                    ShowString(AddrText.addressNotChoosen);
-                    await Task.Delay(1000);
+                    await ShowString(AddrText.addressNotChoosen);
                     break;
             }
-            ShowString(PassportText.Summary(passportToAdd));
-            choice = MenuToChoice(Text.yesOrNo, PassportText.savePassport, Text.choice, clear: false, noNull: true);
+            await ShowString(PassportText.Summary(passportToAdd), delay: 100);
+            choice = await MenuToChoice(Text.yesOrNo, PassportText.savePassport, Text.choice, clear: false, noNull: true);
             if (choice == 1)
             {
                 var passportList = new Passports();
                 // passportToAdd = await clientList.SaveGetId(user, passportToAdd);
-                ShowString(ClientText.clientAdded);
-                await Task.Delay(1000);
+                await ShowString(ClientText.clientAdded);
                 // return clientToAdd;
             }
-            ShowString(ClientText.clientNotAdded);
-            await Task.Delay(1000);
+            await ShowString(ClientText.clientNotAdded);
             return new Passport();
 
 
 
-            await Task.Delay(1000);
-            return passportToAdd;
+
         }
     }
 }

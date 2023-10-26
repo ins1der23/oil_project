@@ -17,7 +17,7 @@ namespace Models
             if (user.IsConnect)
             {
                 string selectQuery = $@"select * from positions";
-                var temp = await user.Connection.QueryAsync<Position>(selectQuery);
+                var temp = await user.Connection!.QueryAsync<Position>(selectQuery);
                 PositionsList = temp.ToList();
                 user.Close();
             }

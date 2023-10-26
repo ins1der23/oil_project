@@ -6,7 +6,6 @@
     <Nullable>enable</Nullable>
     <PublishAot>false</PublishAot>
     <SelfContained>true</SelfContained>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <PublishSingleFile>true</PublishSingleFile>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
@@ -19,7 +18,7 @@
     <Using Include="Dapper" />
     <Using Include="System.Diagnostics" />
     <Using Include="System.Collections" />
-    <PackageReference Include="Dapper" Version="2.0.143" />
+    <PackageReference Include="Dapper" Version="2.1.15" />
     <PackageReference Include="MySql.Data" Version="8.1.0" />
   </ItemGroup>
 </Project>

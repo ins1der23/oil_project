@@ -9,7 +9,6 @@ namespace Handbooks
     {
         public static async Task<IssuedBy> Start()
         {
-            var user = Settings.User;
             bool mainFlag = true;
             int choice;
             IssuedBy issuedBy = new();
@@ -18,21 +17,23 @@ namespace Handbooks
                 issuedBy = await FindIssuedBy.Start();
                 if (issuedBy.Id == 0)
                 {
-                    choice = MenuToChoice(IssuedByText.searchAgainOrAdd, invite: Text.choice);
+                    choice = await MenuToChoice(IssuedByText.searchAgainOrAdd, invite: Text.choice, noNull: true);
                     switch (choice)
                     {
-                        case 0: // Повторить поиск
+                        case 1: // Повторить поиск
                             break;
                         case 2: // Добавить орган, выдавший паспорт
-                            var issuedByNew = await AddIssued.Start();
-                            if (issuedByNew.Name != string.Empty) issuedBy = issuedByNew;
-                            ShowString(IssuedByText.choosen);
-                            await Task.Delay(1000);
+                            var issuedByNew = await AddIssuedBy.Start();
+                            if (issuedByNew.Name != string.Empty)
+                            {
+                                issuedBy = issuedByNew;
+                                await ShowString(IssuedByText.choosen);
+                            }
+                            else await ShowString(IssuedByText.notChoosen);
                             mainFlag = false;
                             break;
                         case 3: // возврат в предыдущее меню
-                            ShowString(IssuedByText.notChoosen);
-                            await Task.Delay(1000);
+                            await ShowString(IssuedByText.notChoosen);
                             mainFlag = false;
                             break;
                     }
@@ -42,7 +43,7 @@ namespace Handbooks
                     bool levelOneFlag = true;
                     while (levelOneFlag)
                     {
-                        choice = MenuToChoice(IssuedByText.issuedChoices, issuedBy.Name, invite: Text.choice, noNull: true);
+                        choice = await MenuToChoice(IssuedByText.options, issuedBy.Name, invite: Text.choice, noNull: true);
                         switch (choice)
                         {
                             case 1: // Выбрать
@@ -50,27 +51,25 @@ namespace Handbooks
                                 mainFlag = false;
                                 break;
                             case 2: // Изменить
-                                ShowString(IssuedByText.changed);
-                                await Task.Delay(1000);
+                                issuedBy = await ChangeIssuedBy.Start(issuedBy);
                                 break;
                             case 3: //Удалить
-                                levelOneFlag = false;
-                                ShowString(IssuedByText.deleted);
-                                await Task.Delay(1000);
-                                ShowString(IssuedByText.returnToSearch);
-                                await Task.Delay(1000);
+                                issuedBy = await DelIssuedBy.Start(issuedBy);
+                                if (issuedBy.Id == 0)
+                                {
+                                    levelOneFlag = false;
+                                    await ShowString(Text.returnToSearch);
+                                }
                                 break;
                             case 4: //Вернуться к поиску
                                 levelOneFlag = false;
-                                ShowString(IssuedByText.returnToSearch);
-                                await Task.Delay(1000);
+                                await ShowString(Text.returnToSearch);
                                 break;
-                                case 5: //Вернуться в предыдущее меню
+                            case 5: //Вернуться в предыдущее меню
                                 levelOneFlag = false;
                                 mainFlag = false;
                                 issuedBy = new();
-                                ShowString(IssuedByText.notChoosen);
-                                await Task.Delay(1000);
+                                await ShowString(IssuedByText.notChoosen);
                                 break;
                         }
                     }

@@ -91,7 +91,7 @@ namespace Models
                             select * from streets as s;
                             select * from addresses as a";
 
-                using (var temp = await user.Connection.QueryMultipleAsync(sql))
+                using (var temp = await user.Connection!.QueryMultipleAsync(sql))
                 {
                     var cities = temp.Read<City>();
                     var districts = temp.Read<District>();
@@ -128,7 +128,7 @@ namespace Models
                     @{nameof(Address.LocationId)},
                     @{nameof(Address.StreetId)},
                     @{nameof(Address.HouseNum)})";
-                await user.Connection.ExecuteAsync(selectQuery, AddressList);
+                await user.Connection!.ExecuteAsync(selectQuery, AddressList);
                 user.Close();
             }
         }
@@ -145,7 +145,7 @@ namespace Models
                     streetId = @{nameof(Address.StreetId)},
                     houseNum = @{nameof(Address.HouseNum)}
                     where Id = @{nameof(Address.Id)};";
-                await user.Connection.ExecuteAsync(selectQuery, AddressList);
+                await user.Connection!.ExecuteAsync(selectQuery, AddressList);
                 user.Close();
             }
         }
@@ -169,5 +169,9 @@ namespace Models
             return output;
         }
 
+        public Task DeleteSqlAsync(DBConnection user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

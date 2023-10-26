@@ -1,7 +1,7 @@
 
 namespace Models
 {
-    public class Client
+    public class Client : IModels, ICloneable
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -36,7 +36,7 @@ namespace Models
 
         public Client()
         {
-            Name = String.Empty;
+            Name = string.Empty;
             Address = new Address();
             Owner = new Worker();
             Agreements = new List<Agreement>();
@@ -60,6 +60,15 @@ namespace Models
             return $"{FullName}{Phone,-10}";
         }
 
+        public object Clone() 
+        {
+            Client client = (Client)MemberwiseClone();
+            client.Address = Address;
+            client.Owner = Owner;
+            client.Agreements = Agreements;
+            client.Passports = Passports;
+            return client;
+        } 
     }
 }
 

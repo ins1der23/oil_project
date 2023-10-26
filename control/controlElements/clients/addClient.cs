@@ -16,7 +16,7 @@ namespace Handbooks
             {
                 clientToAdd.Name = InOut.GetString(ClientText.nameRestrict);
             } while (clientToAdd.Name == String.Empty);
-            ShowString(AddrText.addressChoosing);
+            await ShowString(AddrText.addressChoosing, delay: 100);
             bool flag = true;
             while (flag)
             {
@@ -25,8 +25,7 @@ namespace Handbooks
                 {
                     clientToAdd.AddressId = address.Id;
                     clientToAdd.Address = address;
-                    ShowString(AddrText.addressChoosen);
-                    await Task.Delay(1000);
+                    await ShowString(AddrText.addressChoosen);
                     flag = false;
                 }
                 else
@@ -34,7 +33,7 @@ namespace Handbooks
                     bool levOneFlag = true;
                     while (levOneFlag)
                     {
-                        choice = MenuToChoice(AddrText.searchAgainOrAddAddress, AddrText.addressNotChoosen, Text.choice);
+                        choice = await MenuToChoice(AddrText.searchAgainOrAddAddress, AddrText.addressNotChoosen, Text.choice);
                         switch (choice)
                         {
                             case 1: // Повторить поиск
@@ -51,8 +50,7 @@ namespace Handbooks
                                 }
                                 break;
                             case 3: // Возврат в предыдущее меню
-                                ShowString(ClientText.clientNotAdded);
-                                await Task.Delay(1000);
+                                await ShowString(ClientText.clientNotAdded);
                                 return new Client();
                         }
                     }
@@ -62,18 +60,16 @@ namespace Handbooks
             clientToAdd.Phone = GetDouble(ClientText.inputPhone);
             clientToAdd.OwnerId = user.UserId;
             clientToAdd.Comment = GetString(ClientText.inputComment);
-            ShowString(ClientText.Summary(clientToAdd));
-            choice = MenuToChoice(Text.yesOrNo, ClientText.saveClient, Text.choice, clear: false, noNull: true);
+            await ShowString(clientToAdd.Summary(), delay: 100);
+            choice = await MenuToChoice(Text.yesOrNo, ClientText.saveClient, Text.choice, clear: false, noNull: true);
             if (choice == 1)
             {
                 var clientList = new Clients();
                 clientToAdd = await clientList.SaveGetId(user, clientToAdd);
-                ShowString(ClientText.clientAdded);
-                await Task.Delay(1000);
+                await ShowString(ClientText.clientAdded);
                 return clientToAdd;
             }
-            ShowString(ClientText.clientNotAdded);
-            await Task.Delay(1000);
+            await ShowString(ClientText.clientNotAdded);
             return new Client();
         }
     }

@@ -4,40 +4,37 @@ using Testing;
 using Temp;
 using Handbooks;
 using Models;
-using Connection;
+
 
 namespace Controller
 {
     public class MainControl
     {
         public static async Task Start()
-        {   
+        {
             Console.WindowWidth = 180;
             bool check = await Settings.Connect();
             await Task.Delay(2000);
             if (!check)
             {
-                ShowString(SettingsText.noConnection, true);
-                await Task.Delay(1000);
+                await ShowString(SettingsText.noConnection, true);
                 return;
             }
-            ShowString(SettingsText.connected, true);
-            await Task.Delay(1000);
+            await ShowString(SettingsText.connected, true);
             check = await Settings.Set();
             if (!check)
             {
-                ShowString(SettingsText.noPath);
-                await Task.Delay(1000);
+                await ShowString(SettingsText.noPath);
                 return;
             }
             var user = Settings.User;
-            Workers workersList = new Workers();
-            Positions positionsList = new Positions();
+            Workers workersList = new();
+            Positions positionsList = new();
             var toFind = string.Empty;
             while (true)
             {
                 bool mainFlag = true;
-                int choice = MenuToChoice(Text.mainMenu, Text.menuNames[0], Text.choice);
+                int choice = await MenuToChoice(Text.mainMenu, Text.menuNames[0], Text.choice);
                 switch (choice)
                 {
                     case 1: // Клиенты
@@ -46,7 +43,7 @@ namespace Controller
                     case 2: //Заявки
                         while (mainFlag)
                         {
-                            choice = MenuToChoice(Text.claimMenu, Text.menuNames[2], Text.choice);
+                            choice = await MenuToChoice(Text.claimMenu, Text.menuNames[2], Text.choice);
                             switch (choice)
                             {
                                 case 3:
@@ -58,28 +55,28 @@ namespace Controller
                     case 4: // Сотрудники
                         while (mainFlag)
                         {
-                            choice = MenuToChoice(Text.showOrFind, Text.menuNames[3], Text.choice);
+                            choice = await MenuToChoice(Text.showOrFind, Text.menuNames[3], Text.choice);
                             switch (choice)
                             {
                                 case 1: // Показать все
                                     await workersList.GetFromSqlAsync(user);
                                     workersList.ToStringList().ShowStringList();
-                                    choice = MenuToChoice(Text.addOrchoose, invite: Text.choice);
+                                    choice = await MenuToChoice(Text.addOrchoose, invite: Text.choice);
                                     switch (choice)
                                     {
                                         case 1: // Выбрать 
-                                            choice = MenuToChoice(workersList.ToStringList(), invite: Text.choice);
+                                            choice = await MenuToChoice(workersList.ToStringList(), invite: Text.choice);
                                             Worker? workerToChange = workersList.GetFromList(choice);
-                                            ShowString(workerToChange.ToString());
-                                            choice = MenuToChoice(Text.changeOrDelete, invite: Text.choice);
+                                            await ShowString(workerToChange.ToString());
+                                            choice = await MenuToChoice(Text.changeOrDelete, invite: Text.choice);
                                             switch (choice)
                                             {
                                                 case 1: // Изменить работника
                                                     workerToChange.Change();
                                                     await positionsList.GetFromSqlAsync(user);
-                                                    choice = MenuToChoice(positionsList.ToStringList(), Text.menuNames[4], Text.choice);
+                                                    choice = await MenuToChoice(positionsList.ToStringList(), Text.menuNames[4], Text.choice);
                                                     workerToChange.SetPosition(choice);
-                                                    ShowString(workerToChange.ToString());
+                                                    await ShowString(workerToChange.ToString());
                                                     await workersList.ChangeSqlAsync(user);
                                                     break;
                                                 case 2: // Удалить работника
@@ -91,13 +88,13 @@ namespace Controller
                                             break;
                                         case 2: // Добавить работника
                                             var workerToAdd = Worker.Create();
-                                            ShowString(Text.setPosition);
-                                            choice = MenuToChoice(Text.yesOrNo, invite: Text.choice);
+                                            await ShowString(Text.setPosition);
+                                            choice = await MenuToChoice(Text.yesOrNo, invite: Text.choice);
                                             switch (choice)
                                             {
                                                 case 1: // Назначить должность
                                                     await positionsList.GetFromSqlAsync(user);
-                                                    choice = MenuToChoice(positionsList.ToStringList(), Text.menuNames[4], Text.choice);
+                                                    choice = await MenuToChoice(positionsList.ToStringList(), Text.menuNames[4], Text.choice);
                                                     workerToAdd.SetPosition(choice);
                                                     break;
                                             }
@@ -111,22 +108,22 @@ namespace Controller
                                     toFind = InOut.GetString(Text.workerName);
                                     await workersList.GetFromSqlAsync(user, toFind);
                                     workersList.ToStringList().ShowStringList();
-                                    choice = MenuToChoice(Text.choose, invite: Text.choice);
+                                    choice = await MenuToChoice(Text.choose, invite: Text.choice);
                                     switch (choice)
                                     {
                                         case 1: // Выбрать работника
-                                            choice = MenuToChoice(workersList.ToStringList(), Text.menuNames[3], Text.choice);
+                                            choice = await MenuToChoice(workersList.ToStringList(), Text.menuNames[3], Text.choice);
                                             Worker? workerToChange = workersList.GetFromList(choice);
-                                            ShowString(workerToChange.ToString());
-                                            choice = MenuToChoice(Text.changeOrDelete, invite: Text.choice);
+                                            await ShowString(workerToChange.ToString());
+                                            choice = await MenuToChoice(Text.changeOrDelete, invite: Text.choice);
                                             switch (choice)
                                             {
                                                 case 1: // Изменить работника
                                                     workerToChange.Change();
                                                     await positionsList.GetFromSqlAsync(user);
-                                                    choice = MenuToChoice(positionsList.ToStringList(), Text.menuNames[4], Text.choice);
+                                                    choice = await MenuToChoice(positionsList.ToStringList(), Text.menuNames[4], Text.choice);
                                                     workerToChange.SetPosition(choice);
-                                                    ShowString(workerToChange.ToString());
+                                                    await ShowString(workerToChange.ToString());
                                                     await workersList.ChangeSqlAsync(user);
                                                     break;
                                                 case 2: // Удалить работника

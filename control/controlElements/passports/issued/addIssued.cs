@@ -5,7 +5,7 @@ using Models;
 
 namespace Handbooks
 {
-    public class AddIssued
+    public class AddIssuedBy
     {
         public static async Task<IssuedBy> Start()
         {
@@ -16,8 +16,7 @@ namespace Handbooks
             };
             Issueds issuedList = new();
             issuedBy = await issuedList.SaveGetId(user, issuedBy);
-            ShowString(IssuedByText.added);
-            await Task.Delay(1000);
+            await ShowString(IssuedByText.added);
             return issuedBy;
         }
     }

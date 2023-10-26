@@ -2,7 +2,6 @@ using static InOut;
 using MenusAndChoices;
 using Controller;
 using Models;
-using Connection;
 
 namespace Handbooks
 
@@ -19,23 +18,19 @@ namespace Handbooks
             int choice;
             while (flag)
             {
-                searchString = InOut.GetString(AddrText.cityName); // Найти город
+                searchString = InOut.GetString(CityText.cityNameOrEmpty); // Найти город
                 await cityList.GetFromSqlAsync(user, searchString);
-                choice = MenuToChoice(cityList.ToStringList(), AddrText.cities, Text.choiceOrEmpty);
+                choice = await MenuToChoice(cityList.ToStringList(), CityText.cities, Text.choiceOrEmpty);
                 if (choice != 0)
                 {
                     addressToAdd.City = cityList.GetFromList(choice);
                     addressToAdd.CityId = addressToAdd.City.Id;
-                    Console.WriteLine(addressToAdd.City.Name);
-                    Console.WriteLine(addressToAdd.CityId);
-                    Console.ReadLine();
-                    ShowString(AddrText.cityChoosen);
-                    await Task.Delay(1000);
+                    await ShowString(CityText.cityChoosen);
                     flag = false;
                 }
                 else
                 {
-                    choice = MenuToChoice(AddrText.searchAgainOrAddCity, AddrText.cities, Text.choice, noNull: true); // Не найдено
+                    choice = await MenuToChoice(CityText.searchAgainOrAddCity, CityText.cities, Text.choice, noNull: true); // Не найдено
                     switch (choice)
                     {
                         case 1: // Повторить поиск города
@@ -45,15 +40,10 @@ namespace Handbooks
                             string name = GetString(Text.inputName);
                             cityToAdd.Name = name;
                             cityToAdd = await cityList.SaveGetId(user, cityToAdd);
-                            ShowString(AddrText.cityAdded);
-                            await Task.Delay(1000);
+                            await ShowString(CityText.cityAdded);
                             addressToAdd.City = cityToAdd;
                             addressToAdd.CityId = addressToAdd.City.Id;
-                            Console.WriteLine(addressToAdd.CityId);
-                            Console.ReadLine();
-
-                            ShowString(AddrText.cityChoosen);
-                            await Task.Delay(1000);
+                            await ShowString(CityText.cityChoosen);
                             District district = new()
                             {
                                 Name = name,
@@ -73,8 +63,7 @@ namespace Handbooks
                             flag = false;
                             break;
                         case 3: // Выход
-                            ShowString(AddrText.addressNotAdded);
-                            await Task.Delay(1000);
+                            await ShowString(AddrText.addressNotAdded);
                             return new Address();
                     }
                 }
@@ -87,20 +76,19 @@ namespace Handbooks
                 await locationList.GetFromSqlAsync(user, searchString, addressToAdd.CityId);
                 if (locationList.IsEmpty)
                 {
-                    choice = MenuToChoice(Text.searchAgain, Text.notFound, Text.choice); // Не найдено
+                    choice = await MenuToChoice(Text.searchAgain, Text.notFound, Text.choice); // Не найдено
                     switch (choice)
                     {
                         case 1: // Повторить поиск
                             break;
                         case 2: // Выход
-                            ShowString(AddrText.addressNotAdded);
-                            await Task.Delay(1000);
+                            await ShowString(AddrText.addressNotAdded);
                             return new Address();
                     }
                 }
                 else flag = false;
             }
-            choice = MenuToChoice(locationList.ToStringList(), AddrText.locations, Text.choice, noNull: true);
+            choice = await MenuToChoice(locationList.ToStringList(), AddrText.locations, Text.choice, noNull: true);
             addressToAdd.Location = locationList.GetFromList(choice);
             addressToAdd.LocationId = addressToAdd.Location.Id;
             addressToAdd.DistrictId = addressToAdd.Location.DistrictId;
@@ -111,18 +99,17 @@ namespace Handbooks
             {
                 searchString = InOut.GetString(Text.streetName); // Найти улицу
                 await streetList.GetFromSqlAsync(user, searchString, addressToAdd.CityId);
-                choice = MenuToChoice(streetList.ToStringList(), AddrText.streets, Text.choiceOrEmpty);
+                choice = await MenuToChoice(streetList.ToStringList(), AddrText.streets, Text.choiceOrEmpty);
                 if (choice != 0)
                 {
                     addressToAdd.Street = streetList.GetFromList(choice);
                     addressToAdd.StreetId = addressToAdd.Street.Id;
-                    ShowString(AddrText.streetChoosen);
-                    await Task.Delay(1000);
+                    await ShowString(AddrText.streetChoosen);
                     flag = false;
                 }
                 else
                 {
-                    choice = MenuToChoice(AddrText.searchAgainOrAddStreet, AddrText.streets, Text.choice, noNull: true); // Не найдено
+                    choice = await MenuToChoice(AddrText.searchAgainOrAddStreet, AddrText.streets, Text.choice, noNull: true); // Не найдено
                     switch (choice)
                     {
                         case 1: // Повторить поиск
@@ -134,17 +121,14 @@ namespace Handbooks
                                 CityId = addressToAdd.CityId
                             };
                             streetToAdd = await streetList.SaveGetId(user, streetToAdd);
-                            ShowString(AddrText.streetAdded);
-                            await Task.Delay(1000);
+                            await ShowString(AddrText.streetAdded);
                             addressToAdd.Street = streetToAdd;
                             addressToAdd.StreetId = streetToAdd.Id;
-                            ShowString(AddrText.streetChoosen);
-                            await Task.Delay(1000);
+                            await ShowString(AddrText.streetChoosen);
                             flag = false;
                             break;
                         case 3: // Выход
-                            ShowString(AddrText.addressNotAdded);
-                            await Task.Delay(1000);
+                            await ShowString(AddrText.addressNotAdded);
                             return new Address();
                     }
                 }
@@ -153,8 +137,7 @@ namespace Handbooks
             addressToAdd.HouseNum = GetString(AddrText.houseNum);
             var addressList = new Addresses();
             addressToAdd = await addressList.SaveGetId(user, addressToAdd);
-            ShowString(AddrText.addressAdded);
-            await Task.Delay(1000);
+            await ShowString(AddrText.addressAdded);
             return addressToAdd;
         }
     }

@@ -19,25 +19,25 @@ namespace Handbooks
                 agreement.ClientId = clientToChange.Id;
                 clientToChange.Agreements.Add(agreement);
                 var agrList = new Agreements();
-                agreement = await agrList.SaveNewGetId(user, agreement);
+                agreement = await agrList.SaveGetId(user, agreement);
             }
             agreement.Client = clientToChange;
             int choice;
             bool flag = true;
             while (flag)
             {
-                ShowString(agreement.Summary());
-                choice = MenuToChoice(AgrText.options, invite: Text.choice, clear: false);
+                await ShowString(agreement.Summary(), delay: 100);
+                choice = await MenuToChoice(AgrText.options, invite: Text.choice, clear: false);
                 switch (choice)
                 {
                     case 1:
-                        await AttachScan.Start(agreement);
+                        agreement = await AttachScan.Start(agreement);
                         break;
                     case 2:
                         await OpenScan.Start(agreement);
                         break;
                     case 3:
-                        await ChangeAgr.Start(agreement);
+                        agreement = await ChangeAgr.Start(agreement);
                         break;
                     case 6:
                         return;
