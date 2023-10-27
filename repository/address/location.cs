@@ -47,7 +47,7 @@ namespace Models
         public List<Location> ToWorkingList() => LocationsList.Select(c => c).ToList(); // Список для работы с LINQ
         public Location GetFromList(int index = 1) => LocationsList[index - 1];
 
-        public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 1)
+        public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 0)
         {
             search = search.PrepareToSearch();
             await user.ConnectAsync();
@@ -70,7 +70,7 @@ namespace Models
                         City = cities.Where(c => c.Id == x.CityId).First(),
                         DistrictId = x.DistrictId,
                         District = districts.Where(d => d.Id == x.DistrictId).First(),
-                    }).Where(l => l.Name.PrepareToSearch().Contains(search)).Where(l => l.CityId == id).ToList();
+                    }).Where(l => id == 0 ? l.Name.PrepareToSearch().Contains(search) : l.Id == id).ToList();
                 }
                 user.Close();
             }
@@ -90,7 +90,41 @@ namespace Models
                 user.Close();
             }
         }
+        public async Task ChangeSqlAsync(DBConnection user)
+        {
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"update locations set
+                    name = @{nameof(Location.Name)},
+                    cityId = @{nameof(Location.CityId)},
+                    districtId = @{nameof(Location.DistrictId)}
+                    where Id = @{nameof(Location.Id)};";
+                await user.Connection!.ExecuteAsync(selectQuery, LocationsList);
+                user.Close();
+            }
+        }
+        public async Task<Location> SaveGetId(DBConnection user, Location location) // получение Id из SQL для нового микрорайона
+        {
+            if (location.Name == string.Empty) return location;
+            Clear();
+            Append(location);
+            await AddSqlAsync(user);
+            await GetFromSqlAsync(user, location.Name);
+            location = GetFromList();
+            return location;
+        }
 
+        public async Task<Location> SaveChanges(DBConnection user, Location location) // получение Id из SQL для нового микрорайона
+        {
+            if (location.Name == string.Empty) return location;
+            Clear();
+            Append(location);
+            await ChangeSqlAsync(user);
+            await GetFromSqlAsync(user, id: location.Id);
+            location = GetFromList();
+            return location;
+        }
         public List<string> ToStringList()
         {
             List<string> output = new();

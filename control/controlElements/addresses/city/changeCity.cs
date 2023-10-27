@@ -9,16 +9,16 @@ namespace Handbooks
     {
         public static async Task<City> Start(City city)
         {
-            var cityNew = (City)city.Clone();
-            await ShowString(city.Name, clear: true);
+            var cityOld = (City)city.Clone();
+            await ShowString(city.Name, clear: true, delay: 300);
             string name = GetString(CityText.changeName, clear: false);
             if (name == string.Empty)
             {
                 await ShowString(CityText.changeCancel);
                 return city;
             }
-            cityNew.Change(name);
-            await ShowString(cityNew.Name, clear: true);
+            city.Change(name);
+            await ShowString(city.Name, clear: true);
             int choice = await MenuToChoice(Text.yesOrNo, CityText.changeConfirm, Text.choice, clear: false, noNull: true);
             if (choice == 1)
             {
@@ -28,13 +28,19 @@ namespace Handbooks
                 await cities.ChangeSqlAsync(user);
                 await ShowString(CityText.changed);
                 Districts districts = new();
-                await districts.GetFromSqlAsync(user, city.Name);
-
-                
-                return cityNew;
+                await districts.GetFromSqlAsync(user, cityOld.Name);
+                District district = districts.GetFromList();
+                district.Name = name;
+                _ = await districts.SaveChanges(user, district);
+                Locations locations = new();
+                await locations.GetFromSqlAsync(user, cityOld.Name);
+                Location location = locations.GetFromList();
+                location.Name = name;
+                _ = await locations.SaveChanges(user, location);
+                return city;
             }
             await ShowString(CityText.changeCancel);
-            return city;
+            return cityOld;
         }
     }
 }

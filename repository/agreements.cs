@@ -60,12 +60,11 @@ namespace Models
                         PassportId = x.PassportId,
                         Passport = x.PassportId != 0 ? passports.Where(p => p.Id == x.PassportId).First() : new(),
 
-                    }).Where(a => a.SearchString.PrepareToSearch().Contains(search) || a.Id == id).ToList();
+                    }).Where(a => id == 0 ? a.SearchString.PrepareToSearch().Contains(search) : a.Id == id).ToList();
                 }
                 user.Close();
             }
         }
-
         public async Task AddSqlAsync(DBConnection user)
         {
             await user.ConnectAsync();

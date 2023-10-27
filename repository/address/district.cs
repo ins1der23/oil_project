@@ -9,6 +9,7 @@ namespace Models
         public string Name { get; set; }
         public int CityId { get; set; }
         public virtual City City { get; set; }
+        public string SearchString => Name.PrepareToSearch();
 
         public District()
         {
@@ -33,23 +34,24 @@ namespace Models
         public IEnumerator GetEnumerator() => DistrictsList.GetEnumerator();
         public void Clear() => DistrictsList.Clear();
         public void Append(District district) => DistrictsList.Add(district);
-        public District GetFromList(int index = 1) => DistrictsList[index];
-        public async Task GetFromSqlAsync(DBConnection user, string search = "")
+        public District GetFromList(int index = 1) => DistrictsList[index - 1];
+        public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 0)
         {
+            search = search.PrepareToSearch();
             await user.ConnectAsync();
             if (user.IsConnect)
             {
                 string selectQuery = $@"select *
                                     from districts as d, cities as c 
                                     where d.cityId=c.Id 
-                                    and (d.name like ""%{search}%"")
+                                    and d.name like ""%{search}%""
                                     order by d.name";
                 var temp = await user.Connection!.QueryAsync<District, City, District>(selectQuery, (d, c) =>
                 {
                     d.City = c;
                     return d;
                 });
-                DistrictsList = temp.ToList();
+                DistrictsList = temp.Where(d => id == 0 ? d.SearchString.Contains(search) : d.Id == id).ToList();
                 user.Close();
             }
         }
@@ -66,6 +68,19 @@ namespace Models
                 user.Close();
             }
         }
+        public async Task ChangeSqlAsync(DBConnection user)
+        {
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"update districts set
+                    name = @{nameof(District.Name)},
+                    cityId = @{nameof(District.CityId)}
+                    where Id = @{nameof(District.Id)};";
+                await user.Connection!.ExecuteAsync(selectQuery, DistrictsList);
+                user.Close();
+            }
+        }
         public async Task<District> SaveGetId(DBConnection user, District district) // получение Id из SQL для нового района
         {
             if (district.Name == String.Empty) return district;
@@ -73,6 +88,17 @@ namespace Models
             Append(district);
             await AddSqlAsync(user);
             await GetFromSqlAsync(user, district.Name);
+            district = GetFromList();
+            return district;
+        }
+
+        public async Task<District> SaveChanges(DBConnection user, District district) // получение Id из SQL для нового района
+        {
+            if (district.Name == String.Empty) return district;
+            Clear();
+            Append(district);
+            await ChangeSqlAsync(user);
+            await GetFromSqlAsync(user, id: district.Id);
             district = GetFromList();
             return district;
         }

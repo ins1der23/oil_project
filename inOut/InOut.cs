@@ -17,7 +17,6 @@ public static class InOut
         await Task.Delay(delay);
     }
 
-
     public static void ShowStringList(this List<string> someList)
     {
         foreach (var item in someList)
@@ -37,7 +36,7 @@ public static class InOut
         if (clear) Console.Clear();
         var menu = new Menu(menuChoices, menuName);
         Console.WriteLine(menu);
-        if (menuChoices.Count == 0) await ShowString(Text.notFound);
+        if (menuChoices.Count == 0) await ShowString(Text.notFound, delay: 100);
         if (noNull) return menu.MenuChoice(invite, noNull:true);
         else return menu.MenuChoice(invite);
 

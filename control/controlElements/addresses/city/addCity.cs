@@ -33,8 +33,7 @@ namespace Handbooks
                 DistrictId = district.Id
             };
             Locations locations = new();
-            locations.Append(location);
-            await locations.AddSqlAsync(user);
+            _ = await locations.SaveGetId(user, location);
             return city;
         }
     }

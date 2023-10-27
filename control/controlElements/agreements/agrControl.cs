@@ -30,16 +30,16 @@ namespace Handbooks
                 choice = await MenuToChoice(AgrText.options, invite: Text.choice, clear: false);
                 switch (choice)
                 {
-                    case 1:
+                    case 1: // Прикрепить скан
                         agreement = await AttachScan.Start(agreement);
                         break;
-                    case 2:
+                    case 2: // Показать скан
                         await OpenScan.Start(agreement);
                         break;
-                    case 3:
+                    case 3: // Изменить договор
                         agreement = await ChangeAgr.Start(agreement);
                         break;
-                    case 6:
+                    case 6: // Ничего не делать
                         return;
                 }
             }
