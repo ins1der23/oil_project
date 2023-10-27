@@ -17,7 +17,7 @@ namespace Controller
                 await ShowString(SettingsText.noConnection, true);
                 return;
             }
-            await ShowString(SettingsText.connected, true, delay:300);
+            await ShowString(SettingsText.connected, true, delay: 300);
             check = await Settings.Set();
             if (!check)
             {

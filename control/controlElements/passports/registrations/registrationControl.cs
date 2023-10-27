@@ -1,6 +1,4 @@
-using static InOut;
 using MenusAndChoices;
-using Controller;
 using Models;
 
 namespace Handbooks

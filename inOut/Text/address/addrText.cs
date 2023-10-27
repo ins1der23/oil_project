@@ -16,13 +16,13 @@ namespace MenusAndChoices
         // AddAddress
         public static readonly string addressSearch = "Введите текст для поиска и добавления АДРЕСА или оставьте поле пустым для показа всех";
 
-        // City
-
         
+
+
 
 
         public static readonly string addressNotAdded = "АДРЕС НЕ ДОБАВЛЕН";
-        
+
         public static readonly string locations = "МИКРОРАЙОНЫ";
         public static readonly string streets = "УЛИЦЫ";
         public static readonly List<string> searchAgainOrAddStreet = new List<string>() {

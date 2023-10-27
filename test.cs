@@ -12,7 +12,7 @@ namespace Testing
     {
         public static async Task Start()
         {
-            int delay = 300;
+            int delay = 100;
             var user = Settings.User;
             Addresses addressSql = new();
             await addressSql.GetFromSqlAsync(user);
@@ -30,14 +30,15 @@ namespace Testing
             await agreements.GetFromSqlAsync(user);
             await ShowString("Agreements OK", false, delay);
             Districts districts = new();
-            // await districts.GetFromSqlAsync(user, "Test");
-            // InOut.ShowStringList(districts.ToStringList());
-            // Console.ReadLine();
-
+            await districts.GetFromSqlAsync(user);
+            await ShowString("Districts OK", false, delay);
             City city = await CityControl.Start();
-            Console.WriteLine(city.Name);
+            await ShowString(city.Name);
+            Location location = await LocationControl.Start(city);
+            Console.WriteLine(location.Name);
             Console.ReadLine();
-            
+
+
 
 
 

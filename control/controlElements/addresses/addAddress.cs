@@ -10,99 +10,56 @@ namespace Handbooks
         public static async Task<Address> Start()
         {
             var user = Settings.User;
-            var addressToAdd = new Address();
-            var cityList = new Cities(); // Города
+
             string searchString;
             bool flag = true;
             int choice;
+            City city = await CityControl.Start();
+            if (city.Id == 0)
+            {
+                await ShowString(AddrText.addressNotChoosen);
+                return new Address();
+            }
+            Location location = new();
             while (flag)
             {
-                searchString = InOut.GetString(CityText.cityNameOrEmpty); // Найти город
-                await cityList.GetFromSqlAsync(user, searchString);
-                choice = await MenuToChoice(cityList.ToStringList(), CityText.cities, Text.choiceOrEmpty);
-                if (choice != 0)
+                location = await LocationControl.Start(city);
+                if (location.Id == 0)
                 {
-                    addressToAdd.City = cityList.GetFromList(choice);
-                    addressToAdd.CityId = addressToAdd.City.Id;
-                    await ShowString(CityText.cityChoosen);
-                    flag = false;
-                }
-                else
-                {
-                    choice = await MenuToChoice(CityText.searchAgainOrAddCity, CityText.cities, Text.choice, noNull: true); // Не найдено
+                    choice = await MenuToChoice(LocationText.tryAgain, LocationText.locationNotChoosen, Text.choice, noNull: true);
                     switch (choice)
                     {
-                        case 1: // Повторить поиск города
+                        case 1:
                             break;
-                        case 2: // Добавить город
-                            var cityToAdd = new City();
-                            string name = GetString(Text.inputName);
-                            cityToAdd.Name = name;
-                            cityToAdd = await cityList.SaveGetId(user, cityToAdd);
-                            await ShowString(CityText.cityAdded);
-                            addressToAdd.City = cityToAdd;
-                            addressToAdd.CityId = addressToAdd.City.Id;
-                            await ShowString(CityText.cityChoosen);
-                            District district = new()
-                            {
-                                Name = name,
-                                CityId = cityToAdd.Id
-                            };
-                            var districtList = new Districts();
-                            district = await districtList.SaveGetId(user, district);
-                            Location location = new()
-                            {
-                                Name = name,
-                                CityId = cityToAdd.Id,
-                                DistrictId = district.Id
-                            };
-                            Locations locations = new();
-                            locations.Append(location);
-                            await locations.AddSqlAsync(user);
-                            flag = false;
-                            break;
-                        case 3: // Выход
-                            await ShowString(AddrText.addressNotAdded);
+                        case 2:
+                            await ShowString(AddrText.addressNotChoosen);
                             return new Address();
                     }
                 }
+                flag = false;
             }
-            var locationList = new Locations(); // Микрорайоны
-            flag = true;
-            while (flag)
+
+            Address address = new()
             {
-                searchString = InOut.GetString(Text.locationName); // Найти микрорайон
-                await locationList.GetFromSqlAsync(user, searchString, addressToAdd.CityId);
-                if (locationList.IsEmpty)
-                {
-                    choice = await MenuToChoice(Text.searchAgain, Text.notFound, Text.choice); // Не найдено
-                    switch (choice)
-                    {
-                        case 1: // Повторить поиск
-                            break;
-                        case 2: // Выход
-                            await ShowString(AddrText.addressNotAdded);
-                            return new Address();
-                    }
-                }
-                else flag = false;
-            }
-            choice = await MenuToChoice(locationList.ToStringList(), AddrText.locations, Text.choice, noNull: true);
-            addressToAdd.Location = locationList.GetFromList(choice);
-            addressToAdd.LocationId = addressToAdd.Location.Id;
-            addressToAdd.DistrictId = addressToAdd.Location.DistrictId;
+                CityId = city.Id,
+                City = city,
+                LocationId = location.Id,
+                Location = location,
+                DistrictId = location.DistrictId,
+
+            };
 
             var streetList = new Streets(); // Улицы
             flag = true;
             while (flag)
             {
                 searchString = InOut.GetString(Text.streetName); // Найти улицу
-                await streetList.GetFromSqlAsync(user, searchString, addressToAdd.CityId);
+                await streetList.GetFromSqlAsync(user, searchString, address.CityId);
                 choice = await MenuToChoice(streetList.ToStringList(), AddrText.streets, Text.choiceOrEmpty);
                 if (choice != 0)
                 {
-                    addressToAdd.Street = streetList.GetFromList(choice);
-                    addressToAdd.StreetId = addressToAdd.Street.Id;
+                    address.Street = streetList.GetFromList(choice);
+                    address.StreetId = address.Street.Id;
                     await ShowString(AddrText.streetChoosen);
                     flag = false;
                 }
@@ -117,12 +74,12 @@ namespace Handbooks
                             var streetToAdd = new Street
                             {
                                 Name = GetString(Text.inputName),
-                                CityId = addressToAdd.CityId
+                                CityId = address.CityId
                             };
                             streetToAdd = await streetList.SaveGetId(user, streetToAdd);
                             await ShowString(AddrText.streetAdded);
-                            addressToAdd.Street = streetToAdd;
-                            addressToAdd.StreetId = streetToAdd.Id;
+                            address.Street = streetToAdd;
+                            address.StreetId = streetToAdd.Id;
                             await ShowString(AddrText.streetChoosen);
                             flag = false;
                             break;
@@ -133,11 +90,11 @@ namespace Handbooks
                 }
             }
 
-            addressToAdd.HouseNum = GetString(AddrText.houseNum);
+            address.HouseNum = GetString(AddrText.houseNum);
             var addressList = new Addresses();
-            addressToAdd = await addressList.SaveGetId(user, addressToAdd);
+            address = await addressList.SaveGetId(user, address);
             await ShowString(AddrText.addressAdded);
-            return addressToAdd;
+            return address;
         }
     }
 }
