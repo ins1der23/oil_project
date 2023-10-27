@@ -32,7 +32,7 @@ namespace Handbooks
                 district.Name = name;
                 _ = await districts.SaveChanges(user, district);
                 Locations locations = new();
-                await locations.GetFromSqlAsync(user, cityOld.Name);
+                await locations.GetFromSqlAsync(user, cityOld.Name, cityId: city.Id);
                 Location location = locations.GetFromList();
                 location.Name = name;
                 _ = await locations.SaveChanges(user, location);

@@ -3,19 +3,33 @@ using Connection;
 namespace Models
 
 {
-    public class Street
+    public class Street : ICloneable, IModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public int CityId { get; set; }
         public virtual City City { get; set; }
+        public string SearchString => Name.PrepareToSearch();
 
         public Street()
         {
             City = new();
             Name = string.Empty;
         }
+        public void Change(string name)
+        {
+            if (name != string.Empty) Name = name;
+        }
         public override string ToString() => $"{City.Name}, {Name}";
+
+        public object Clone()
+        {
+            Street street = (Street)MemberwiseClone();
+            street.City = City;
+            return street;
+        }
+
+
     }
 
     public class Streets : IEnumerable
@@ -37,15 +51,16 @@ namespace Models
         public void Append(Street street) => StreetsList.Add(street);
         public Street GetFromList(int index = 1) => StreetsList[index - 1];
         public Street GetByName(string name) => StreetsList.Where(s => s.Name == name).First();
-        public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 1)
+        public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 0, int cityId = 1)
         {
+            search = search.PrepareToSearch();
             await user.ConnectAsync();
             if (user.IsConnect)
             {
                 string selectQuery = $@"select *
                                     from streets as s, cities as c 
                                     where s.cityId=c.Id 
-                                    and c.Id = {id}
+                                    and c.Id = {cityId}
                                     and (s.name like ""%{search}%"")
                                     order by s.name";
                 var temp = await user.Connection!.QueryAsync<Street, City, Street>(selectQuery, (s, c) =>
@@ -53,7 +68,7 @@ namespace Models
                     s.City = c;
                     return s;
                 });
-                StreetsList = temp.ToList();
+                StreetsList = temp.Where(s => id == 0 ? s.SearchString.Contains(search) : s.Id == id).ToList();
                 user.Close();
             }
         }
@@ -72,6 +87,19 @@ namespace Models
                 user.Close();
             }
         }
+        public async Task ChangeSqlAsync(DBConnection user)
+        {
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"update streets set
+                    name = @{nameof(Street.Name)},
+                    cityId = @{nameof(Street.CityId)}
+                    where Id = @{nameof(Street.Id)};";
+                await user.Connection!.ExecuteAsync(selectQuery, StreetsList);
+                user.Close();
+            }
+        }
         public async Task DeleteSqlAsync(DBConnection user)
         {
             await user.ConnectAsync();
@@ -84,22 +112,35 @@ namespace Models
             }
         }
 
-        public async Task<Street> SaveGetId(DBConnection user, Street street) // получение Id из SQL для новой улицы 
+// получение Id из SQL для новой улицы 
+        public async Task<Street> SaveGetId(DBConnection user, Street street) 
         {
             if (street.Name == String.Empty) return street;
             Clear();
             Append(street);
             await AddSqlAsync(user);
-            await GetFromSqlAsync(user, street.Name, street.CityId);
+            await GetFromSqlAsync(user, street.Name, cityId: street.CityId);
+            street = GetFromList();
+            return street;
+        }
+    // сохранение именений и получение из SQL измененной улицы
+        public async Task<Street> SaveChanges(DBConnection user, Street street) 
+        {
+            if (street.Name == string.Empty) return street;
+            Clear();
+            Append(street);
+            await ChangeSqlAsync(user);
+            await GetFromSqlAsync(user, id: street.Id, cityId: street.City.Id);
             street = GetFromList();
             return street;
         }
         public List<string> ToStringList()
         {
-            List<string> output = new List<string>();
+            List<string> output = new();
             foreach (var item in StreetsList)
                 output.Add(item.ToString());
             return output;
         }
+
     }
 }

@@ -4,36 +4,36 @@ using Models;
 namespace Handbooks
 
 {
-    public class CityControl
+    public class StreetControl
     {
-        public static async Task<City> Start()
+        public static async Task<Street> Start(City city)
         {
             bool mainFlag = true;
             int choice;
-            City city = new();
+            Street street = new();
             while (mainFlag)
             {
-                city = await FindCity.Start();
-                if (city.Id == 0)
+                street = await FindStreet.Start(city);
+                if (street.Id == 0)
                 {
-                    choice = await MenuToChoice(CityText.searchAgainOrAddCity, invite: Text.choice, noNull: true);
+                    choice = await MenuToChoice(StreetText.searchAgainOrAddStreet, invite: Text.choice, noNull: true);
                     switch (choice)
                     {
                         case 1: // Повторить поиск
                             await ShowString(Text.returnToSearch);
                             break;
-                        case 2: // Добавить город
-                            var cityNew = await AddCity.Start();
-                            if (cityNew.Name != string.Empty)
+                        case 2: // Добавить улицу
+                            var streetNew = await AddStreet.Start(city);
+                            if (streetNew.Name != string.Empty)
                             {
-                                city = cityNew;
-                                await ShowString(CityText.cityChoosen);
+                                street = streetNew;
+                                await ShowString(StreetText.streetChoosen);
                             }
-                            else await ShowString(CityText.cityNotChoosen);
+                            else await ShowString(StreetText.streetNotChoosen);
                             mainFlag = false;
                             break;
                         case 3: // возврат в предыдущее меню
-                            await ShowString(CityText.cityNotChoosen);
+                            await ShowString(StreetText.streetNotChoosen);
                             mainFlag = false;
                             break;
                     }
@@ -43,16 +43,16 @@ namespace Handbooks
                     bool levelOneFlag = true;
                     while (levelOneFlag)
                     {
-                        choice = await MenuToChoice(CityText.options, city.Name, invite: Text.choice, noNull: true);
+                        choice = await MenuToChoice(StreetText.options, street.Name, invite: Text.choice, noNull: true);
                         switch (choice)
                         {
                             case 1: // Выбрать
-                                await ShowString(CityText.cityChoosen);
+                                await ShowString(StreetText.streetChoosen);
                                 levelOneFlag = false;
                                 mainFlag = false;
                                 break;
                             case 2: //Изменить
-                                city = await ChangeCity.Start(city);
+                                street = await ChangeStreet.Start(street);
                                 break;
                             case 3: // Вернуться к поиску
                                 levelOneFlag = false;
@@ -61,14 +61,14 @@ namespace Handbooks
                             case 4: // Вернуться в предыдущее меню
                                 levelOneFlag = false;
                                 mainFlag = false;
-                                city = new();
-                                await ShowString(CityText.cityNotChoosen);
+                                street = new();
+                                await ShowString(StreetText.streetNotChoosen);
                                 break;
                         }
                     }
                 }
             }
-            return city;
+            return street;
         }
     }
 }

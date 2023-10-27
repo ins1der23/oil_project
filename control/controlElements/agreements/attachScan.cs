@@ -20,7 +20,7 @@ namespace Handbooks
                 return agreement;
             }
             sourcePath = sourcePath.Replace("\"", String.Empty);
-            FileInfo sourceFile = new FileInfo(sourcePath);
+            FileInfo sourceFile = new(sourcePath);
             string receivePath = $"{Settings.scanPath}{folder}{agreement.FileName}{sourceFile.Extension}";
             if (sourceFile.Exists) sourceFile.CopyTo(receivePath, true);
             else Console.WriteLine("ОШИБКА");

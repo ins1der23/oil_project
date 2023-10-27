@@ -35,7 +35,9 @@ namespace Testing
             City city = await CityControl.Start();
             await ShowString(city.Name);
             Location location = await LocationControl.Start(city);
-            Console.WriteLine(location.Name);
+            await ShowString(location.Name);
+            Street street = await StreetControl.Start(city);
+            await ShowString(street.Name);
             Console.ReadLine();
 
 

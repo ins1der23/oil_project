@@ -20,6 +20,7 @@ namespace Handbooks
                     switch (choice)
                     {
                         case 1: // Повторить поиск
+                            await ShowString(Text.returnToSearch);
                             break;
                         case 2: // возврат в предыдущее меню
                             await ShowString(LocationText.locationNotChoosen);

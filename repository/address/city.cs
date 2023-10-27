@@ -39,12 +39,6 @@ namespace Models
 
 
 
-
-
-
-
-
-
     public class Cities
     {
         List<City> CitiesList { get; set; }

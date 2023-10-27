@@ -121,7 +121,7 @@ namespace Models
             Clear();
             Append(location);
             await ChangeSqlAsync(user);
-            await GetFromSqlAsync(user, id: location.Id);
+            await GetFromSqlAsync(user, id: location.Id, cityId: location.City.Id);
             location = GetFromList();
             return location;
         }
