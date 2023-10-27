@@ -1,4 +1,3 @@
-
 namespace Models
 {
     class StartProcess

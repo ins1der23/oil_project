@@ -1,4 +1,3 @@
-using static InOut;
 using Controller;
 
 namespace Models

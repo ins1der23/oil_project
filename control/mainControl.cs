@@ -1,7 +1,5 @@
-using static InOut;
 using MenusAndChoices;
 using Testing;
-using Temp;
 using Handbooks;
 using Models;
 
@@ -14,13 +12,12 @@ namespace Controller
         {
             Console.WindowWidth = 180;
             bool check = await Settings.Connect();
-            await Task.Delay(2000);
             if (!check)
             {
                 await ShowString(SettingsText.noConnection, true);
                 return;
             }
-            await ShowString(SettingsText.connected, true);
+            await ShowString(SettingsText.connected, true, delay:300);
             check = await Settings.Set();
             if (!check)
             {

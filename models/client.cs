@@ -1,4 +1,3 @@
-
 namespace Models
 {
     public class Client : IModels, ICloneable

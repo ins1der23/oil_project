@@ -1,6 +1,3 @@
-using static InOut;
-using System.IO;
-
 namespace Models
 {
     class FileWork

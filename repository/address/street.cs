@@ -1,5 +1,4 @@
 using Connection;
-using static InOut;
 
 namespace Models
 

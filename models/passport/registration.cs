@@ -1,5 +1,3 @@
-using Connection;
-
 namespace Models
 {
     public class Registration : Address

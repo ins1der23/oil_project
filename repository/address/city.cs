@@ -1,6 +1,4 @@
 using Connection;
-using MenusAndChoices;
-using static InOut;
 
 namespace Models
 

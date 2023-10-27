@@ -1,8 +1,6 @@
-using static InOut;
 using MenusAndChoices;
 using Controller;
 using Models;
-using Connection;
 
 namespace Handbooks
 {
