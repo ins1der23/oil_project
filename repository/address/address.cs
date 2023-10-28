@@ -121,7 +121,7 @@ namespace Models
             if (user.IsConnect)
             {
                 string selectQuery = $@"insert Addresses
-                    (cityId, districtId, locationId, streetId, houseNum, flatNum)
+                    (cityId, districtId, locationId, streetId, houseNum)
                     values (
                     @{nameof(Address.CityId)},
                     @{nameof(Address.DistrictId)},

@@ -27,12 +27,12 @@ namespace Handbooks
                 await cities.ChangeSqlAsync(user);
                 await ShowString(CityText.changed);
                 Districts districts = new();
-                await districts.GetFromSqlAsync(user, cityOld.Name);
+                await districts.GetFromSqlAsync(user, cityId: city.Id, cityOld.Name);
                 District district = districts.GetFromList();
                 district.Name = name;
                 _ = await districts.SaveChanges(user, district);
                 Locations locations = new();
-                await locations.GetFromSqlAsync(user, cityOld.Name, cityId: city.Id);
+                await locations.GetFromSqlAsync(user, cityId: city.Id, cityOld.Name);
                 Location location = locations.GetFromList();
                 location.Name = name;
                 _ = await locations.SaveChanges(user, location);

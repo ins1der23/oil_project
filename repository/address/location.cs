@@ -46,7 +46,7 @@ namespace Models
         public List<Location> ToWorkingList() => LocationsList.Select(c => c).ToList(); // Список для работы с LINQ
         public Location GetFromList(int index = 1) => LocationsList[index - 1];
 
-        public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 0, int cityId = 1)
+        public async Task GetFromSqlAsync(DBConnection user, int cityId, string search = "", int id = 0)
         {
             search = search.PrepareToSearch();
             await user.ConnectAsync();
@@ -110,7 +110,7 @@ namespace Models
             Clear();
             Append(location);
             await AddSqlAsync(user);
-            await GetFromSqlAsync(user, location.Name);
+            await GetFromSqlAsync(user, cityId: location.CityId, location.Name);
             location = GetFromList();
             return location;
         }
@@ -121,7 +121,7 @@ namespace Models
             Clear();
             Append(location);
             await ChangeSqlAsync(user);
-            await GetFromSqlAsync(user, id: location.Id, cityId: location.City.Id);
+            await GetFromSqlAsync(user, cityId: location.City.Id, id: location.Id);
             location = GetFromList();
             return location;
         }

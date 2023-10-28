@@ -12,7 +12,7 @@ namespace Handbooks
             var user = Settings.User;
             Streets streets = new();
             string search = GetString(StreetText.streetNameOrEmpty); // Найти улицу или оставить поле пустым для показа всех
-            await streets.GetFromSqlAsync(user, search, cityId: city.Id);
+            await streets.GetFromSqlAsync(user, cityId: city.Id, search);
             bool flag = true;
             Street street = new();
             int choice;

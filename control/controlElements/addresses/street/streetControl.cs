@@ -19,7 +19,7 @@ namespace Handbooks
                     choice = await MenuToChoice(StreetText.searchAgainOrAddStreet, invite: Text.choice, noNull: true);
                     switch (choice)
                     {
-                        case 1: // Повторить поиск
+                        case 1: // Повторить поиск улицы
                             await ShowString(Text.returnToSearch);
                             break;
                         case 2: // Добавить улицу
@@ -32,7 +32,7 @@ namespace Handbooks
                             else await ShowString(StreetText.streetNotChoosen);
                             mainFlag = false;
                             break;
-                        case 3: // возврат в предыдущее меню
+                        case 3: // Не выбирать улицу
                             await ShowString(StreetText.streetNotChoosen);
                             mainFlag = false;
                             break;
@@ -54,11 +54,11 @@ namespace Handbooks
                             case 2: //Изменить
                                 street = await ChangeStreet.Start(street);
                                 break;
-                            case 3: // Вернуться к поиску
+                            case 3: // Вернуться к поиску улицы
                                 levelOneFlag = false;
                                 await ShowString(Text.returnToSearch);
                                 break;
-                            case 4: // Вернуться в предыдущее меню
+                            case 4: // Не выбирать улицу
                                 levelOneFlag = false;
                                 mainFlag = false;
                                 street = new();

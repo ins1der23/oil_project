@@ -34,7 +34,7 @@ namespace Models
         public void Clear() => DistrictsList.Clear();
         public void Append(District district) => DistrictsList.Add(district);
         public District GetFromList(int index = 1) => DistrictsList[index - 1];
-        public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 0)
+        public async Task GetFromSqlAsync(DBConnection user, int cityId, string search = "", int id = 0)
         {
             search = search.PrepareToSearch();
             await user.ConnectAsync();
@@ -43,6 +43,7 @@ namespace Models
                 string selectQuery = $@"select *
                                     from districts as d, cities as c 
                                     where d.cityId=c.Id 
+                                    and c.Id = {cityId}
                                     and d.name like ""%{search}%""
                                     order by d.name";
                 var temp = await user.Connection!.QueryAsync<District, City, District>(selectQuery, (d, c) =>
@@ -86,7 +87,7 @@ namespace Models
             Clear();
             Append(district);
             await AddSqlAsync(user);
-            await GetFromSqlAsync(user, district.Name);
+            await GetFromSqlAsync(user, cityId: district.CityId, district.Name);
             district = GetFromList();
             return district;
         }
@@ -97,7 +98,7 @@ namespace Models
             Clear();
             Append(district);
             await ChangeSqlAsync(user);
-            await GetFromSqlAsync(user, id: district.Id);
+            await GetFromSqlAsync(user, cityId: district.CityId, id: district.Id);
             district = GetFromList();
             return district;
         }

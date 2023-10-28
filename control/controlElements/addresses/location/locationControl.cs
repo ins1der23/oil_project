@@ -19,10 +19,10 @@ namespace Handbooks
                     choice = await MenuToChoice(LocationText.searchAgain, invite: Text.choice, noNull: true);
                     switch (choice)
                     {
-                        case 1: // Повторить поиск
+                        case 1: // Повторить поиск микрорайона
                             await ShowString(Text.returnToSearch);
                             break;
-                        case 2: // возврат в предыдущее меню
+                        case 2: // Не выбирать микрорайон
                             await ShowString(LocationText.locationNotChoosen);
                             mainFlag = false;
                             break;
@@ -41,11 +41,11 @@ namespace Handbooks
                                 levelOneFlag = false;
                                 mainFlag = false;
                                 break;
-                            case 2: // Вернуться к поиску
+                            case 2: // Вернуться к поиску микрорайона
                                 levelOneFlag = false;
                                 await ShowString(Text.returnToSearch);
                                 break;
-                            case 3: // Вернуться в предыдущее меню
+                            case 3: // Не выбирать микрорайон
                                 levelOneFlag = false;
                                 mainFlag = false;
                                 location = new();

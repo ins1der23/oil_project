@@ -8,15 +8,15 @@ namespace MenusAndChoices
         public static readonly List<string> searchAgainOrAddCity = new() {
                                 "Повторить поиск города",
                                 "Добавить город",
-                                "Возврат в предыдущее меню"};
+                                "Отменить добавление адреса и вернуться в предыдущее меню"};
         public static readonly string cityChoosen = "ГОРОД ВЫБРАН";
         public static readonly string cityNotChoosen = "ГОРОД НЕ ВЫБРАН";
         public static readonly string cityAdded = "ГОРОД ДОБАВЛЕН";
         public static readonly List<string> options = new() {
                                 "Выбрать",
                                 "Изменить",
-                                "Вернуться к поиску",
-                                "Вернуться в предыдущее меню"};
+                                "Вернуться к поиску города",
+                                "Не выбирать адрес и вернуться в предыдущее меню"};
         public static readonly string changeName = "Введите новое название города или оставьте поле пустым, если не хотите менять";
         public static readonly string changeCancel = "ГОРОД НЕ ИЗМЕНЕН";
         public static readonly string changeConfirm = "ТОЧНО ИЗМЕНИТЬ ГОРОД?";

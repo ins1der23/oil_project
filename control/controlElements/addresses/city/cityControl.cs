@@ -32,7 +32,7 @@ namespace Handbooks
                             else await ShowString(CityText.cityNotChoosen);
                             mainFlag = false;
                             break;
-                        case 3: // возврат в предыдущее меню
+                        case 3: // Отменить добавление адреса и вернуться в предыдущее меню
                             await ShowString(CityText.cityNotChoosen);
                             mainFlag = false;
                             break;

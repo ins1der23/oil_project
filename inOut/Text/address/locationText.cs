@@ -6,15 +6,15 @@ namespace MenusAndChoices
         public static readonly string locationNameOrEmpty = "Введите название микрорайона или оставьте поле пустым для показа всех";
         public static readonly List<string> searchAgain = new() {
                                 "Повторить поиск микрорайона",
-                                "Возврат в предыдущее меню"};
+                                "Не выбирать микрорайон"};
         public static readonly string locationChoosen = "МИКРОРАЙОН ВЫБРАН";
         public static readonly string locationNotChoosen = "МИКРОРАЙОН НЕ ВЫБРАН";
         public static readonly List<string> options = new() {
                                 "Выбрать ",
-                                "Вернуться к поиску",
-                                "Вернуться в предыдущее меню"};
+                                "Вернуться к поиску микрорайона",
+                                "Не выбирать микрорайон"};
         public static readonly List<string> tryAgain = new() {
                                 "Вернуться к поиску микрорайона еще раз",
-                                "Продолжить без добавления адреса"};
+                                "Не выбирать адрес и вернуться в предыдущее меню"};
     }
 }
