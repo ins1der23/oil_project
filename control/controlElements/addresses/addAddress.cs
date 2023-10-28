@@ -70,8 +70,8 @@ namespace Handbooks
             flag = true;
             while (flag)
             {
-                string option = city.Id == 1 ? address.LongString : address.ShortString;
-                choice = await MenuToChoice(AddrText.saveAddress, option, Text.choice, noNull: true);
+                await ShowString(address.Summary());
+                choice = await MenuToChoice(AddrText.saveAddress, string.Empty, Text.choice, clear: false, noNull: true);
                 switch (choice)
                 {
                     case 1: // Сохранить адрес
@@ -81,6 +81,8 @@ namespace Handbooks
                         flag = false;
                         break;
                     case 2: // Изменить адрес
+                        await ShowString(address.Summary());
+                        await ChangeAddress.Start(address, toSql: false);
                         break;
                     case 3: // Не сохранять адрес
                         await ShowString(AddrText.addressNotAdded);

@@ -39,6 +39,47 @@ namespace Models
             Street = new();
             HouseNum = string.Empty;
         }
+
+        public void Change(City city, District district, Location location, Street street, string houseNum)
+        {
+            if (city.Id != 0)
+            {
+                City = city;
+                CityId = city.Id;
+            }
+            if (district.Id != 0)
+            {
+                District = district;
+                DistrictId = district.Id;
+            }
+            if (location.Id != 0)
+            {
+                Location = location;
+                LocationId = location.Id;
+            }
+            if (street.Id != 0)
+            {
+                Street = street;
+                StreetId = street.Id;
+            }
+            if (houseNum != string.Empty) HouseNum = houseNum;
+        }
+
+        public object Clone()
+        {
+            Address address = (Address)MemberwiseClone();
+            address.City = City;
+            address.District = District;
+            address.Location = Location;
+            address.Street = Street;
+            return address;
+        }
+
+
+
+
+
+
         public override string ToString() => $"{LongString}";
     }
     public class Addresses : IRepository

@@ -3,70 +3,58 @@ namespace MenusAndChoices
 {
     public static class Text
     {
-        public static string[] menuNames = new string[] {
+        public static readonly string[] menuNames = new string[] {
                                 "Главное меню",
                                 "Клиенты",
                                 "Заявки",
                                 "Сотрудники",
                                 "Должности"};
-        public static List<string> mainMenu = new List<string>() {
+        public static readonly List<string> mainMenu = new() {
                                 "Клиенты",
                                 "Заявки",
                                 "Расписание",
                                 "Сотрудники",
                                 "Тест",
                                 "Выход"};
-        public static List<string> claimMenu = new List<string>() {
+        public static readonly List<string> claimMenu = new() {
                                 "Добавить заявку",
                                 "Найти заявку",
                                 "Возврат"};
 
         // Common
 
-        public static string inputError = "Неверный ввод";
-        public static string choice = "Выберете вариант";
-        public static string choiceOrEmpty = "Выберете вариант или просто нажмите Enter, если нет подходящего";
-        public static string inputName = "Введите название";
-        public static string notFound = "\nНе найдено\n";
-        public static string chooseSome = "Выбрать?";
-        public static string searchString =
+        public static readonly string inputError = "Неверный ввод";
+        public static readonly string choice = "Выберете вариант";
+        public static readonly string choiceOrEmpty = "Выберете вариант или просто нажмите Enter, если нет подходящего";
+        public static readonly string inputName = "Введите название";
+        public static readonly string notFound = "\nНе найдено\n";
+        public static readonly string chooseSome = "Выбрать?";
+        public static readonly string searchString =
         "Введите текст для поиска или оставьте поле пустым для показа всех";
 
         public static readonly string returnToSearch = "ВОЗВРАЩАЕМСЯ К ПОИСКУ";
 
-        public static List<string> showOrFind = new List<string>() {
+        public static readonly List<string> showOrFind = new() {
                                 "Показать всё",
                                 "Найти",
                                 "Возврат в главное меню"};
-        public static List<string> searchAgain = new List<string>() {
-                                "Повторить поиск",
-                                "Возврат в главное меню"};
-        public static List<string> addOrchoose = new List<string>() {
+        public static readonly List<string> addOrchoose = new() {
                                 "Выбрать",
                                 "Добавить",
                                 "Возврат",
                                 "Выход"};
-        public static List<string> choose = new List<string>() {
+        public static readonly List<string> choose = new() {
                                 "Выбрать",
                                 "Возврат"};
-        public static List<string> changeOrDelete = new List<string>() {
+        public static readonly List<string> changeOrDelete = new() {
                                 "Изменить",
                                 "Удалить",
                                 "Возврат"};
-        public static List<string> yesOrNo = new List<string>() {
+        public static readonly List<string> yesOrNo = new() {
                                 "Да",
                                 "Нет"};
 
-        // Adresses
 
-
-        public static string locationName =
-        "Введите название микрорайона или оставьте поле пустым для показа всех";
-        public static string streetName =
-        "Введите название улицы или оставьте поле пустым для показа всех";
-
-
-        // Agreements
 
 
         // Workers
