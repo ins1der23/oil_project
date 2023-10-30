@@ -13,24 +13,11 @@ namespace Models
         public virtual ICollection<Agreement> Agreements { get; set; }
         public virtual ICollection<Passport> Passports { private get; set; }
         public bool ToDelete { get; set; }
-        public bool AgreementCheck
-        {
-            get => Agreements.Any();
-        }
-        public string FullName
-        {
-            get
-            {
-                return $"{Name,-35}{Address.LongString}";
-            }
-        }
-        public string ShortName
-        {
-            get
-            {
-                return $"{Name}, {Address.ShortString}";
-            }
-        }
+        public bool AgreementCheck => Agreements.Any();
+        public string FullName => $"{Name,-35}{Address.LongString}";
+        public string ShortName => $"{Name}, {Address.ShortString}";
+        public string SearchString => $"{Name}{Address.ShortString}".PrepareToSearch();
+        
 
 
         public Client()

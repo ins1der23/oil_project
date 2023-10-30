@@ -55,7 +55,7 @@ namespace MenusAndChoices
 
         public static readonly string changePhone = "Введите новый телефон или оставьте поле пустым, если не хотите менять";
         public static readonly string changeComment = "Введите новый комментарий или оставьте поле пустым, если не хотите менять";
-        public static readonly string confirmChanges = "Применить изменения?";
+        public static readonly string confirmChanges = "Данные клиента были изменены. Сохранить изменения?";
         public static readonly string clientChanged = "КЛИЕНТ ИЗМЕНЕН";
         public static readonly string clientNotChanged = "КЛИЕНТ НЕ ИЗМЕНЕН";
 

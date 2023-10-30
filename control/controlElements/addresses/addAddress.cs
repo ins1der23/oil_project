@@ -70,7 +70,7 @@ namespace Handbooks
             flag = true;
             while (flag)
             {
-                await ShowString(address.Summary());
+                await ShowString(address.Summary(), delay: 0);
                 choice = await MenuToChoice(AddrText.saveAddress, string.Empty, Text.choice, clear: false, noNull: true);
                 switch (choice)
                 {

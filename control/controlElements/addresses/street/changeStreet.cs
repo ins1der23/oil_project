@@ -18,14 +18,17 @@ namespace Handbooks
             }
             street.Change(name);
             await ShowString(street.Name, clear: true);
-            int choice = await MenuToChoice(Text.yesOrNo, StreetText.changeConfirm, Text.choice, clear: false, noNull: true);
-            if (choice == 1)
+            if (street.SearchString != streetOld.SearchString)
             {
-                Streets streets = new();
-                var user = Settings.User;
-                street = await streets.SaveChanges(user, street);
-                await ShowString(StreetText.changed);
-                return street;
+                int choice = await MenuToChoice(Text.yesOrNo, StreetText.changeConfirm, Text.choice, clear: false, noNull: true);
+                if (choice == 1)
+                {
+                    Streets streets = new();
+                    var user = Settings.User;
+                    street = await streets.SaveChanges(user, street);
+                    await ShowString(StreetText.changed);
+                    return street;
+                }
             }
             await ShowString(StreetText.changeCancel);
             return streetOld;

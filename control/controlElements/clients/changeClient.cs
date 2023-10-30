@@ -53,21 +53,20 @@ namespace Handbooks
             string comment = GetString(ClientText.changeComment);
             client.Change(name, address, phone, comment);
             await ShowString(client.Summary(), delay: 100);
-            choice = await MenuToChoice(Text.yesOrNo, ClientText.confirmChanges, Text.choice, false);
-            switch (choice)
+            if (client.SearchString != clientOld.SearchString)
             {
-                case 1:
+                choice = await MenuToChoice(Text.yesOrNo, ClientText.confirmChanges, Text.choice, false);
+                if (choice == 1)
+                {
                     var clientList = new Clients();
                     var user = Settings.User;
                     client = await clientList.SaveChanges(user, client);
                     await ShowString(ClientText.clientChanged);
                     return client;
-                case 2:
-                    await ShowString(ClientText.clientNotChanged);
-                    return clientOld;
+                }
             }
-            return client;
-
+            await ShowString(ClientText.clientNotChanged);
+            return clientOld;
         }
     }
 }

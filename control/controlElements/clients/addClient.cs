@@ -13,8 +13,8 @@ namespace Handbooks
             int choice;
             do
             {
-                clientToAdd.Name = InOut.GetString(ClientText.nameRestrict);
-            } while (clientToAdd.Name == String.Empty);
+                clientToAdd.Name = GetString(ClientText.nameRestrict);
+            } while (clientToAdd.Name == string.Empty);
             await ShowString(AddrText.addressChoosing, delay: 100);
             bool flag = true;
             while (flag)

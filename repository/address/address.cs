@@ -31,6 +31,7 @@ namespace Models
                 else return $"{City.Name}, {Street.Name}, {HouseNum}";
             }
         }
+        public string SearchString => $"{City.Name}{Street.Name}{HouseNum}".PrepareToSearch();
         public Address()
         {
             City = new();
@@ -75,13 +76,11 @@ namespace Models
             return address;
         }
 
-
-
-
-
-
         public override string ToString() => $"{LongString}";
     }
+
+
+
     public class Addresses : IRepository
     {
         public List<Address> AddressList { get; set; }
@@ -120,7 +119,7 @@ namespace Models
 
 
         // Работа с SQL
-        public async Task GetFromSqlAsync(DBConnection user, string search = "")
+        public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 0)
         {
             search = search.PrepareToSearch();
             await user.ConnectAsync();
@@ -151,7 +150,7 @@ namespace Models
                         StreetId = x.StreetId,
                         Street = streets.Where(s => s.Id == x.StreetId).First(),
                         HouseNum = x.HouseNum
-                    }).Where(a => a.LongString.PrepareToSearch().Contains(search)).ToList();
+                    }).Where(a => id == 0 ? a.SearchString.Contains(search) : a.Id == id).ToList();
                 }
                 user.Close();
             }
@@ -197,7 +196,17 @@ namespace Models
             Clear();
             Append(address);
             await AddSqlAsync(user);
-            await GetFromSqlAsync(user, address.LongString);
+            await GetFromSqlAsync(user, address.SearchString);
+            address = GetFromList();
+            return address;
+        }
+        public async Task<Address> SaveChanges(DBConnection user, Address address) // получение Id из SQL для нового микрорайона
+        {
+            if (address.CityId == 0) return address;
+            Clear();
+            Append(address);
+            await ChangeSqlAsync(user);
+            await GetFromSqlAsync(user, id: address.Id);
             address = GetFromList();
             return address;
         }

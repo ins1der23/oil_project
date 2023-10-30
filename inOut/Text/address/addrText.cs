@@ -8,7 +8,7 @@ namespace MenusAndChoices
         public static readonly List<string> searchAgainOrAddAddress = new() {
                                 "Повторить поиск адреса",
                                 "Добавить адрес",
-                                "Возврат в предыдущее меню"};
+                                "Отменить выбор адреса и вернуться в предыдущее меню"};
         public static readonly List<string> searchOrAddContinue = new() {
                                 "Повторить поиск адреса",
                                 "Добавить адрес",
@@ -19,6 +19,12 @@ namespace MenusAndChoices
                                 "Изменить адрес",
                                 "Не сохранять адрес"};
         public static readonly string addressesFound = "Найденные адреса";
+        public static readonly List<string> options = new() {
+                                "Выбрать",
+                                "Изменить",
+                                "Удалить",
+                                "Вернуться к поиску адреса",
+                                "Не выбирать адрес и вернуться в предыдущее меню"};
 
         // AddAddress
         public static readonly string addressSearch = "Введите текст для поиска и добавления АДРЕСА или оставьте поле пустым для показа всех";
@@ -29,7 +35,6 @@ namespace MenusAndChoices
         public static readonly string addressNotChoosen = "АДРЕС НЕ ВЫБРАН";
         public static readonly string changeAddress = "Изменить адрес?";
         public static readonly string addressChoosen = "АДРЕС ВЫБРАН";
-        public static readonly string addressNotChanged = "АДРЕС НЕ ИЗМЕНЕН";
         public static string Summary(this Address address)
         {
             Console.Clear();
@@ -65,6 +70,18 @@ namespace MenusAndChoices
             };
             return changeOptions;
         }
+        public static readonly string addressChanged = "АДРЕС УСПЕШНО ИЗМЕНЕН";
+        public static readonly string addressNotChanged = "АДРЕС НЕ ИЗМЕНЕН";
         public static readonly string changeHouseNum = "Введите новый номер дома или оставьте поле пустым, если не хотите менять ";
+        public static readonly string confirmChanges = "Адрес был изменен. Сохранить изменения?";
+
+        // Delete Addrress
+        public static readonly string delAddress = "ТОЧНО УДАЛИТЬ ЭТОТ АДРЕС???";
+        public static readonly string clientDeleted = "АДРЕС УСПЕШНО УДАЛЕН";
+        public static readonly string clientNotDeleted = "АДРЕС НЕ УДАЛЕН";
+
+
     }
+
+
 }

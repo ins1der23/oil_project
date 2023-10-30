@@ -12,7 +12,7 @@ namespace Handbooks
         public static async Task<Address> Start()
         {
             var user = Settings.User;
-            string search = InOut.GetString(AddrText.addressSearch).PrepareToSearch();
+            string search = GetString(AddrText.addressSearch).PrepareToSearch();
             var addressList = new Addresses();
             await addressList.GetFromSqlAsync(user, search);
             bool flag = true;
