@@ -159,9 +159,6 @@ namespace Models
             return output;
         }
 
-        public Task GetFromSqlAsync(DBConnection user, string search = "", int id = 0)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

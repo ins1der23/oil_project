@@ -25,7 +25,7 @@ namespace MenusAndChoices
         public static readonly string changeName = "Введите новое название или оставьте поле пустым, если не хотите менять";
         public static readonly string changed = "ОРГАН, ВЫДАВШИЙ ПАСПОРТ, ИЗМЕНЕН";
         public static readonly string changeCancel = "ОРГАН, ВЫДАВШИЙ ПАСПОРТ, НЕ ИЗМЕНЕН";
-        public static readonly string changeConfirm = "ТОЧНО ИЗМЕНИТЬ?";
+        public static readonly string changeConfirm = "Данные были изменены. Сохранить изменения?";
 
 
 

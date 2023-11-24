@@ -16,7 +16,7 @@ namespace Models
         public bool AgreementCheck => Agreements.Any();
         public string FullName => $"{Name,-35}{Address.LongString}";
         public string ShortName => $"{Name}, {Address.ShortString}";
-        public string SearchString => $"{Name}{Address.ShortString}".PrepareToSearch();
+        public string SearchString => $"{Name}{Address.ShortString}{Phone}".PrepareToSearch();
         
 
 

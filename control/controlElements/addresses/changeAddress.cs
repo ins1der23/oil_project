@@ -72,7 +72,7 @@ namespace Handbooks
                         case 3: // Изменить номер дома
                             houseNum = GetString(AddrText.changeHouseNum);
                             break;
-                        case 4: // Вернуться в предыдущее меню
+                        case 4: // Сохранить или вернуться в предыдущее меню
                             flag = false;
                             break;
                     }

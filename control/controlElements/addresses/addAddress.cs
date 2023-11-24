@@ -75,13 +75,18 @@ namespace Handbooks
                 switch (choice)
                 {
                     case 1: // Сохранить адрес
-                        Addresses addressList = new();
-                        address = await addressList.SaveGetId(user, address);
-                        await ShowString(AddrText.addressAdded);
-                        flag = false;
+                        Addresses addresses = new();
+                        bool exist = await addresses.CheckExist(user, address);
+                        if (exist) await ShowString(CityText.cityExist);
+                        else
+                        {
+                            address = await addresses.SaveGetId(user, address);
+                            await ShowString(AddrText.addressAdded);
+                            flag = false;
+                        }
                         break;
                     case 2: // Изменить адрес
-                        await ChangeAddress.Start(address, toSql: false);
+                        address = await ChangeAddress.Start(address, toSql: false);
                         break;
                     case 3: // Не сохранять адрес
                         await ShowString(AddrText.addressNotAdded);

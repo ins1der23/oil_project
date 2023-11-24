@@ -58,22 +58,35 @@ namespace Handbooks
             clientToAdd.Phone = GetDouble(ClientText.inputPhone);
             clientToAdd.OwnerId = user.UserId;
             clientToAdd.Comment = GetString(ClientText.inputComment);
-            await ShowString(clientToAdd.Summary(), delay: 100);
-            choice = await MenuToChoice(Text.yesOrNo, ClientText.saveClient, Text.choice, clear: false, noNull: true);
-            if (choice == 1)
+            flag = true;
+            while (flag)
             {
-                Clients clients = new();
-                bool exist = await clients.CheckExist(user, clientToAdd);
-                if (exist) await ShowString(ClientText.clientExist);
-                else
+                await ShowString(clientToAdd.Summary(), delay: 0);
+                choice = await MenuToChoice(ClientText.saveOptions, string.Empty, Text.choice, clear: false, noNull: true);
+                switch (choice)
                 {
-                    clientToAdd = await clients.SaveGetId(user, clientToAdd);
-                    await ShowString(ClientText.clientAdded);
-                    return clientToAdd;
+                    case 1: // Сохранить клиента
+                        Clients clients = new();
+                        bool exist = await clients.CheckExist(user, clientToAdd);
+                        if (exist) await ShowString(ClientText.clientExist);
+                        else
+                        {
+                            clientToAdd = await clients.SaveGetId(user, clientToAdd);
+                            await ShowString(ClientText.clientAdded);
+                            flag = false; ;
+                        }
+                        break;
+                    case 2: // Изменить клиента
+                        clientToAdd = await ChangeClient.Start(clientToAdd, toSql: false);
+                        break;
+                    case 3: // Не сохранять клиента
+                        await ShowString(ClientText.clientNotAdded);
+                        clientToAdd = new();
+                        flag = false;
+                        break;
                 }
             }
-            await ShowString(ClientText.clientNotAdded);
-            return new Client();
+            return clientToAdd;
         }
     }
 }

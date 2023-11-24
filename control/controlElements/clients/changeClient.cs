@@ -3,11 +3,10 @@ using Controller;
 using Models;
 
 namespace Handbooks
-
 {
     public class ChangeClient
     {
-        public static async Task<Client> Start(Client client)
+        public static async Task<Client> Start(Client client, bool toSql)
         {
             Client clientOld = (Client)client.Clone();
             string name = GetString(ClientText.changeName);
@@ -55,14 +54,19 @@ namespace Handbooks
             await ShowString(client.Summary(), delay: 100);
             if (client.SearchString != clientOld.SearchString)
             {
-                choice = await MenuToChoice(Text.yesOrNo, ClientText.confirmChanges, Text.choice, false);
+                choice = await MenuToChoice(Text.yesOrNo, ClientText.confirmChanges, Text.choice, clear: false, noNull: true);
                 if (choice == 1)
                 {
-                    var clientList = new Clients();
+                    Clients clients = new();
                     var user = Settings.User;
-                    client = await clientList.SaveChanges(user, client);
-                    await ShowString(ClientText.clientChanged);
-                    return client;
+                    bool exist = await clients.CheckExist(user, client);
+                    if (exist) await ShowString(ClientText.clientExist);
+                    else
+                    {
+                        await ShowString(ClientText.clientChanged);
+                        if (toSql) client = await clients.SaveChanges(user, client);
+                        return client;
+                    }
                 }
             }
             await ShowString(ClientText.clientNotChanged);

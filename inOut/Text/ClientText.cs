@@ -24,6 +24,11 @@ namespace MenusAndChoices
                                 "Повторить поиск клиента",
                                 "Добавить клиента",
                                 "Возврат в предыдущее меню"};
+
+        public static readonly List<string> saveOptions = new() {
+                                "Сохранить клиента",
+                                "Изменить клиента",
+                                "Не сохранять клиента"};
         public static string Summary(this Client client)
         {
             Console.Clear();

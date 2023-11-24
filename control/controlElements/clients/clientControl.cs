@@ -54,7 +54,7 @@ namespace Handbooks
                                 switch (choice)
                                 {
                                     case 3: // Изменить данные клиента
-                                        clientToChange = await ChangeClient.Start(clientToChange);
+                                        clientToChange = await ChangeClient.Start(clientToChange, toSql: true);
                                         break;
                                     case 4: //Создать новый договор или посмотреть существующий
                                         await AgrControl.Start(clientToChange);

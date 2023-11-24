@@ -19,7 +19,7 @@ namespace Handbooks
             bool flag = true;
             while (flag)
             {
-                await ShowString(street.Name, delay: 0);
+                await ShowString(street.Name, clear: true, delay: 0);
                 int choice = await MenuToChoice(StreetText.saveOptions, string.Empty, Text.choice, clear: false, noNull: true);
                 switch (choice)
                 {
@@ -36,7 +36,7 @@ namespace Handbooks
                         flag = false;
                         break;
                     case 2: // Изменить улицу
-                        await ChangeStreet.Start(street, toSql: false);
+                        street = await ChangeStreet.Start(street, toSql: false);
                         break;
                     case 3: // Не сохранять улицу
                         flag = false;
