@@ -9,11 +9,10 @@ namespace Handbooks
         public static async Task<Clients> Start()
         {
             var user = Settings.User;
-            var searchString = InOut.GetString(Text.searchString);
-            var clientList = new Clients();
-            await clientList.GetFromSqlAsync(user, searchString);
-            return clientList;
+            var searchString = GetString(Text.searchString);
+            Clients clients = new();
+            await clients.GetFromSqlAsync(user, searchString);
+            return clients;
         }
     }
-
 }

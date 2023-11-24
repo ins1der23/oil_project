@@ -6,7 +6,7 @@ namespace Handbooks
 {
     public class ChangeCity
     {
-        public static async Task<City> Start(City city)
+        public static async Task<City> Start(City city, bool toSql = true)
         {
             var cityOld = (City)city.Clone();
             await ShowString(city.Name, clear: true, delay: 300);
@@ -23,22 +23,30 @@ namespace Handbooks
                 int choice = await MenuToChoice(Text.yesOrNo, CityText.changeConfirm, Text.choice, clear: false, noNull: true);
                 if (choice == 1)
                 {
-                    Cities cities = new();
-                    cities.Append(city);
+
                     var user = Settings.User;
-                    await cities.ChangeSqlAsync(user);
-                    await ShowString(CityText.changed);
-                    Districts districts = new();
-                    await districts.GetFromSqlAsync(user, cityId: city.Id, cityOld.Name);
-                    District district = districts.GetFromList();
-                    district.Name = name;
-                    _ = await districts.SaveChanges(user, district);
-                    Locations locations = new();
-                    await locations.GetFromSqlAsync(user, cityId: city.Id, cityOld.Name);
-                    Location location = locations.GetFromList();
-                    location.Name = name;
-                    _ = await locations.SaveChanges(user, location);
-                    return city;
+                    Cities cities = new();
+                    bool exist = await cities.CheckExist(user, city);
+                    if (exist) await ShowString(CityText.cityExist);
+                    else
+                    {
+                        await ShowString(CityText.changed);
+                        if (toSql)
+                        {
+                            city = await cities.SaveChanges(user, city);
+                            Districts districts = new();
+                            await districts.GetFromSqlAsync(user, cityId: city.Id, cityOld.Name);
+                            District district = districts.GetFromList();
+                            district.Name = name;
+                            _ = await districts.SaveChanges(user, district);
+                            Locations locations = new();
+                            await locations.GetFromSqlAsync(user, cityId: city.Id, cityOld.Name);
+                            Location location = locations.GetFromList();
+                            location.Name = name;
+                            _ = await locations.SaveChanges(user, location);
+                        }
+                        return city;
+                    }
                 }
             }
             await ShowString(CityText.changeCancel);

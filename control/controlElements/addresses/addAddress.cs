@@ -71,7 +71,7 @@ namespace Handbooks
             while (flag)
             {
                 await ShowString(address.Summary(), delay: 0);
-                choice = await MenuToChoice(AddrText.saveAddress, string.Empty, Text.choice, clear: false, noNull: true);
+                choice = await MenuToChoice(AddrText.saveOptions, string.Empty, Text.choice, clear: false, noNull: true);
                 switch (choice)
                 {
                     case 1: // Сохранить адрес
@@ -81,7 +81,6 @@ namespace Handbooks
                         flag = false;
                         break;
                     case 2: // Изменить адрес
-                        await ShowString(address.Summary());
                         await ChangeAddress.Start(address, toSql: false);
                         break;
                     case 3: // Не сохранять адрес

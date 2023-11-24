@@ -16,7 +16,6 @@ namespace Handbooks
                 switch (choice)
                 {
                     case 1: //Добавить новый адрес регистрации
-
                         mainFlag = false;
                         break;
                     case 2: // Работать с сохраненными адресами регистрации

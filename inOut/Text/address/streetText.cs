@@ -9,9 +9,16 @@ namespace MenusAndChoices
                                 "Повторить поиск улицы",
                                 "Добавить улицу",
                                 "Не выбирать улицу"};
+
+        public static readonly List<string> saveOptions = new() {
+                                "Сохранить улицу",
+                                "Изменить улицу",
+                                "Не сохранять улицу"};
         public static readonly string streetChoosen = "УЛИЦА ВЫБРАНА";
         public static readonly string streetNotChoosen = "УЛИЦА НЕ ВЫБРАНА";
         public static readonly string streetAdded = "УЛИЦА ДОБАВЛЕНА";
+        public static readonly string streetNotAdded = "УЛИЦА НЕ ДОБАВЛЕНА";
+        public static readonly string streetExist = "ТАКАЯ УЛИЦА УЖЕ ЕСТЬ В БАЗЕ";
         public static readonly List<string> options = new() {
                                 "Выбрать",
                                 "Изменить",
@@ -25,5 +32,6 @@ namespace MenusAndChoices
         public static readonly string changeCancel = "УЛИЦА НЕ ИЗМЕНЕНА";
         public static readonly string changeConfirm = "ТОЧНО ИЗМЕНИТЬ УЛИЦУ?";
         public static readonly string changed = "УЛИЦА ИЗМЕНЕНА";
+
     }
 }

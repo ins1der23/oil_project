@@ -82,16 +82,18 @@ namespace Handbooks
             await ShowString(address.Summary(), delay: 100);
             if (address.SearchString != addressOld.SearchString)
             {
-                choice = await MenuToChoice(Text.yesOrNo, AddrText.confirmChanges, Text.choice, false);
+                choice = await MenuToChoice(Text.yesOrNo, AddrText.confirmChanges, Text.choice, clear: false, noNull: true);
                 if (choice == 1)
                 {
-                    if (toSql)
+                    Addresses addresses = new();
+                    bool exist = await addresses.CheckExist(user, address);
+                    if (exist) await ShowString(AddrText.addressExist);
+                    else
                     {
-                        Addresses addresses = new();
-                        address = await addresses.SaveChanges(user, address);
+                        await ShowString(AddrText.addressChanged);
+                        if (toSql) address = await addresses.SaveChanges(user, address);
+                        return address;
                     }
-                    await ShowString(AddrText.addressChanged);
-                    return address;
                 }
             }
             await ShowString(AddrText.addressNotChanged);
@@ -99,3 +101,4 @@ namespace Handbooks
         }
     }
 }
+

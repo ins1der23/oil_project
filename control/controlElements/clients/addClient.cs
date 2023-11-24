@@ -53,7 +53,6 @@ namespace Handbooks
                                 return new Client();
                         }
                     }
-
                 }
             }
             clientToAdd.Phone = GetDouble(ClientText.inputPhone);
@@ -63,10 +62,15 @@ namespace Handbooks
             choice = await MenuToChoice(Text.yesOrNo, ClientText.saveClient, Text.choice, clear: false, noNull: true);
             if (choice == 1)
             {
-                var clientList = new Clients();
-                clientToAdd = await clientList.SaveGetId(user, clientToAdd);
-                await ShowString(ClientText.clientAdded);
-                return clientToAdd;
+                Clients clients = new();
+                bool exist = await clients.CheckExist(user, clientToAdd);
+                if (exist) await ShowString(ClientText.clientExist);
+                else
+                {
+                    clientToAdd = await clients.SaveGetId(user, clientToAdd);
+                    await ShowString(ClientText.clientAdded);
+                    return clientToAdd;
+                }
             }
             await ShowString(ClientText.clientNotAdded);
             return new Client();

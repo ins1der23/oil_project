@@ -121,13 +121,22 @@ namespace Models
             }
         }
 
+        public async Task<bool> CheckExist(DBConnection user, Client client) // Проверка, есть ли уже клиент в базе 
+        {
+            Clear();
+            Append(client);
+            await GetFromSqlAsync(user, client.SearchString);
+            if (IsEmpty) return false;
+            else return true;
+        }
+
         public async Task<Client> SaveGetId(DBConnection user, Client client) // получение Id из SQL для нового клиента 
         {
-            if (client.AddressId == 0 || client.Name == String.Empty) return client;
+            if (client.AddressId == 0 || client.Name == string.Empty) return client;
             Clear();
             Append(client);
             await AddSqlAsync(user);
-            await GetFromSqlAsync(user, client.FullName);
+            await GetFromSqlAsync(user, client.SearchString);
             client = GetFromList();
             return client;
         }
@@ -150,6 +159,9 @@ namespace Models
             return output;
         }
 
-        
+        public Task GetFromSqlAsync(DBConnection user, string search = "", int id = 0)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

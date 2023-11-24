@@ -112,19 +112,27 @@ namespace Models
             }
         }
 
-// получение Id из SQL для новой улицы 
-        public async Task<Street> SaveGetId(DBConnection user, Street street) 
+        public async Task<bool> CheckExist(DBConnection user, Street street) // Проверка, есть ли уже клиент в базе 
+        {
+            Clear();
+            Append(street);
+            await GetFromSqlAsync(user, cityId: street.CityId, street.SearchString);
+            if (IsEmpty) return false;
+            else return true;
+        }
+        // получение Id из SQL для новой улицы 
+        public async Task<Street> SaveGetId(DBConnection user, Street street)
         {
             if (street.Name == String.Empty) return street;
             Clear();
             Append(street);
             await AddSqlAsync(user);
-            await GetFromSqlAsync(user, cityId: street.CityId, street.Name);
+            await GetFromSqlAsync(user, cityId: street.CityId, street.SearchString);
             street = GetFromList();
             return street;
         }
-    // сохранение именений и получение из SQL измененной улицы
-        public async Task<Street> SaveChanges(DBConnection user, Street street) 
+        // сохранение именений и получение из SQL измененной улицы
+        public async Task<Street> SaveChanges(DBConnection user, Street street)
         {
             if (street.Name == string.Empty) return street;
             Clear();

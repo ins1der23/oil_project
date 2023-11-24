@@ -14,7 +14,7 @@ namespace MenusAndChoices
                                 "Добавить адрес",
                                 "Продолжить без добавления адреса"};
 
-        public static readonly List<string> saveAddress = new() {
+        public static readonly List<string> saveOptions = new() {
                                 "Сохранить адрес",
                                 "Изменить адрес",
                                 "Не сохранять адрес"};
@@ -28,6 +28,7 @@ namespace MenusAndChoices
 
         // AddAddress
         public static readonly string addressSearch = "Введите текст для поиска и добавления АДРЕСА или оставьте поле пустым для показа всех";
+        public static readonly string addressExist = "ТАКОЙ АДРЕС УЖЕ СУЩЕСТВУЕТ В БАЗЕ";
         public static readonly string addressNotAdded = "АДРЕС НЕ ДОБАВЛЕН";
         public static readonly string houseNum = "Введите номер дома";
         public static readonly string addressAdded = "АДРЕС УПЕШНО ДОБАВЛЕН";

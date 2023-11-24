@@ -9,9 +9,15 @@ namespace MenusAndChoices
                                 "Повторить поиск города",
                                 "Добавить город",
                                 "Отменить добавление адреса и вернуться в предыдущее меню"};
+        public static readonly List<string> saveOptions = new() {
+                                "Сохранить город",
+                                "Изменить город",
+                                "Не сохранять город"};
         public static readonly string cityChoosen = "ГОРОД ВЫБРАН";
         public static readonly string cityNotChoosen = "ГОРОД НЕ ВЫБРАН";
         public static readonly string cityAdded = "ГОРОД ДОБАВЛЕН";
+        public static readonly string cityNotAdded = "ГОРОД НЕ ДОБАВЛЕН";
+        public static readonly string cityExist = "ТАКОЙ ГОРОД УЖЕ ЕСТЬ В БАЗЕ";
         public static readonly List<string> options = new() {
                                 "Выбрать",
                                 "Изменить",

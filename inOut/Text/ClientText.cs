@@ -42,12 +42,13 @@ namespace MenusAndChoices
 
         // AddClient
         public static readonly string nameRestrict = "ОБЯЗАТЕЛЬНО введите название клиента";
-
         public static readonly string clientNotAdded = "КЛИЕНТ НЕ ДОБАВЛЕН";
         public static readonly string inputPhone = "Введите телефон";
         public static readonly string inputComment = "Введите комментарий";
         public static readonly string saveClient = "Сохранить клиента?";
         public static readonly string clientAdded = "КЛИЕНТ УСПЕШНО ДОБАВЛЕН";
+        public static readonly string clientExist = "ТАКОЙ КЛИЕНТ УЖЕ ЕСТЬ В БАЗЕ";
+
 
         // ChangeClient
 

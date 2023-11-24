@@ -190,6 +190,15 @@ namespace Models
             }
         }
 
+        public async Task<bool> CheckExist(DBConnection user, Address address) // Проверка, есть ли уже клиент в базе 
+        {
+            Clear();
+            Append(address);
+            await GetFromSqlAsync(user, address.SearchString);
+            if (IsEmpty) return false;
+            else return true;
+        }
+
         public async Task<Address> SaveGetId(DBConnection user, Address address) // получение Id из SQL для нового клиента 
         {
             if (address.CityId == 0) return address;
