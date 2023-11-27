@@ -16,11 +16,7 @@ namespace Models
         {
             get => $"{Name} от {Date.ToShortDateString()}_{Client.Name},{Client.Address.ShortString.PrepareToFileName()}";
         }
-        public string SearchString
-        {
-            get => $"{Name}{Date}";
-        }
-
+        public string SearchString => $"{Name}{Date}".PrepareToSearch();
         public bool ScanCheck
         {
             get => ScanPath != String.Empty;

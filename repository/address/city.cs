@@ -54,6 +54,7 @@ namespace Models
         public City GetByName(string name) => CitiesList.Where(s => s.Name == name).First();
         public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 0)
         {
+            search = search.PrepareToSearch();
             await user.ConnectAsync();
             if (user.IsConnect)
             {
@@ -106,7 +107,7 @@ namespace Models
             Clear();
             Append(city);
             await AddSqlAsync(user);
-            await GetFromSqlAsync(user, city.Name);
+            await GetFromSqlAsync(user, city.SearchString);
             city = GetFromList();
             return city;
         }

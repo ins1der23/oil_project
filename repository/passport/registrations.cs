@@ -37,7 +37,7 @@ namespace Models
                         StreetId = x.StreetId,
                         Street = streets.First(s => s.Id == x.StreetId),
                         HouseNum = x.HouseNum
-                    }).Where(a => a.LongString.PrepareToSearch().Contains(search)).ToList();
+                    }).Where(a => a.SearchString.Contains(search)).ToList();
                 }
                 user.Close();
             }

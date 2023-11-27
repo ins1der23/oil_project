@@ -40,7 +40,7 @@ namespace Models
                         RegistrationId = x.RegistrationId,
                         Registration = x.RegistrationId != 0 ? regList.First(a => a.Id == x.RegistrationId) : new(),
                         Client = clients.First(cl => cl.Id == x.ClientId),
-                    }).Where(p => p.SearchString.PrepareToSearch().Contains(search)).ToList();
+                    }).Where(p => p.SearchString.Contains(search)).ToList();
                 }
                 user.Close();
             }

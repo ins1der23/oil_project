@@ -10,6 +10,7 @@ namespace Models
         public virtual City City { get; set; }
         public int DistrictId { get; set; }
         public virtual District District { get; set; }
+        public string SearchString => Name.PrepareToSearch();
         public Location()
         {
             Name = string.Empty;
@@ -69,7 +70,7 @@ namespace Models
                         City = cities.Where(c => c.Id == x.CityId).First(),
                         DistrictId = x.DistrictId,
                         District = districts.Where(d => d.Id == x.DistrictId).First(),
-                    }).Where(l => id == 0 ? l.Name.PrepareToSearch().Contains(search) : l.Id == id)
+                    }).Where(l => id == 0 ? l.SearchString.Contains(search) : l.Id == id)
                       .Where(l=> l.CityId == cityId).ToList();
                 }
                 user.Close();
@@ -110,7 +111,7 @@ namespace Models
             Clear();
             Append(location);
             await AddSqlAsync(user);
-            await GetFromSqlAsync(user, cityId: location.CityId, location.Name);
+            await GetFromSqlAsync(user, cityId: location.CityId, location.SearchString);
             location = GetFromList();
             return location;
         }

@@ -87,7 +87,7 @@ namespace Models
             Clear();
             Append(district);
             await AddSqlAsync(user);
-            await GetFromSqlAsync(user, cityId: district.CityId, district.Name);
+            await GetFromSqlAsync(user, cityId: district.CityId, district.SearchString);
             district = GetFromList();
             return district;
         }

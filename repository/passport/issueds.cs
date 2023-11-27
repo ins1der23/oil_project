@@ -17,6 +17,8 @@ namespace Models
 
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
+            
+            search = search.PrepareToSearch();
             await user.ConnectAsync();
             if (user.IsConnect)
             {

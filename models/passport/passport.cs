@@ -11,7 +11,7 @@ namespace Models
         public virtual Address Registration { get; set; }
         public int ClientId { get; set; }
         public virtual Client Client { get; set; }
-        public string SearchString => $"{Number}";
+        public string SearchString => $"{Number}".PrepareToSearch();
         
         public Passport()
         {

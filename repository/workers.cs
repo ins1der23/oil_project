@@ -14,6 +14,7 @@ namespace Models
         public Worker GetFromList(int index) => WorkersList[index - 1];
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
+            search = search.PrepareToSearch();
             await user.ConnectAsync();
             if (user.IsConnect)
             {
