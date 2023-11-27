@@ -34,10 +34,10 @@ namespace Connection
         {
             Server = server;
             DatabaseName = databaseName;
-            UserName = "root";
-            Password = "Hacker$arefuck1ngevil";
-            // UserName = "diana_s";//SetUsername();
-            // Password = "Diana1sthebe$tmanager";//SetPassword();
+            // UserName = "root";
+            // Password = "Hacker$arefuck1ngevil";
+            UserName = "diana_s";//SetUsername();
+            Password = "Diana1sthebe$tmanager";//SetPassword();
         }
 
         private static DBConnection? _instance = null;

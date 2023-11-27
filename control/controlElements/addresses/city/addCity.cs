@@ -50,7 +50,7 @@ namespace Handbooks
                         flag = false;
                         break;
                     case 2: // Изменить город
-                        await ChangeCity.Start(city, toSql: false);
+                        city = await ChangeCity.Start(city, toSql: false);
                         break;
                     case 3: // Не сохранять город
                         flag = false;
