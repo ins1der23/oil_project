@@ -1,4 +1,5 @@
 using Connection;
+using Org.BouncyCastle.Asn1.Misc;
 
 namespace Models
 {
@@ -35,7 +36,7 @@ namespace Models
                 output.Add(item.ToString());
             return output;
         }
-        public async Task GetFromSqlAsync(DBConnection user, string search = "")
+        public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 0)
         {
             search = search.PrepareToSearch();
             Addresses addressSql = new();
@@ -67,7 +68,7 @@ namespace Models
                         OwnerId = x.OwnerId,
                         Owner = workers.Where(w => w.Id == x.OwnerId).First(),
                         ToDelete = x.ToDelete
-                    }).Where(c => c.SearchString.Contains(search)).ToList();
+                    }).Where(c => id == 0 ? c.SearchString.Contains(search) : c.Id == id).ToList();
                 }
                 user.Close();
             }
@@ -147,7 +148,7 @@ namespace Models
             Clear();
             Append(client);
             await ChangeSqlAsync(user);
-            await GetFromSqlAsync(user, client.FullName);
+            await GetFromSqlAsync(user, id: client.Id);
             client = GetFromList();
             return client;
         }
