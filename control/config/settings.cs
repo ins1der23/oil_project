@@ -30,9 +30,37 @@ namespace Controller
             User.Close();
             return status;
         }
+
+
         public static async Task<bool> Set()
         {
-            User = DBConnection.Instance(ServerPath, baseName);
+            if (isTest)
+            {
+                User.SetUsername("root");
+                User.SetPassword("Hacker$arefuck1ngevil");
+            }
+            else
+            {
+                // string UserName = InOut.GetString(Text.userName);
+                string userName = "diana_s";
+                User.SetUsername(userName);
+                switch (userName)
+                {
+                    case "root":
+                        User.SetPassword("Hacker$arefuck1ngevil");
+                        User.UserId = 2;
+                        break;
+                    case "misha":
+                        User.SetPassword("M1shaisa$martguy");
+                        User.UserId = 1;
+                        break;
+                    case "diana_s":
+                        User.SetPassword("Diana1sthebe$tmanager");
+                        User.UserId = 3;
+                        break;
+                }
+            }
+
             bool checkFile = await settings.Read();
             if (!checkFile) return false;
             numResetter.Status = settings.Lines.Where(l => l.ToLower().Contains("numresetter"))

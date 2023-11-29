@@ -19,32 +19,6 @@ namespace Connection
             DatabaseName = databaseName;
             UserName = string.Empty;
             Password = string.Empty;
-            if (Settings.isTest)
-            {
-                UserName = "root";
-                Password = "Hacker$arefuck1ngevil";
-            }
-            else
-            {
-                UserName = "diana_s";
-                Password = "Diana1sthebe$tmanager";
-                // UserName = InOut.GetString(Text.userName);
-                // switch (UserName)
-                // {
-                //     case "root":
-                //         Password ="Hacker$arefuck1ngevil";
-                //         UserId = 2;
-                //         break;
-                //     case "misha":
-                //         Password = "M1shaisa$martguy";
-                //         UserId = 1;
-                //         break;
-                //     case "diana_s":
-                //         Password = "Diana1sthebe$tmanager";
-                //         UserId = 3;
-                //         break;
-                // }
-            }
         }
         private static DBConnection? _instance = null;
         public static DBConnection Instance(string server, string databaseName)
@@ -54,8 +28,8 @@ namespace Connection
             return _instance;
         }
 
-        private void SetUsername(string userName) => UserName = userName;
-        private void SetPassword(string password) => Password = password;//InOut.GetString(Text.password);
+        public void SetUsername(string userName) => UserName = userName;
+        public void SetPassword(string password) => Password = password;//InOut.GetString(Text.password);
         public int GetUserId()
         {
             string choice = UserName;
