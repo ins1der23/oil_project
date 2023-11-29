@@ -14,14 +14,14 @@ namespace Handbooks
             string sourcePath = InOut.GetString(AgrText.scanPath);
             string folder = "/agreements/";
             Console.WriteLine(sourcePath);
-            if (sourcePath == String.Empty)
+            if (sourcePath == string.Empty)
             {
                 Console.WriteLine("ОШИБКА");
                 return agreement;
             }
-            sourcePath = sourcePath.Replace("\"", String.Empty);
+            sourcePath = sourcePath.Replace("\"", string.Empty);
             FileInfo sourceFile = new(sourcePath);
-            string receivePath = $"{Settings.scanPath}{folder}{agreement.FileName}{sourceFile.Extension}";
+            string receivePath = $"{Settings.ScanPath}{folder}{agreement.FileName}{sourceFile.Extension}";
             if (sourceFile.Exists) sourceFile.CopyTo(receivePath, true);
             else Console.WriteLine("ОШИБКА");
             agreement.ScanPath = receivePath;

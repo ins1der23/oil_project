@@ -8,17 +8,14 @@ namespace Controller
     /// </summary>
     static class Settings
     {
+        public static bool isTest = false;
+        public static string baseName = "oilproject";
+        public static string ServerPath => isTest ? "127.0.0.1" : "profit.dns-cloud.net";
+        public static string ScanPath => isTest ? "D:/oilproject/scans" : "X:/oilproject/scans";
+        public static DBConnection User = DBConnection.Instance(ServerPath, baseName);
         static readonly string configPath = "X:/oilproject/config/settings.txt";
-        public static string scanPath = "X:/oilproject/scans";
-
         static readonly FileWork settings = new(configPath);
         public static Setter numResetter = new("numResetter");
-
-        public static DBConnection User
-        {
-            get => DBConnection.Instance("profit.dns-cloud.net", "oilproject");
-            // get => DBConnection.Instance("127.0.0.1", "oilproject");
-        }
 
         public static async Task<bool> Connect()
         {
@@ -35,6 +32,7 @@ namespace Controller
         }
         public static async Task<bool> Set()
         {
+            User = DBConnection.Instance(ServerPath, baseName);
             bool checkFile = await settings.Read();
             if (!checkFile) return false;
             numResetter.Status = settings.Lines.Where(l => l.ToLower().Contains("numresetter"))

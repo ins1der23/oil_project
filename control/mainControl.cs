@@ -11,19 +11,20 @@ namespace Controller
         public static async Task Start()
         {
             Console.WindowWidth = 180;
-            bool check = await Settings.Connect();
+            bool check = await Settings.Set();
+            if (!check)
+            {
+                await ShowString(SettingsText.noPath);
+                return;
+            }
+            check = await Settings.Connect();
             if (!check)
             {
                 await ShowString(SettingsText.noConnection, true);
                 return;
             }
             await ShowString(SettingsText.connected, true, delay: 300);
-            check = await Settings.Set();
-            if (!check)
-            {
-                await ShowString(SettingsText.noPath);
-                return;
-            }
+
             var user = Settings.User;
             Workers workersList = new();
             Positions positionsList = new();

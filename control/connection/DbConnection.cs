@@ -1,3 +1,4 @@
+using Controller;
 using MenusAndChoices;
 
 namespace Connection
@@ -8,25 +9,7 @@ namespace Connection
         public string DatabaseName { get; set; }
         public string UserName { get; private set; }
         private string Password { get; set; }
-
-        public int UserId
-        {
-            get
-            {
-                string choice = UserName;
-                switch (choice)
-                {
-                    case "misha":
-                        return 1;
-                    case "diana_s":
-                        return 3;
-                    default:
-                        break;
-                }
-                return 2;
-            }
-
-        }
+        public int UserId { get; set; }
         public MySqlConnection? Connection { get; set; }
         public bool IsConnect { get; private set; }
 
@@ -34,12 +17,35 @@ namespace Connection
         {
             Server = server;
             DatabaseName = databaseName;
-            // UserName = "root";
-            // Password = "Hacker$arefuck1ngevil";
-            UserName = "diana_s";//SetUsername();
-            Password = "Diana1sthebe$tmanager";//SetPassword();
+            UserName = string.Empty;
+            Password = string.Empty;
+            if (Settings.isTest)
+            {
+                UserName = "root";
+                Password = "Hacker$arefuck1ngevil";
+            }
+            else
+            {
+                UserName = "diana_s";
+                Password = "Diana1sthebe$tmanager";
+                // UserName = InOut.GetString(Text.userName);
+                // switch (UserName)
+                // {
+                //     case "root":
+                //         Password ="Hacker$arefuck1ngevil";
+                //         UserId = 2;
+                //         break;
+                //     case "misha":
+                //         Password = "M1shaisa$martguy";
+                //         UserId = 1;
+                //         break;
+                //     case "diana_s":
+                //         Password = "Diana1sthebe$tmanager";
+                //         UserId = 3;
+                //         break;
+                // }
+            }
         }
-
         private static DBConnection? _instance = null;
         public static DBConnection Instance(string server, string databaseName)
         {
@@ -48,8 +54,8 @@ namespace Connection
             return _instance;
         }
 
-        private string SetUsername() => InOut.GetString(Text.userName);
-        private string SetPassword() => InOut.GetString(Text.password);
+        private void SetUsername(string userName) => UserName = userName;
+        private void SetPassword(string password) => Password = password;//InOut.GetString(Text.password);
         public int GetUserId()
         {
             string choice = UserName;
