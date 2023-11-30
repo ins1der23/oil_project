@@ -12,12 +12,28 @@ namespace Handbooks
             var user = Settings.User;
             bool flag = true;
             int choice;
-            City city = await CityControl.Start();
-            if (city.Id == 0)
+            City city = new();
+
+            while (flag)
             {
-                await ShowString(AddrText.addressNotChoosen);
-                return new Address();
+                city = await CityControl.Start();
+                if (city.Id == 0)
+                {
+                    choice = await MenuToChoice(LocationText.tryAgain, LocationText.locationNotChoosen, Text.choice, noNull: true);
+                    switch (choice)
+                    {
+                        case 1: // Вернуться к поиску микрорайона еще раз
+                            break;
+                        case 2: // Отменить добавление адреса и вернуться в предыдущее меню
+                            await ShowString(AddrText.addressNotChoosen);
+                            return new Address();
+                    }
+                }
+                else flag = false;
             }
+            await ShowString(AddrText.addressNotChoosen);
+            return new Address();
+
             Location location = new();
             while (flag)
             {
