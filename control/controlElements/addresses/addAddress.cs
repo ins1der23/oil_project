@@ -12,17 +12,17 @@ namespace Handbooks
             var user = Settings.User;
             bool flag = true;
             int choice;
-            City city = new();
 
+            City city = new();
             while (flag)
             {
                 city = await CityControl.Start();
                 if (city.Id == 0)
                 {
-                    choice = await MenuToChoice(LocationText.tryAgain, LocationText.locationNotChoosen, Text.choice, noNull: true);
+                    choice = await MenuToChoice(CityText.tryAgain, CityText.cityNotChoosen, Text.choice, noNull: true);
                     switch (choice)
                     {
-                        case 1: // Вернуться к поиску микрорайона еще раз
+                        case 1: // Вернуться к поиску города еще раз
                             break;
                         case 2: // Отменить добавление адреса и вернуться в предыдущее меню
                             await ShowString(AddrText.addressNotChoosen);
@@ -31,8 +31,6 @@ namespace Handbooks
                 }
                 else flag = false;
             }
-            await ShowString(AddrText.addressNotChoosen);
-            return new Address();
 
             Location location = new();
             while (flag)
@@ -52,6 +50,7 @@ namespace Handbooks
                 }
                 else flag = false;
             }
+
             flag = true;
             Street street = new();
             while (flag)
@@ -71,6 +70,7 @@ namespace Handbooks
                 }
                 else flag = false;
             }
+
             Address address = new()
             {
                 CityId = city.Id,
@@ -83,6 +83,7 @@ namespace Handbooks
                 Street = street,
                 HouseNum = GetString(AddrText.houseNum)
             };
+            
             flag = true;
             while (flag)
             {

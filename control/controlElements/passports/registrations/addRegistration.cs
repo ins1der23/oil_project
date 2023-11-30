@@ -1,36 +1,94 @@
+using MenusAndChoices;
+using Controller;
 using Models;
 
 namespace Handbooks
 {
     public class AddRegistration
     {
-        public async Task<Registration> Start()
+        public static async Task<Registration> Start()
         {
             var user = Settings.User;
             bool flag = true;
             int choice;
-            City city = await CityControl.Start();
-            if (city.Id == 0)
+
+            City city = new();
+            while (flag)
             {
-                await ShowString(AddrText.addressNotChoosen);
-                return new Address();
+                city = await CityControl.Start();
+                if (city.Id == 0)
+                {
+                    choice = await MenuToChoice(CityText.tryAgain, CityText.cityNotChoosen, Text.choice, noNull: true);
+                    switch (choice)
+                    {
+                        case 1: // Вернуться к поиску города еще раз
+                            break;
+                        case 2: // Отменить добавление адреса и вернуться в предыдущее меню
+                            await ShowString(AddrText.addressNotChoosen);
+                            return new Registration();
+                    }
+                }
+                else flag = false;
             }
-            
 
+            flag = true;
+            Street street = new();
+            while (flag)
+            {
+                street = await StreetControl.Start(city);
+                if (street.Id == 0)
+                {
+                    choice = await MenuToChoice(StreetText.tryAgain, StreetText.streetNotChoosen, Text.choice, noNull: true);
+                    switch (choice)
+                    {
+                        case 1: // Вернуться к поиску улицы еще раз
+                            break;
+                        case 2: // Отменить добавление адреса и вернуться в предыдущее меню
+                            await ShowString(AddrText.addressNotChoosen);
+                            return new Registration();
+                    }
+                }
+                else flag = false;
+            }
 
+            Registration registration = new()
+            {
+                CityId = city.Id,
+                City = city,
+                StreetId = street.Id,
+                Street = street,
+                HouseNum = GetString(RegistrationText.houseNum),
+                FlatNum = GetString(RegistrationText.flatNum)
+            };
 
-
-
-
-            string searchString = GetString("");
-
-            registration.CityId = 0;
-            registration.StreetId = 0;
-            registration.HouseNum = "";
-            registration.FlatNum = "";
-
-
-
+            flag = true;
+            while (flag)
+            {
+                await ShowString(registration.Summary(), delay: 0);
+                choice = await MenuToChoice(RegistrationText.saveOptions, string.Empty, Text.choice, clear: false, noNull: true);
+                switch (choice)
+                {
+                    case 1: // Сохранить адрес
+                        Registrations registrations = new();
+                        bool exist = await registrations.CheckExist(user, registration);
+                        if (exist) await ShowString(CityText.cityExist);
+                        else
+                        {
+                            registration = await registrations.SaveGetId(user, registration);
+                            await ShowString(RegistrationText.registrationAdded);
+                            flag = false;
+                        }
+                        break;
+                    case 2: // Изменить адрес
+                        registration = await ChangeRegistration.Start(registration, toSql: false);
+                        break;
+                    case 3: // Не сохранять адрес
+                        await ShowString(RegistrationText.registrationNotAdded);
+                        registration = new();
+                        flag = false;
+                        break;
+                }
+            }
             return registration;
         }
     }

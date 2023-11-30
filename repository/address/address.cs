@@ -84,17 +84,19 @@ namespace Models
     public class Addresses : IRepository
     {
         public List<Address> AddressList { get; set; }
-        public bool IsEmpty
-        {
-            get => !AddressList.Any();
-        }
+        public bool IsEmpty => !AddressList.Any();
         public Addresses()
         {
             AddressList = new();
         }
         public void Append(Address address) => AddressList.Add(address);
         public void Clear() => AddressList.Clear();
-        public Address GetFromList(int index = 1) => AddressList[index - 1];
+        public Address GetFromList(int index = 1)
+        {
+            if (!IsEmpty) return AddressList[index - 1];
+            return new Address();
+        }
+
         public Address GetById(int id) => AddressList.Where(a => a.Id == id).First();
 
         public List<Address> ToWorkingList() => AddressList.Select(c => c).ToList(); // Список для работы с LINQ
@@ -228,9 +230,16 @@ namespace Models
             return output;
         }
 
-        public Task DeleteSqlAsync(DBConnection user)
+        public async Task DeleteSqlAsync(DBConnection user)
         {
-            throw new NotImplementedException();
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"delete from addresses 
+                                        where Id = @{nameof(Address.Id)};";
+                await user.Connection!.ExecuteAsync(selectQuery, AddressList);
+                user.Close();
+            }
         }
     }
 }

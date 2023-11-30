@@ -57,6 +57,7 @@ namespace Handbooks
                                 address = await ChangeAddress.Start(address, toSql: true);
                                 break;
                             case 3: // Удалить
+                                address = await DelAddress.Start(address);
                                 break;
                             case 4: // Вернуться к поиску
                                 levelOneFlag = false;

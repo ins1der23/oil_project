@@ -27,5 +27,9 @@ namespace MenusAndChoices
         public static readonly string changeCancel = "ГОРОД НЕ ИЗМЕНЕН";
         public static readonly string changeConfirm = "ТОЧНО ИЗМЕНИТЬ ГОРОД?";
         public static readonly string changed = "ГОРОД ИЗМЕНЕН";
+
+        public static readonly List<string> tryAgain = new() {
+                                "Вернуться к поиску города еще раз",
+                                "Не выбирать адрес и вернуться в предыдущее меню"};
     }
 }

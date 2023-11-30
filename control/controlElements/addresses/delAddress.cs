@@ -29,7 +29,7 @@ namespace Handbooks
                         break;
                 }
             }
-            return address;
+            return new Address();
         }
     }
 }

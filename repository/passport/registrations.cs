@@ -5,6 +5,7 @@ namespace Models
     public class Registrations : IRepository
     {
         List<Registration> RegistrationList { get; set; }
+        public bool IsEmpty => !RegistrationList.Any();
 
         public Registrations()
         {
@@ -12,9 +13,15 @@ namespace Models
         }
 
         public void Clear() => RegistrationList.Clear();
+        public void Append(Registration registration) => RegistrationList.Add(registration);
+        public Registration GetFromList(int index = 1)
+        {
+            if (!IsEmpty) return RegistrationList[index - 1];
+            return new Registration();
+        }
         public List<Registration> ToWorkingList() => RegistrationList.Select(c => c).ToList(); // Список для работы с LINQ
 
-        public async Task GetFromSqlAsync(DBConnection user, string search = "")
+        public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 0)
         {
             search = search.PrepareToSearch();
             await user.ConnectAsync();
@@ -37,30 +44,79 @@ namespace Models
                         StreetId = x.StreetId,
                         Street = streets.First(s => s.Id == x.StreetId),
                         HouseNum = x.HouseNum
-                    }).Where(a => a.SearchString.Contains(search)).ToList();
+                    }).Where(r => id == 0 ? r.SearchString.Contains(search) : r.Id == id).ToList();
                 }
                 user.Close();
             }
         }
 
-        public Task AddSqlAsync(DBConnection user)
+        public async Task AddSqlAsync(DBConnection user)
         {
-            throw new NotImplementedException();
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"insert Registrtions
+                    (cityId, streetId, houseNum, flatNum)
+                    values (
+                    @{nameof(Registration.CityId)},
+                    @{nameof(Registration.StreetId)},
+                    @{nameof(Registration.HouseNum)},
+                    @{nameof(Registration.FlatNum)})";
+                await user.Connection!.ExecuteAsync(selectQuery, RegistrationList);
+                user.Close();
+            }
         }
 
-        public Task DeleteSqlAsync(DBConnection user)
+        public async Task DeleteSqlAsync(DBConnection user)
         {
-            throw new NotImplementedException();
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"delete from registrations 
+                                        where Id = @{nameof(Registration.Id)};";
+                await user.Connection!.ExecuteAsync(selectQuery, RegistrationList);
+                user.Close();
+            }
         }
+
+        public async Task<bool> CheckExist(DBConnection user, Registration registration) // Проверка, есть ли уже клиент в базе 
+        {
+            Clear();
+            Append(registration);
+            await GetFromSqlAsync(user, registration.SearchString);
+            if (IsEmpty) return false;
+            else return true;
+        }
+
         public List<string> ToStringList()
         {
             throw new NotImplementedException();
         }
 
-        public Task ChangeSqlAsync(DBConnection user)
+        public async Task ChangeSqlAsync(DBConnection user)
         {
-            throw new NotImplementedException();
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"update Registrations set 
+                    cityId = @{nameof(Registration.CityId)},
+                    streetId = @{nameof(Registration.StreetId)},
+                    houseNum = @{nameof(Registration.HouseNum)},
+                    flatNum = @{nameof(Registration.FlatNum)}
+                    where Id = @{nameof(Registration.Id)};";
+                await user.Connection!.ExecuteAsync(selectQuery, RegistrationList);
+                user.Close();
+            }
         }
-
+        public async Task<Registration> SaveGetId(DBConnection user, Registration registration) // получение Id из SQL для нового клиента 
+        {
+            if (registration.CityId == 0) return registration;
+            Clear();
+            Append(registration);
+            await AddSqlAsync(user);
+            await GetFromSqlAsync(user, registration.SearchString);
+            registration = GetFromList();
+            return registration;
+        }
     }
 }

@@ -29,6 +29,7 @@ namespace MenusAndChoices
         public static readonly string inputName = "Введите название";
         public static readonly string notFound = "\nНе найдено\n";
         public static readonly string chooseSome = "Выбрать?";
+        public static readonly string emptyList = "Список пустой";
         public static readonly string searchString =
         "Введите текст для поиска или оставьте поле пустым для показа всех";
 
