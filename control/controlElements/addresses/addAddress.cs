@@ -30,6 +30,9 @@ namespace Handbooks
                 }
                 else flag = false;
             }
+            await ShowString(AddrText.addressNotChoosen);
+            return new Address();
+
             Location location = new();
             flag = true;
             while (flag)
