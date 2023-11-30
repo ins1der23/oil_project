@@ -30,8 +30,6 @@ namespace Controller
             User.Close();
             return status;
         }
-
-
         public static async Task<bool> Set()
         {
             if (isTest)
