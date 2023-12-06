@@ -51,8 +51,8 @@ namespace Testing
                         await ShowString("Agreements OK", false, delay);
                         break;
                     case 2: // Тест методов
-                        Address address = await AddressControl.Start();
-                        await ShowString(address.LongString);
+                        Registration registration = await RegistrationControl.Start();
+                        await ShowString(registration.LongString);
                         Console.ReadLine();
                         break;
                     case 3: //Выход

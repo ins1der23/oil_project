@@ -18,8 +18,7 @@ namespace Handbooks
                 var user = Settings.User;
                 await issueds.DeleteSqlAsync(user);
                 await ShowString(IssuedByText.deleted);
-                issuedBy = new();
-                return issuedBy;
+                return new IssuedBy();
             }
             await ShowString(IssuedByText.delCancel);
             return issuedBy;

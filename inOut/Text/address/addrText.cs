@@ -36,6 +36,7 @@ namespace MenusAndChoices
         public static readonly string addressNotChoosen = "АДРЕС НЕ ВЫБРАН";
         public static readonly string changeAddress = "Изменить адрес?";
         public static readonly string addressChoosen = "АДРЕС ВЫБРАН";
+        public static readonly string addAddress = "Добавить адрес?";
         public static string Summary(this Address address)
         {
             Console.Clear();
@@ -78,8 +79,8 @@ namespace MenusAndChoices
 
         // Delete Addrress
         public static readonly string delAddress = "ТОЧНО УДАЛИТЬ ЭТОТ АДРЕС???";
-        public static readonly string clientDeleted = "АДРЕС УСПЕШНО УДАЛЕН";
-        public static readonly string clientNotDeleted = "АДРЕС НЕ УДАЛЕН";
+        public static readonly string addressDeleted = "АДРЕС УСПЕШНО УДАЛЕН";
+        public static readonly string addressNotDeleted = "АДРЕС НЕ УДАЛЕН";
 
 
     }

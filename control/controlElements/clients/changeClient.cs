@@ -16,34 +16,7 @@ namespace Handbooks
             {
                 case 1: // Да
                     await ShowString(AddrText.addressChoosing, delay: 100);
-                    bool flag = true;
-                    while (flag)
-                    {
-                        address = await FindAddress.Start();
-                        if (address.Id != 0)
-                        {
-                            await ShowString(AddrText.addressChoosen);
-                            flag = false;
-                        }
-                        else
-                        {
-                            choice = await MenuToChoice(AddrText.searchAgainOrAddAddress, AddrText.addressNotChoosen, Text.choice); // Повторить поиск или добавить адрес
-                            switch (choice)
-                            {
-                                case 1: // Повторить поиск
-                                    break;
-                                case 2: // Добавить
-                                    address = await AddAddress.Start();
-                                    if (address.Id != 0) flag = false;
-                                    await ShowString(AddrText.addressChoosen);
-                                    break;
-                                case 3: // Возврат в предыдущее меню
-                                    await ShowString(AddrText.addressNotChanged, true);
-                                    flag = false;
-                                    break;
-                            }
-                        }
-                    }
+                    address = await AddressControl.Start();
                     break;
                 case 2: // Нет
                     break;

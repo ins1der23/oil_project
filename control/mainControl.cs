@@ -2,15 +2,17 @@ using MenusAndChoices;
 using Testing;
 using Handbooks;
 using Models;
+using System.Runtime.Versioning;
 
 
 namespace Controller
 {
     public class MainControl
     {
+        [SupportedOSPlatform("windows")]
         public static async Task Start()
         {
-            Console.WindowWidth = 180;
+            SetWindowWidth(180);
             bool check = await Settings.Set();
             if (!check)
             {

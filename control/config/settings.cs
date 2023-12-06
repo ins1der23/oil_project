@@ -8,7 +8,7 @@ namespace Controller
     /// </summary>
     static class Settings
     {
-        public static bool isTest = false;
+        public static bool isTest = true;
         public static string baseName = "oilproject";
         public static string ServerPath => isTest ? "127.0.0.1" : "profit.dns-cloud.net";
         public static string ScanPath => isTest ? "D:/oilproject/scans" : "X:/oilproject/scans";

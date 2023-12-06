@@ -4,32 +4,32 @@ using Models;
 
 namespace Handbooks
 {
-    class DelAddress
+    class DelRegistration
     {
-        public static async Task<Address> Start(Address address)
+        public static async Task<Registration> Start(Registration registration)
         {
             bool flag = true;
             int choice;
             while (flag)
             {
-                await ShowString(AddrText.Summary(address), true, delay: 100);
+                await ShowString(registration.Summary(), true, delay: 100);
                 choice = await MenuToChoice(Text.yesOrNo, AddrText.delAddress, Text.choice, clear: false, noNull: true); // Точно удалить?
                 switch (choice)
                 {
                     case 1: // Да
-                        Addresses addresses = new();
-                        addresses.Append(address);
+                        Registrations registrations = new();
+                        registrations.Append(registration);
                         var user = Settings.User;
-                        await addresses.DeleteSqlAsync(user);
+                        await registrations.DeleteSqlAsync(user);
                         await ShowString(AddrText.addressDeleted);
-                        return new Address();
+                        return new Registration();
                     case 2: // Нет
                         flag = false;
                         await ShowString(AddrText.addressNotDeleted);
                         break;
                 }
             }
-            return address;
+            return registration;
         }
     }
 }

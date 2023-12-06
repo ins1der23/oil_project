@@ -1,8 +1,16 @@
 using Models;
 using MenusAndChoices;
+using System.Runtime.Versioning;
 
 public static class InOut
 {
+
+    [SupportedOSPlatform("windows")]
+    public static void SetWindowWidth(int width)
+    {
+        Console.WindowWidth = width;
+    }
+
     public static void ShowMenu(this Menu menu) => Console.WriteLine(menu);
     /// <summary>
     /// Вывести строку в консоль
@@ -36,7 +44,7 @@ public static class InOut
         var menu = new Menu(menuChoices, menuName);
         Console.WriteLine(menu);
         if (menuChoices.Count == 0) await ShowString(Text.notFound, delay: 100);
-        if (noNull) return menu.MenuChoice(invite, noNull:true);
+        if (noNull) return menu.MenuChoice(invite, noNull: true);
         else return menu.MenuChoice(invite);
 
     }

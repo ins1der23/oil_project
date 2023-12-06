@@ -2,8 +2,6 @@ using MenusAndChoices;
 using Controller;
 using Models;
 
-
-
 namespace Handbooks
 {
     public class FindAddress

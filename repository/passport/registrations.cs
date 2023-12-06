@@ -43,7 +43,8 @@ namespace Models
                         City = cities.First(c => c.Id == x.CityId),
                         StreetId = x.StreetId,
                         Street = streets.First(s => s.Id == x.StreetId),
-                        HouseNum = x.HouseNum
+                        HouseNum = x.HouseNum,
+                        FlatNum = x.FlatNum
                     }).Where(r => id == 0 ? r.SearchString.Contains(search) : r.Id == id).ToList();
                 }
                 user.Close();
@@ -55,7 +56,7 @@ namespace Models
             await user.ConnectAsync();
             if (user.IsConnect)
             {
-                string selectQuery = $@"insert Registrtions
+                string selectQuery = $@"insert registrations
                     (cityId, streetId, houseNum, flatNum)
                     values (
                     @{nameof(Registration.CityId)},
@@ -90,7 +91,10 @@ namespace Models
 
         public List<string> ToStringList()
         {
-            throw new NotImplementedException();
+            List<string> output = new();
+            foreach (var item in RegistrationList)
+                output.Add(item.LongString);
+            return output;
         }
 
         public async Task ChangeSqlAsync(DBConnection user)
@@ -118,5 +122,17 @@ namespace Models
             registration = GetFromList();
             return registration;
         }
+
+        public async Task<Registration> SaveChanges(DBConnection user, Registration registration) // получение Id из SQL для нового экземпляра
+        {
+            if (registration.CityId == 0) return registration;
+            Clear();
+            Append(registration);
+            await ChangeSqlAsync(user);
+            await GetFromSqlAsync(user, id: registration.Id);
+            registration = GetFromList();
+            return registration;
+        }
+       
     }
 }
