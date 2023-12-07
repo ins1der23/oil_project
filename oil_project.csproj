@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Os>windows</Os>
+    <SupportedOSPlatformAttribute>windows</SupportedOSPlatformAttribute>
     <RuntimeIdentifiers>win-x86; win-x64</RuntimeIdentifiers>
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
