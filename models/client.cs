@@ -1,3 +1,5 @@
+using Controller;
+
 namespace Models
 {
     public class Client : IModels, ICloneable
@@ -17,13 +19,14 @@ namespace Models
         public string FullName => $"{Name,-35}{Address.LongString}";
         public string ShortName => $"{Name}, {Address.ShortString}";
         public string SearchString => $"{Name}{Address.SearchString}{Phone}".PrepareToSearch();
-        
+
 
 
         public Client()
         {
             Name = string.Empty;
             Address = new Address();
+            OwnerId = Settings.UserId;
             Owner = new Worker();
             Agreements = new List<Agreement>();
             Passports = new List<Passport>();
@@ -46,7 +49,7 @@ namespace Models
             return $"{FullName}{Phone,-10}";
         }
 
-        public object Clone() 
+        public object Clone()
         {
             Client client = (Client)MemberwiseClone();
             client.Address = Address;
@@ -54,7 +57,7 @@ namespace Models
             client.Agreements = Agreements;
             client.Passports = Passports;
             return client;
-        } 
+        }
     }
 }
 

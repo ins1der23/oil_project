@@ -23,11 +23,13 @@ namespace Connection
             {
                 UserName = "root";
                 Password = "Hacker$arefuck1ngevil";
+                UserId = 1;
             }
             else
             {
                 UserName = "diana_s";
                 Password = "Diana1sthebe$tmanager";
+                UserId = 3;
                 // UserName = InOut.GetString(Text.userName);
                 // switch (UserName)
                 // {
@@ -56,19 +58,6 @@ namespace Connection
 
         private void SetUsername(string userName) => UserName = userName;
         private void SetPassword(string password) => Password = password;//InOut.GetString(Text.password);
-        public int GetUserId()
-        {
-            string choice = UserName;
-            switch (choice)
-            {
-                case "misha":
-                    return 1;
-                case "diana_s":
-                    return 3;
-            }
-            return 2;
-        }
-
         public async Task ConnectAsync()
         {
             if (Connection == null)

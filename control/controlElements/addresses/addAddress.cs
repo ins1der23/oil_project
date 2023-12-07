@@ -33,6 +33,7 @@ namespace Handbooks
             }
 
             Location location = new();
+            flag = true;
             while (flag)
             {
                 location = await LocationControl.Start(city);
