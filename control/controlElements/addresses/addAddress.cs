@@ -12,7 +12,6 @@ namespace Handbooks
             var user = Settings.User;
             bool flag = true;
             int choice;
-
             City city = new();
             while (flag)
             {
@@ -31,7 +30,6 @@ namespace Handbooks
                 }
                 else flag = false;
             }
-
             Location location = new();
             flag = true;
             while (flag)
