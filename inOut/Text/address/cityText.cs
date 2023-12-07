@@ -14,9 +14,6 @@ namespace MenusAndChoices
                                 "Изменить город",
                                 "Не сохранять город"};
 
-        public static readonly List<string> tryAgain = new() {
-                                "Вернуться к поиску города еще раз",
-                                "Не выбирать адрес и вернуться в предыдущее меню"};
         public static readonly string cityChoosen = "ГОРОД ВЫБРАН";
         public static readonly string cityNotChoosen = "ГОРОД НЕ ВЫБРАН";
         public static readonly string cityAdded = "ГОРОД ДОБАВЛЕН";
