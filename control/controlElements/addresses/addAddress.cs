@@ -35,6 +35,7 @@ namespace Handbooks
             return new Address();
 
             Location location = new();
+            flag = true;
             while (flag)
             {
                 location = await LocationControl.Start(city);
