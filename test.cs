@@ -45,10 +45,10 @@ namespace Testing
                         await ShowString("Registrations OK", false, delay);
                         Clients clients = new();
                         await clients.GetFromSqlAsync(user);
-                        await ShowString("Clients OK", false, delay);
+                        if (!clients.IsEmpty) await ShowString("Clients OK", false, delay);
                         Agreements agreements = new();
-                        await agreements.GetFromSqlAsync(user);
-                        await ShowString("Agreements OK", false, delay);
+                        await agreements.GetFromSqlAsync(user, search: "1", id: 56);
+                        if (!agreements.IsEmpty()) await ShowString("Agreements OK", false, delay);
                         break;
                     case 2: // Тест методов
                         Registration registration = await RegistrationControl.Start();

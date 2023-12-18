@@ -26,7 +26,7 @@ namespace Models
         public Agreement()
         {
             Name = $"{Interlocked.Increment(ref nextNum)}-{Date.Month}";
-            ScanPath = String.Empty;
+            ScanPath = string.Empty;
             Client = new();
             Passport = new();
         }
@@ -51,7 +51,7 @@ namespace Models
 
         public override string ToString()
         {
-            return $"{Name} {Client.FullName}";
+            return $"{Name} {Date.ToShortDateString()} {Client.FullName}";
         }
     }
 }

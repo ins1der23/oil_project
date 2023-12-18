@@ -24,7 +24,6 @@ namespace Models
                 string sql = @"select * from clients as cl;
                                select * from issueds as i;
                                select * from passports;";
-
                 using (var temp = await user.Connection!.QueryMultipleAsync(sql))
                 {
                     var clients = temp.Read<Client>();

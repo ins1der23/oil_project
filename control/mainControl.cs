@@ -12,7 +12,7 @@ namespace Controller
         [SupportedOSPlatform("windows")]
         public static async Task Start()
         {
-            SetWindowWidth(180);
+            SetWindowWidth(170);
             bool check = await Settings.Set();
             if (!check)
             {

@@ -15,6 +15,7 @@ namespace Models
         public void Clear() => AgreementList.Clear();
         public void Append(Agreement agreement) => AgreementList.Add(agreement);
         public Agreement GetFromList(int index = 1) => AgreementList[index - 1];
+        public bool IsEmpty() => !AgreementList.Any();
 
 
         /// <summary>
@@ -34,10 +35,9 @@ namespace Models
             await user.ConnectAsync();
             if (user.IsConnect)
             {
-                string sql = @"select * from clients as c;
-                            select * from passports as p;
-                            select * from agreements as a";
-
+                string sql = @"select * from clients;
+                            select * from passports;
+                            select * from agreements";
                 using (var temp = await user.Connection!.QueryMultipleAsync(sql))
                 {
                     var clients = temp.Read<Client>();
@@ -50,9 +50,9 @@ namespace Models
                         Name = x.Name,
                         ScanPath = x.ScanPath,
                         ClientId = x.ClientId,
-                        Client = clients.Where(c => c.Id == x.ClientId).First(),
+                        Client = clients.Where(c => c.Id == x.ClientId).Single()!,
                         PassportId = x.PassportId,
-                        Passport = x.PassportId != 0 ? passports.Where(p => p.Id == x.PassportId).First() : new(),
+                        Passport = x.PassportId != 0 ? passports.Where(p => p.Id == x.PassportId).Single() : new()
 
                     }).Where(a => id == 0 ? a.SearchString.Contains(search) : a.Id == id).ToList();
                 }
@@ -133,8 +133,18 @@ namespace Models
             agreement = GetFromList();
             return agreement;
         }
-
+        public override string ToString()
+        {
+            string output = string.Empty;
+            foreach (Agreement item in AgreementList)
+            {
+                output += item.ToString() + "\n";
+            }
+            return output;
+        }
     }
+
+
 
 
 }
