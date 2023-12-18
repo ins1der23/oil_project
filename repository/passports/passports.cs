@@ -2,15 +2,17 @@ using Connection;
 namespace Models
 {
 
-    public class Passports : IRepository
+    public class Passports 
     {
         List<Passport> PassportList { get; set; }
+        public bool IsEmpty => !PassportList.Any();
 
         public Passports()
         {
             PassportList = new();
         }
         public void Clear() => PassportList.Clear();
+        public Passport GetFromList() => PassportList.SingleOrDefault()!;
 
         public async Task GetFromSqlAsync(DBConnection user, string search = "")
         {
@@ -38,8 +40,8 @@ namespace Models
                         IssueDate = x.IssueDate,
                         RegistrationId = x.RegistrationId,
                         Registration = x.RegistrationId != 0 ? regList.First(a => a.Id == x.RegistrationId) : new(),
-                        Client = clients.First(cl => cl.Id == x.ClientId),
-                    }).Where(p => p.SearchString.Contains(search)).ToList();
+                        Client = x.ClientId != 0 ? clients.First(cl => cl.Id == x.ClientId) : new(),
+                    }).Where(p => p.SearchString().Contains(search)).ToList();
                 }
                 user.Close();
             }
@@ -67,9 +69,7 @@ namespace Models
             throw new NotImplementedException();
         }
 
-        
-
-        // public async Task AddSqlAsync(DBConnection user)
+                // public async Task AddSqlAsync(DBConnection user)
         //     {
         //         await user.ConnectAsync();
         //         if (user.IsConnect)

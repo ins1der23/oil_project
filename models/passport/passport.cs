@@ -1,18 +1,18 @@
 namespace Models
 {
-    public class Passport
+    public class Passport : IModels
     {
         public int Id { get; set; }
         public double Number { get; set; }
-        public DateTime IssueDate { get; set; }
         public int IssuedId { get; set; }
+        public DateTime IssueDate { get; set; }
         public virtual IssuedBy IssuedBy { get; set; }
         public int RegistrationId { get; set; }
         public virtual Address Registration { get; set; }
         public int ClientId { get; set; }
         public virtual Client Client { get; set; }
-        public string SearchString => $"{Number}".PrepareToSearch();
-        
+        // public string SearchString => $"{Number}".PrepareToSearch();
+
         public Passport()
         {
             Client = new();
@@ -26,6 +26,7 @@ namespace Models
             return $"{passport}\n Адрес регистрации: {RegistrationId}";
 
         }
+        public string SearchString() => $"{Number}".PrepareToSearch();
 
     }
 }

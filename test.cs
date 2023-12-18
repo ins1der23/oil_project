@@ -4,6 +4,7 @@ using Handbooks;
 using Controller;
 using Models;
 using Connection;
+using Org.BouncyCastle.Tls;
 
 
 namespace Testing
@@ -51,17 +52,26 @@ namespace Testing
                         if (!agreements.IsEmpty()) await ShowString("Agreements OK", false, delay);
                         break;
                     case 2: // Тест методов
-                        // user = Settings.User;
-                        // PassportList passportList = new();
-                        // await passportList.GetFromSqlAsync(user, "12");
-                        // Passport? passport = passportList.GetFromList() as Passport;
-                        // Console.WriteLine(passportList.IsEmpty);
-                        // Console.WriteLine(passport);
-                        // Console.ReadLine();
-                        await AddressControl.Start();
-                        
-                        
-                        
+                        user = Settings.User;
+                        Passports passports1 = new();
+                        PassportList passportList = new();
+                        await passportList.GetFromSqlAsync(user);
+                        await passports1.GetFromSqlAsync(user);
+                        Console.WriteLine(passportList.IsEmpty);
+                        Console.WriteLine(passports1.IsEmpty);
+                        Console.ReadLine();
+                        Passport passport = (Passport)passportList.GetFromList();
+                        Passport passport1 = passports1.GetFromList();
+                        Console.WriteLine(passport);
+                        Console.WriteLine(passport1);
+                        Console.ReadLine();
+
+
+
+
+
+
+
 
 
 

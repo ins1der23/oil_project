@@ -1,27 +1,23 @@
-using System.Linq;
-using System.Linq.Expressions;
 using Connection;
-using MySqlX.XDevAPI;
 namespace Models
 {
-    public class BaseList : IQueryable
+    public class BaseList : IEnumerable
     {
-
-
         protected List<object> DbList { get; set; }
         public bool IsEmpty => !DbList.Any();
 
-        protected BaseList()
+        public BaseList()
         {
             DbList = new List<object>();
         }
+
+        // public abstract Task GetFromSqlAsync(DBConnection user, string search = "" ); //, bool byId = false, object? someObject = null);
+        // public abstract Task AddSqlAsync(DBConnection user);
+        // public abstract Task ChangeSqlAsync(DBConnection user);
+        // public abstract Task DeleteSqlAsync(DBConnection user);
+
+
         public IEnumerator GetEnumerator() => DbList.GetEnumerator();
-        public Type ElementType => throw new NotImplementedException();
-
-        public Expression Expression => throw new NotImplementedException();
-
-        public IQueryProvider Provider => throw new NotImplementedException();
-
 
         public void Clear() => DbList.Clear();
         public void Append(Object obj) => DbList.Add(obj);
@@ -32,6 +28,19 @@ namespace Models
             DbList.Clear();
             DbList = toAddList.Select(c => c).ToList();
         }
+
+        // public async Task<object> SaveGetId(DBConnection user, object someObject) // получение Id из SQL для нового клиента 
+        // {
+
+        //     if (someObject == null) return someObject!;
+        //     Clear();
+        //     Append(someObject);
+        //     await AddSqlAsync(user);
+        //     await GetFromSqlAsync(user, byId: false, someObject: someObject);
+        //     someObject = GetFromList();
+        //     return someObject;
+        // }
+
 
         public List<string> ToStringList()
         {
