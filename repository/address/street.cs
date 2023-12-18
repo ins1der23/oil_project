@@ -50,7 +50,6 @@ namespace Models
         public void Clear() => StreetsList.Clear();
         public void Append(Street street) => StreetsList.Add(street);
         public Street GetFromList(int index = 1) => StreetsList[index - 1];
-        public Street GetByName(string name) => StreetsList.Where(s => s.Name == name).First();
         public async Task GetFromSqlAsync(DBConnection user, int cityId, string search = "", int id = 0)
         {
             search = search.PrepareToSearch();
@@ -61,7 +60,6 @@ namespace Models
                                     from streets as s, cities as c 
                                     where s.cityId=c.Id 
                                     and c.Id = {cityId}
-                                    and s.name like ""%{search}%""
                                     order by s.name";
                 var temp = await user.Connection!.QueryAsync<Street, City, Street>(selectQuery, (s, c) =>
                 {
@@ -115,7 +113,6 @@ namespace Models
         public async Task<bool> CheckExist(DBConnection user, Street street) // Проверка, есть ли уже клиент в базе 
         {
             Clear();
-            Append(street);
             await GetFromSqlAsync(user, cityId: street.CityId, street.SearchString);
             if (IsEmpty) return false;
             else return true;

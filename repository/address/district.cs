@@ -44,7 +44,6 @@ namespace Models
                                     from districts as d, cities as c 
                                     where d.cityId=c.Id 
                                     and c.Id = {cityId}
-                                    and d.name like ""%{search}%""
                                     order by d.name";
                 var temp = await user.Connection!.QueryAsync<District, City, District>(selectQuery, (d, c) =>
                 {

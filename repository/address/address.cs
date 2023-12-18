@@ -97,8 +97,7 @@ namespace Models
             return new Address();
         }
 
-        public Address GetById(int id) => AddressList.Where(a => a.Id == id).First();
-
+        
         public List<Address> ToWorkingList() => AddressList.Select(c => c).ToList(); // Список для работы с LINQ
         public void ToWriteList(List<Address> toAddList) // Список для записи в БД 
         {
