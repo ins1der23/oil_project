@@ -42,6 +42,7 @@ namespace Controller
             return true;
         }
 
+
         public static async Task Save()
         {
             settings.Clear();

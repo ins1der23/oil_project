@@ -11,7 +11,6 @@ namespace Models
         public virtual Districts Districts { get; private set; }
         public virtual Locations Locations { get; private set; }
         public virtual Streets Streets { get; private set; }
-
         public City()
         {
             Name = string.Empty;
@@ -23,9 +22,7 @@ namespace Models
         {
             if (name != string.Empty) Name = name;
         }
-
         public override string ToString() => $"{Name}";
-
         public object Clone()
         {
             City city = (City)MemberwiseClone();
@@ -35,11 +32,6 @@ namespace Models
             return city;
         }
     }
-
-
-
-
-
     public class Cities
     {
         List<City> CitiesList { get; set; }
@@ -51,7 +43,6 @@ namespace Models
         public void Clear() => CitiesList.Clear();
         public void Append(City city) => CitiesList.Add(city);
         public City GetFromList(int index = 1) => CitiesList[index - 1];
-        public City GetByName(string name) => CitiesList.Where(s => s.Name == name).First();
         public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 0)
         {
             search = search.PrepareToSearch();
@@ -60,7 +51,6 @@ namespace Models
             {
                 string selectQuery = $@"select *
                                     from cities as c 
-                                    where c.name like ""%{search}%""
                                     order by c.Id";
                 var temp = await user.Connection!.QueryAsync<City>(selectQuery);
                 CitiesList = temp.Where(c => id == 0 ? c.SearchString.Contains(search) : c.Id == id).ToList();
@@ -92,7 +82,6 @@ namespace Models
                 user.Close();
             }
         }
-
         public async Task<bool> CheckExist(DBConnection user, City city) // Проверка, есть ли уже клиент в базе 
         {
             Clear();
@@ -111,7 +100,6 @@ namespace Models
             city = GetFromList();
             return city;
         }
-
         public async Task<City> SaveChanges(DBConnection user, City city) // получение Id из SQL для нового района
         {
             if (city.Name == String.Empty) return city;
@@ -122,7 +110,6 @@ namespace Models
             city = GetFromList();
             return city;
         }
-
         public List<string> ToStringList()
         {
             List<string> output = new();

@@ -51,9 +51,20 @@ namespace Testing
                         await ShowString("Agreements OK", false, delay);
                         break;
                     case 2: // Тест методов
-                        Registration registration = await RegistrationControl.Start();
-                        await ShowString(registration.LongString);
-                        Console.ReadLine();
+                        // user = Settings.User;
+                        // PassportList passportList = new();
+                        // await passportList.GetFromSqlAsync(user, "12");
+                        // Passport? passport = passportList.GetFromList() as Passport;
+                        // Console.WriteLine(passportList.IsEmpty);
+                        // Console.WriteLine(passport);
+                        // Console.ReadLine();
+                        await AddressControl.Start();
+                        
+                        
+                        
+
+
+
                         break;
                     case 3: //Выход
                         flag = false;
