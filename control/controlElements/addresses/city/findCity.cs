@@ -12,7 +12,7 @@ namespace Handbooks
             var user = Settings.User;
             Cities cities = new();
             string search = GetString(CityText.cityNameOrEmpty); // Найти город или оставить поле пустым для показа всех
-            await cities.GetFromSqlAsync(user, search);
+            await cities.GetFromSqlAsync(user, search: search);
             bool flag = true;
             City city = new();
             int choice;

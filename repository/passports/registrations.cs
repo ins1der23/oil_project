@@ -2,28 +2,21 @@ using Connection;
 namespace Models
 {
 
-    public class Registrations : IRepository
+    public class Registrations : BaseList<Registration>
     {
-        List<Registration> RegistrationList { get; set; }
-        public bool IsEmpty => !RegistrationList.Any();
-
         public Registrations()
-        {
-            RegistrationList = new();
-        }
+        : base() { }
 
-        public void Clear() => RegistrationList.Clear();
-        public void Append(Registration registration) => RegistrationList.Add(registration);
-        public Registration GetFromList(int index = 1)
-        {
-            if (!IsEmpty) return RegistrationList[index - 1];
-            return new Registration();
-        }
-        public List<Registration> ToWorkingList() => RegistrationList.Select(c => c).ToList(); // Список для работы с LINQ
 
-        public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 0)
+        public override async Task GetFromSqlAsync(DBConnection user, Registration? item = null, string search = "", bool byId = false)
         {
-            search = search.PrepareToSearch();
+            int id = 0;
+            if (search != "") search = search.PrepareToSearch();
+            if (item != null)
+            {
+                search = item.SearchString();
+                if (byId) id = item.Id;
+            }
             await user.ConnectAsync();
             if (user.IsConnect)
             {
@@ -36,7 +29,7 @@ namespace Models
                     var cities = temp.Read<City>();
                     var streets = temp.Read<Street>();
                     var registrations = temp.Read<Registration>();
-                    RegistrationList = registrations.Select(x => new Registration
+                    dbList = registrations.Select(x => new Registration
                     {
                         Id = x.Id,
                         CityId = x.CityId,
@@ -45,13 +38,13 @@ namespace Models
                         Street = streets.First(s => s.Id == x.StreetId),
                         HouseNum = x.HouseNum,
                         FlatNum = x.FlatNum
-                    }).Where(r => id == 0 ? r.SearchString.Contains(search) : r.Id == id).ToList();
+                    }).Where(r => id == 0 ? r.SearchString().Contains(search) : r.Id == id).ToList();
                 }
                 user.Close();
             }
         }
 
-        public async Task AddSqlAsync(DBConnection user)
+        public override async Task AddSqlAsync(DBConnection user)
         {
             await user.ConnectAsync();
             if (user.IsConnect)
@@ -63,41 +56,11 @@ namespace Models
                     @{nameof(Registration.StreetId)},
                     @{nameof(Registration.HouseNum)},
                     @{nameof(Registration.FlatNum)})";
-                await user.Connection!.ExecuteAsync(selectQuery, RegistrationList);
+                await user.Connection!.ExecuteAsync(selectQuery, dbList);
                 user.Close();
             }
         }
-
-        public async Task DeleteSqlAsync(DBConnection user)
-        {
-            await user.ConnectAsync();
-            if (user.IsConnect)
-            {
-                string selectQuery = $@"delete from registrations 
-                                        where Id = @{nameof(Registration.Id)};";
-                await user.Connection!.ExecuteAsync(selectQuery, RegistrationList);
-                user.Close();
-            }
-        }
-
-        public async Task<bool> CheckExist(DBConnection user, Registration registration) // Проверка, есть ли уже клиент в базе 
-        {
-            Clear();
-            Append(registration);
-            await GetFromSqlAsync(user, registration.SearchString);
-            if (IsEmpty) return false;
-            else return true;
-        }
-
-        public List<string> ToStringList()
-        {
-            List<string> output = new();
-            foreach (var item in RegistrationList)
-                output.Add(item.LongString);
-            return output;
-        }
-
-        public async Task ChangeSqlAsync(DBConnection user)
+        public override async Task ChangeSqlAsync(DBConnection user)
         {
             await user.ConnectAsync();
             if (user.IsConnect)
@@ -108,31 +71,21 @@ namespace Models
                     houseNum = @{nameof(Registration.HouseNum)},
                     flatNum = @{nameof(Registration.FlatNum)}
                     where Id = @{nameof(Registration.Id)};";
-                await user.Connection!.ExecuteAsync(selectQuery, RegistrationList);
+                await user.Connection!.ExecuteAsync(selectQuery, dbList);
                 user.Close();
             }
         }
-        public async Task<Registration> SaveGetId(DBConnection user, Registration registration) // получение Id из SQL для нового клиента 
-        {
-            if (registration.CityId == 0) return registration;
-            Clear();
-            Append(registration);
-            await AddSqlAsync(user);
-            await GetFromSqlAsync(user, registration.SearchString);
-            registration = GetFromList();
-            return registration;
-        }
 
-        public async Task<Registration> SaveChanges(DBConnection user, Registration registration) // получение Id из SQL для нового экземпляра
+        public override async Task DeleteSqlAsync(DBConnection user)
         {
-            if (registration.CityId == 0) return registration;
-            Clear();
-            Append(registration);
-            await ChangeSqlAsync(user);
-            await GetFromSqlAsync(user, id: registration.Id);
-            registration = GetFromList();
-            return registration;
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"delete from registrations 
+                                        where Id = @{nameof(Registration.Id)};";
+                await user.Connection!.ExecuteAsync(selectQuery, dbList);
+                user.Close();
+            }
         }
-       
     }
 }

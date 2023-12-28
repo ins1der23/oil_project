@@ -81,7 +81,7 @@ namespace Models
 
 
 
-    public class Addresses : IRepository
+    public class Addresses 
     {
         public List<Address> AddressList { get; set; }
         public bool IsEmpty => !AddressList.Any();

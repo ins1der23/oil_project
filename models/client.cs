@@ -4,33 +4,43 @@ namespace Models
 {
     public class Client : IModels, ICloneable
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int AddressId { get; set; }
-        public virtual Address Address { get; set; }
-        public double Phone { get; set; }
-        public string? Comment { get; set; }
-        public int OwnerId { get; set; }
-        public virtual Worker Owner { get; set; }
-        public virtual ICollection<Agreement> Agreements { get; set; }
-        public virtual ICollection<Passport> Passports { private get; set; }
-        public bool ToDelete { get; set; }
+        private int id;
+        private string name;
+        private int addressId;
+        private Address address;
+        private double phone;
+        private string comment;
+        private int ownerId;
+        private Worker owner;
+        private ICollection<Agreement> agreements;
+        private ICollection<Passport> passports;
+        private bool toDelete;
+
+        public int Id { get => id; set => id = value; }
+        public string Name { get => name; set => name = value; }
+        public int AddressId { get => addressId; set => addressId = value; }
+        public virtual Address Address { get => address; set => address = value; }
+        public double Phone { get => phone; set => phone = value; }
+        public string Comment { get => comment; set => comment = value; }
+        public int OwnerId { get => ownerId; set => ownerId = value; }
+        public virtual Worker Owner { get => owner; set => owner = value; }
+        public virtual ICollection<Agreement> Agreements { get => agreements; set => agreements = value; }
+        public virtual ICollection<Passport> Passports { private get => passports; set => passports = value; }
+        public bool ToDelete { get => toDelete; set => toDelete = value; }
         public bool AgreementCheck => Agreements.Any();
         public string FullName => $"{Name,-35}{Address.LongString}";
         public string ShortName => $"{Name}, {Address.ShortString}";
-        public string SearchString => $"{Name}{Address.SearchString}{Phone}".PrepareToSearch();
-
-
 
         public Client()
         {
-            Name = string.Empty;
-            Address = new Address();
-            OwnerId = Settings.UserId;
-            Owner = new Worker();
-            Agreements = new List<Agreement>();
-            Passports = new List<Passport>();
-            ToDelete = false;
+            name = string.Empty;
+            address = new Address();
+            comment = string.Empty;
+            ownerId = Settings.UserId;
+            owner = new Worker();
+            agreements = new List<Agreement>();
+            passports = new List<Passport>();
+            toDelete = false;
         }
         public void Change(string name, Address address, double phone, string comment)
         {
@@ -57,6 +67,28 @@ namespace Models
             client.Agreements = Agreements;
             client.Passports = Passports;
             return client;
+        }
+
+        public string SearchString() => $"{Name}{Address.SearchString}{Phone}".PrepareToSearch();
+
+        // override object.Equals
+        public override bool Equals(object? obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            Client client = (Client)obj;
+            if (this.Name == client.Name &&
+                this.AddressId == client.AddressId &&
+                this.Phone == client.Phone) return true;
+            return false;
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return id.GetHashCode() + name.GetHashCode() + address.GetHashCode();
         }
     }
 }

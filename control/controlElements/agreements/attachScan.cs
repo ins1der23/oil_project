@@ -11,19 +11,26 @@ namespace Handbooks
         public static async Task<Agreement> Start(Agreement agreement)
         {
             var user = Settings.User;
-            string sourcePath = InOut.GetString(AgrText.scanPath);
+            string sourcePath = GetString(AgrText.scanPath);
             string folder = "/agreements/";
-            Console.WriteLine(sourcePath);
+            await ShowString(sourcePath, delay: 200);
             if (sourcePath == string.Empty)
             {
-                Console.WriteLine("ОШИБКА");
+                await ShowString(Text.saveError, delay: 200);
                 return agreement;
             }
             sourcePath = sourcePath.Replace("\"", string.Empty);
             FileInfo sourceFile = new(sourcePath);
             string receivePath = $"{Settings.ScanPath}{folder}{agreement.FileName}{sourceFile.Extension}";
-            if (sourceFile.Exists) sourceFile.CopyTo(receivePath, true);
-            else Console.WriteLine("ОШИБКА");
+            try
+            {
+                sourceFile.CopyTo(receivePath, true);
+            }
+            catch (Exception)
+            {
+                await ShowString(Text.saveError, delay: 200);
+                throw;
+            }
             agreement.ScanPath = receivePath;
             var agrList = new Agreements();
             agreement = await agrList.SaveChanges(user, agreement);

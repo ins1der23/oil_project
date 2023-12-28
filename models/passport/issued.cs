@@ -16,5 +16,8 @@ namespace Models
         public override string ToString() => $"{Name}";
 
         public object Clone() => MemberwiseClone();
+
+        public string SearchString() => Name.PrepareToSearch();
+
     }
 }

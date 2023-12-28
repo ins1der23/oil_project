@@ -2,7 +2,7 @@ using Connection;
 
 namespace Models
 {
-    public class Workers : IRepository
+    public class Workers
     {
         List<Worker> WorkersList { get; set; }
         public Workers()

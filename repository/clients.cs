@@ -1,9 +1,9 @@
 using Connection;
-using Org.BouncyCastle.Asn1.Misc;
+
 
 namespace Models
 {
-    public class Clients : IRepository
+    public class Clients
     {
         List<Client> ClientList { get; set; }
 
@@ -68,7 +68,7 @@ namespace Models
                         OwnerId = x.OwnerId,
                         Owner = workers.Where(w => w.Id == x.OwnerId).First(),
                         ToDelete = x.ToDelete
-                    }).Where(c => id == 0 ? c.SearchString.Contains(search) : c.Id == id).ToList();
+                    }).Where(c => id == 0 ? c.SearchString().Contains(search) : c.Id == id).ToList();
                 }
                 user.Close();
             }
@@ -126,8 +126,8 @@ namespace Models
         {
             Clear();
             Append(client);
-            await GetFromSqlAsync(user, client.SearchString);
-            if (IsEmpty) return false;
+            await GetFromSqlAsync(user, client.SearchString());
+                        if (IsEmpty) return false;
             else return true;
         }
 
@@ -137,7 +137,7 @@ namespace Models
             Clear();
             Append(client);
             await AddSqlAsync(user);
-            await GetFromSqlAsync(user, client.SearchString);
+            await GetFromSqlAsync(user, client.SearchString());
             client = GetFromList();
             return client;
         }

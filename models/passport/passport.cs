@@ -2,16 +2,25 @@ namespace Models
 {
     public class Passport : IModels
     {
-        public int Id { get; set; }
-        public double Number { get; set; }
-        public int IssuedId { get; set; }
-        public DateTime IssueDate { get; set; }
-        public virtual IssuedBy IssuedBy { get; set; }
-        public int RegistrationId { get; set; }
-        public virtual Address Registration { get; set; }
-        public int ClientId { get; set; }
-        public virtual Client Client { get; set; }
-        // public string SearchString => $"{Number}".PrepareToSearch();
+        private int id;
+        private double number;
+        private int issuedId;
+        private DateTime issueDate;
+        private IssuedBy? issuedBy;
+        private int registrationId;
+        private Address? registration;
+        private int clientId;
+        private Client? client;
+
+        public int Id { get => id; set => id = value; }
+        public double Number { get => number; set => number = value; }
+        public int IssuedId { get => issuedId; set => issuedId = value; }
+        public DateTime IssueDate { get => issueDate; set => issueDate = value; }
+        public virtual IssuedBy IssuedBy { get => issuedBy!; set => issuedBy = value; }
+        public int RegistrationId { get => registrationId; set => registrationId = value; }
+        public virtual Address Registration { get => registration!; set => registration = value; }
+        public int ClientId { get => clientId; set => clientId = value; }
+        public virtual Client Client { get => client!; set => client = value; }
 
         public Passport()
         {
@@ -24,7 +33,6 @@ namespace Models
         {
             string passport = $"{Number} выдан {IssuedId} {IssueDate.Date}";
             return $"{passport}\n Адрес регистрации: {RegistrationId}";
-
         }
         public string SearchString() => $"{Number}".PrepareToSearch();
 

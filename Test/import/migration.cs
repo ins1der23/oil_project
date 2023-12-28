@@ -15,7 +15,7 @@ namespace Temp
             await districtList.GetFromSqlAsync(user, 1);
             await clientList.GetFromSqlAsync(user);
             await loacationList.GetFromSqlAsync(user, 1);
-            await streetList.GetFromSqlAsync(user, 1);
+            
 
             // чтобы не ругался
             await AddClients(clientList);

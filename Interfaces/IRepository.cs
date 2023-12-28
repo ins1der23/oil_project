@@ -1,9 +1,9 @@
 using Connection;
 namespace Models
 {
-    public interface IRepository
+    public interface IRepository<E>
     {
-        // Task GetFromSqlAsync(DBConnection user, string search = "", int id = 0);
+        Task GetFromSqlAsync(DBConnection user, E item, string search = "", bool byId = false);
         Task AddSqlAsync(DBConnection user);
         Task ChangeSqlAsync(DBConnection user);
         Task DeleteSqlAsync(DBConnection user);

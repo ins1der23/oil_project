@@ -12,7 +12,7 @@ namespace Handbooks
             var user = Settings.User;
             string search = GetString(RegistrationText.registrationSearch).PrepareToSearch();
             var registrations = new Registrations();
-            await registrations.GetFromSqlAsync(user, search);
+            await registrations.GetFromSqlAsync(user, search:search);
             bool flag = true;
             var registration = new Registration();
             int choice;

@@ -25,6 +25,7 @@ namespace MenusAndChoices
 
         public static readonly string inputError = "Неверный ввод";
         public static readonly string choice = "Выберете вариант";
+        public static readonly string saveError = "Ошибка записи";
         public static readonly string choiceOrEmpty = "Выберете вариант или просто нажмите Enter, если нет подходящего";
         public static readonly string inputName = "Введите название";
         public static readonly string notFound = "\nНе найдено\n";

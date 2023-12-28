@@ -2,21 +2,17 @@ using Connection;
 namespace Models
 {
 
-    public class Passports 
+    public class Passports : BaseList<Passport>
     {
-        List<Passport> PassportList { get; set; }
-        public bool IsEmpty => !PassportList.Any();
-
-        public Passports()
+        public override async Task GetFromSqlAsync(DBConnection user, Passport? item = null, string search = "", bool byId = false)
         {
-            PassportList = new();
-        }
-        public void Clear() => PassportList.Clear();
-        public Passport GetFromList() => PassportList.SingleOrDefault()!;
-
-        public async Task GetFromSqlAsync(DBConnection user, string search = "")
-        {
-            search = search.PrepareToSearch();
+            int id = 0;
+            if (search != "") search = search.PrepareToSearch();
+            if (item != null)
+            {
+                search = item.SearchString();
+                if (byId) id = item.Id;
+            }
             Registrations registrations = new();
             await registrations.GetFromSqlAsync(user);
             var regList = registrations.ToWorkingList();
@@ -31,64 +27,70 @@ namespace Models
                     var clients = temp.Read<Client>();
                     var issued = temp.Read<IssuedBy>();
                     var passports = temp.Read<Passport>();
-                    PassportList = passports.Select(x => new Passport
+                    dbList = passports.Select(x => new Passport
                     {
                         Id = x.Id,
                         Number = x.Number,
                         IssuedId = x.IssuedId,
-                        IssuedBy = x.IssuedId != 0 ? issued.First(i => i.Id == x.IssuedId) : new(),
+                        IssuedBy = issued.First(i => i.Id == x.IssuedId),
                         IssueDate = x.IssueDate,
                         RegistrationId = x.RegistrationId,
                         Registration = x.RegistrationId != 0 ? regList.First(a => a.Id == x.RegistrationId) : new(),
+                        ClientId = x.ClientId,
                         Client = x.ClientId != 0 ? clients.First(cl => cl.Id == x.ClientId) : new(),
-                    }).Where(p => p.SearchString().Contains(search)).ToList();
+                    }).Where(p => id == 0 ? p.SearchString().Contains(search) : p.Id == id).ToList();
+
                 }
                 user.Close();
             }
         }
-
-
-
-        public Task AddSqlAsync(DBConnection user)
+        public override async Task AddSqlAsync(DBConnection user)
         {
-            throw new NotImplementedException();
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"insert passports
+                    (number, issuedId, issueDate, registrationId, clientId)
+                    values (
+                    @{nameof(Passport.Number)},
+                    @{nameof(Passport.IssuedId)},
+                    @{nameof(Passport.IssueDate)},
+                    @{nameof(Passport.RegistrationId)},
+                    @{nameof(Passport.ClientId)})";
+                await user.Connection!.ExecuteAsync(selectQuery, dbList);
+                user.Close();
+            }
         }
 
-        public List<string> ToStringList()
+        public override async Task ChangeSqlAsync(DBConnection user)
         {
-            throw new NotImplementedException();
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"update passports set
+                    number = @{nameof(Passport.Number)},
+                    issuedId = @{nameof(Passport.IssuedId)},
+                    issueDate = @{nameof(Passport.IssueDate)},
+                    registrationId = @{nameof(Passport.RegistrationId)},
+                    clientId = @{nameof(Passport.ClientId)}
+                    where Id = @{nameof(Passport.Id)};"
+                    ;
+                await user.Connection!.ExecuteAsync(selectQuery, dbList);
+                user.Close();
+
+            }
         }
 
-        public Task ChangeSqlAsync(DBConnection user)
+        public override async Task DeleteSqlAsync(DBConnection user)
         {
-            throw new NotImplementedException();
+            await user.ConnectAsync();
+            if (user.IsConnect)
+            {
+                string selectQuery = $@"delete from passports 
+                                        where Id = @{nameof(Passport.Id)};";
+                await user.Connection!.ExecuteAsync(selectQuery, dbList);
+                user.Close();
+            }
         }
-
-        public Task DeleteSqlAsync(DBConnection user)
-        {
-            throw new NotImplementedException();
-        }
-
-                // public async Task AddSqlAsync(DBConnection user)
-        //     {
-        //         await user.ConnectAsync();
-        //         if (user.IsConnect)
-        //         {
-        //             string selectQuery = $@"insert passports
-        //                 (name, addressId, phone, comment, ownerId, toDelete)
-        //                 values (
-        //                 @{nameof(Client.Name)},
-        //                 @{nameof(Client.AddressId)},
-        //                 @{nameof(Client.Phone)},
-        //                 @{nameof(Client.Comment)},
-        //                 @{nameof(Client.OwnerId)},
-        //                 @{nameof(Client.ToDelete)})";
-        //             await user.Connection.ExecuteAsync(selectQuery, ClientList);
-        //             user.Close();
-        //         }
-        //     }
-
-
-
     }
 }

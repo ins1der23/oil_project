@@ -2,7 +2,7 @@ using Connection;
 namespace Models
 {
 
-    public class Issueds : IRepository
+    public class Issueds
     {
         List<IssuedBy> IssuedList { get; set; }
 

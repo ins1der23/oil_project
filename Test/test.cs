@@ -33,7 +33,7 @@ namespace Testing
                         await locations.GetFromSqlAsync(user, 1);
                         await ShowString("Locations OK", false, delay);
                         Streets streets = new();
-                        await streets.GetFromSqlAsync(user, 1);
+                        await streets.GetFromSqlAsync(user);
                         await ShowString("Streets OK", false, delay);
                         Passports passports = new();
                         await passports.GetFromSqlAsync(user);
@@ -53,29 +53,24 @@ namespace Testing
                         break;
                     case 2: // Тест методов
                         user = Settings.User;
-                        Passports passports1 = new();
+
                         PassportList passportList = new();
                         await passportList.GetFromSqlAsync(user);
-                        await passports1.GetFromSqlAsync(user);
-                        Console.WriteLine(passportList.IsEmpty);
-                        Console.WriteLine(passports1.IsEmpty);
+                        Console.WriteLine(passportList);
                         Console.ReadLine();
-                        Passport passport = (Passport)passportList.GetFromList();
-                        Passport passport1 = passports1.GetFromList();
+                        Passport passport = passportList.GetFromList();
                         Console.WriteLine(passport);
-                        Console.WriteLine(passport1);
                         Console.ReadLine();
+                        passport.Number = 6507311002;
+                        Console.WriteLine($"{passport},  {passport.Id}");
 
-
-
-
-
-
-
-
-
+                        _ = await passportList.SaveChanges(user, passport);
+                        await passportList.GetFromSqlAsync(user);
+                        Console.WriteLine(passportList);
+                        Console.ReadLine();
 
                         break;
+
                     case 3: //Выход
                         flag = false;
                         break;

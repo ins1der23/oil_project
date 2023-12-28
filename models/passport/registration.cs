@@ -4,7 +4,7 @@ namespace Models
     {
         public string FlatNum { get; set; }
         public new string LongString => $"{City.Name,-19}{Street.Name,-28}{HouseNum,-12}{FlatNum,-10}";
-        public new string SearchString => $"{City.Name}{Street.Name}{HouseNum}{FlatNum}".PrepareToSearch();
+
 
         public Registration()
         {
@@ -30,8 +30,6 @@ namespace Models
             if (flatNum != string.Empty) FlatNum = flatNum;
 
         }
-        public override string ToString() => $"{LongString}";
-
         public new object Clone()
         {
             Registration registration = (Registration)MemberwiseClone();
@@ -39,5 +37,9 @@ namespace Models
             registration.Street = Street;
             return registration;
         }
+        public new string SearchString() => $"{City.Name}{Street.Name}{HouseNum}{FlatNum}".PrepareToSearch();
+        public override string ToString() => $"{LongString}";
+
+
     }
 }

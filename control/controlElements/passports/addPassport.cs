@@ -8,8 +8,7 @@ namespace Handbooks
     {
         public static async Task<Passport> Start()
         {
-            var user = Settings.User;
-            var passportToAdd = new Passport
+            var passportToAdd = new Passport()
             {
                 Number = GetDouble(PassportText.number),
                 // IssuedBy = await FindIssuedBy.Start();

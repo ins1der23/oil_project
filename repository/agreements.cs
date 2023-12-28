@@ -50,7 +50,7 @@ namespace Models
                         Name = x.Name,
                         ScanPath = x.ScanPath,
                         ClientId = x.ClientId,
-                        Client = clients.Where(c => c.Id == x.ClientId).Single()!,
+                        Client = clients.Where(c => c.Id == x.ClientId).Single(),
                         PassportId = x.PassportId,
                         Passport = x.PassportId != 0 ? passports.Where(p => p.Id == x.PassportId).Single() : new()
 

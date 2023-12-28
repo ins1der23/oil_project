@@ -25,7 +25,7 @@ namespace Handbooks
             string comment = GetString(ClientText.changeComment);
             client.Change(name, address, phone, comment);
             await ShowString(client.Summary(), delay: 100);
-            if (client.SearchString != clientOld.SearchString)
+            if (!client.Equals(clientOld))
             {
                 choice = await MenuToChoice(Text.yesOrNo, ClientText.confirmChanges, Text.choice, clear: false, noNull: true);
                 if (choice == 1)
