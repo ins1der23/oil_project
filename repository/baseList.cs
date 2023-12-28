@@ -16,7 +16,7 @@ namespace Models
         public abstract Task AddSqlAsync(DBConnection user);
         public abstract Task ChangeSqlAsync(DBConnection user);
         public abstract Task DeleteSqlAsync(DBConnection user);
-        
+
         public IEnumerator GetEnumerator() => dbList.GetEnumerator();
         public void Clear() => dbList.Clear();
         public void Append(E element) => dbList.Add(element);
@@ -56,6 +56,11 @@ namespace Models
             item = GetFromList();
             return item;
         }
+
+        /// <summary>
+        /// Формирование списка из ClientList для создания меню 
+        /// </summary>
+        /// <returns> список из Client.ToString()</returns>
         public List<string> ToStringList()
         {
             List<string> output = new();

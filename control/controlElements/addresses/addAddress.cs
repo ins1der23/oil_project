@@ -93,7 +93,7 @@ namespace Handbooks
                     case 1: // Сохранить адрес
                         Addresses addresses = new();
                         bool exist = await addresses.CheckExist(user, address);
-                        if (exist) await ShowString(CityText.cityExist);
+                        if (exist) await ShowString(AddrText.addressExist);
                         else
                         {
                             address = await addresses.SaveGetId(user, address);

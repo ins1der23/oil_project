@@ -14,7 +14,7 @@ namespace Models
             {
                 cityId = item.CityId;
                 if (byId) id = item.Id;
-                else search = item.SearchString();
+                if (item.SearchString() != string.Empty) search = item.SearchString();
             }
             await user.ConnectAsync();
             if (user.IsConnect)

@@ -11,7 +11,7 @@ namespace Handbooks
             var user = Settings.User;
             var searchString = GetString(Text.searchString);
             Clients clients = new();
-            await clients.GetFromSqlAsync(user, searchString);
+            await clients.GetFromSqlAsync(user, search: searchString);
             return clients;
         }
     }

@@ -11,6 +11,7 @@ namespace Handbooks
         public static async Task<Agreement> Start(Agreement agreement)
         {
             var user = Settings.User;
+            Client client = agreement.Client;
             string sourcePath = GetString(AgrText.scanPath);
             string folder = "/agreements/";
             await ShowString(sourcePath, delay: 200);
@@ -34,6 +35,7 @@ namespace Handbooks
             agreement.ScanPath = receivePath;
             var agrList = new Agreements();
             agreement = await agrList.SaveChanges(user, agreement);
+            agreement.Client = client;
             return agreement;
         }
     }

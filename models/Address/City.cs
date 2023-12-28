@@ -19,7 +19,8 @@ namespace Models
         {
             if (name != string.Empty) Name = name;
         }
-        public override string ToString() => $"{Name}";
+
+        public string SearchString() => Name.PrepareToSearch();
         public object Clone()
         {
             City city = (City)MemberwiseClone();
@@ -28,6 +29,26 @@ namespace Models
             city.Streets = Streets;
             return city;
         }
-        public string SearchString() => Name.PrepareToSearch();
+
+        public override string ToString() => $"{Name}";
+
+        // override object.Equals
+        public override bool Equals(object? obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            City city = (City)obj;
+            if (Name.Equals(city.Name)) return true;
+            return false;
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode() + Name.GetHashCode();
+        }
+
     }
 }

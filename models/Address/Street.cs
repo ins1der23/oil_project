@@ -3,29 +3,56 @@ namespace Models
 {
     public class Street : ICloneable, IModels
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int CityId { get; set; }
-        public virtual City City { get; set; }
+        private int id;
+        private string name;
+        private int cityId;
+        private City city;
+
+        public int Id { get => id; set => id = value; }
+        public string Name { get => name; set => name = value; }
+        public int CityId { get => cityId; set => cityId = value; }
+        public virtual City City { get => city; set => city = value; }
 
 
         public Street()
         {
-            City = new();
-            Name = string.Empty;
+            city = new();
+            name = string.Empty;
         }
         public void Change(string name)
         {
             if (name != string.Empty) Name = name;
         }
-        public override string ToString() => $"{City.Name}, {Name}";
-
+        public string SearchString() => Name.PrepareToSearch();
         public object Clone()
         {
             Street street = (Street)MemberwiseClone();
             street.City = City;
             return street;
         }
-        public string SearchString() => Name.PrepareToSearch();
+        
+        //override ToString
+        public override string ToString() => $"{City.Name}, {Name}";
+        
+        // override object.Equals
+        public override bool Equals(object? obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            Street street = (Street)obj;
+            if (Name.Equals(street.Name) &&
+                CityId == street.CityId)
+                return true;
+            return false;
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode() + Name.GetHashCode() + CityId.GetHashCode();
+        }
     }
+
 }

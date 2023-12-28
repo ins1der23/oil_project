@@ -14,8 +14,8 @@ namespace Models
             if (search != "") search = search.PrepareToSearch();
             if (item != null)
             {
-                search = item.SearchString();
                 if (byId) id = item.Id;
+                else search = item.SearchString();
             }
             await user.ConnectAsync();
             if (user.IsConnect)

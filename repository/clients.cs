@@ -3,42 +3,18 @@ using Connection;
 
 namespace Models
 {
-    public class Clients
+    public class Clients : BaseList<Client>
     {
-        List<Client> ClientList { get; set; }
 
-        public Clients()
+        public override async Task GetFromSqlAsync(DBConnection user, Client? item = null, string search = "", bool byId = false)
         {
-            ClientList = new();
-        }
-        public bool IsEmpty
-        {
-            get => (!ClientList.Any());
-        }
-        public Client GetFromList(int index = 1) => ClientList[index - 1];
-        public void Clear() => ClientList.Clear();
-        public void Append(Client client) => ClientList.Add(client);
-        public List<Client> ToWorkingList() => ClientList.Select(c => c).ToList();
-        public void ToWriteList(List<Client> toAddList)
-        {
-            ClientList.Clear();
-            ClientList = toAddList.Select(c => c).ToList();
-        }
-
-        /// <summary>
-        /// Формирование списка из ClientList для создания меню 
-        /// </summary>
-        /// <returns> список из Client.ToString()</returns>
-        public List<string> ToStringList()
-        {
-            List<string> output = new();
-            foreach (var item in ClientList)
-                output.Add(item.ToString());
-            return output;
-        }
-        public async Task GetFromSqlAsync(DBConnection user, string search = "", int id = 0)
-        {
-            search = search.PrepareToSearch();
+            int id = 0;
+            if (search != "") search = search.PrepareToSearch();
+            if (item != null)
+            {
+                if (byId) id = item.Id;
+                else search = item.SearchString();
+            }
             Addresses addressSql = new();
             await addressSql.GetFromSqlAsync(user);
             var addressList = addressSql.ToWorkingList();
@@ -55,7 +31,7 @@ namespace Models
                     var agreementList = temp.Read<Agreement>();
                     var passportList = temp.Read<Passport>();
                     var clients = temp.Read<Client>();
-                    ClientList = clients.Select(x => new Client
+                    dbList = clients.Select(x => new Client
                     {
                         Id = x.Id,
                         Name = x.Name,
@@ -73,8 +49,7 @@ namespace Models
                 user.Close();
             }
         }
-
-        public async Task AddSqlAsync(DBConnection user)
+        public override async Task AddSqlAsync(DBConnection user)
         {
             await user.ConnectAsync();
             if (user.IsConnect)
@@ -88,12 +63,11 @@ namespace Models
                     @{nameof(Client.Comment)},
                     @{nameof(Client.OwnerId)},
                     @{nameof(Client.ToDelete)})";
-                await user.Connection!.ExecuteAsync(selectQuery, ClientList);
+                await user.Connection!.ExecuteAsync(selectQuery, dbList);
                 user.Close();
             }
         }
-
-        public async Task ChangeSqlAsync(DBConnection user)
+        public override async Task ChangeSqlAsync(DBConnection user)
         {
             await user.ConnectAsync();
             if (user.IsConnect)
@@ -106,60 +80,20 @@ namespace Models
                     ownerId = @{nameof(Client.OwnerId)},
                     toDelete = @{nameof(Client.ToDelete)}
                     where Id = @{nameof(Client.Id)};";
-                await user.Connection!.ExecuteAsync(selectQuery, ClientList);
+                await user.Connection!.ExecuteAsync(selectQuery, dbList);
                 user.Close();
             }
         }
-        public async Task DeleteSqlAsync(DBConnection user)
+        public override async Task DeleteSqlAsync(DBConnection user)
         {
             await user.ConnectAsync();
             if (user.IsConnect)
             {
                 string selectQuery = $@"delete from clients 
                                         where Id = @{nameof(Client.Id)};";
-                await user.Connection!.ExecuteAsync(selectQuery, ClientList);
+                await user.Connection!.ExecuteAsync(selectQuery, dbList);
                 user.Close();
             }
         }
-
-        public async Task<bool> CheckExist(DBConnection user, Client client) // Проверка, есть ли уже клиент в базе 
-        {
-            Clear();
-            Append(client);
-            await GetFromSqlAsync(user, client.SearchString());
-                        if (IsEmpty) return false;
-            else return true;
-        }
-
-        public async Task<Client> SaveGetId(DBConnection user, Client client) // получение Id из SQL для нового клиента 
-        {
-            if (client.AddressId == 0 || client.Name == string.Empty) return client;
-            Clear();
-            Append(client);
-            await AddSqlAsync(user);
-            await GetFromSqlAsync(user, client.SearchString());
-            client = GetFromList();
-            return client;
-        }
-
-        public async Task<Client> SaveChanges(DBConnection user, Client client) // сохранение измениий и возврат измененного клиента
-        {
-            if (client.Id == 0) return client;
-            Clear();
-            Append(client);
-            await ChangeSqlAsync(user);
-            await GetFromSqlAsync(user, id: client.Id);
-            client = GetFromList();
-            return client;
-        }
-        public override string ToString()
-        {
-            string output = String.Empty;
-            foreach (var item in ClientList)
-                output += item.ToString() + "\n";
-            return output;
-        }
-
-       
     }
 }

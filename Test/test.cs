@@ -54,7 +54,7 @@ namespace Testing
                     case 2: // Тест методов
                         user = Settings.User;
 
-                        PassportList passportList = new();
+                        Passports passportList = new();
                         await passportList.GetFromSqlAsync(user);
                         Console.WriteLine(passportList);
                         Console.ReadLine();
