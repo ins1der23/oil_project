@@ -1,7 +1,7 @@
 
 namespace MenusAndChoices
 {
-    public static class Text
+    public static class CommonText
     {
         public static readonly string[] menuNames = new string[] {
                                 "Главное меню",
@@ -23,6 +23,7 @@ namespace MenusAndChoices
 
         // Common
 
+        public static readonly string itemsFound = "Найденные варианты";
         public static readonly string inputError = "Неверный ввод";
         public static readonly string choice = "Выберете вариант";
         public static readonly string saveError = "Ошибка записи";
@@ -35,6 +36,21 @@ namespace MenusAndChoices
         "Введите текст для поиска или оставьте поле пустым для показа всех";
 
         public static readonly string returnToSearch = "ВОЗВРАЩАЕМСЯ К ПОИСКУ";
+        public static readonly string changeName = "Введите новое название или оставьте поле пустым, если не хотите менять";
+        public static readonly string changeConfirm = "Данные были изменены. Сохранить изменения?";
+        public static readonly string delConfirm = "ТОЧНО УДАЛИТЬ?";
+
+        public static readonly List<string> options = new() {
+                                "Выбрать ",
+                                "Изменить",
+                                "Удалить",
+                                "Вернуться к поиску",
+                                "Вернуться в предыдущее меню"};
+
+        public static readonly List<string> searchAgainMenu = new() {
+                                "Повторить поиск",
+                                "Добавить орган, выдавший паспорт",
+                                "Возврат в предыдущее меню"};
 
         public static readonly List<string> showOrFind = new() {
                                 "Показать всё",
@@ -55,6 +71,8 @@ namespace MenusAndChoices
         public static readonly List<string> yesOrNo = new() {
                                 "Да",
                                 "Нет"};
+
+        public static readonly string notAvailable = "НЕДОСТУПНО";
 
 
 

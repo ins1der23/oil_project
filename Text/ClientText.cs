@@ -29,7 +29,7 @@ namespace MenusAndChoices
                                 "Сохранить клиента",
                                 "Изменить клиента",
                                 "Не сохранять клиента"};
-        public static string Summary(this Client client)
+        public static string SummaryText(this Client client)
         {
             Console.Clear();
             string yesOrNo = client.AgreementCheck == true ? "Есть" : "Отсутствует";

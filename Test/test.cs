@@ -18,7 +18,7 @@ namespace Testing
             bool flag = true;
             while (flag)
             {
-                int choice = await MenuToChoice(TestText.options, TestText.test, Text.choice, noNull: true);
+                int choice = await MenuToChoice(TestText.options, TestText.test, CommonText.choice, noNull: true);
                 switch (choice)
                 {
                     case 1: // Тест GetFromSql
@@ -33,44 +33,31 @@ namespace Testing
                         await locations.GetFromSqlAsync(user, 1);
                         await ShowString("Locations OK", false, delay);
                         Streets streets = new();
-                        await streets.GetFromSqlAsync(user);
+                        await streets.GetFromSqlAsync();
                         await ShowString("Streets OK", false, delay);
                         Passports passports = new();
-                        await passports.GetFromSqlAsync(user);
+                        await passports.GetFromSqlAsync();
                         await ShowString("Passports OK", false, delay);
                         Issueds issueds = new();
-                        await issueds.GetFromSqlAsync(user);
+                        await issueds.GetFromSqlAsync();
                         await ShowString("Issueds OK", false, delay);
                         Registrations registrations = new();
-                        await registrations.GetFromSqlAsync(user);
+                        await registrations.GetFromSqlAsync();
                         await ShowString("Registrations OK", false, delay);
-                        Clients clients = new();
-                        await clients.GetFromSqlAsync(user);
+                        ClientsRepo clients = new();
+                        await clients.GetFromSqlAsync();
                         if (!clients.IsEmpty) await ShowString("Clients OK", false, delay);
                         Agreements agreements = new();
                         await agreements.GetFromSqlAsync(user, search: "1", id: 56);
                         if (!agreements.IsEmpty()) await ShowString("Agreements OK", false, delay);
                         break;
                     case 2: // Тест методов
-                        user = Settings.User;
-
-                        Passports passportList = new();
-                        await passportList.GetFromSqlAsync(user);
-                        Console.WriteLine(passportList);
+                        
+                        
+                        var issuedBy = await StartIssuedByUI.Start();
+                        Console.WriteLine(issuedBy);
                         Console.ReadLine();
-                        Passport passport = passportList.GetFromList();
-                        Console.WriteLine(passport);
-                        Console.ReadLine();
-                        passport.Number = 6507311002;
-                        Console.WriteLine($"{passport},  {passport.Id}");
-
-                        _ = await passportList.SaveChanges(user, passport);
-                        await passportList.GetFromSqlAsync(user);
-                        Console.WriteLine(passportList);
-                        Console.ReadLine();
-
                         break;
-
                     case 3: //Выход
                         flag = false;
                         break;

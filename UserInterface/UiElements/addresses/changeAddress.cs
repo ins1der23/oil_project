@@ -1,0 +1,103 @@
+using MenusAndChoices;
+using Controller;
+using Models;
+
+namespace Handbooks
+
+{
+    public class ChangeAddress
+    {
+        public static async Task<Address> Start(Address address, bool toSql = true)
+        {
+            bool flag = true;
+            var addressOld = (Address)address.Clone();
+            City city = address.City;
+            District district = address.District;
+            Location location = address.Location;
+            Street street = address.Street;
+            string houseNum = string.Empty;
+            var user = Settings.User;
+            int choice;
+            while (flag)
+            {
+                await ShowString(address.Summary(), delay: 0);
+                choice = await MenuToChoice(address.ChangeOptions(), string.Empty, CommonText.choice, clear: false);
+                if (city.Id == 1)
+                {
+                    switch (choice)
+                    {
+                        case 1: // Выбрать другой город
+                            city = await CityControl.Start();
+                            if (city.Id != 0)
+                            {
+                                Locations locations = new();
+                                await locations.GetFromSqlAsync(user, cityId: city.Id, city.Name);
+                                location = locations.GetFromList();
+                                district = location.District;
+                            }
+                            break;
+                        case 2: // Выбрать другой микрорайон
+                            location = await StartLocationUI.Start(city);
+                            district = location.District;
+                            break;
+                        case 3: // Выбрать другую улицу
+                            street = await StreetControl.Start(city);
+                            break;
+                        case 4: // Изменить номер дома
+                            houseNum = GetString(AddrText.changeHouseNum);
+                            break;
+                        case 5: // Вернуться в предыдущее меню
+                            flag = false;
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (choice)
+                    {
+                        case 1: // Выбрать другой город
+                            city = await CityControl.Start();
+                            if (city.Id != 0)
+                            {
+                                Locations locations = new();
+                                await locations.GetFromSqlAsync(user, cityId: city.Id, city.Name);
+                                location = locations.GetFromList();
+                                district = location.District;
+                            }
+                            break;
+                        case 2: // Выбрать другую улицу
+                            street = await StreetControl.Start(city);
+                            break;
+                        case 3: // Изменить номер дома
+                            houseNum = GetString(AddrText.changeHouseNum);
+                            break;
+                        case 4: // Сохранить или вернуться в предыдущее меню
+                            flag = false;
+                            break;
+                    }
+                }
+                address.Change(city, district, location, street, houseNum);
+            }
+            await ShowString(address.Summary(), delay: 100);
+            if (address.SearchString != addressOld.SearchString)
+            {
+                choice = await MenuToChoice(CommonText.yesOrNo, AddrText.confirmChanges, CommonText.choice, clear: false, noNull: true);
+                if (choice == 1)
+                {
+                    Addresses addresses = new();
+                    bool exist = await addresses.CheckExist(user, address);
+                    if (exist) await ShowString(AddrText.addressExist);
+                    else
+                    {
+                        await ShowString(AddrText.addressChanged);
+                        if (toSql) address = await addresses.SaveChanges(user, address);
+                        return address;
+                    }
+                }
+            }
+            await ShowString(AddrText.addressNotChanged);
+            return addressOld;
+        }
+    }
+}
+
