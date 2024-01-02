@@ -10,7 +10,7 @@ namespace Handbooks
         public static async Task<Registration> Start()
         {
             string search = GetString(RegistrationText.registrationSearch).PrepareToSearch();
-            var registrations = new Registrations();
+            var registrations = new Registrations<Client>();
             await registrations.GetFromSqlAsync(search:search);
             bool flag = true;
             var registration = new Registration();

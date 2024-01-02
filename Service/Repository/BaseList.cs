@@ -1,34 +1,37 @@
 using Connection;
 using Controller;
-using Interfaces;
+
 
 namespace Models
 {
-    public abstract class BaseList<E> : IEnumerable where E : BaseElement<E>
+    public abstract class BaseList<I, E> : IEnumerable where I : BaseElement<I> where E : BaseElement<E>
     {
         private static readonly DBConnection user = Settings.User;
-        protected List<E> dbList;
+        protected List<I> dbList;
         internal bool IsEmpty => !dbList.Any();
 
         protected static DBConnection User { get => user; }
 
         public BaseList()
         {
-            dbList = new List<E>();
+            dbList = new List<I>();
         }
-                
+
         // Methods
         public IEnumerator GetEnumerator() => dbList.GetEnumerator();
         public void Clear() => dbList.Clear();
-        public void Append(E element) => dbList.Add(element);
-        public E GetFromList(int index = 1) => dbList.ElementAt(index - 1);
-        public List<E> ToWorkingList() => dbList.ToList(); // Список для работы с LINQ
-        public void ToWriteList(List<E> toAddList)
+        public void Append(I element) => dbList.Add(element);
+        public I GetFromList(int index = 1) => dbList.ElementAt(index - 1);
+        public List<I> GetDbList() => dbList.ToList(); // Список для работы с LINQ
+        public void ToWriteList(List<I> toAddList)
         {
             dbList.Clear();
             dbList = toAddList.Select(c => c).ToList();
         }
-        
+
+        public abstract void CutOff(E parameter);
+
+
 
         /// <summary>
         /// Формирование списка из ClientList для создания меню 
@@ -37,7 +40,7 @@ namespace Models
         public List<string> ToStringList()
         {
             List<string> output = new();
-            foreach (E item in dbList)
+            foreach (I item in dbList)
                 output.Add(item!.ToString()!);
             return output;
         }
@@ -46,7 +49,7 @@ namespace Models
         public override string ToString()
         {
             string output = String.Empty;
-            foreach (E item in dbList)
+            foreach (I item in dbList)
                 output += item!.ToString()! + "\n";
             return output;
         }

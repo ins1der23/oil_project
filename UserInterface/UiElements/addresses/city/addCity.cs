@@ -23,7 +23,7 @@ namespace Handbooks
                 switch (choice)
                 {
                     case 1: // Сохранить город
-                        Cities cities = new();
+                        Cities<City> cities = new();
                         bool exist = await cities.CheckExist(city);
                         if (exist) await ShowString(CityText.cityExist);
                         else

@@ -3,7 +3,7 @@ using Connection;
 
 namespace Models
 {
-    public class ClientsRepo : BaseRepo<Client>
+    public abstract class ClientsRepo<E> : BaseRepo<Client,E> where E:BaseElement<E>
     {
 
         public override async Task GetFromSqlAsync(Client? item = null, string search = "", bool byId = false)

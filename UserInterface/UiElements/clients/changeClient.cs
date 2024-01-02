@@ -30,7 +30,7 @@ namespace Handbooks
                 choice = await MenuToChoice(CommonText.yesOrNo, ClientText.confirmChanges, CommonText.choice, clear: false, noNull: true);
                 if (choice == 1)
                 {
-                    ClientsRepo clients = new();
+                    Clients<Client> clients = new();
                     var user = Settings.User;
                     bool exist = await clients.CheckExist(client);
                     if (exist) await ShowString(ClientText.clientExist);

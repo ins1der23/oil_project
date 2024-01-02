@@ -2,7 +2,7 @@ using Interfaces;
 
 namespace Models
 {
-    public abstract class BaseRepo<E> : BaseList<E>, IRepository<E> where E : BaseElement<E>
+    public abstract class BaseRepo<I, E> : BaseList<I, E>, IRepository<I> where I : BaseElement<I> where E : BaseElement<E>
     {
 
         public BaseRepo() : base() { }
@@ -10,7 +10,7 @@ namespace Models
 
 
         //Abstract
-        public abstract Task GetFromSqlAsync(E? item = null, string search = "", bool byId = false);
+        public abstract Task GetFromSqlAsync(I? item = null, string search = "", bool byId = false);
         public abstract Task AddSqlAsync();
         public abstract Task ChangeSqlAsync();
         public abstract Task DeleteSqlAsync();
@@ -21,7 +21,7 @@ namespace Models
             await GetFromSqlAsync(search: searchString);
         }
 
-        public async Task<bool> CheckExist(E item) // Проверка, есть ли уже элемент в базе 
+        public async Task<bool> CheckExist(I item) // Проверка, есть ли уже элемент в базе 
         {
             Clear();
             Append(item);
@@ -30,7 +30,7 @@ namespace Models
             if (GetFromList()!.Equals(item)) return true;
             return false;
         }
-        public async Task<E> SaveGetId(E item) // получение Id из SQL для нового элемента 
+        public async Task<I> SaveGetId(I item) // получение Id из SQL для нового элемента 
         {
             if (item == null) return item!;
             Clear();
@@ -40,7 +40,7 @@ namespace Models
             item = GetFromList();
             return item;
         }
-        public async Task<E> SaveChanges(E item) // сохранение измениий и возврат измененного элемента
+        public async Task<I> SaveChanges(I item) // сохранение измениий и возврат измененного элемента
         {
             if (item == null) return item!;
             Clear();

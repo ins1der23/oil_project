@@ -47,7 +47,7 @@ namespace Handbooks
                 choice = await MenuToChoice(CommonText.yesOrNo, AddrText.confirmChanges, CommonText.choice, clear: false, noNull: true);
                 if (choice == 1)
                 {
-                    Registrations registrations = new();
+                    Registrations<Registration> registrations = new();
                     bool exist = await registrations.CheckExist(registration);
                     if (exist) await ShowString(AddrText.addressExist);
                     else

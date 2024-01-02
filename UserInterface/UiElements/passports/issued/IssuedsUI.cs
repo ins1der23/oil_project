@@ -1,17 +1,16 @@
-using Interfaces;
 using MenusAndChoices;
 using Models;
 using Service;
 
 namespace Handbooks
 {
-    internal class StartIssuedByUI : StartLogic<IssuedBy, Issueds>
+    internal class IssuedsUI : StartLogic<IssuedBy, IssuedBy, Issueds<IssuedBy>>
     {
         public static async Task<IssuedBy> Start()
         {
-            Items = new Issueds();
-            Item = new IssuedBy();
-
+            items = new Issueds<IssuedBy>();
+            item = new IssuedBy();
+            parameter = new IssuedBy();
             Deleted = IssuedByText.deleted;
             DelCancel = IssuedByText.delCancel;
             SaveOptions = IssuedByText.saveOptions;
@@ -25,7 +24,7 @@ namespace Handbooks
             ItemChoosen = IssuedByText.choosen;
             ItemNotChoosen = IssuedByText.notChoosen;
 
-            return await StartLogic<IssuedBy, Issueds>.Start();
+            return await StartLogic<IssuedBy, IssuedBy, Issueds<IssuedBy>>.Start();
         }
     }
 }

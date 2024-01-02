@@ -26,15 +26,15 @@ namespace Models
         }
         public override string SearchString() => Name.PrepareToSearch();
 
-        public override Street SetEmpty() 
+        public override Street SetEmpty()
         {
             City = new();
             Name = string.Empty;
             return this;
         }
-                
+
         public override string Summary() => ToString();
-        
+
         //override ToString
         public override string ToString() => $"{City.Name}, {Name}";
 
@@ -53,12 +53,8 @@ namespace Models
         }
 
         // override object.GetHashCode
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode() + Name.GetHashCode() + CityId.GetHashCode();
-        }
+        public override int GetHashCode() => Id.GetHashCode() + Name.GetHashCode() + CityId.GetHashCode();
 
-       
         // override Clone
         public override Street Clone()
         {
@@ -66,8 +62,5 @@ namespace Models
             street.City = City;
             return street;
         }
-
-       
     }
-
 }

@@ -4,13 +4,13 @@ using Models;
 
 namespace Handbooks
 {
-    public class FindClients
+    internal class FindClients
     {
-        public static async Task<ClientsRepo> Start()
+        public static async Task<Clients<Client>> Start()
         {
             var user = Settings.User;
             var searchString = GetString(CommonText.searchString);
-            ClientsRepo clients = new();
+            Clients<Client> clients = new();
             await clients.GetFromSqlAsync(search: searchString);
             return clients;
         }

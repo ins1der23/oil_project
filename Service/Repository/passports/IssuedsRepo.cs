@@ -1,6 +1,8 @@
+using Interfaces;
+
 namespace Models
 {
-    public abstract class IssuedsRepo : BaseRepo<IssuedBy>
+    public abstract class IssuedsRepo<E> : BaseRepo<IssuedBy, E> where E:BaseElement<E>
     {
         public override async Task GetFromSqlAsync(IssuedBy? item = null, string search = "", bool byId = false)
         {
@@ -57,7 +59,5 @@ namespace Models
                 User.Close();
             }
         }
-
-        
     }
 }

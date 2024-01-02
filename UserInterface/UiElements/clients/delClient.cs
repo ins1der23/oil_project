@@ -17,7 +17,7 @@ namespace Handbooks
                 switch (choice)
                 {
                     case 1: // Да
-                        var clientList = new ClientsRepo();
+                        var clientList = new Clients<Client>();
                         clientList.Append(clientToDelete);
                         var user = Settings.User;
                         await clientList.DeleteSqlAsync();

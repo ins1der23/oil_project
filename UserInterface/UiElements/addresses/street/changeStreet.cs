@@ -23,7 +23,7 @@ namespace Handbooks
                 int choice = await MenuToChoice(CommonText.yesOrNo, StreetText.changeConfirm, CommonText.choice, clear: false, noNull: true);
                 if (choice == 1)
                 {
-                    Streets streets = new();
+                    Streets<Street> streets = new();
                     var user = Settings.User;
                     bool exist = await streets.CheckExist(street);
                     if (exist) await ShowString(StreetText.streetExist);

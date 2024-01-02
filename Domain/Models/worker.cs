@@ -28,7 +28,7 @@ namespace Models
 
         public int PositionId { get; private set; }
         public virtual Position Position { get; set; }
-        public virtual ClientsRepo Clients { get; set; }
+        internal virtual Clients<Client> Clients { get; set; }
         public Worker()
         {
             PositionId = 1;

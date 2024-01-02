@@ -49,7 +49,7 @@ namespace MenusAndChoices
 
         public static readonly List<string> searchAgainMenu = new() {
                                 "Повторить поиск",
-                                "Добавить орган, выдавший паспорт",
+                                "Добавить",
                                 "Возврат в предыдущее меню"};
 
         public static readonly List<string> showOrFind = new() {

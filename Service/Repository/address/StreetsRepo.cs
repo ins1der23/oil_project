@@ -1,18 +1,15 @@
-using Connection;
 
 namespace Models
 
 {
-    public class Streets : BaseRepo<Street>
+    public abstract class StreetsRepo<E> : BaseRepo<Street, E> where E : BaseElement<E>
     {
         public override async Task GetFromSqlAsync(Street? item = null, string search = "", bool byId = false)
         {
             int id = 0;
             if (search != "") search = search.PrepareToSearch();
-            int cityId = 0;
             if (item != null)
             {
-                cityId = item.CityId;
                 if (byId) id = item.Id;
                 if (item.SearchString() != string.Empty) search = item.SearchString();
             }
@@ -22,14 +19,14 @@ namespace Models
                 string selectQuery = $@"select *
                                     from streets as s, cities as c 
                                     where s.cityId=c.Id 
-                                    and c.Id = {cityId}
                                     order by s.name";
                 var temp = await User.Connection!.QueryAsync<Street, City, Street>(selectQuery, (s, c) =>
                 {
                     s.City = c;
                     return s;
                 });
-                dbList = temp.Where(s => id == 0 ? s.SearchString().Contains(search) : s.Id == id).ToList();
+                dbList = temp.Where(s => id == 0 ? s.SearchString().Contains(search) : s.Id == id)
+                             .OrderBy(s => s.City.Name).ThenBy(s => s.Name).ToList();
                 User.Close();
             }
         }

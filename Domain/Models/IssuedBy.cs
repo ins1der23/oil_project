@@ -2,16 +2,16 @@ using Interfaces;
 
 namespace Models
 {
-    public class IssuedBy : BaseElement<IssuedBy>, ICloneable<IssuedBy>
+    public class IssuedBy : BaseElement<IssuedBy>
     {
-        private string? name;
+        private string name;
 
         public string Name { get => name!; set => name = value; }
 
         public IssuedBy()
         : base()
         {
-            Name = string.Empty;
+            name = string.Empty;
         }
         public void Change(string name)
         {
@@ -19,10 +19,7 @@ namespace Models
         }
         public override string ToString() => $"{Name}";
         public override string SearchString() => Name.PrepareToSearch();
-        public override IssuedBy Clone()
-        {
-            return (IssuedBy)MemberwiseClone();
-        }
+        public override IssuedBy Clone() => (IssuedBy)MemberwiseClone();
 
         public override bool Equals(object? obj)
         {
@@ -35,11 +32,8 @@ namespace Models
             return false;
         }
 
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode() + Name.GetHashCode();
-        }
-
+        public override int GetHashCode() => Id.GetHashCode() + Name.GetHashCode();
+        
         public override IssuedBy SetEmpty()
         {
             Id = 0;
@@ -48,6 +42,6 @@ namespace Models
         }
 
         public override string Summary() => ToString();
-        
+
     }
 }

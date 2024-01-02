@@ -11,7 +11,7 @@ namespace Handbooks
             var passportToAdd = new Passport()
             {
                 Number = GetDouble(PassportText.number),
-                IssuedBy  = await StartIssuedByUI.Start(),
+                IssuedBy  = await IssuedsUI.Start(),
                 IssueDate = GetDate(PassportText.date),
             };
 
@@ -70,7 +70,7 @@ namespace Handbooks
             choice = await MenuToChoice(CommonText.yesOrNo, PassportText.savePassport, CommonText.choice, clear: false, noNull: true);
             if (choice == 1)
             {
-                var passportList = new Passports();
+                var passportList = new Passports<Passport>();
                 // passportToAdd = await clientList.SaveGetId(user, passportToAdd);
                 await ShowString(ClientText.clientAdded);
                 // return clientToAdd;

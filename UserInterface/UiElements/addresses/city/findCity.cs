@@ -10,7 +10,7 @@ namespace Handbooks
         public static async Task<City> Start()
         {
             var user = Settings.User;
-            Cities cities = new();
+            Cities<City> cities = new();
             string search = GetString(CityText.cityNameOrEmpty); // Найти город или оставить поле пустым для показа всех
             await cities.GetFromSqlAsync(search: search);
             bool flag = true;

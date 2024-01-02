@@ -35,7 +35,7 @@ namespace MenusAndChoices
         public static readonly string changeHouseNum = "Введите новый номер дома или оставьте поле пустым, если не хотите менять ";
         public static readonly string changeFlatNum = "Введите новый номер дома или оставьте поле пустым, если не хотите менять ";
 
-        public static string Summary(this Registration registration)
+        public static string Summary(Registration registration)
         {
             Console.Clear();
             return @$"

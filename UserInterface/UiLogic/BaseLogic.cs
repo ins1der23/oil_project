@@ -9,17 +9,32 @@ namespace Service
     /// </summary>
     /// <typeparam name="I"></typeparam> тип элемента
     /// <typeparam name="L"></typeparam> тип списка элементов
-    internal abstract class BaseLogic<I, L> where I : BaseElement<I> where L : BaseRepo<I>, IService<I>
+    internal abstract class BaseLogic<I, E, L>
+    where I : BaseElement<I> where E : BaseElement<E> where L : BaseRepo<I, E>, IServiceUI<I>
     {
         /// <summary>
         /// Элемент обобщенного типа I
         /// </summary>
-        private static I? item;
+        protected static I? item;
+
+        /// <summary>
+        /// Параметр обобщенного типа E для отбора из BaseList по значению E
+        /// </summary>
+        protected static E? parameter;
 
         /// <summary>
         /// Экземпляр BaseList элементов обобщенного типа I
         /// </summary>
-        private static L? items;
+        protected static L? items;
+
+
+        protected static bool mainFlag = true;
+        protected static int choice;
+        protected static City city = new();
+
+
+
+
 
         /// Переменные для подстановки текста
         private static List<string> saveOptions = new();
@@ -35,10 +50,12 @@ namespace Service
         private static string delCancel = string.Empty;
 
 
+        public static E? Parameter { get => parameter; set => parameter = value; }
+
+        // protected static I item { get => item!; set => item = value; }
+        // protected static L? items { get => items; set => items = value; }
 
 
-        public static I Item { get => item!; set => item = value; }
-        public static L? Items { get => items; set => items = value; }
         public static string Deleted { get => deleted; set => deleted = value; }
         public static string DelCancel { get => delCancel; set => delCancel = value; }
         protected static List<string> SaveOptions { get => saveOptions; set => saveOptions = value; }
@@ -51,15 +68,6 @@ namespace Service
         protected static string ItemsMenuName { get => itemsMenuName; set => itemsMenuName = value; }
         protected static string ItemChoosen { get => itemChoosen; set => itemChoosen = value; }
         protected static string ItemNotChoosen { get; set; } = string.Empty;
-
-
-
-
-
-
-
-
-
-
+        
     }
 }

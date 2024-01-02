@@ -24,7 +24,7 @@ namespace Handbooks
                 switch (choice)
                 {
                     case 1: // Сохранить улицу
-                        Streets streets = new();
+                        Streets<Street> streets = new();
                         bool exist = await streets.CheckExist(street);
                         if (exist) await ShowString(StreetText.streetExist);
                         else

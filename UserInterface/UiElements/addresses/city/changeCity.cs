@@ -10,7 +10,7 @@ namespace Handbooks
         {
             var cityOld = (City)city.Clone();
             await ShowString(city.Name, clear: true, delay: 300);
-            string name = GetString(CityText.changeName, clear: false);
+            string name = GetString(CommonText.changeName, clear: false);
             if (name == string.Empty)
             {
                 await ShowString(CityText.changeCancel);
@@ -25,7 +25,7 @@ namespace Handbooks
                 {
 
                     var user = Settings.User;
-                    Cities cities = new();
+                    Cities<City> cities = new();
                     bool exist = await cities.CheckExist(city);
                     if (exist) await ShowString(CityText.cityExist);
                     else

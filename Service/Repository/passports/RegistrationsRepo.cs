@@ -1,8 +1,8 @@
 namespace Models
 {
-    public class Registrations : BaseRepo<Registration>
+    public abstract class RegistrationsRepo<E> : BaseRepo<Registration, E> where E:BaseElement<E>
     {
-        public Registrations()
+        public RegistrationsRepo()
         : base() { }
 
 

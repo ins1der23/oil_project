@@ -9,29 +9,28 @@ namespace Service
     /// </summary>
     /// <typeparam name="I"></typeparam> тип элемента
     /// <typeparam name="L"></typeparam> тип списка элементов
-    internal abstract class SearchLogic<I, L> : BaseLogic<I, L> where I : BaseElement<I> where L : BaseRepo<I>, IService<I>
+    internal abstract class SearchLogic<I, E, L> : BaseLogic<I, E, L>
+    where I : BaseElement<I> where E : BaseElement<E> where L : BaseRepo<I, E>, IServiceUI<I>
     {
-        // protected static string ItemFoundText { get => BaseLogic<I, L>.ItemFoundText; set => BaseLogic<I, L>.ItemFoundText = value; }
-        // protected static string SearchStringText { get => BaseLogic<I, L>.SearchStringText; set => BaseLogic<I, L>.SearchStringText = value; }
-
 
         /// <summary>
         /// Логика для поиска элемента
         /// </summary>
         /// <returns> элемент обобщенного типа I</returns>
-        public static async Task<I> Start()
+        public static async Task<I> Start(bool cutOff = false)
         {
-            string searchString = GetString(SearchString);
-            await Items!.SearchAndGet(searchString);
+            string search = GetString(SearchString);
+            await items!.SearchAndGet(search);
+            if (cutOff) items.CutOff(parameter!);
             bool flag = true;
             int choice;
             while (flag)
             {
-                choice = await MenuToChoice(Items.ToStringList(), CommonText.itemsFound, CommonText.choiceOrEmpty);
-                if (choice != 0) Item = Items.GetFromList(choice);
+                choice = await MenuToChoice(items.ToStringList(), CommonText.itemsFound, CommonText.choiceOrEmpty);
+                if (choice != 0) item = items.GetFromList(choice);
                 flag = false;
             }
-            return Item;
+            return item!;
         }
     }
 }

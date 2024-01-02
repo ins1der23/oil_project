@@ -1,19 +1,20 @@
 using MenusAndChoices;
 using Models;
 using Interfaces;
+using Handbooks;
 
 namespace Service
 {
-    internal abstract class StartLogic<I, L> : BaseLogic<I, L> where I : BaseElement<I> where L : BaseRepo<I>, IService<I>
+    internal abstract class StartLogic<I, E, L> : BaseLogic<I, E, L>
+    where I : BaseElement<I> where E : BaseElement<E> where L : BaseRepo<I, E>, IServiceUI<I>
     {
-        public static async Task<I> Start(bool adding = true, bool changing = true, bool deleting = true)
+        public static async Task<I> Start(bool adding = true, bool changing = true, bool deleting = true, bool cutOff = false)
         {
-            bool mainFlag = true;
-            int choice;
+            mainFlag = true;
             while (mainFlag)
             {
-                Item = await SearchLogic<I, L>.Start();
-                if (Item.Id == 0)
+                item = await SearchLogic<I, E, L>.Start(cutOff);
+                if (item.Id == 0)
                 {
                     choice = await MenuToChoice(CommonText.searchAgainMenu, ItemsMenuName, invite: CommonText.choice, noNull: true);
                     switch (choice)
@@ -22,14 +23,18 @@ namespace Service
                             await ShowString(CommonText.returnToSearch);
                             break;
                         case 2: // Добавить элемент
-                            var itemNew = await AddLogic<I, L>.Start();
-                            if (itemNew.Id != 0)
+                            if (adding)
                             {
-                                Item = itemNew;
-                                await ShowString(ItemChoosen);
+                                var itemNew = await AddLogic<I, E, L>.Start();
+                                if (itemNew.Id != 0)
+                                {
+                                    item = itemNew;
+                                    await ShowString(ItemChoosen);
+                                }
+                                else await ShowString(ItemNotChoosen);
+                                mainFlag = false;
                             }
-                            else await ShowString(ItemNotChoosen);
-                            mainFlag = false;
+                            else await ShowString(CommonText.notAvailable);
                             break;
                         case 3: // Отменить добавление элемента и вернуться в предыдущее меню
                             await ShowString(ItemNotChoosen);
@@ -42,7 +47,7 @@ namespace Service
                     bool levelOneFlag = true;
                     while (levelOneFlag)
                     {
-                        choice = await MenuToChoice(CommonText.options, Item.Summary(), invite: CommonText.choice, noNull: true);
+                        choice = await MenuToChoice(CommonText.options, item.Summary(), invite: CommonText.choice, noNull: true);
                         switch (choice)
                         {
                             case 1: // Выбрать
@@ -51,13 +56,13 @@ namespace Service
                                 mainFlag = false;
                                 break;
                             case 2: //Изменить
-                                if (changing) Item = await ChangeLogic<I, L>.Start(Item);
+                                if (changing) item = await ChangeLogic<I, E, L>.Start(item);
                                 else await ShowString(CommonText.notAvailable);
                                 break;
                             case 3: // Удалить
                                 if (deleting)
                                 {
-                                    Item = await DeleteLogic<I, L>.Start(Item);
+                                    item = await DeleteLogic<I, E, L>.Start(item);
                                     levelOneFlag = false;
                                     mainFlag = false;
                                     await ShowString(ItemNotChoosen);
@@ -71,99 +76,15 @@ namespace Service
                             case 5: // Вернуться в предыдущее меню
                                 levelOneFlag = false;
                                 mainFlag = false;
-                                Item.SetEmpty();
+                                item.SetEmpty();
                                 await ShowString(ItemNotChoosen);
                                 break;
                         }
                     }
                 }
             }
-            return Item;
+            return item!;
         }
-
-    /// <summary>
-    /// Перегрузка логики для микрорайонов и улиц
-    /// </summary>
-    /// <param name="city"></param>
-    /// <param name="adding"></param>
-    /// <param name="changing"></param>
-    /// <param name="deleting"></param>
-    /// <returns></returns>
-        public static async Task<I> Start(City city, bool adding = true, bool changing = true, bool deleting = true)
-        {
-            bool mainFlag = true;
-            int choice;
-            while (mainFlag)
-            {
-                Item = await SearchLogic<I, L>.Start();
-                if (Item.Id == 0)
-                {
-                    choice = await MenuToChoice(CommonText.searchAgainMenu, ItemsMenuName, invite: CommonText.choice, noNull: true);
-                    switch (choice)
-                    {
-                        case 1: // Повторить поиск
-                            await ShowString(CommonText.returnToSearch);
-                            break;
-                        case 2: // Добавить элемент
-                            var itemNew = await AddLogic<I, L>.Start();
-                            if (itemNew.Id != 0)
-                            {
-                                Item = itemNew;
-                                await ShowString(ItemChoosen);
-                            }
-                            else await ShowString(ItemNotChoosen);
-                            mainFlag = false;
-                            break;
-                        case 3: // Отменить добавление элемента и вернуться в предыдущее меню
-                            await ShowString(ItemNotChoosen);
-                            mainFlag = false;
-                            break;
-                    }
-                }
-                else
-                {
-                    bool levelOneFlag = true;
-                    while (levelOneFlag)
-                    {
-                        choice = await MenuToChoice(CommonText.options, Item.Summary(), invite: CommonText.choice, noNull: true);
-                        switch (choice)
-                        {
-                            case 1: // Выбрать
-                                await ShowString(ItemChoosen);
-                                levelOneFlag = false;
-                                mainFlag = false;
-                                break;
-                            case 2: //Изменить
-                                if (changing) Item = await ChangeLogic<I, L>.Start(Item);
-                                else await ShowString(CommonText.notAvailable);
-                                break;
-                            case 3: // Удалить
-                                if (deleting)
-                                {
-                                    Item = await DeleteLogic<I, L>.Start(Item);
-                                    levelOneFlag = false;
-                                    mainFlag = false;
-                                    await ShowString(ItemNotChoosen);
-                                }
-                                else await ShowString(CommonText.notAvailable);
-                                break;
-                            case 4: // Вернуться к поиску
-                                levelOneFlag = false;
-                                await ShowString(CommonText.returnToSearch);
-                                break;
-                            case 5: // Вернуться в предыдущее меню
-                                levelOneFlag = false;
-                                mainFlag = false;
-                                Item.SetEmpty();
-                                await ShowString(ItemNotChoosen);
-                                break;
-                        }
-                    }
-                }
-            }
-            return Item;
-        }
-
     }
 }
 

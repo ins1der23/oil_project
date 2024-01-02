@@ -32,30 +32,30 @@ namespace Testing
                         Locations locations = new();
                         await locations.GetFromSqlAsync(user, 1);
                         await ShowString("Locations OK", false, delay);
-                        Streets streets = new();
+                        Streets<Street> streets = new();
                         await streets.GetFromSqlAsync();
                         await ShowString("Streets OK", false, delay);
-                        Passports passports = new();
+                        Passports<Passport> passports = new();
                         await passports.GetFromSqlAsync();
                         await ShowString("Passports OK", false, delay);
-                        Issueds issueds = new();
+                        Issueds<IssuedBy> issueds = new();
                         await issueds.GetFromSqlAsync();
                         await ShowString("Issueds OK", false, delay);
-                        Registrations registrations = new();
+                        Registrations<Registration> registrations = new();
                         await registrations.GetFromSqlAsync();
                         await ShowString("Registrations OK", false, delay);
-                        ClientsRepo clients = new();
-                        await clients.GetFromSqlAsync();
-                        if (!clients.IsEmpty) await ShowString("Clients OK", false, delay);
+                        // ClientsRepo clients = new();
+                        // await clients.GetFromSqlAsync();
+                        // if (!clients.IsEmpty) await ShowString("Clients OK", false, delay);
                         Agreements agreements = new();
                         await agreements.GetFromSqlAsync(user, search: "1", id: 56);
                         if (!agreements.IsEmpty()) await ShowString("Agreements OK", false, delay);
                         break;
                     case 2: // Тест методов
-                        
-                        
-                        var issuedBy = await StartIssuedByUI.Start();
-                        Console.WriteLine(issuedBy);
+
+
+                        var item = await StreetsUI.Start();
+                        Console.WriteLine(item);
                         Console.ReadLine();
                         break;
                     case 3: //Выход
@@ -63,20 +63,6 @@ namespace Testing
                         break;
                 }
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
-
     }
 }

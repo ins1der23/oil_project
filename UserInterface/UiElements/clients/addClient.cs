@@ -66,7 +66,7 @@ namespace Handbooks
                 switch (choice)
                 {
                     case 1: // Сохранить клиента
-                        ClientsRepo clients = new();
+                        Clients<Client> clients = new();
                         bool exist = await clients.CheckExist(clientToAdd);
                         if (exist) await ShowString(ClientText.clientExist);
                         else

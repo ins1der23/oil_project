@@ -3,7 +3,7 @@ using Interfaces;
 using MenusAndChoices;
 using Models;
 
-class Passports : PassportsRepo, IService<Passport>
+public class Passports<E> : PassportsRepo<E>, IServiceUI<Passport> where E : BaseElement<E>
 {
     public Task<Passport> ChangeAndAdd(Passport item)
     {
@@ -14,12 +14,17 @@ class Passports : PassportsRepo, IService<Passport>
     {
         var item = new Passport()
         {
-                Number = GetDouble(PassportText.number),
-                IssuedBy  = await StartIssuedByUI.Start(),
-                IssueDate = GetDate(PassportText.date),
+            Number = GetDouble(PassportText.number),
+            IssuedBy = await IssuedsUI.Start(),
+            IssueDate = GetDate(PassportText.date),
         };
         Append(item);
         return item;
+    }
+
+    public override void CutOff(E issuedBy)
+    {
+        dbList = dbList.Select(x => x).Where(x => x.IssuedBy.Equals(issuedBy)).ToList();
     }
 }
 

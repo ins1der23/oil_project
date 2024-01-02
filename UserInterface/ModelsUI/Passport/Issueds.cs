@@ -2,7 +2,7 @@ using Interfaces;
 using MenusAndChoices;
 using Models;
 
-class Issueds : IssuedsRepo, IService<IssuedBy>
+class Issueds<E> : IssuedsRepo<E>, IServiceUI<IssuedBy> where E:BaseElement<E>
 {
     /// <summary>
     ///  Изменение, добавление в dbList и возврат элемента
@@ -32,5 +32,10 @@ class Issueds : IssuedsRepo, IService<IssuedBy>
         };
         Append(item);
         return item;
+    }
+
+    public override void CutOff(E parameter)
+    {
+        dbList = dbList.Select(x => x).Where(x => x.Equals(parameter)).ToList();
     }
 }

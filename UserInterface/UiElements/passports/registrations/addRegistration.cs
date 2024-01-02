@@ -69,7 +69,7 @@ namespace Handbooks
                 switch (choice)
                 {
                     case 1: // Сохранить адрес
-                        Registrations registrations = new();
+                        Registrations<Registration> registrations = new();
                         bool exist = await registrations.CheckExist(registration);
                         if (exist) await ShowString(CityText.cityExist);
                         else

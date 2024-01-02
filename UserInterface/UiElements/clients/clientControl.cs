@@ -19,7 +19,7 @@ namespace Handbooks
                         bool levelOneFlag = true;
                         while (levelOneFlag)
                         {
-                            ClientsRepo clientList = await FindClients.Start();
+                            Clients<Client> clientList = await FindClients.Start();
                             choice = await MenuToChoice(clientList.ToStringList(), ClientText.clientFound, CommonText.choiceOrEmpty);
                             if (choice != 0)
                             {
