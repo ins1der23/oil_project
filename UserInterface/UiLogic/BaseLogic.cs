@@ -10,7 +10,7 @@ namespace Service
     /// <typeparam name="I"></typeparam> тип элемента
     /// <typeparam name="L"></typeparam> тип списка элементов
     internal abstract class BaseLogic<I, E, L>
-    where I : BaseElement<I> where E : BaseElement<E> where L : BaseRepo<I, E>, IServiceUI<I>
+    where I : BaseElement<I> where E : BaseElement<E> where L : BaseRepo<I>, IServiceUI<I>
     {
         /// <summary>
         /// Элемент обобщенного типа I
@@ -20,7 +20,7 @@ namespace Service
         /// <summary>
         /// Параметр обобщенного типа E для отбора из BaseList по значению E
         /// </summary>
-        protected static E? parameter;
+        protected static E? cutOffBy;
 
         /// <summary>
         /// Экземпляр BaseList элементов обобщенного типа I
@@ -50,7 +50,7 @@ namespace Service
         private static string delCancel = string.Empty;
 
 
-        public static E? Parameter { get => parameter; set => parameter = value; }
+        public static E? CutOffBy { get => cutOffBy; set => cutOffBy = value; }
 
         // protected static I item { get => item!; set => item = value; }
         // protected static L? items { get => items; set => items = value; }
@@ -68,6 +68,6 @@ namespace Service
         protected static string ItemsMenuName { get => itemsMenuName; set => itemsMenuName = value; }
         protected static string ItemChoosen { get => itemChoosen; set => itemChoosen = value; }
         protected static string ItemNotChoosen { get; set; } = string.Empty;
-        
+
     }
 }

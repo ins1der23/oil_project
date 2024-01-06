@@ -10,7 +10,7 @@ namespace Handbooks
         public static async Task<Street> Start(City city)
         {
             var user = Settings.User;
-            Streets<Street> streets = new();
+            Streets streets = new();
             Street street = new()
             {
                 CityId = city.Id

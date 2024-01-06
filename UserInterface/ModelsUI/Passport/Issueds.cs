@@ -2,7 +2,7 @@ using Interfaces;
 using MenusAndChoices;
 using Models;
 
-class Issueds<E> : IssuedsRepo<E>, IServiceUI<IssuedBy> where E:BaseElement<E>
+class Issueds : IssuedsRepo, IServiceUI<IssuedBy>
 {
     /// <summary>
     ///  Изменение, добавление в dbList и возврат элемента
@@ -13,12 +13,14 @@ class Issueds<E> : IssuedsRepo<E>, IServiceUI<IssuedBy> where E:BaseElement<E>
     {
         Clear();
         string name = await GetStringAsync(CommonText.changeName, clear: false);
+        Dictionary<string, object> parameters = new();
         if (name == string.Empty)
         {
             await ShowString(IssuedByText.changeCancel);
             return item.SetEmpty();
         }
-        item.Change(name);
+        parameters.Add("Name", name);
+        item.Change(parameters);
         Append(item);
         return item;
     }
@@ -28,13 +30,13 @@ class Issueds<E> : IssuedsRepo<E>, IServiceUI<IssuedBy> where E:BaseElement<E>
         await Task.Delay(0);
         var item = new IssuedBy()
         {
-            Name = GetString(IssuedByText.name),
+            Name = await GetStringAsync(IssuedByText.name),
         };
         Append(item);
         return item;
     }
 
-    public override void CutOff(E parameter)
+    public override void CutOff<P>(P parameter)
     {
         dbList = dbList.Select(x => x).Where(x => x.Equals(parameter)).ToList();
     }

@@ -1,12 +1,13 @@
 using Handbooks;
 using Interfaces;
 using MenusAndChoices;
+using Org.BouncyCastle.Asn1.X509;
 
 
 
 namespace Models
 {
-    class Cities<E> : CitiesRepo<E>, IServiceUI<City> where E : BaseElement<E>
+    class Cities : CitiesRepo, IServiceUI<City>
     {
         public async Task<City> ChangeAndAdd(City item)
         {
@@ -16,7 +17,11 @@ namespace Models
                 await ShowString(CityText.changeCancel);
                 return item.SetEmpty();
             }
-            item.Change(name);
+            Dictionary<string, object> parameters = new()
+            {
+                ["Name"] = name
+            };
+            item.Change(parameters);
             Clear();
             Append(item);
             return item;
@@ -24,19 +29,24 @@ namespace Models
 
         public async Task<City> CreateAndAdd()
         {
+            string name = await GetStringAsync(CityText.name);
             City item = new()
             {
-                Name = await GetStringAsync(CityText.name),
+                Name = name,
                 Districts = new(),
                 Locations = new(),
                 Streets = new(),
+                Parameters = new()
+                {
+                    ["Name"] = name
+                }
             };
             Clear();
             Append(item);
             return item;
         }
 
-        public override void CutOff(E parameter)
+        public override void CutOff<P>(P parameter)
         {
             dbList = dbList.Select(x => x).Where(x => x.Equals(parameter)).ToList();
         }

@@ -6,11 +6,11 @@ namespace Handbooks
 {
     internal class FindClients
     {
-        public static async Task<Clients<Client>> Start()
+        public static async Task<Clients> Start()
         {
             var user = Settings.User;
             var searchString = GetString(CommonText.searchString);
-            Clients<Client> clients = new();
+            Clients clients = new();
             await clients.GetFromSqlAsync(search: searchString);
             return clients;
         }

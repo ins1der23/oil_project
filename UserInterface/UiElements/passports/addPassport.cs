@@ -70,7 +70,7 @@ namespace Handbooks
             choice = await MenuToChoice(CommonText.yesOrNo, PassportText.savePassport, CommonText.choice, clear: false, noNull: true);
             if (choice == 1)
             {
-                var passportList = new Passports<Passport>();
+                var passportList = new Passports();
                 // passportToAdd = await clientList.SaveGetId(user, passportToAdd);
                 await ShowString(ClientText.clientAdded);
                 // return clientToAdd;

@@ -20,8 +20,8 @@ namespace MenusAndChoices
         public static readonly string deleted = "УЛИЦА УДАЛЕНА";
         public static readonly string delCancel = "УЛИЦА НЕ УДАЛЕНА";
         public static readonly List<string> changeMenu = new() {
-                                "Изменить город",
                                 "Изменить название",
+                                "Изменить город",
                                 "Вернуться"
          };
 

@@ -1,6 +1,6 @@
 namespace Models
 {
-    public abstract class PassportsRepo<E> : BaseRepo<Passport,E> where E:BaseElement<E>
+    public abstract class PassportsRepo : BaseRepo<Passport>
     {
         public override async Task GetFromSqlAsync(Passport? item = null, string search = "", bool byId = false)
         {
@@ -11,7 +11,7 @@ namespace Models
                 if (byId) id = item.Id;
                 else search = item.SearchString();
             }
-            Registrations<E> registrations = new();
+            Registrations registrations = new();
             await registrations.GetFromSqlAsync();
             var regList = registrations.GetDbList();
             await User.ConnectAsync();

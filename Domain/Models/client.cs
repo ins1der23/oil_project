@@ -16,19 +16,19 @@ namespace Models
         private ICollection<Passport> passports;
         private bool toDelete;
 
-        public string Name { get => name; set => name = value; }
-        public int AddressId { get => addressId; set => addressId = value; }
-        public virtual Address Address { get => address; set => address = value; }
-        public double Phone { get => phone; set => phone = value; }
-        public string Comment { get => comment; set => comment = value; }
-        public int OwnerId { get => ownerId; set => ownerId = value; }
-        public virtual Worker Owner { get => owner; set => owner = value; }
-        public virtual ICollection<Agreement> Agreements { get => agreements; set => agreements = value; }
-        public virtual ICollection<Passport> Passports { private get => passports; set => passports = value; }
-        public bool ToDelete { get => toDelete; set => toDelete = value; }
-        public bool AgreementCheck => Agreements.Any();
-        public string FullName => $"{Name,-35}{Address.LongString}";
-        public string ShortName => $"{Name}, {Address.ShortString}";
+        internal string Name { get => name; set => name = value; }
+        internal int AddressId { get => addressId; set => addressId = value; }
+        internal virtual Address Address { get => address; set => address = value; }
+        internal double Phone { get => phone; set => phone = value; }
+        internal string Comment { get => comment; set => comment = value; }
+        internal int OwnerId { get => ownerId; set => ownerId = value; }
+        internal virtual Worker Owner { get => owner; set => owner = value; }
+        internal virtual ICollection<Agreement> Agreements { get => agreements; set => agreements = value; }
+        internal virtual ICollection<Passport> Passports { private get => passports; set => passports = value; }
+        internal bool ToDelete { get => toDelete; set => toDelete = value; }
+        internal bool AgreementCheck => Agreements.Any();
+        internal string FullName => $"{Name,-35}{Address.LongString}";
+        internal string ShortName => $"{Name}, {Address.ShortString}";
 
         public Client()
         {
@@ -101,7 +101,15 @@ namespace Models
             throw new NotImplementedException();
         }
 
+        public override void Change(Dictionary<string, object> parameters)
+        {
+            throw new NotImplementedException();
+        }
 
+        public override void UpdateParameters()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

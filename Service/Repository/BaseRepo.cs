@@ -2,7 +2,7 @@ using Interfaces;
 
 namespace Models
 {
-    public abstract class BaseRepo<I, E> : BaseList<I, E>, IRepository<I> where I : BaseElement<I> where E : BaseElement<E>
+    public abstract class BaseRepo<I> : BaseList<I>, IRepository<I> where I : BaseElement<I>
     {
 
         public BaseRepo() : base() { }

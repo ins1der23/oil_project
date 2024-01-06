@@ -4,7 +4,7 @@ using Controller;
 
 namespace Models
 {
-    public abstract class BaseList<I, E> : IEnumerable where I : BaseElement<I> where E : BaseElement<E>
+    public abstract class BaseList<I> : IEnumerable where I : BaseElement<I>
     {
         private static readonly DBConnection user = Settings.User;
         protected List<I> dbList;
@@ -29,7 +29,7 @@ namespace Models
             dbList = toAddList.Select(c => c).ToList();
         }
 
-        public abstract void CutOff(E parameter);
+        public abstract void CutOff<P>(P parameter) where P : BaseElement<P>;
 
 
 

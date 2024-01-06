@@ -1,7 +1,7 @@
 using Interfaces;
 using Models;
 
-class Clients<E> : ClientsRepo<E>, IServiceUI<Client> where E : BaseElement<E>
+class Clients : ClientsRepo, IServiceUI<Client>
 {
     public Task<Client> ChangeAndAdd(Client item)
     {
@@ -13,7 +13,7 @@ class Clients<E> : ClientsRepo<E>, IServiceUI<Client> where E : BaseElement<E>
         throw new NotImplementedException();
     }
 
-    public override void CutOff(E parameter)
+    public override void CutOff<P>(P parameter)
     {
         throw new NotImplementedException();
     }

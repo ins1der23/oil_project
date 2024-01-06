@@ -1,47 +1,47 @@
-using Interfaces;
 
 namespace Models
 {
     public class IssuedBy : BaseElement<IssuedBy>
     {
         private string name;
+        internal string Name { get => name!; set => name = value; }
 
-        public string Name { get => name!; set => name = value; }
-
-        public IssuedBy()
-        : base()
+        public IssuedBy() : base()
         {
             name = string.Empty;
+            UpdateParameters();
         }
-        public void Change(string name)
+
+        public override void UpdateParameters()
         {
-            if (name != string.Empty) Name = name;
+            Parameters["Name"] = name;
         }
+        public override void Change(Dictionary<string, object> parameters)
+        {
+            string name = parameters["Name"].Wrap<string>();
+            if (name != string.Empty) Name = name;
+            UpdateParameters();
+        }
+
+
         public override string ToString() => $"{Name}";
         public override string SearchString() => Name.PrepareToSearch();
-        public override IssuedBy Clone() => (IssuedBy)MemberwiseClone();
-
-        public override bool Equals(object? obj)
+        public override IssuedBy Clone()
         {
-            if (obj == null || GetType() != obj.GetType())
-            {
-                return false;
-            }
-            IssuedBy issuedBy = (IssuedBy)obj;
-            if (Name.Equals(issuedBy.Name)) return true;
-            return false;
+            IssuedBy item = (IssuedBy)MemberwiseClone();
+            item.Parameters = new Dictionary<string, object>(Parameters);
+            return item;
         }
-
-        public override int GetHashCode() => Id.GetHashCode() + Name.GetHashCode();
-        
         public override IssuedBy SetEmpty()
         {
             Id = 0;
-            Name = string.Empty;
+            name = string.Empty;
+            UpdateParameters();
             return this;
         }
 
         public override string Summary() => ToString();
+
 
     }
 }

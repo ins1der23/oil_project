@@ -4,7 +4,7 @@ using Models;
 using Service;
 
 class DeleteLogic<I, E, L> : BaseLogic<I, E, L>
-where I : BaseElement<I> where E : BaseElement<E> where L : BaseRepo<I, E>, IServiceUI<I>
+where I : BaseElement<I> where E : BaseElement<E> where L : BaseRepo<I>, IServiceUI<I>
 {
 
 

@@ -2,7 +2,7 @@
 namespace Models
 
 {
-    public abstract class StreetsRepo<E> : BaseRepo<Street, E> where E : BaseElement<E>
+    public abstract class StreetsRepo : BaseRepo<Street>
     {
         public override async Task GetFromSqlAsync(Street? item = null, string search = "", bool byId = false)
         {
@@ -23,6 +23,8 @@ namespace Models
                 var temp = await User.Connection!.QueryAsync<Street, City, Street>(selectQuery, (s, c) =>
                 {
                     s.City = c;
+                    s.Parameters["Name"] = s.Name;
+                    s.Parameters["CityId"] = s.CityId;
                     return s;
                 });
                 dbList = temp.Where(s => id == 0 ? s.SearchString().Contains(search) : s.Id == id)

@@ -3,7 +3,7 @@ using Interfaces;
 using MenusAndChoices;
 using Models;
 
-public class Passports<E> : PassportsRepo<E>, IServiceUI<Passport> where E : BaseElement<E>
+class Passports : PassportsRepo, IServiceUI<Passport>
 {
     public Task<Passport> ChangeAndAdd(Passport item)
     {
@@ -22,7 +22,7 @@ public class Passports<E> : PassportsRepo<E>, IServiceUI<Passport> where E : Bas
         return item;
     }
 
-    public override void CutOff(E issuedBy)
+    public override void CutOff<P>(P issuedBy)
     {
         dbList = dbList.Select(x => x).Where(x => x.IssuedBy.Equals(issuedBy)).ToList();
     }

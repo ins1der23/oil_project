@@ -16,21 +16,26 @@ namespace Handbooks
                 await ShowString(StreetText.changeCancel);
                 return streetOld;
             }
-            street.Change(name);
+            Dictionary<string, object> parameters = new()
+                {
+                    ["Name"] = name,
+                    
+                };
+            street.Change(parameters);
             await ShowString(street.Name, clear: true, delay: 100);
             if (street.SearchString != streetOld.SearchString)
             {
                 int choice = await MenuToChoice(CommonText.yesOrNo, StreetText.changeConfirm, CommonText.choice, clear: false, noNull: true);
                 if (choice == 1)
                 {
-                    Streets<Street> streets = new();
+                    Streets streets = new();
                     var user = Settings.User;
                     bool exist = await streets.CheckExist(street);
                     if (exist) await ShowString(StreetText.streetExist);
                     else
                     {
                         await ShowString(StreetText.changed);
-                        if (toSql) street = await streets.SaveChanges( street);
+                        if (toSql) street = await streets.SaveChanges(street);
                         return street;
                     }
                 }

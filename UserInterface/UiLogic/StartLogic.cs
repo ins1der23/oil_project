@@ -6,7 +6,7 @@ using Handbooks;
 namespace Service
 {
     internal abstract class StartLogic<I, E, L> : BaseLogic<I, E, L>
-    where I : BaseElement<I> where E : BaseElement<E> where L : BaseRepo<I, E>, IServiceUI<I>
+    where I : BaseElement<I> where E : BaseElement<E> where L : BaseRepo<I>, IServiceUI<I>
     {
         public static async Task<I> Start(bool adding = true, bool changing = true, bool deleting = true, bool cutOff = false)
         {

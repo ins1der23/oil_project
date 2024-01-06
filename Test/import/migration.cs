@@ -11,7 +11,7 @@ namespace Temp
             TempClients clientList = new TempClients();
             var districtList = new Districts();
             var loacationList = new Locations();
-            var streetList = new Streets<Street>();
+            var streetList = new Streets();
             await districtList.GetFromSqlAsync(user, 1);
             await clientList.GetFromSqlAsync(user);
             await loacationList.GetFromSqlAsync(user, 1);

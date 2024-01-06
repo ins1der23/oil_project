@@ -17,7 +17,7 @@ namespace Handbooks
                 switch (choice)
                 {
                     case 1: // Да
-                        Registrations<Registration> registrations = new();
+                        Registrations registrations = new();
                         registrations.Append(registration);
                         await registrations.DeleteSqlAsync();
                         await ShowString(AddrText.addressDeleted);

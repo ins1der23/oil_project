@@ -1,3 +1,5 @@
+
+
 namespace Models
 {
     public class Address : BaseElement<Address>
@@ -92,6 +94,16 @@ namespace Models
         }
 
         public override int GetHashCode()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Change(Dictionary<string, object> parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void UpdateParameters()
         {
             throw new NotImplementedException();
         }

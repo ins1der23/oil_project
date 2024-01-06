@@ -1,10 +1,8 @@
 namespace Models
 {
-    public abstract class RegistrationsRepo<E> : BaseRepo<Registration, E> where E:BaseElement<E>
+    public abstract class RegistrationsRepo : BaseRepo<Registration>
     {
-        public RegistrationsRepo()
-        : base() { }
-
+        public RegistrationsRepo() : base() { }
 
         public override async Task GetFromSqlAsync(Registration? item = null, string search = "", bool byId = false)
         {
@@ -41,7 +39,6 @@ namespace Models
                 User.Close();
             }
         }
-
         public override async Task AddSqlAsync()
         {
             await User.ConnectAsync();

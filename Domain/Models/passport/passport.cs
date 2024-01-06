@@ -61,5 +61,15 @@ namespace Models
         {
             throw new NotImplementedException();
         }
+
+        public override void Change(Dictionary<string, object> parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void UpdateParameters()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

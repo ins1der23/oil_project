@@ -2,13 +2,17 @@ namespace MenusAndChoices
 {
     public static class LocationText
     {
-        
-        
+
+        public static readonly List<string> changeMenu = new() {
+                                "Изменить название",
+                                "Изменить город",
+                                "Изменить район",
+                                "Вернуться"
+        };
+
         public static readonly List<string> searchAgain = new() {
                                 "Повторить поиск микрорайона",
                                 "Не выбирать микрорайон"};
-        
-
 
         public static readonly List<string> tryAgain = new() {
                                 "Вернуться к поиску микрорайона еще раз",
@@ -37,7 +41,7 @@ namespace MenusAndChoices
         public static readonly string changeCancel = "МИКРОРАЙОН НЕ ИЗМЕНЕН";
         public static readonly string deleted = "МИКРОРАЙОН УДАЛЕН";
         public static readonly string delCancel = "МИКРОРАЙОН НЕ УДАЛЕН";
-       
+
 
     }
 

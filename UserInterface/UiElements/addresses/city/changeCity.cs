@@ -16,7 +16,12 @@ namespace Handbooks
                 await ShowString(CityText.changeCancel);
                 return city;
             }
-            city.Change(name);
+            Dictionary<string, object> parameters = new()
+                {
+                    ["Name"] = name,
+                    
+                };
+            city.Change(parameters);
             await ShowString(city.Name, clear: true);
             if (city.Name != cityOld.Name)
             {
@@ -25,7 +30,7 @@ namespace Handbooks
                 {
 
                     var user = Settings.User;
-                    Cities<City> cities = new();
+                    Cities cities = new();
                     bool exist = await cities.CheckExist(city);
                     if (exist) await ShowString(CityText.cityExist);
                     else

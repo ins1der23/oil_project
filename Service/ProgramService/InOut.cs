@@ -48,6 +48,19 @@ public static class InOut
         else return menu.MenuChoice(invite);
 
     }
+
+    public static T Wrap<T>(this object item)
+    {
+        try
+        {
+            return (T)item;
+        }
+        catch (Exception)
+        {
+            Console.WriteLine(CommonText.wrapError);
+            throw;
+        }
+    }
     public static int GetInteger(string text)
     {
         int num = 0;
@@ -104,7 +117,7 @@ public static class InOut
         string output = string.Empty;
         if (clear) Console.Clear();
         Console.Write($"{text}: ");
-        output += await Task.Run(()=>Console.ReadLine()!.Trim());
+        output += await Task.Run(() => Console.ReadLine()!.Trim());
         return output;
     }
     public static string PrepareToSearch(this string text) =>

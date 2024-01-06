@@ -1,9 +1,11 @@
+using System.Reflection.Metadata.Ecma335;
+using System.Reflection.Metadata;
 using Connection;
 
 namespace Models
 
 {
-    public abstract class CitiesRepo<E> : BaseRepo<City, E> where E : BaseElement<E>
+    public abstract class CitiesRepo : BaseRepo<City>
     {
         public override async Task GetFromSqlAsync(City? item = null, string search = "", bool byId = false)
         {
@@ -21,7 +23,15 @@ namespace Models
                                     from cities as c 
                                     order by c.Id";
                 var temp = await User.Connection!.QueryAsync<City>(selectQuery);
-                dbList = temp.Where(c => id == 0 ? c.SearchString().Contains(search) : c.Id == id).ToList();
+                dbList = temp.Select(x => new City
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Parameters = new()
+                    {
+                        ["Name"] = x.Name
+                    }
+                }).Where(c => id == 0 ? c.SearchString().Contains(search) : c.Id == id).ToList();
                 User.Close();
             }
         }

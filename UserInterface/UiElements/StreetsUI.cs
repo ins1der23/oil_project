@@ -1,18 +1,17 @@
 using MenusAndChoices;
 using Models;
-using Org.BouncyCastle.Asn1.Cmp;
 using Service;
 
 namespace Handbooks
 {
-    internal class StreetsUI : StartLogic<Street, City, Streets<City>>
+    internal class StreetsUI : StartLogic<Street, City, Streets>
     {
-        public static async Task<Street> Start(bool cutOff = false)
+        public static async Task<Street> Start(bool cutOff = false, bool city = false)
         {
-            items = new Streets<City>();
+            items = new Streets();
             item = new Street();
 
-            if (cutOff) parameter = await CityUI.Start();
+            if (city) cutOffBy = await CityUI.Start();
             Deleted = StreetText.deleted;
             DelCancel = StreetText.delCancel;
             SaveOptions = StreetText.saveOptions;
@@ -26,7 +25,7 @@ namespace Handbooks
             ItemChoosen = StreetText.choosen;
             ItemNotChoosen = StreetText.notChoosen;
 
-            return await StartLogic<Street, City, Streets<City>>.Start(cutOff: cutOff);
+            return await StartLogic<Street, City, Streets>.Start(cutOff: cutOff);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Service
     /// <typeparam name="I"></typeparam> тип элемента
     /// <typeparam name="L"></typeparam> тип списка элементов
     internal abstract class SearchLogic<I, E, L> : BaseLogic<I, E, L>
-    where I : BaseElement<I> where E : BaseElement<E> where L : BaseRepo<I, E>, IServiceUI<I>
+    where I : BaseElement<I> where E : BaseElement<E> where L : BaseRepo<I>, IServiceUI<I>
     {
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace Service
         {
             string search = GetString(SearchString);
             await items!.SearchAndGet(search);
-            if (cutOff) items.CutOff(parameter!);
+            if (cutOff) items.CutOff(cutOffBy!);
             bool flag = true;
             int choice;
             while (flag)

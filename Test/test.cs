@@ -23,25 +23,30 @@ namespace Testing
                 {
                     case 1: // Тест GetFromSql
                         var user = Settings.User;
+                        
                         Addresses addressSql = new();
                         await addressSql.GetFromSqlAsync(user);
                         await ShowString("Addresses OK", false, delay);
+
+                        Cities cities = new();
+
+
                         Districts districts = new();
                         await districts.GetFromSqlAsync(user, 1);
                         await ShowString("Districts OK", false, delay);
                         Locations locations = new();
                         await locations.GetFromSqlAsync(user, 1);
                         await ShowString("Locations OK", false, delay);
-                        Streets<Street> streets = new();
+                        Streets streets = new();
                         await streets.GetFromSqlAsync();
                         await ShowString("Streets OK", false, delay);
-                        Passports<Passport> passports = new();
+                        Passports passports = new();
                         await passports.GetFromSqlAsync();
                         await ShowString("Passports OK", false, delay);
-                        Issueds<IssuedBy> issueds = new();
+                        Issueds issueds = new();
                         await issueds.GetFromSqlAsync();
                         await ShowString("Issueds OK", false, delay);
-                        Registrations<Registration> registrations = new();
+                        Registrations registrations = new();
                         await registrations.GetFromSqlAsync();
                         await ShowString("Registrations OK", false, delay);
                         // ClientsRepo clients = new();

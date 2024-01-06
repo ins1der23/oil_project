@@ -1,12 +1,9 @@
-using System.Reflection.Metadata;
-using Interfaces;
+
 
 namespace Models
-
 {
-    public class Street : BaseElement<Street>
+    public class District : BaseElement<District>
     {
-
         private string name;
         private int cityId;
         private City city;
@@ -16,7 +13,7 @@ namespace Models
         internal virtual City City { get => city; set => city = value; }
 
 
-        public Street() : base()
+        public District() : base()
         {
             name = string.Empty;
             city = new();
@@ -28,6 +25,7 @@ namespace Models
             Parameters["Name"] = name;
             Parameters["City"] = city;
         }
+
         public override void Change(Dictionary<string, object> parameters)
         {
             string name = parameters["Name"].Wrap<string>();
@@ -42,31 +40,30 @@ namespace Models
         }
 
         public override string SearchString() => Name.PrepareToSearch();
+        public override string ToString() => $"{Name}, {City.Name}";
 
-        public override Street SetEmpty()
+        public override District SetEmpty()
         {
-            Id = 0;
-            Name = string.Empty;
-            CityId = 0;
-            City = new();
-            UpdateParameters();
-            return this;
+            {
+                Id = 0;
+                Name = string.Empty;
+                CityId = 0;
+                City = new();
+                UpdateParameters();
+                return this;
+            }
+        }
+
+        public override District Clone()
+        {
+            District item = (District)MemberwiseClone();
+            item.City = city;
+            item.Parameters = new Dictionary<string, object>(Parameters);
+            return item;
         }
 
         public override string Summary() => ToString();
 
-        //override ToString
-        public override string ToString() => $"{City.Name}, {Name}";
 
-
-
-        // override Clone
-        public override Street Clone()
-        {
-            Street street = (Street)MemberwiseClone();
-            street.City = city;
-            street.Parameters = new Dictionary<string, object>(Parameters);
-            return street;
-        }
     }
 }
