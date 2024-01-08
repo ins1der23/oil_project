@@ -5,15 +5,15 @@ using Handbooks;
 
 namespace Service
 {
-    internal abstract class StartLogic<I, E, L> : BaseLogic<I, E, L>
-    where I : BaseElement<I> where E : BaseElement<E> where L : BaseRepo<I>, IServiceUI<I>
+    public abstract class StartLogic<I, L> : BaseLogic<I, L>
+    where I : BaseElement<I> where L : BaseRepo<I>, IServiceUI<I>
     {
-        public static async Task<I> Start(bool adding = true, bool changing = true, bool deleting = true, bool cutOff = false)
+        public static async Task<I> Start(bool adding = true, bool changing = true, bool deleting = true, object cutOffBy = null!)
         {
             mainFlag = true;
             while (mainFlag)
             {
-                item = await SearchLogic<I, E, L>.Start(cutOff);
+                item = await SearchLogic<I, L>.Start(cutOffBy);
                 if (item.Id == 0)
                 {
                     choice = await MenuToChoice(CommonText.searchAgainMenu, ItemsMenuName, invite: CommonText.choice, noNull: true);
@@ -25,7 +25,7 @@ namespace Service
                         case 2: // Добавить элемент
                             if (adding)
                             {
-                                var itemNew = await AddLogic<I, E, L>.Start();
+                                var itemNew = await AddLogic<I, L>.Start();
                                 if (itemNew.Id != 0)
                                 {
                                     item = itemNew;
@@ -56,13 +56,13 @@ namespace Service
                                 mainFlag = false;
                                 break;
                             case 2: //Изменить
-                                if (changing) item = await ChangeLogic<I, E, L>.Start(item);
+                                if (changing) item = await ChangeLogic<I, L>.Start(item);
                                 else await ShowString(CommonText.notAvailable);
                                 break;
                             case 3: // Удалить
                                 if (deleting)
                                 {
-                                    item = await DeleteLogic<I, E, L>.Start(item);
+                                    item = await DeleteLogic<I, L>.Start(item);
                                     levelOneFlag = false;
                                     mainFlag = false;
                                     await ShowString(ItemNotChoosen);

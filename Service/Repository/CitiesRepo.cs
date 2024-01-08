@@ -23,7 +23,7 @@ namespace Models
                                     from cities as c 
                                     order by c.Id";
                 var temp = await User.Connection!.QueryAsync<City>(selectQuery);
-                dbList = temp.Select(x => new City
+                DbList = temp.Select(x => new City
                 {
                     Id = x.Id,
                     Name = x.Name,
@@ -43,7 +43,7 @@ namespace Models
                 string selectQuery = $@"insert cities 
                     (name)
                     values (@{nameof(City.Name)})";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }
@@ -56,7 +56,7 @@ namespace Models
                 string selectQuery = $@"update cities set
                     name = @{nameof(City.Name)}
                     where Id = @{nameof(City.Id)};";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }
@@ -68,7 +68,7 @@ namespace Models
             {
                 string selectQuery = $@"delete from cities 
                                         where Id = @{nameof(City.Id)};";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }

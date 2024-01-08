@@ -11,13 +11,13 @@ namespace Models
         private string houseNum;
         private string flatNum;
 
-        internal int CityId { get => cityId; set => cityId = value; }
-        internal virtual City City { get => city; set => city = value; }
-        internal int StreetId { get => streetId; set => streetId = value; }
-        internal virtual Street Street { get => street!; set => street = value; }
-        internal string HouseNum { get => houseNum; set => houseNum = value; }
-        internal string FlatNum { get => flatNum; set => flatNum = value; }
-        internal string LongString => $"{City.Name,-19}{Street.Name,-28}{HouseNum,-12}{FlatNum,-10}";
+        public int CityId { get => cityId; set => cityId = value; }
+        public virtual City City { get => city; set => city = value; }
+        public int StreetId { get => streetId; set => streetId = value; }
+        public virtual Street Street { get => street!; set => street = value; }
+        public string HouseNum { get => houseNum; set => houseNum = value; }
+        public string FlatNum { get => flatNum; set => flatNum = value; }
+        public string LongString => $"{City.Name,-19}{Street.Name,-28}{HouseNum,-12}{FlatNum,-10}";
 
 
         public Registration() : base()
@@ -27,6 +27,14 @@ namespace Models
             houseNum = string.Empty;
             flatNum = string.Empty;
             UpdateParameters();
+        }
+        public override Dictionary<string,object> UpdateParameters()
+        {
+            Parameters["City"] = city;
+            Parameters["Street"] = street;
+            Parameters["HouseNum"] = houseNum;
+            Parameters["FlatNum"] = flatNum;
+            return Parameters;
         }
 
         public override void Change(Dictionary<string, object> parameters)
@@ -76,15 +84,29 @@ namespace Models
             return this;
         }
 
-        public override void UpdateParameters()
-        {
-            Parameters["City"] = city;
-            Parameters["Street"] = street;
-            Parameters["HouseNum"] = houseNum;
-            Parameters["FlatNum"] = flatNum;
-        }
-
         public override string Summary() => RegistrationText.Summary(this);
 
+        public override bool Equals(object? obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            Registration toCompare = (Registration)obj;
+            if (City.Equals(toCompare.City) &&
+                Street.Equals(toCompare.Street) &&
+                HouseNum.Equals(toCompare.HouseNum) &&
+                FlatNum.Equals(toCompare.FlatNum)) return true;
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return City.GetHashCode() +
+                   Street.GetHashCode() +
+                   HouseNum.GetHashCode() +
+                   flatNum.GetHashCode();
+        }
+        
     }
 }

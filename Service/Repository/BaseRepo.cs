@@ -4,7 +4,6 @@ namespace Models
 {
     public abstract class BaseRepo<I> : BaseList<I>, IRepository<I> where I : BaseElement<I>
     {
-
         public BaseRepo() : base() { }
 
 

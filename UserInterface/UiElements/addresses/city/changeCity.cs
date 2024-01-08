@@ -40,15 +40,15 @@ namespace Handbooks
                         {
                             city = await cities.SaveChanges(city);
                             Districts districts = new();
-                            await districts.GetFromSqlAsync(user, cityId: city.Id, cityOld.Name);
+                            await districts.GetFromSqlAsync();
                             District district = districts.GetFromList();
                             district.Name = name;
-                            _ = await districts.SaveChanges(user, district);
+                            _ = await districts.SaveChanges( district);
                             Locations locations = new();
-                            await locations.GetFromSqlAsync(user, cityId: city.Id, cityOld.Name);
+                            await locations.GetFromSqlAsync();
                             Location location = locations.GetFromList();
                             location.Name = name;
-                            _ = await locations.SaveChanges(user, location);
+                            _ = await locations.SaveChanges(location);
                         }
                         return city;
                     }

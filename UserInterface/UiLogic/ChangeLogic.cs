@@ -10,8 +10,8 @@ namespace Service
     /// </summary>
     /// <typeparam name="I"></typeparam> тип элемента
     /// <typeparam name="L"></typeparam> тип списка элементов
-    internal abstract class ChangeLogic<I,E, L> : BaseLogic<I,E,L> 
-    where I : BaseElement<I> where E : BaseElement<E> where L : BaseRepo<I>, IServiceUI<I>
+    public abstract class ChangeLogic<I, L> : BaseLogic<I,L>
+    where I : BaseElement<I>  where L : BaseRepo<I>, IServiceUI<I>
     {
         /// <summary>
         /// Логика для создания элемента

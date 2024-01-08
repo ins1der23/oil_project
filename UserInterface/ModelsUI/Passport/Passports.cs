@@ -22,9 +22,9 @@ class Passports : PassportsRepo, IServiceUI<Passport>
         return item;
     }
 
-    public override void CutOff<P>(P issuedBy)
+    public  override void CutOff(object parameter)
     {
-        dbList = dbList.Select(x => x).Where(x => x.IssuedBy.Equals(issuedBy)).ToList();
+        DbList = DbList.Select(x => x).Where(x => x.IssuedBy.Equals(parameter)).ToList();
     }
 }
 

@@ -11,33 +11,30 @@ class Issueds : IssuedsRepo, IServiceUI<IssuedBy>
     /// <returns></returns>
     public async Task<IssuedBy> ChangeAndAdd(IssuedBy item) // 
     {
-        Clear();
-        string name = await GetStringAsync(CommonText.changeName, clear: false);
-        Dictionary<string, object> parameters = new();
-        if (name == string.Empty)
-        {
-            await ShowString(IssuedByText.changeCancel);
-            return item.SetEmpty();
-        }
-        parameters.Add("Name", name);
+        var parameters = item.GetEmptyParameters();
+        string name = await GetStringAsync(CommonText.changeName);
+        parameters["Name"] = name;
         item.Change(parameters);
+        Clear();
         Append(item);
         return item;
     }
 
     public async Task<IssuedBy> CreateAndAdd() // Создание, добавление в dbList и возврат элемента
     {
-        await Task.Delay(0);
-        var item = new IssuedBy()
+        string name = await GetStringAsync(CityText.name);
+        IssuedBy item = new()
         {
-            Name = await GetStringAsync(IssuedByText.name),
+            Name = name,
         };
+        item.UpdateParameters();
+        Clear();
         Append(item);
         return item;
     }
 
-    public override void CutOff<P>(P parameter)
+    public override void CutOff(object parameter)
     {
-        dbList = dbList.Select(x => x).Where(x => x.Equals(parameter)).ToList();
+        DbList = DbList.Where(x => x.Equals(parameter)).ToList();
     }
 }

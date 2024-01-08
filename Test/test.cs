@@ -3,9 +3,6 @@ using MenusAndChoices;
 using Handbooks;
 using Controller;
 using Models;
-using Connection;
-using Org.BouncyCastle.Tls;
-
 
 namespace Testing
 {
@@ -23,19 +20,19 @@ namespace Testing
                 {
                     case 1: // Тест GetFromSql
                         var user = Settings.User;
-                        
+
                         Addresses addressSql = new();
                         await addressSql.GetFromSqlAsync(user);
                         await ShowString("Addresses OK", false, delay);
 
-                        Cities cities = new();
+
 
 
                         Districts districts = new();
-                        await districts.GetFromSqlAsync(user, 1);
+                        await districts.GetFromSqlAsync();
                         await ShowString("Districts OK", false, delay);
                         Locations locations = new();
-                        await locations.GetFromSqlAsync(user, 1);
+                        await locations.GetFromSqlAsync();
                         await ShowString("Locations OK", false, delay);
                         Streets streets = new();
                         await streets.GetFromSqlAsync();
@@ -57,9 +54,7 @@ namespace Testing
                         if (!agreements.IsEmpty()) await ShowString("Agreements OK", false, delay);
                         break;
                     case 2: // Тест методов
-
-
-                        var item = await StreetsUI.Start();
+                        var item = await RegistrationsUI.Start();
                         Console.WriteLine(item);
                         Console.ReadLine();
                         break;

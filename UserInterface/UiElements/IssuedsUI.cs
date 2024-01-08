@@ -4,13 +4,13 @@ using Service;
 
 namespace Handbooks
 {
-    internal class IssuedsUI : StartLogic<IssuedBy, IssuedBy, Issueds>
+    internal class IssuedsUI : StartLogic<IssuedBy, Issueds>
     {
         public static async Task<IssuedBy> Start()
         {
             items = new Issueds();
             item = new IssuedBy();
-            cutOffBy = new IssuedBy();
+            
             Deleted = IssuedByText.deleted;
             DelCancel = IssuedByText.delCancel;
             SaveOptions = IssuedByText.saveOptions;
@@ -24,7 +24,7 @@ namespace Handbooks
             ItemChoosen = IssuedByText.choosen;
             ItemNotChoosen = IssuedByText.notChoosen;
 
-            return await StartLogic<IssuedBy, IssuedBy, Issueds>.Start();
+            return await StartLogic<IssuedBy, Issueds>.Start();
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Models
                     var cities = temp.Read<City>();
                     var streets = temp.Read<Street>();
                     var registrations = temp.Read<Registration>();
-                    dbList = registrations.Select(x => new Registration
+                    DbList = registrations.Select(x => new Registration
                     {
                         Id = x.Id,
                         CityId = x.CityId,
@@ -33,7 +33,15 @@ namespace Models
                         StreetId = x.StreetId,
                         Street = streets.First(s => s.Id == x.StreetId),
                         HouseNum = x.HouseNum,
-                        FlatNum = x.FlatNum
+                        FlatNum = x.FlatNum,
+                        Parameters = x.UpdateParameters()
+                        // Parameters = new()
+                        // {
+                        //     ["City"] = x.City,
+                        //     ["Street"] = x.Street,
+                        //     ["HouseNum"] = x.HouseNum,
+                        //     ["FlatNum"] = x.FlatNum
+                        // }
                     }).Where(r => id == 0 ? r.SearchString().Contains(search) : r.Id == id).ToList();
                 }
                 User.Close();
@@ -51,7 +59,7 @@ namespace Models
                     @{nameof(Registration.StreetId)},
                     @{nameof(Registration.HouseNum)},
                     @{nameof(Registration.FlatNum)})";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }
@@ -66,7 +74,7 @@ namespace Models
                     houseNum = @{nameof(Registration.HouseNum)},
                     flatNum = @{nameof(Registration.FlatNum)}
                     where Id = @{nameof(Registration.Id)};";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }
@@ -77,7 +85,7 @@ namespace Models
             {
                 string selectQuery = $@"delete from registrations 
                                         where Id = @{nameof(Registration.Id)};";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }

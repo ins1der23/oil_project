@@ -12,9 +12,10 @@ namespace Models
             UpdateParameters();
         }
 
-        public override void UpdateParameters()
+        public override Dictionary<string,object> UpdateParameters()
         {
             Parameters["Name"] = name;
+            return Parameters;
         }
         public override void Change(Dictionary<string, object> parameters)
         {
@@ -42,6 +43,23 @@ namespace Models
 
         public override string Summary() => ToString();
 
+       // override object.Equals
+        public override bool Equals(object? obj)
+        {
 
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            IssuedBy toCompare = (IssuedBy)obj;
+            if (Name.Equals(toCompare.Name)) return true;
+            return false;
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
     }
 }

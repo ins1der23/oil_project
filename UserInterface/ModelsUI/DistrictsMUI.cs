@@ -7,7 +7,7 @@ using Service;
 
 namespace Models
 {
-    class Districts : DistrictsRepo, IServiceUI<District>
+    public class Districts : DistrictsRepo, IServiceUI<District>
     {
         /// <summary>
         /// Элемент пользовательского интерфейса для изменения элемента
@@ -18,7 +18,6 @@ namespace Models
         {
             int choice;
             bool flag = true;
-            string name = string.Empty;
             Dictionary<string, object> parameters = new();
             while (flag)
             {
@@ -26,7 +25,7 @@ namespace Models
                 switch (choice)
                 {
                     case 1: // Изменить название
-                        name = await GetStringAsync(CommonText.changeName);
+                        string name = await GetStringAsync(CommonText.changeName);
                         parameters.Add("Name", name);
                         item.Change(parameters);
                         break;
@@ -41,6 +40,8 @@ namespace Models
                         break;
                 }
             }
+            Clear();
+            Append(item);
             return item;
         }
 
@@ -51,34 +52,23 @@ namespace Models
         /// <returns>Созданный элемент</returns>
         public async Task<District> CreateAndAdd()
         {
-            City city;
-            if (BaseLogic<Street, City, Streets>.CutOffBy != null)
-                city = BaseLogic<Street, City, Streets>.CutOffBy;
-            else
-            {
-                city = await CityUI.Start();
-                BaseLogic<Location, City, Locations>.CutOffBy = city;
-            }
+            City city = await CityUI.Start();
             string name = await GetStringAsync(DistrictText.name);
             District item = new()
             {
                 Name = name,
                 City = city,
                 CityId = city.Id,
-                Parameters = new()
-                {
-                    ["Name"] = name,
-                    ["CityId"] = city.Id
-                }
-
             };
-            BaseLogic<Location, City, Locations>.CutOffBy = null;
+            item.UpdateParameters();
+            Clear();
+            Append(item);
             return item;
         }
 
-        public override void CutOff<P>(P parameter)
+        public override void CutOff(object parameter)
         {
-            dbList = dbList.Select(x => x).Where(x => x.City.Equals(parameter)).ToList();
+            DbList = DbList.Select(x => x).Where(x => x.City.Equals(parameter)).ToList();
         }
     }
 

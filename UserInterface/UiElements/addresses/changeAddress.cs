@@ -31,7 +31,7 @@ namespace Handbooks
                             if (city.Id != 0)
                             {
                                 Locations locations = new();
-                                await locations.GetFromSqlAsync(user, cityId: city.Id, city.Name);
+                                await locations.GetFromSqlAsync();
                                 location = locations.GetFromList();
                                 district = location.District;
                             }
@@ -60,7 +60,7 @@ namespace Handbooks
                             if (city.Id != 0)
                             {
                                 Locations locations = new();
-                                await locations.GetFromSqlAsync(user, cityId: city.Id, city.Name);
+                                await locations.GetFromSqlAsync();
                                 location = locations.GetFromList();
                                 district = location.District;
                             }

@@ -38,6 +38,7 @@ namespace MenusAndChoices
 
         public static readonly string returnToSearch = "ВОЗВРАЩАЕМСЯ К ПОИСКУ";
         public static readonly string changeName = "Введите новое название или оставьте поле пустым, если не хотите менять";
+        public static readonly string changeNum = "Введите новый номер или оставьте поле пустым, если не хотите менять"; 
         public static readonly string changeConfirm = "Данные были изменены. Сохранить изменения?";
         public static readonly string delConfirm = "ТОЧНО УДАЛИТЬ?";
 
@@ -89,7 +90,4 @@ namespace MenusAndChoices
         public static string password = "Введите пароль";
         public static string isConnect = "Соединение установлено";
     }
-
-
-
 }

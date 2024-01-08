@@ -10,28 +10,29 @@ class Registrations : RegistrationsRepo, IServiceUI<Registration>
     {
         int choice;
         bool flag = true;
-        string name = string.Empty;
-        Dictionary<string, object> parameters = new();
+        var parameters = item.GetEmptyParameters();
         while (flag)
         {
             choice = await MenuToChoice(RegistrationText.changeMenu, item.Summary(), CommonText.choice, noNull: true);
             switch (choice)
             {
-                case 1: // Изменить название
-                    name = await GetStringAsync(CommonText.changeName);
-                    parameters.Add("Name", name);
-                    item.Change(parameters);
-                    break;
-                case 2: // Изменить город
+                case 1: // Изменить город
                     City city = await CityUI.Start();
                     item.City = city;
-                    parameters.Add("CityId", city.Id);
+                    parameters["City"] = city;
                     item.Change(parameters);
                     break;
-                case 3: // Изменить улицу
-                    City city = await CityUI.Start();
-                    item.City = city;
-                    parameters.Add("CityId", city.Id);
+                case 2: // Изменить улицу
+                    Street street = await StreetsUI.Start(cutOffBy: item.City);
+                    item.Street = street;
+                    parameters["Street"] = street;
+                    item.Change(parameters);
+                    break;
+                case 3: // Изменить номер дома и квартиру
+                    string houseNum = await GetStringAsync(RegistrationText.changeHouseNum);
+                    string flatNum = await GetStringAsync(RegistrationText.changeFlatNum);
+                    parameters["HouseNum"] = houseNum;
+                    parameters["FlatNum"] = flatNum;
                     item.Change(parameters);
                     break;
                 case 4: // Выйти
@@ -39,25 +40,19 @@ class Registrations : RegistrationsRepo, IServiceUI<Registration>
                     break;
             }
         }
+        Clear();
+        Append(item);
         return item;
     }
 
     public async Task<Registration> CreateAndAdd()
     {
         {
-            City city;
-            if (BaseLogic<Registration, City, Registrations>.CutOffBy != null)
-                city = BaseLogic<Registration, City, Registrations>.CutOffBy;
-            else
-            {
-                city = await CityUI.Start();
-                BaseLogic<Registration, City, Registrations>.CutOffBy = city;
-
-            }
-            Street street = await StreetsUI.Start(cutOff: true, city: false);
-            string houseNum = await GetStringAsync(RegistrationText.name);
-            string flatNum = await GetStringAsync(RegistrationText.name);
-            Registration registration = new()
+            City city = await CityUI.Start();
+            Street street = await StreetsUI.Start(cutOffBy: city);
+            string houseNum = await GetStringAsync(RegistrationText.houseNum);
+            string flatNum = await GetStringAsync(RegistrationText.flatNum);
+            Registration item = new()
             {
                 City = city,
                 CityId = city.Id,
@@ -65,22 +60,17 @@ class Registrations : RegistrationsRepo, IServiceUI<Registration>
                 StreetId = street.Id,
                 HouseNum = houseNum,
                 FlatNum = flatNum,
-                Parameters = new()
-                {
-                    ["City"] = city,
-                    ["Street"] = street,
-                    ["HouseNum"] = houseNum,
-                    ["FlatNum"] = flatNum
-                }
             };
-            BaseLogic<Registration, City, Registrations>.CutOffBy = null;
-            return registration;
+            item.UpdateParameters();
+            Clear();
+            Append(item);
+            return item;
         }
     }
 
-    public override void CutOff<P>(P parameter)
+    public override void CutOff(object parameter)
     {
-        dbList = dbList.Select(x => x).Where(x => x.City.Equals(parameter)).ToList();
+        DbList = DbList.Select(x => x).Where(x => x.City.Equals(parameter)).ToList();
     }
 
 }

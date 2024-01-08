@@ -12,9 +12,9 @@ namespace Interfaces
         T Clone();
         string Summary();
         string ToString();
-        bool Equals(T obj);
+        bool Equals(object obj);
         int GetHashCode();
         void Change(Dictionary<string, object> parameters);
-        void UpdateParameters();
+        Dictionary<string,object> UpdateParameters();
     }
 }

@@ -12,7 +12,7 @@ namespace Handbooks
             var user = Settings.User;
             Locations locations = new();
             string search = city.Id == 1 ? GetString(LocationText.searchString) : city.Name; // Найти микрорайон или оставить поле пустым для показа всех
-            await locations.GetFromSqlAsync(user, cityId: city.Id, search);
+            await locations.GetFromSqlAsync(search:search);
             bool flag = true;
             Location location = new();
             int choice;

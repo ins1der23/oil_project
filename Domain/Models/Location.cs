@@ -24,11 +24,12 @@ namespace Models
             UpdateParameters();
         }
 
-        public override void UpdateParameters()
+        public override Dictionary<string,object> UpdateParameters()
         {
             Parameters["Name"] = name;
             Parameters["City"] = city;
             Parameters["District"] = district;
+            return Parameters;
         }
 
         public override void Change(Dictionary<string, object> parameters)
@@ -81,5 +82,27 @@ namespace Models
         }
 
         public override string Summary() => ToString();
+
+        public override bool Equals(object? obj)
+        {
+
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            Location toCompare = (Location)obj;
+            if (Name.Equals(toCompare.Name) &&
+                City.Equals(toCompare.City) &&
+                District.Equals(toCompare.District)) return true;
+            return false;
+        }
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode() + City.GetHashCode() + District.GetHashCode();
+        }
+
+
     }
 }
+
+

@@ -12,9 +12,9 @@ namespace Temp
             var districtList = new Districts();
             var loacationList = new Locations();
             var streetList = new Streets();
-            await districtList.GetFromSqlAsync(user, 1);
+            await districtList.GetFromSqlAsync();
             await clientList.GetFromSqlAsync(user);
-            await loacationList.GetFromSqlAsync(user, 1);
+            await loacationList.GetFromSqlAsync();
             
 
             // чтобы не ругался

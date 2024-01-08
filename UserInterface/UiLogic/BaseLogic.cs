@@ -9,8 +9,8 @@ namespace Service
     /// </summary>
     /// <typeparam name="I"></typeparam> тип элемента
     /// <typeparam name="L"></typeparam> тип списка элементов
-    internal abstract class BaseLogic<I, E, L>
-    where I : BaseElement<I> where E : BaseElement<E> where L : BaseRepo<I>, IServiceUI<I>
+    public abstract class BaseLogic<I, L>
+    where I : BaseElement<I> where L : BaseRepo<I>, IServiceUI<I>
     {
         /// <summary>
         /// Элемент обобщенного типа I
@@ -18,9 +18,8 @@ namespace Service
         protected static I? item;
 
         /// <summary>
-        /// Параметр обобщенного типа E для отбора из BaseList по значению E
+        /// Параметр  для отбора из BaseList по значению E
         /// </summary>
-        protected static E? cutOffBy;
 
         /// <summary>
         /// Экземпляр BaseList элементов обобщенного типа I
@@ -30,10 +29,6 @@ namespace Service
 
         protected static bool mainFlag = true;
         protected static int choice;
-        protected static City city = new();
-
-
-
 
 
         /// Переменные для подстановки текста
@@ -50,7 +45,6 @@ namespace Service
         private static string delCancel = string.Empty;
 
 
-        public static E? CutOffBy { get => cutOffBy; set => cutOffBy = value; }
 
         // protected static I item { get => item!; set => item = value; }
         // protected static L? items { get => items; set => items = value; }

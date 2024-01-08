@@ -4,14 +4,12 @@ using Service;
 
 namespace Handbooks
 {
-    internal class StreetsUI : StartLogic<Street, City, Streets>
+    public class StreetsUI : StartLogic<Street, Streets>
     {
-        public static async Task<Street> Start(bool cutOff = false, bool city = false)
+        public static async Task<Street> Start(object cutOffBy = null!)
         {
             items = new Streets();
             item = new Street();
-
-            if (city) cutOffBy = await CityUI.Start();
             Deleted = StreetText.deleted;
             DelCancel = StreetText.delCancel;
             SaveOptions = StreetText.saveOptions;
@@ -25,7 +23,7 @@ namespace Handbooks
             ItemChoosen = StreetText.choosen;
             ItemNotChoosen = StreetText.notChoosen;
 
-            return await StartLogic<Street, City, Streets>.Start(cutOff: cutOff);
+            return await StartLogic<Street, Streets>.Start(cutOffBy: cutOffBy);
         }
     }
 }

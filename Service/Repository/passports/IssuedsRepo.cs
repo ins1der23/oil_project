@@ -19,7 +19,7 @@ namespace Models
             {
                 string selectQuery = $@"select * from issueds";
                 var temp = await User.Connection!.QueryAsync<IssuedBy>(selectQuery);
-                dbList = temp.Where(s => id == 0 ? s.SearchString().Contains(search) : s.Id == id).ToList();
+                DbList = temp.Where(s => id == 0 ? s.SearchString().Contains(search) : s.Id == id).ToList();
                 User.Close();
             }
         }
@@ -32,7 +32,7 @@ namespace Models
                     (name)
                     values (
                     @{nameof(IssuedBy.Name)})";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }
@@ -44,7 +44,7 @@ namespace Models
                 string selectQuery = $@"update issueds set
                     name = @{nameof(IssuedBy.Name)}
                     where Id = @{nameof(IssuedBy.Id)};";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }
@@ -55,7 +55,7 @@ namespace Models
             {
                 string selectQuery = $@"delete from issueds 
                                         where Id = @{nameof(IssuedBy.Id)};";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }

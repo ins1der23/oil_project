@@ -4,15 +4,14 @@ using Service;
 
 namespace Handbooks
 {
-    internal class SearchCityUI : SearchLogic<City, City, Cities>
+    internal class SearchCityUI : SearchLogic<City, Cities>
     {
         public static async Task<City> Start()
         {
             items = new Cities();
             item = new City();
-            cutOffBy = new City();
             SearchString = CityText.searchString;
-            item = await SearchLogic<City, City, Cities>.Start();
+            item = await SearchLogic<City, Cities>.Start();
             return item;
         }
     }

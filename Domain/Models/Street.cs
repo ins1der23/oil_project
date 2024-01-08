@@ -11,9 +11,9 @@ namespace Models
         private int cityId;
         private City city;
 
-        internal string Name { get => name; set => name = value; }
-        internal int CityId { get => cityId; set => cityId = value; }
-        internal virtual City City { get => city; set => city = value; }
+        public string Name { get => name; set => name = value; }
+        public int CityId { get => cityId; set => cityId = value; }
+        public virtual City City { get => city; set => city = value; }
 
 
         public Street() : base()
@@ -22,11 +22,11 @@ namespace Models
             city = new();
             UpdateParameters();
         }
-
-        public override void UpdateParameters()
+        public override Dictionary<string,object> UpdateParameters()
         {
             Parameters["Name"] = name;
             Parameters["City"] = city;
+            return Parameters;
         }
         public override void Change(Dictionary<string, object> parameters)
         {
@@ -40,7 +40,6 @@ namespace Models
             }
             UpdateParameters();
         }
-
         public override string SearchString() => Name.PrepareToSearch();
 
         public override Street SetEmpty()
@@ -52,12 +51,10 @@ namespace Models
             UpdateParameters();
             return this;
         }
-
         public override string Summary() => ToString();
 
         //override ToString
         public override string ToString() => $"{City.Name}, {Name}";
-
 
 
         // override Clone
@@ -67,6 +64,21 @@ namespace Models
             street.City = city;
             street.Parameters = new Dictionary<string, object>(Parameters);
             return street;
+        }
+        public override bool Equals(object? obj)
+        {
+
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            Street toCompare = (Street)obj;
+            if (Name.Equals(toCompare.Name) && City.Equals(toCompare.City)) return true;
+            return false;
+        }
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode() + City.GetHashCode();
         }
     }
 }

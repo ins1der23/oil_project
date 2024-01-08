@@ -3,8 +3,8 @@ using MenusAndChoices;
 using Models;
 using Service;
 
-class DeleteLogic<I, E, L> : BaseLogic<I, E, L>
-where I : BaseElement<I> where E : BaseElement<E> where L : BaseRepo<I>, IServiceUI<I>
+public class DeleteLogic<I,L> : BaseLogic<I, L>
+where I : BaseElement<I> where L : BaseRepo<I>, IServiceUI<I>
 {
 
 

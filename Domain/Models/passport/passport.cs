@@ -67,7 +67,7 @@ namespace Models
             throw new NotImplementedException();
         }
 
-        public override void UpdateParameters()
+        public override Dictionary<string, object> UpdateParameters()
         {
             throw new NotImplementedException();
         }

@@ -5,8 +5,8 @@ using Interfaces;
 
 namespace Service
 {
-    internal abstract class AddLogic<I, E, L> : BaseLogic<I, E, L>
-    where I : BaseElement<I> where E : BaseElement<E> where L : BaseRepo<I>, IServiceUI<I>
+    public abstract class AddLogic<I, L> : BaseLogic<I,  L>
+    where I : BaseElement<I>  where L : BaseRepo<I>, IServiceUI<I>
     {
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Service
                         flag = false;
                         break;
                     case 2: // Изменить элемент
-                        item = await ChangeLogic<I, E, L>.Start(item, toSql: false);
+                        item = await ChangeLogic<I, L>.Start(item, toSql: false);
                         break;
                     case 3: // Не сохранять элемент
                         flag = false;
@@ -74,7 +74,7 @@ namespace Service
                         flag = false;
                         break;
                     case 2: // Изменить элемент
-                        item = await ChangeLogic<I, E, L>.Start(item, toSql: false);
+                        item = await ChangeLogic<I, L>.Start(item, toSql: false);
                         break;
                     case 3: // Не сохранять элемент
                         flag = false;

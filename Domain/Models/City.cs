@@ -10,10 +10,10 @@ namespace Models
         private Locations locations;
         private Streets streets;
 
-        internal string Name { get => name; set => name = value; }
-        internal virtual Districts Districts { get => districts; set => districts = value; }
-        internal virtual Locations Locations { get => locations; set => locations = value; }
-        internal virtual Streets Streets { get => streets; set => streets = value; }
+        public string Name { get => name; set => name = value; }
+        public virtual Districts Districts { get => districts; set => districts = value; }
+        public virtual Locations Locations { get => locations; set => locations = value; }
+        public virtual Streets Streets { get => streets; set => streets = value; }
         public City() : base()
         {
             name = string.Empty;
@@ -22,9 +22,10 @@ namespace Models
             streets = new();
             UpdateParameters();
         }
-        public override void UpdateParameters()
+        public override Dictionary<string,object> UpdateParameters()
         {
             Parameters["Name"] = name;
+            return Parameters;
         }
         public override void Change(Dictionary<string, object> parameters)
         {
@@ -33,32 +34,49 @@ namespace Models
             UpdateParameters();
         }
 
-    public override string SearchString() => Name.PrepareToSearch();
-    public override City SetEmpty()
-    {
-        Id = 0;
-        Name = string.Empty;
-        Districts = new();
-        Locations = new();
-        Streets = new();
-        UpdateParameters();
-        return this;
+        public override string SearchString() => Name.PrepareToSearch();
+        public override City SetEmpty()
+        {
+            Id = 0;
+            Name = string.Empty;
+            Districts = new();
+            Locations = new();
+            Streets = new();
+            UpdateParameters();
+            return this;
 
+        }
+        public override City Clone()
+        {
+            City city = (City)MemberwiseClone();
+            city.Districts = Districts;
+            city.Locations = Locations;
+            city.Streets = Streets;
+            city.Parameters = new Dictionary<string, object>(Parameters);
+            return city;
+        }
+
+        public override string Summary() => ToString();
+
+        public override string ToString() => $"{Name}";
+
+        // override object.Equals
+        public override bool Equals(object? obj)
+        {
+
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            City toCompare = (City)obj;
+            if (Name.Equals(toCompare.Name)) return true;
+            return false;
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
     }
-    public override City Clone()
-    {
-        City city = (City)MemberwiseClone();
-        city.Districts = Districts;
-        city.Locations = Locations;
-        city.Streets = Streets;
-        city.Parameters = new Dictionary<string, object>(Parameters);
-        return city;
-    }
-
-    public override string Summary() => ToString();
-
-    public override string ToString() => $"{Name}";
-
-
-}
 }

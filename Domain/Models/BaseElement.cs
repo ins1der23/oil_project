@@ -7,15 +7,22 @@ namespace Models
     {
         private int id;
         private Dictionary<string, object> parameters;
-        internal int Id { get => id; set => id = value; }
-        internal Dictionary<string, object> Parameters { get => parameters; set => parameters = value; }
+        public int Id { get => id; set => id = value; }
+        public Dictionary<string, object> Parameters { get => parameters; set => parameters = value; }
 
         public BaseElement()
         {
             id = 0;
             parameters = new();
         }
-        public abstract void UpdateParameters();
+
+        public Dictionary<string, object> GetEmptyParameters()
+        {
+            BaseElement<T> street = Clone().SetEmpty();
+            return street.Parameters;
+        }
+
+        public abstract Dictionary<string, object> UpdateParameters();
         public abstract T SetEmpty();
         public abstract T Clone();
         public abstract string Summary();
@@ -23,29 +30,12 @@ namespace Models
         public abstract string SearchString();
         public abstract void Change(Dictionary<string, object> parameters);
 
-        public bool Equals(T toCompare)
-        {
-            if (toCompare == null || GetType() != toCompare.GetType())
-            {
-                return false;
-            }
-            foreach (var item in Parameters)
-            {
-                string key = item.Key;
-                if (!Parameters[key].Equals(toCompare.parameters[key])) return false;
-            }
-            return true;
-        }
-        public override int GetHashCode()
-        {
-            int output = 0;
-            foreach (var item in Parameters)
-            {
-                output += item.Value.GetHashCode();
-            }
-            return output;
-        }
 
+        //    override object.Equals
+        public override abstract bool Equals(object? obj);
 
+        //    override object.GetHashCode
+        public override abstract int GetHashCode();
     }
 }
+

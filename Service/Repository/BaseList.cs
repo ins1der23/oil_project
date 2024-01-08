@@ -7,10 +7,11 @@ namespace Models
     public abstract class BaseList<I> : IEnumerable where I : BaseElement<I>
     {
         private static readonly DBConnection user = Settings.User;
-        protected List<I> dbList;
-        internal bool IsEmpty => !dbList.Any();
+        private List<I> dbList;
+        internal bool IsEmpty => !DbList.Any();
 
         protected static DBConnection User { get => user; }
+        public List<I> DbList { get => dbList; set => dbList = value; }
 
         public BaseList()
         {
@@ -18,18 +19,28 @@ namespace Models
         }
 
         // Methods
-        public IEnumerator GetEnumerator() => dbList.GetEnumerator();
-        public void Clear() => dbList.Clear();
-        public void Append(I element) => dbList.Add(element);
-        public I GetFromList(int index = 1) => dbList.ElementAt(index - 1);
-        public List<I> GetDbList() => dbList.ToList(); // Список для работы с LINQ
+        public IEnumerator GetEnumerator() => DbList.GetEnumerator();
+        public void Clear() => DbList.Clear();
+        public void Append(I element) => DbList.Add(element);
+        public I GetFromList(int index = 1)
+        {
+            try
+            {
+                return DbList.ElementAt(index - 1);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public List<I> GetDbList() => DbList.ToList(); // Список для работы с LINQ
         public void ToWriteList(List<I> toAddList)
         {
-            dbList.Clear();
-            dbList = toAddList.Select(c => c).ToList();
+            DbList.Clear();
+            DbList = toAddList.Select(c => c).ToList();
         }
 
-        public abstract void CutOff<P>(P parameter) where P : BaseElement<P>;
+        public abstract void CutOff(object parameter);
 
 
 
@@ -40,7 +51,7 @@ namespace Models
         public List<string> ToStringList()
         {
             List<string> output = new();
-            foreach (I item in dbList)
+            foreach (I item in DbList)
                 output.Add(item!.ToString()!);
             return output;
         }
@@ -49,7 +60,7 @@ namespace Models
         public override string ToString()
         {
             string output = String.Empty;
-            foreach (I item in dbList)
+            foreach (I item in DbList)
                 output += item!.ToString()! + "\n";
             return output;
         }

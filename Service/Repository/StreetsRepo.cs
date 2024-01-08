@@ -23,11 +23,10 @@ namespace Models
                 var temp = await User.Connection!.QueryAsync<Street, City, Street>(selectQuery, (s, c) =>
                 {
                     s.City = c;
-                    s.Parameters["Name"] = s.Name;
-                    s.Parameters["CityId"] = s.CityId;
+                    s.UpdateParameters();
                     return s;
                 });
-                dbList = temp.Where(s => id == 0 ? s.SearchString().Contains(search) : s.Id == id)
+                DbList = temp.Where(s => id == 0 ? s.SearchString().Contains(search) : s.Id == id)
                              .OrderBy(s => s.City.Name).ThenBy(s => s.Name).ToList();
                 User.Close();
             }
@@ -43,7 +42,7 @@ namespace Models
                     values (
                     @{nameof(Street.Name)},
                     @{nameof(Street.CityId)})";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }
@@ -56,7 +55,7 @@ namespace Models
                     name = @{nameof(Street.Name)},
                     cityId = @{nameof(Street.CityId)}
                     where Id = @{nameof(Street.Id)};";
-                _ = await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                _ = await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }
@@ -67,7 +66,7 @@ namespace Models
             {
                 string selectQuery = $@"delete from streets 
                                         where Id = @{nameof(Street.Id)};";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }

@@ -26,10 +26,10 @@ namespace Models
                 {
                     d.City = c;
                     d.Parameters["Name"] = d.Name;
-                    d.Parameters["CityId"] = d.CityId;
+                    d.Parameters["City"] = d.City;
                     return d;
                 });
-                dbList = temp.Where(d => id == 0 ? d.SearchString().Contains(search) : d.Id == id)
+                DbList = temp.Where(d => id == 0 ? d.SearchString().Contains(search) : d.Id == id)
                                                     .OrderBy(d => d.City.Name).ThenBy(d => d.Name).ToList();
                 User.Close();
             }
@@ -43,7 +43,7 @@ namespace Models
                     (name, cityId)
                     values (@{nameof(District.Name)},
                             @{nameof(District.CityId)})";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }
@@ -56,7 +56,7 @@ namespace Models
                     name = @{nameof(District.Name)},
                     cityId = @{nameof(District.CityId)}
                     where Id = @{nameof(District.Id)};";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }
@@ -66,9 +66,5 @@ namespace Models
             throw new NotImplementedException();
         }
 
-        public override void CutOff<P>(P parameter)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

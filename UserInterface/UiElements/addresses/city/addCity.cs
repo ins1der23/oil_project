@@ -36,7 +36,7 @@ namespace Handbooks
                                 CityId = city.Id
                             };
                             Districts districts = new();
-                            district = await districts.SaveGetId(user, district);
+                            district = await districts.SaveGetId(district);
                             Location location = new()
                             {
                                 Name = name,
@@ -44,7 +44,7 @@ namespace Handbooks
                                 DistrictId = district.Id
                             };
                             Locations locations = new();
-                            _ = await locations.SaveGetId(user, location);
+                            _ = await locations.SaveGetId(location);
                             return city;
                         }
                         flag = false;

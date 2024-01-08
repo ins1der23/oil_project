@@ -1,3 +1,4 @@
+using System.Reflection.Metadata.Ecma335;
 using Handbooks;
 using Interfaces;
 using MenusAndChoices;
@@ -7,7 +8,7 @@ using Service;
 
 namespace Models
 {
-    class Streets : StreetsRepo, IServiceUI<Street>
+    public class Streets : StreetsRepo, IServiceUI<Street>
     {
         /// <summary>
         /// Элемент пользовательского интерфейса для изменения элемента
@@ -18,22 +19,21 @@ namespace Models
         {
             int choice;
             bool flag = true;
-            string name = string.Empty;
-            Dictionary<string, object> parameters = new();
+            var parameters = item.GetEmptyParameters();
             while (flag)
             {
                 choice = await MenuToChoice(StreetText.changeMenu, item.Summary(), CommonText.choice, noNull: true);
                 switch (choice)
                 {
                     case 1: // Изменить название
-                        name = await GetStringAsync(CommonText.changeName);
-                        parameters.Add("Name", name);
+                        string name = await GetStringAsync(CommonText.changeName);
+                        parameters["Name"] = name;
                         item.Change(parameters);
                         break;
                     case 2: // Изменить город
                         City city = await CityUI.Start();
                         item.City = city;
-                        parameters.Add("CityId", city.Id);
+                        parameters["City"] = city;
                         item.Change(parameters);
                         break;
                     case 3: // Выйти
@@ -41,6 +41,8 @@ namespace Models
                         break;
                 }
             }
+            Clear();
+            Append(item);
             return item;
         }
 
@@ -51,29 +53,23 @@ namespace Models
         /// <returns>Созданный элемент</returns>
         public async Task<Street> CreateAndAdd()
         {
-            City city;
-            if (BaseLogic<Street, City, Streets>.CutOffBy != null)
-                city = BaseLogic<Street, City, Streets>.CutOffBy;
-            else city = await CityUI.Start();
+            City city = await CityUI.Start();
             string name = await GetStringAsync(StreetText.name);
             Street item = new()
             {
                 Name = name,
                 City = city,
                 CityId = city.Id,
-                Parameters = new()
-                {
-                    ["Name"] = name,
-                    ["CityId"] = city.Id
-                }
-
             };
+            item.UpdateParameters();
+            Clear();
+            Append(item);
             return item;
         }
 
-        public override void CutOff<City>(City parameter)
+        public override void CutOff(object parameter)
         {
-            dbList = dbList.Select(x => x).Where(x => x.City.Equals(parameter)).ToList();
+            DbList = DbList.Where(x => x.City.Equals(parameter)).ToList();
         }
     }
 

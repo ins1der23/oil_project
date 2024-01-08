@@ -25,7 +25,7 @@ namespace Models
                     var cities = temp.Read<City>();
                     var districts = temp.Read<District>();
                     var locations = temp.Read<Location>();
-                    dbList = locations.Select(x => new Location
+                    DbList = locations.Select(x => new Location
                     {
                         Id = x.Id,
                         Name = x.Name,
@@ -36,8 +36,8 @@ namespace Models
                         Parameters = new()
                         {
                             ["Name"] = x.Name,
-                            ["CityId"] = x.CityId,
-                            ["DistrictId"] = x.DistrictId
+                            ["City"] = x.City,
+                            ["District"] = x.District
                         }
                     }).Where(l => id == 0 ? l.SearchString().Contains(search) : l.Id == id)
                                      .OrderBy(l => l.City.Name).ThenBy(l => l.Name).ToList();
@@ -56,7 +56,7 @@ namespace Models
                     values (@{nameof(Location.Name)},
                             @{nameof(Location.CityId)},
                             @{nameof(Location.DistrictId)})";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }
@@ -70,7 +70,7 @@ namespace Models
                     cityId = @{nameof(Location.CityId)},
                     districtId = @{nameof(Location.DistrictId)}
                     where Id = @{nameof(Location.Id)};";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }

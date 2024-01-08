@@ -13,7 +13,7 @@ class Clients : ClientsRepo, IServiceUI<Client>
         throw new NotImplementedException();
     }
 
-    public override void CutOff<P>(P parameter)
+    public  override void CutOff(object parameter)
     {
         throw new NotImplementedException();
     }

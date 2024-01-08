@@ -20,7 +20,7 @@ namespace Handbooks
             while (flag)
             {
                 await ShowString(registration.Summary(), delay: 0);
-                choice = await MenuToChoice(RegistrationText.changeOptions, string.Empty, CommonText.choice, clear: false);
+                choice = await MenuToChoice(RegistrationText.changeMenu, string.Empty, CommonText.choice, clear: false);
                 switch (choice)
                 {
                     case 1: // Выбрать другой город
@@ -39,7 +39,7 @@ namespace Handbooks
                         flag = false;
                         break;
                 }
-                registration.Change(city,street, houseNum, flatNum);
+                // registration.Change(city,street, houseNum, flatNum);
             }
             await ShowString(registration.Summary(), delay: 100);
             if (registration.SearchString != registrationOld.SearchString)

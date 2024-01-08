@@ -4,14 +4,13 @@ using Service;
 
 namespace Handbooks
 {
-    internal class LocationsUI : StartLogic<Location, City, Locations>
+    internal class LocationsUI : StartLogic<Location, Locations>
     {
-        public static async Task<Location> Start(bool cutOff = false)
+        public static async Task<Location> Start(object cutOffBy)
         {
             items = new Locations();
             item = new Location();
 
-            if (cutOff) cutOffBy = await CityUI.Start();
             Deleted = LocationText.deleted;
             DelCancel = LocationText.delCancel;
             SaveOptions = LocationText.saveOptions;
@@ -25,7 +24,7 @@ namespace Handbooks
             ItemChoosen = LocationText.choosen;
             ItemNotChoosen = LocationText.notChoosen;
 
-            return await StartLogic<Location, City, Locations>.Start(cutOff: cutOff);
+            return await StartLogic<Location, Locations>.Start(cutOffBy: cutOffBy);
         }
     }
 }

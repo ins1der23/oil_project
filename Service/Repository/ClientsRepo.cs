@@ -31,7 +31,7 @@ namespace Models
                     var agreementList = temp.Read<Agreement>();
                     var passportList = temp.Read<Passport>();
                     var clients = temp.Read<Client>();
-                    dbList = clients.Select(x => new Client
+                    DbList = clients.Select(x => new Client
                     {
                         Id = x.Id,
                         Name = x.Name,
@@ -63,7 +63,7 @@ namespace Models
                     @{nameof(Client.Comment)},
                     @{nameof(Client.OwnerId)},
                     @{nameof(Client.ToDelete)})";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }
@@ -80,7 +80,7 @@ namespace Models
                     ownerId = @{nameof(Client.OwnerId)},
                     toDelete = @{nameof(Client.ToDelete)}
                     where Id = @{nameof(Client.Id)};";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }
@@ -91,7 +91,7 @@ namespace Models
             {
                 string selectQuery = $@"delete from clients 
                                         where Id = @{nameof(Client.Id)};";
-                await User.Connection!.ExecuteAsync(selectQuery, dbList);
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }
