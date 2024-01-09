@@ -64,14 +64,15 @@ namespace Models
                     {
                         Id = x.Id,
                         CityId = x.CityId,
-                        City = cities.Where(c => c.Id == x.CityId).First(),
+                        City = cities.First(c => c.Id == x.CityId),
                         DistrictId = x.DistrictId,
-                        District = districts.Where(d => d.Id == x.DistrictId).First(),
+                        District = x.DistrictId != 0 ? districts.First(d => d.Id == x.DistrictId) : new(),
                         LocationId = x.LocationId,
-                        Location = locations.Where(l => l.Id == x.LocationId).First(),
+                        Location = x.LocationId != 0 ? locations.First(l => l.Id == x.LocationId) : new(),
                         StreetId = x.StreetId,
                         Street = streets.Where(s => s.Id == x.StreetId).First(),
-                        HouseNum = x.HouseNum
+                        HouseNum = x.HouseNum,
+                        Parameters = x.UpdateParameters()
                     }).Where(a => id == 0 ? a.SearchString().Contains(search) : a.Id == id).ToList();
                 }
                 user.Close();

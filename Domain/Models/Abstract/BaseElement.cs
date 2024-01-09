@@ -10,7 +10,7 @@ namespace Models
         public int Id { get => id; set => id = value; }
         public Dictionary<string, object> Parameters { get => parameters; set => parameters = value; }
 
-        public BaseElement()
+        protected BaseElement()
         {
             id = 0;
             parameters = new();
@@ -21,7 +21,6 @@ namespace Models
             BaseElement<T> street = Clone().SetEmpty();
             return street.Parameters;
         }
-
         public abstract Dictionary<string, object> UpdateParameters();
         public abstract T SetEmpty();
         public abstract T Clone();
@@ -29,11 +28,8 @@ namespace Models
         public abstract override string ToString();
         public abstract string SearchString();
         public abstract void Change(Dictionary<string, object> parameters);
-
-
         //    override object.Equals
         public override abstract bool Equals(object? obj);
-
         //    override object.GetHashCode
         public override abstract int GetHashCode();
     }

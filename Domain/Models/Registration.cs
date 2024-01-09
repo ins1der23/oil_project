@@ -28,7 +28,7 @@ namespace Models
             flatNum = string.Empty;
             UpdateParameters();
         }
-        public override Dictionary<string,object> UpdateParameters()
+        public override Dictionary<string, object> UpdateParameters()
         {
             Parameters["City"] = city;
             Parameters["Street"] = street;
@@ -100,13 +100,11 @@ namespace Models
             return false;
         }
 
-        public override int GetHashCode()
-        {
-            return City.GetHashCode() +
-                   Street.GetHashCode() +
-                   HouseNum.GetHashCode() +
-                   flatNum.GetHashCode();
-        }
-        
+        public override int GetHashCode() => City.GetHashCode() +
+                                             Street.GetHashCode() +
+                                             HouseNum.GetHashCode() +
+                                             flatNum.GetHashCode();
+
+
     }
 }

@@ -30,7 +30,7 @@ namespace Models
                         Id = x.Id,
                         Name = x.Name,
                         CityId = x.CityId,
-                        City = x.CityId != 0 ? cities.Where(c => c.Id == x.CityId).First() : new(),
+                        City = cities.Where(c => c.Id == x.CityId).First(),
                         DistrictId = x.DistrictId,
                         District = x.DistrictId != 0 ? districts.Where(d => d.Id == x.DistrictId).First() : new(),
                         Parameters = new()
@@ -40,7 +40,7 @@ namespace Models
                             ["District"] = x.District
                         }
                     }).Where(l => id == 0 ? l.SearchString().Contains(search) : l.Id == id)
-                                     .OrderBy(l => l.City.Name).ThenBy(l => l.Name).ToList();
+                      .Where(l => l.Id != 0).OrderBy(l => l.City.Name).ThenBy(l => l.Name).ToList();
                 }
                 User.Close();
             }

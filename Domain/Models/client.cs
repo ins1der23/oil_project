@@ -13,7 +13,7 @@ namespace Models
         private int ownerId;
         private Worker owner;
         private ICollection<Agreement> agreements;
-        private ICollection<Passport> passports;
+        private ICollection<Representative> representatives;
         private bool toDelete;
 
         internal string Name { get => name; set => name = value; }
@@ -24,7 +24,7 @@ namespace Models
         internal int OwnerId { get => ownerId; set => ownerId = value; }
         internal virtual Worker Owner { get => owner; set => owner = value; }
         internal virtual ICollection<Agreement> Agreements { get => agreements; set => agreements = value; }
-        internal virtual ICollection<Passport> Passports { private get => passports; set => passports = value; }
+        internal virtual ICollection<Representative> Representatives { private get => representatives; set => representatives = value; }
         internal bool ToDelete { get => toDelete; set => toDelete = value; }
         internal bool AgreementCheck => Agreements.Any();
         internal string FullName => $"{Name,-35}{Address.LongString}";
@@ -38,7 +38,7 @@ namespace Models
             ownerId = Settings.UserId;
             owner = new Worker();
             agreements = new List<Agreement>();
-            passports = new List<Passport>();
+            representatives = new List<Representative>();
             toDelete = false;
         }
         public void Change(string name, Address address, double phone, string comment)
@@ -64,7 +64,7 @@ namespace Models
             client.Address = Address;
             client.Owner = Owner;
             client.Agreements = Agreements;
-            client.Passports = Passports;
+            client.Representatives = Representatives;
             return client;
         }
 

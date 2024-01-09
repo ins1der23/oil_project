@@ -10,11 +10,11 @@ namespace Models
         private int districtId;
         private District district;
 
-        internal string Name { get => name; set => name = value; }
-        internal int CityId { get => cityId; set => cityId = value; }
-        internal virtual City City { get => city; set => city = value; }
-        internal int DistrictId { get => districtId; set => districtId = value; }
-        internal virtual District District { get => district; set => district = value; }
+        public string Name { get => name; set => name = value; }
+        public int CityId { get => cityId; set => cityId = value; }
+        public virtual City City { get => city; set => city = value; }
+        public int DistrictId { get => districtId; set => districtId = value; }
+        public virtual District District { get => district; set => district = value; }
 
         public Location() : base()
         {
@@ -24,7 +24,7 @@ namespace Models
             UpdateParameters();
         }
 
-        public override Dictionary<string,object> UpdateParameters()
+        public override Dictionary<string, object> UpdateParameters()
         {
             Parameters["Name"] = name;
             Parameters["City"] = city;
@@ -50,16 +50,6 @@ namespace Models
             }
             UpdateParameters();
         }
-
-        public override string SearchString() => Name.PrepareToSearch();
-        public override string ToString()
-        {
-            if (City.Id == 1)
-                return $"{City.Name}, {District.Name}, {Name}";
-            else
-                return $"{Name}";
-        }
-
         public override Location SetEmpty()
         {
             Id = 0;
@@ -71,7 +61,15 @@ namespace Models
             UpdateParameters();
             return this;
         }
-
+        public override string SearchString() => Name.PrepareToSearch();
+        public override string Summary() => ToString();
+        public override string ToString()
+        {
+            if (City.Id == 1)
+                return $"{City.Name}, {District.Name}, {Name}";
+            else
+                return $"{Name}";
+        }
         public override Location Clone()
         {
             Location item = (Location)MemberwiseClone();
@@ -80,9 +78,6 @@ namespace Models
             item.Parameters = new Dictionary<string, object>(Parameters);
             return item;
         }
-
-        public override string Summary() => ToString();
-
         public override bool Equals(object? obj)
         {
 
@@ -96,10 +91,7 @@ namespace Models
                 District.Equals(toCompare.District)) return true;
             return false;
         }
-        public override int GetHashCode()
-        {
-            return Name.GetHashCode() + City.GetHashCode() + District.GetHashCode();
-        }
+        public override int GetHashCode() => Name.GetHashCode() + City.GetHashCode() + District.GetHashCode();
 
 
     }

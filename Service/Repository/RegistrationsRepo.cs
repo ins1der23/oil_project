@@ -31,18 +31,12 @@ namespace Models
                         CityId = x.CityId,
                         City = cities.First(c => c.Id == x.CityId),
                         StreetId = x.StreetId,
-                        Street = streets.First(s => s.Id == x.StreetId),
+                        Street = x.StreetId != 0 ? streets.First(s => s.Id == x.StreetId) : new(),
                         HouseNum = x.HouseNum,
                         FlatNum = x.FlatNum,
                         Parameters = x.UpdateParameters()
-                        // Parameters = new()
-                        // {
-                        //     ["City"] = x.City,
-                        //     ["Street"] = x.Street,
-                        //     ["HouseNum"] = x.HouseNum,
-                        //     ["FlatNum"] = x.FlatNum
-                        // }
-                    }).Where(r => id == 0 ? r.SearchString().Contains(search) : r.Id == id).ToList();
+                    }).Where(r => id == 0 ? r.SearchString().Contains(search) : r.Id == id)
+                      .Where(r => r.Id != 0).ToList();
                 }
                 User.Close();
             }

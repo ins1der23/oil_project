@@ -23,13 +23,13 @@ namespace Models
             {
                 string sql = @"select * from workers as w;
                             select * from agreements as agr;
-                            select * from passports as p;
+                            select * from representative as r;
                             select * from clients";
                 using (var temp = await User.Connection!.QueryMultipleAsync(sql))
                 {
                     var workers = temp.Read<Worker>();
                     var agreementList = temp.Read<Agreement>();
-                    var passportList = temp.Read<Passport>();
+                    var repList = temp.Read<Representative>();
                     var clients = temp.Read<Client>();
                     DbList = clients.Select(x => new Client
                     {
@@ -39,11 +39,12 @@ namespace Models
                         AddressId = x.AddressId,
                         Address = addressList.Where(a => a.Id == x.AddressId).First(),
                         Agreements = agreementList.Where(agr => agr.ClientId == x.Id).ToList(),
-                        Passports = passportList.Where(p => p.ClientId == x.Id).ToList(),
+                        Representatives = repList.Where(p => p.ClientId == x.Id).ToList(),
                         Comment = x.Comment,
                         OwnerId = x.OwnerId,
                         Owner = workers.Where(w => w.Id == x.OwnerId).First(),
-                        ToDelete = x.ToDelete
+                        ToDelete = x.ToDelete,
+                        Parameters = x.UpdateParameters()
                     }).Where(c => id == 0 ? c.SearchString().Contains(search) : c.Id == id).ToList();
                 }
                 User.Close();
