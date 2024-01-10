@@ -1,4 +1,5 @@
-using Connection;
+
+using Service;
 
 namespace Models
 {
@@ -30,15 +31,10 @@ namespace Models
                         Id = x.Id,
                         Name = x.Name,
                         CityId = x.CityId,
-                        City = cities.Where(c => c.Id == x.CityId).First(),
+                        City = x.CityId != 0 ? cities.First(c => c.Id == x.CityId) : new(),
                         DistrictId = x.DistrictId,
-                        District = x.DistrictId != 0 ? districts.Where(d => d.Id == x.DistrictId).First() : new(),
-                        Parameters = new()
-                        {
-                            ["Name"] = x.Name,
-                            ["City"] = x.City,
-                            ["District"] = x.District
-                        }
+                        District = x.DistrictId != 0 ? districts.First(d => d.Id == x.DistrictId) : new(),
+                        Parameters = x.UpdateParameters()
                     }).Where(l => id == 0 ? l.SearchString().Contains(search) : l.Id == id)
                       .Where(l => l.Id != 0).OrderBy(l => l.City.Name).ThenBy(l => l.Name).ToList();
                 }
@@ -75,9 +71,16 @@ namespace Models
             }
         }
 
-        public override Task DeleteSqlAsync()
+        public async override Task DeleteSqlAsync()
         {
-            throw new NotImplementedException();
+            await User.ConnectAsync();
+            if (User.IsConnect)
+            {
+                string selectQuery = $@"delete from locations 
+                                        where Id = @{nameof(Location.Id)};";
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
+                User.Close();
+            }
         }
 
 

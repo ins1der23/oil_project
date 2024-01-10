@@ -6,14 +6,17 @@ namespace Models
     public abstract class BaseElement<T> : ICloneable<T>, IModels<T> where T : BaseElement<T>
     {
         private int id;
+        private bool chooseEmpty;
         private Dictionary<string, object> parameters;
         public int Id { get => id; set => id = value; }
         public Dictionary<string, object> Parameters { get => parameters; set => parameters = value; }
+        public bool ChooseEmpty { get => chooseEmpty; set => chooseEmpty = value; }
 
         protected BaseElement()
         {
             id = 0;
             parameters = new();
+            chooseEmpty = false;
         }
 
         public Dictionary<string, object> GetEmptyParameters()

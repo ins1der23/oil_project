@@ -6,7 +6,7 @@ namespace Handbooks
 {
     internal class LocationsUI : StartLogic<Location, Locations>
     {
-        public static async Task<Location> Start(object cutOffBy)
+        public static async Task<Location> Start(object cutOffBy = null!)
         {
             items = new Locations();
             item = new Location();

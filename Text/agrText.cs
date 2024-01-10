@@ -15,7 +15,7 @@ namespace MenusAndChoices
         public static readonly string scanPath = "Перетащите в это окно скан договора";
         public static readonly string noScan = "Скан договора отсутствует";
         public static readonly string changeName = "Введите новое название договора или оставьте поле пустым, если не хотите менять";
-        public static readonly string changeDate = "Введите новую дату договора в формате dd-mm-yy";
+        public static readonly string changeDate = "Введите новую дату договора в формате dd-mm-yy или оставьте поле пустым, если не хотите менять";
         public static string Summary(this Agreement agreement)
         {
             Console.Clear();

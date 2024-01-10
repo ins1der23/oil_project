@@ -19,7 +19,8 @@ namespace Models
             {
                 string selectQuery = $@"select * from issueds";
                 var temp = await User.Connection!.QueryAsync<IssuedBy>(selectQuery);
-                DbList = temp.Where(s => id == 0 ? s.SearchString().Contains(search) : s.Id == id).ToList();
+                DbList = temp.Where(i => id == 0 ? i.SearchString().Contains(search) : i.Id == id)
+                .Where(i => i.Id != 0).ToList();
                 User.Close();
             }
         }

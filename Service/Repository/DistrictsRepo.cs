@@ -1,4 +1,5 @@
 using Connection;
+using Service;
 
 namespace Models
 {
@@ -61,9 +62,16 @@ namespace Models
             }
         }
 
-        public override Task DeleteSqlAsync()
+        public async override Task DeleteSqlAsync()
         {
-            throw new NotImplementedException();
+            await User.ConnectAsync();
+            if (User.IsConnect)
+            {
+                string selectQuery = $@"delete from districts 
+                                        where Id = @{nameof(District.Id)};";
+                await User.Connection!.ExecuteAsync(selectQuery, DbList);
+                User.Close();
+            }
         }
 
     }

@@ -1,4 +1,5 @@
 using Connection;
+using Service;
 
 namespace Models
 {
@@ -103,8 +104,8 @@ namespace Models
             {
                 string selectQuery = $@"update Addresses set 
                     cityId = @{nameof(Address.CityId)},
-                    districtId = @{nameof(Address.DistrictId)},                    
-                    locationId = @{nameof(Address.LocationId)},                    
+                    districtId = @{nameof(Address.DistrictId)},
+                    locationId = @{nameof(Address.LocationId)},
                     streetId = @{nameof(Address.StreetId)},
                     houseNum = @{nameof(Address.HouseNum)}
                     where Id = @{nameof(Address.Id)};";

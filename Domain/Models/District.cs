@@ -32,7 +32,7 @@ namespace Models
             string name = parameters["Name"].Wrap<string>();
             City city = parameters["City"].Wrap<City>();
             if (name != string.Empty) Name = name;
-            if (city.Id != 0)
+            if (city.ChooseEmpty == true || city.Id != 0)
             {
                 City = city;
                 CityId = city.Id;

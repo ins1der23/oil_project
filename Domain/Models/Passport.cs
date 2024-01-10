@@ -40,13 +40,13 @@ namespace Models
             DateTime issueDate = parameters["IssueDate"].Wrap<DateTime>();
             Registration registration = parameters["Registration"].Wrap<Registration>();
             if (number != 0) Number = number;
-            if (issuedBy.Id != 0)
+            if (issueDate != DateTime.MinValue) IssueDate = issueDate;
+            if (issuedBy.ChooseEmpty == true || issuedBy.Id != 0)
             {
                 IssuedBy = issuedBy;
                 IssuedId = issuedBy.Id;
-                IssueDate = issueDate;
             }
-            if (registration.Id != 0)
+            if (registration.ChooseEmpty == true || registration.Id != 0)
             {
                 Registration = registration;
                 registrationId = registration.Id;
@@ -70,8 +70,9 @@ namespace Models
 
         public override string ToString()
         {
-            string passport = $"{Number} выдан {IssuedId} {IssueDate.Date}";
-            return $"{passport}\n Адрес регистрации: {RegistrationId}";
+            string registration = RegistrationId == 0 ? "Регистрация не указана" : Registration.ToString();
+            string passport = $"{Number}";
+            return $"{passport} {registration} {issuedBy}";
         }
 
         public override Passport Clone()

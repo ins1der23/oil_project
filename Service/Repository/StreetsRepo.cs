@@ -27,7 +27,7 @@ namespace Models
                     return s;
                 });
                 DbList = temp.Where(s => id == 0 ? s.SearchString().Contains(search) : s.Id == id)
-                             .OrderBy(s => s.City.Name).ThenBy(s => s.Name).ToList();
+                             .Where(s => s.Id != 0).OrderBy(s => s.City.Name).ThenBy(s => s.Name).ToList();
                 User.Close();
             }
         }

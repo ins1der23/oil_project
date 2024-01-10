@@ -1,3 +1,5 @@
+using Service;
+
 namespace Models
 {
     public abstract class PassportsRepo : BaseRepo<Passport>
@@ -30,7 +32,7 @@ namespace Models
                         Id = x.Id,
                         Number = x.Number,
                         IssuedId = x.IssuedId,
-                        IssuedBy = issued.First(i => i.Id == x.IssuedId),
+                        IssuedBy = x.IssuedId != 0 ? issued.First(i => i.Id == x.IssuedId) : new(),
                         IssueDate = x.IssueDate,
                         RegistrationId = x.RegistrationId,
                         Registration = x.RegistrationId != 0 ? regList.First(a => a.Id == x.RegistrationId) : new(),

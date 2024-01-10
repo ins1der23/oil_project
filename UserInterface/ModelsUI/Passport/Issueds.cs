@@ -22,7 +22,7 @@ class Issueds : IssuedsRepo, IServiceUI<IssuedBy>
 
     public async Task<IssuedBy> CreateAndAdd() // Создание, добавление в dbList и возврат элемента
     {
-        string name = await GetStringAsync(CityText.name);
+        string name = await GetStringAsync(IssuedByText.name);
         IssuedBy item = new()
         {
             Name = name,

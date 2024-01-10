@@ -38,12 +38,12 @@ namespace Models
             City city = parameters["City"].Wrap<City>();
             District district = parameters["District"].Wrap<District>();
             if (name != string.Empty) Name = name;
-            if (city.Id != 0)
+            if (city.ChooseEmpty == true || city.Id != 0)
             {
                 City = city;
                 CityId = city.Id;
             }
-            if (district.Id != 0)
+            if (district.ChooseEmpty == true || district.Id != 0)
             {
                 District = district;
                 DistrictId = district.Id;

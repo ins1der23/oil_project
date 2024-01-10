@@ -4,7 +4,7 @@ namespace Models
     public class IssuedBy : BaseElement<IssuedBy>
     {
         private string name;
-        internal string Name { get => name!; set => name = value; }
+        public string Name { get => name!; set => name = value; }
 
         public IssuedBy() : base()
         {

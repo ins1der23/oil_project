@@ -29,7 +29,7 @@ namespace Models
                     {
                         Id = x.Id,
                         CityId = x.CityId,
-                        City = cities.First(c => c.Id == x.CityId),
+                        City = x.CityId != 0 ? cities.First(c => c.Id == x.CityId) : new(),
                         StreetId = x.StreetId,
                         Street = x.StreetId != 0 ? streets.First(s => s.Id == x.StreetId) : new(),
                         HouseNum = x.HouseNum,

@@ -2,6 +2,7 @@ using Handbooks;
 using Interfaces;
 using MenusAndChoices;
 using Models;
+using Service;
 
 class Passports : PassportsRepo, IServiceUI<Passport>
 {
@@ -9,32 +10,33 @@ class Passports : PassportsRepo, IServiceUI<Passport>
     {
         int choice;
         bool flag = true;
-        var parameters = item.GetEmptyParameters();
+        var parameters = item.Parameters;
         while (flag)
         {
-            choice = await MenuToChoice(RegistrationText.changeMenu, item.Summary(), CommonText.choice, noNull: true);
+            choice = await MenuToChoice(PassportText.changeMenu, item.Summary(), CommonText.choice, noNull: true);
             switch (choice)
             {
                 case 1: // Изменить номер
-                    City city = await CityUI.Start();
-                    item.City = city;
-                    parameters["City"] = city;
+                    await ShowString(item.Number.ToString(), clear:true);
+                    var number = await GetDoubleAsync(PassportText.changeNumber);
+                    if(number !=0) parameters["Number"] = number;
                     item.Change(parameters);
                     break;
-                case 2: // Изменить место и дату выдачи
-                    Street street = await StreetsUI.Start(cutOffBy: item.City);
-                    item.Street = street;
-                    parameters["Street"] = street;
+                case 2: // Изменить место выдачи
+                    IssuedBy issuedBy = await IssuedsUI.Start(); 
+                    parameters["IssuedBy"] = issuedBy;
                     item.Change(parameters);
                     break;
-                case 3: // Изменить адрес регистрации
-                    string houseNum = await GetStringAsync(RegistrationText.changeHouseNum);
-                    string flatNum = await GetStringAsync(RegistrationText.changeFlatNum);
-                    parameters["HouseNum"] = houseNum;
-                    parameters["FlatNum"] = flatNum;
+                case 3: // Изменить дату выдачи
+                    await ShowString(item.IssueDate.ToShortDateString(), clear:true);
+                    DateTime issueDate = await GetDateAsync(PassportText.changeDate);
+                    parameters["IssueDate"] = issueDate;
                     item.Change(parameters);
                     break;
-                case 4: // Изменить клиента
+                case 4: // Изменить адрес регистрации
+                    Registration registration = await RegistrationsUI.Start(deleting:false);
+                    parameters["Registration"] = registration;
+                    item.Change(parameters);
                     break;
                 case 5: // Выйти
                     flag = false;
@@ -71,7 +73,10 @@ class Passports : PassportsRepo, IServiceUI<Passport>
 
     public override void CutOff(object parameter)
     {
-        DbList = DbList.Select(x => x).Where(x => x.IssuedBy.Equals(parameter)).ToList();
+        if (parameter is IssuedBy)
+            DbList = DbList.Select(x => x).Where(x => x.IssuedBy.Equals(parameter)).ToList();
+        if (parameter is Registration)
+            DbList = DbList.Select(x => x).Where(x => x.Registration.Equals(parameter)).ToList();
     }
 }
 

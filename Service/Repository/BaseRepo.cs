@@ -26,7 +26,7 @@ namespace Models
             Append(item);
             await GetFromSqlAsync(item);
             if (IsEmpty) return false;
-            if (GetFromList()!.Equals(item)) return true;
+            if (GetFromList().Equals(item)) return true;
             return false;
         }
         public async Task<I> SaveGetId(I item) // получение Id из SQL для нового элемента 

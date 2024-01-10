@@ -85,6 +85,19 @@ public static class InOut
         } while (!flag);
         return num;
     }
+
+    public static async Task<double> GetDoubleAsync(string text, bool clear = false)
+    {
+        if (clear) Console.Clear();
+        double num = 0;
+        bool flag = true;
+        do
+        {
+            Console.Write($"{text}: ");
+            flag = await Task.Run(() => double.TryParse(Console.ReadLine(), out num)) || num == 0;
+        } while (!flag);
+        return num;
+    }
     public static DateTime GetDate(string text)
     {
         Console.Clear();
@@ -94,6 +107,19 @@ public static class InOut
         {
             Console.Write($"{text}: ");
             flag = DateTime.TryParse(Console.ReadLine(), out date);
+        } while (!flag);
+        return date;
+    }
+
+    public static async Task<DateTime> GetDateAsync(string text, bool clear = true)
+    {
+        if (clear) Console.Clear();
+        DateTime date = new();
+        bool flag = true;
+        do
+        {
+            Console.Write($"{text}: ");
+            flag = await Task.Run(() => DateTime.TryParse(Console.ReadLine(), out date)) || date == DateTime.MinValue;
         } while (!flag);
         return date;
     }

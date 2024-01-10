@@ -33,6 +33,7 @@ namespace MenusAndChoices
         public static readonly string notFound = "\nНе найдено\n";
         public static readonly string chooseSome = "Выбрать?";
         public static readonly string emptyList = "Список пустой";
+        public static readonly string emptyElement = "Назначен пустой элемент";
         public static readonly string searchString =
         "Введите текст для поиска или оставьте поле пустым для показа всех";
 
@@ -52,6 +53,7 @@ namespace MenusAndChoices
         public static readonly List<string> searchAgainMenu = new() {
                                 "Повторить поиск",
                                 "Добавить",
+                                "Назначить пустой",
                                 "Возврат в предыдущее меню"};
 
         public static readonly List<string> showOrFind = new() {

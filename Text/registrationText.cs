@@ -6,7 +6,18 @@ namespace MenusAndChoices
     public static class RegistrationText
     {
 
+        // Registartions MUI
+        public static readonly string houseNum = "Введите номер дома";
+        public static readonly string flatNum = "Введите номер квартиры";
+        public static readonly List<string> changeMenu = new() {
+                                "Выбрать другой город",
+                                "Выбрать другую улицу",
+                                "Изменить номер дома или квартиры",
+                                "Сохранить или вернуться в предыдущее меню"};
+        public static readonly string changeHouseNum = "Введите новый номер дома или оставьте поле пустым, если не хотите менять ";
+        public static readonly string changeFlatNum = "Введите новый номер квартиры или оставьте поле пустым, если не хотите менять ";
 
+        //RegistrationsUI
         public static readonly string menuName = "АДРЕСА";
         public static readonly string searchString = "Давайте поищем адрес. Введите название или оставьте поле пустым для показа всех вариантов";
         public static readonly string exist = "ТАКОЙ АДРЕС УЖЕ ЕСТЬ В БАЗЕ";
@@ -23,23 +34,10 @@ namespace MenusAndChoices
         public static readonly string changeCancel = "АДРЕС НЕ ИЗМЕНЕН";
         public static readonly string deleted = "АДРЕС УДАЛЕН";
         public static readonly string delCancel = "АДРЕС НЕ УДАЛЕН";
-        public static readonly List<string> changeMenu = new() {
-                                "Выбрать другой город",
-                                "Выбрать другую улицу",
-                                "Изменить номер дома или квартиры",
-                                "Сохранить или вернуться в предыдущее меню"};
 
 
 
-        public static readonly string houseNum = "Введите номер дома";
-        public static readonly string flatNum = "Введите номер квартиры";
-
-
-
-        public static readonly string changeHouseNum = "Введите новый номер дома или оставьте поле пустым, если не хотите менять ";
-        public static readonly string changeFlatNum = "Введите новый номер квартиры или оставьте поле пустым, если не хотите менять ";
-
-
+        // Other
 
 
         public static readonly List<string> addOrChange = new() {

@@ -54,7 +54,7 @@ namespace Testing
                         if (!agreements.IsEmpty()) await ShowString("Agreements OK", false, delay);
                         break;
                     case 2: // Тест методов
-                        var item = await RegistrationsUI.Start();
+                        var item = await PassportsUI.Start();
                         Console.WriteLine(item);
                         Console.ReadLine();
                         break;

@@ -31,7 +31,8 @@ namespace Models
                     {
                         ["Name"] = x.Name
                     }
-                }).Where(c => id == 0 ? c.SearchString().Contains(search) : c.Id == id).ToList();
+                }).Where(c => id == 0 ? c.SearchString().Contains(search) : c.Id == id)
+                  .Where(c => c.Id != 0).ToList();
                 User.Close();
             }
         }

@@ -10,8 +10,8 @@ namespace Service
     /// </summary>
     /// <typeparam name="I"></typeparam> тип элемента
     /// <typeparam name="L"></typeparam> тип списка элементов
-    public abstract class ChangeLogic<I, L> : BaseLogic<I,L>
-    where I : BaseElement<I>  where L : BaseRepo<I>, IServiceUI<I>
+    public abstract class ChangeLogic<I, L> : BaseLogic<I, L>
+    where I : BaseElement<I> where L : BaseRepo<I>, IServiceUI<I>
     {
         /// <summary>
         /// Логика для создания элемента
@@ -28,14 +28,9 @@ namespace Service
                 int choice = await MenuToChoice(CommonText.yesOrNo, CommonText.changeConfirm, CommonText.choice, clear: false, noNull: true);
                 if (choice == 1)
                 {
-                    bool exist = await items.CheckExist(item);
-                    if (exist) await ShowString(ItemExist);
-                    else
-                    {
-                        await ShowString(ItemChanged);
-                        if (toSql) item = await items.SaveChanges(item);
-                        return item;
-                    }
+                    await ShowString(ItemChanged);
+                    if (toSql) item = await items.SaveChanges(item);
+                    return item;
                 }
             }
             await ShowString(ChangeCancel);

@@ -36,7 +36,12 @@ namespace Service
                             }
                             else await ShowString(CommonText.notAvailable);
                             break;
-                        case 3: // Отменить добавление элемента и вернуться в предыдущее меню
+                        case 3: // Назначить пустой элемент
+                            await ShowString(CommonText.emptyElement);
+                            item.ChooseEmpty = true;
+                            mainFlag = false;
+                            break;
+                        case 4: // Отменить добавление элемента и вернуться в предыдущее меню
                             await ShowString(ItemNotChoosen);
                             mainFlag = false;
                             break;
