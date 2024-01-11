@@ -2,9 +2,9 @@ using Handbooks;
 using Interfaces;
 using MenusAndChoices;
 using Models;
-using Service;
 
-class Passports : PassportsRepo, IServiceUI<Passport>
+namespace UserInterface;
+public class Passports : PassportsRepo, IServiceUI<Passport>
 {
     public async Task<Passport> ChangeAndAdd(Passport item)
     {
@@ -18,7 +18,7 @@ class Passports : PassportsRepo, IServiceUI<Passport>
             {
                 case 1: // Изменить номер
                     await ShowString(item.Number.ToString(), clear:true);
-                    var number = await GetDoubleAsync(PassportText.changeNumber);
+                    var number = await GetDoubleAsync(PassportText.changeNumber, clear: false);
                     if(number !=0) parameters["Number"] = number;
                     item.Change(parameters);
                     break;
@@ -28,13 +28,13 @@ class Passports : PassportsRepo, IServiceUI<Passport>
                     item.Change(parameters);
                     break;
                 case 3: // Изменить дату выдачи
-                    await ShowString(item.IssueDate.ToShortDateString(), clear:true);
+                    await ShowString(item.IssueDate.ToShortDateString(), clear:false);
                     DateTime issueDate = await GetDateAsync(PassportText.changeDate);
                     parameters["IssueDate"] = issueDate;
                     item.Change(parameters);
                     break;
                 case 4: // Изменить адрес регистрации
-                    Registration registration = await RegistrationsUI.Start(deleting:false);
+                    Registration registration = await RegistrationsUI.Start();
                     parameters["Registration"] = registration;
                     item.Change(parameters);
                     break;

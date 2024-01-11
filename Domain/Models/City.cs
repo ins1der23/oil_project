@@ -1,4 +1,4 @@
-using Interfaces;
+using UserInterface;
 
 namespace Models
 
@@ -22,7 +22,7 @@ namespace Models
             streets = new();
             UpdateParameters();
         }
-        public override Dictionary<string,object> UpdateParameters()
+        public override Dictionary<string, object> UpdateParameters()
         {
             Parameters["Name"] = name;
             return Parameters;

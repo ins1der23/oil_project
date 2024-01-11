@@ -28,8 +28,9 @@ namespace Service
                 int choice = await MenuToChoice(CommonText.yesOrNo, CommonText.changeConfirm, CommonText.choice, clear: false, noNull: true);
                 if (choice == 1)
                 {
+                    bool exist = await items.CheckExist(item);
+                    if (toSql && !exist) item = await items.SaveChanges(item);
                     await ShowString(ItemChanged);
-                    if (toSql) item = await items.SaveChanges(item);
                     return item;
                 }
             }

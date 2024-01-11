@@ -24,7 +24,7 @@ namespace Models
             {
                 string sql = @"select * from workers as w;
                             select * from agreements as agr;
-                            select * from representative as r;
+                            select * from humans as r;
                             select * from clients";
                 using (var temp = await User.Connection!.QueryMultipleAsync(sql))
                 {
@@ -44,8 +44,8 @@ namespace Models
                         Comment = x.Comment,
                         OwnerId = x.OwnerId,
                         Owner = workers.Where(w => w.Id == x.OwnerId).First(),
-                        ToDelete = x.ToDelete,
-                        Parameters = x.UpdateParameters()
+                        ToDelete = x.ToDelete
+                        // Parameters = x.UpdateParameters()
                     }).Where(c => id == 0 ? c.SearchString().Contains(search) : c.Id == id).ToList();
                 }
                 User.Close();

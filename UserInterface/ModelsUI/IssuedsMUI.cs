@@ -2,7 +2,8 @@ using Interfaces;
 using MenusAndChoices;
 using Models;
 
-class Issueds : IssuedsRepo, IServiceUI<IssuedBy>
+namespace UserInterface;
+public class Issueds : IssuedsRepo, IServiceUI<IssuedBy>
 {
     /// <summary>
     ///  Изменение, добавление в dbList и возврат элемента

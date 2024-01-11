@@ -1,6 +1,7 @@
 using Interfaces;
 using Models;
 
+namespace UserInterface;
 class Clients : ClientsRepo, IServiceUI<Client>
 {
     public Task<Client> ChangeAndAdd(Client item)
@@ -13,7 +14,7 @@ class Clients : ClientsRepo, IServiceUI<Client>
         throw new NotImplementedException();
     }
 
-    public  override void CutOff(object parameter)
+    public override void CutOff(object parameter)
     {
         throw new NotImplementedException();
     }

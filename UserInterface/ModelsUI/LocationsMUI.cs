@@ -2,8 +2,8 @@ using Handbooks;
 using Interfaces;
 using MenusAndChoices;
 using Models;
-using Service;
 
+namespace UserInterface;
 public class Locations : LocationsRepo, IServiceUI<Location>
 {
     public async Task<Location> ChangeAndAdd(Location item)

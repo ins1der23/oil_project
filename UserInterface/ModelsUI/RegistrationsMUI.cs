@@ -2,9 +2,10 @@ using Handbooks;
 using Interfaces;
 using MenusAndChoices;
 using Models;
-using Service;
 
-class Registrations : RegistrationsRepo, IServiceUI<Registration>
+
+namespace UserInterface;
+public class Registrations : RegistrationsRepo, IServiceUI<Registration>
 {
     public async Task<Registration> ChangeAndAdd(Registration item)
     {
@@ -18,13 +19,11 @@ class Registrations : RegistrationsRepo, IServiceUI<Registration>
             {
                 case 1: // Изменить город
                     City city = await CityUI.Start();
-                    item.City = city;
                     parameters["City"] = city;
                     item.Change(parameters);
                     break;
                 case 2: // Изменить улицу
                     Street street = await StreetsUI.Start(cutOffBy: item.City);
-                    item.Street = street;
                     parameters["Street"] = street;
                     item.Change(parameters);
                     break;

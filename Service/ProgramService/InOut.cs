@@ -86,7 +86,7 @@ public static class InOut
         return num;
     }
 
-    public static async Task<double> GetDoubleAsync(string text, bool clear = false)
+    public static async Task<double> GetDoubleAsync(string text, bool clear = true)
     {
         if (clear) Console.Clear();
         double num = 0;

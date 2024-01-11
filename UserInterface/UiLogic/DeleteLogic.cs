@@ -4,7 +4,7 @@ using Models;
 
 namespace Service
 {
-    public class DeleteLogic<I, L> : BaseLogic<I, L>
+    public abstract class DeleteLogic<I, L> : BaseLogic<I, L>
     where I : BaseElement<I> where L : BaseRepo<I>, IServiceUI<I>
     {
         public static async Task<I> Start(I item)

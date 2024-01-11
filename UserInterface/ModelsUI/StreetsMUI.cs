@@ -1,13 +1,13 @@
-using System.Reflection.Metadata.Ecma335;
 using Handbooks;
 using Interfaces;
 using MenusAndChoices;
-using Service;
+using Models;
 
 
 
-namespace Models
-{
+
+namespace UserInterface;
+
     public class Streets : StreetsRepo, IServiceUI<Street>
     {
         /// <summary>
@@ -73,4 +73,4 @@ namespace Models
         }
     }
 
-}
+

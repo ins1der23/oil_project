@@ -72,8 +72,8 @@ namespace Models
                         Location = x.LocationId != 0 ? locations.First(l => l.Id == x.LocationId) : new(),
                         StreetId = x.StreetId,
                         Street = streets.Where(s => s.Id == x.StreetId).First(),
-                        HouseNum = x.HouseNum,
-                        Parameters = x.UpdateParameters()
+                        HouseNum = x.HouseNum
+                        // Parameters = x.UpdateParameters()
                     }).Where(a => id == 0 ? a.SearchString().Contains(search) : a.Id == id).ToList();
                 }
                 user.Close();

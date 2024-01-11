@@ -1,4 +1,5 @@
 using MenusAndChoices;
+using UserInterface;
 
 namespace Models
 {
@@ -37,10 +38,12 @@ namespace Models
         }
         public static Worker Create()
         {
-            Worker worker = new();
-            worker.Name = GetString(CommonText.workerName);
-            worker.Surname = GetString(CommonText.workerSurname);
-            worker.Birthday = GetDate(CommonText.workerBirth);
+            Worker worker = new()
+            {
+                Name = GetString(CommonText.workerName),
+                Surname = GetString(CommonText.workerSurname),
+                Birthday = GetDate(CommonText.workerBirth)
+            };
             return worker;
         }
         public void Change()

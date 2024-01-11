@@ -1,10 +1,11 @@
 using MenusAndChoices;
 using Models;
 using Service;
+using UserInterface;
 
 namespace Handbooks
 {
-    internal class IssuedsUI : StartLogic<IssuedBy, Issueds>
+    public class IssuedsUI : StartLogic<IssuedBy, Issueds>
     {
         public static async Task<IssuedBy> Start()
         {

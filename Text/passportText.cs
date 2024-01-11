@@ -7,7 +7,7 @@ namespace MenusAndChoices
         //Passport
         public static string Summary(Passport passport)
         {
-            string registration = passport.RegistrationId == 0 ? "Регистрация не указана" : passport.Registration.ToString();
+            string registration = passport.RegistrationId == 0 ? "Регистрация не указана" : passport.Registration.ShortString;
             Console.Clear();
             return @$"
         Серия и номер паспорта:   {passport.Number}
@@ -19,7 +19,7 @@ namespace MenusAndChoices
 
         // PassportsMUI
         public static readonly string number = "Введите серию и номер паспорта без пробелов";
-        public static readonly string date = "Когда выдан паспорт?";
+        public static readonly string date = "Введите дату выдачи паспорта";
         public static readonly string addRegistration = "Указать адрес регистрации?";
         public static readonly string passportNotAdded = "ПАСПОРТ НЕ ДОБАВЛЕН";
         public static readonly string savePassport = "Сохранить паспортные данные?";

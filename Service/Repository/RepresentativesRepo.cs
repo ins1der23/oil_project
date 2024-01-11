@@ -1,4 +1,5 @@
 using Service;
+using UserInterface;
 
 namespace Models
 {
@@ -66,7 +67,7 @@ namespace Models
             await User.ConnectAsync();
             if (User.IsConnect)
             {
-                string selectQuery = $@"update locations set
+                string selectQuery = $@"update humans set
                     name = @{nameof(Representative.Name)},
                     middlename = @{nameof(Representative.Middlename)},
                     surname = @{nameof(Representative.Surname)},

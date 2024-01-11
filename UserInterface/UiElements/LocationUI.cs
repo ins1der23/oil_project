@@ -1,10 +1,11 @@
 using MenusAndChoices;
 using Models;
 using Service;
+using UserInterface;
 
 namespace Handbooks
 {
-    internal class LocationsUI : StartLogic<Location, Locations>
+    public class LocationsUI : StartLogic<Location, Locations>
     {
         public static async Task<Location> Start(object cutOffBy = null!)
         {

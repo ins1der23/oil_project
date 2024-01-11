@@ -8,9 +8,9 @@ namespace Models
         private int cityId;
         private City city;
 
-        internal string Name { get => name; set => name = value; }
-        internal int CityId { get => cityId; set => cityId = value; }
-        internal virtual City City { get => city; set => city = value; }
+        public string Name { get => name; set => name = value; }
+        public int CityId { get => cityId; set => cityId = value; }
+        public virtual City City { get => city; set => city = value; }
 
 
         public District() : base()
