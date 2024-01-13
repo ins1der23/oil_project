@@ -12,11 +12,11 @@ namespace Handbooks
             Client clientOld = (Client)client.Clone();
             string name = GetString(ClientText.changeName);
             Address address = new();
-            int choice = await MenuToChoice(CommonText.yesOrNo, AddrText.changeAddress, CommonText.choice); // Изменить адрес?
+            int choice = await MenuToChoice(CommonText.yesOrNo, AddressText.changeAddress, CommonText.choice); // Изменить адрес?
             switch (choice)
             {
                 case 1: // Да
-                    await ShowString(AddrText.addressChoosing, delay: 100);
+                    await ShowString(AddressText.addressChoosing, delay: 100);
                     address = await AddressControl.Start();
                     break;
                 case 2: // Нет

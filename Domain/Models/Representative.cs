@@ -36,12 +36,12 @@ namespace Models
             if (name != string.Empty) Name = name;
             if (middlename != string.Empty) Middlename = middlename;
             if (surname != string.Empty) Surname = surname;
-            if (passport.ChooseEmpty == true ||passport.Id != 0)
+            if (passport.ChooseEmpty == true || passport.Id != 0)
             {
                 Passport = passport;
                 PassportId = passport.Id;
             }
-            if (client.ChooseEmpty == true ||client.Id != 0)
+            if (client.ChooseEmpty == true || client.Id != 0)
             {
                 Client = client;
                 ClientId = client.Id;
@@ -87,7 +87,8 @@ namespace Models
             if (Name.Equals(toCompare.Name) &&
                 Middlename.Equals(toCompare.Middlename) &&
                 Surname.Equals(toCompare.Surname) &&
-                Passport.Equals(toCompare.Passport)) return true;
+                Passport.Equals(toCompare.Passport))
+                return true;
             return false;
         }
 

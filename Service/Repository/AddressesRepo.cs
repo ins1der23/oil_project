@@ -1,9 +1,10 @@
+using Connection;
+
+
 namespace Models
 {
-    public abstract class RegistrationsRepo : BaseRepo<BaseAddress>
+    public abstract class AddressesRepo : BaseRepo<BaseAddress>
     {
-        public RegistrationsRepo() : base() { }
-
         public override async Task GetFromSqlAsync(BaseAddress? item = null, string search = "", bool byId = false)
         {
             int id = 0;
@@ -13,31 +14,39 @@ namespace Models
                 if (byId) id = item.Id;
                 else search = item.SearchString();
             }
+            search = search.PrepareToSearch();
             await User.ConnectAsync();
             if (User.IsConnect)
             {
                 string sql = @"select * from cities as c;
+                            select * from districts as d;
+                            select * from locations as l;
                             select * from streets as s;
-                            select * from addresses where roleId = 2";
+                            select * from addresses as a where roleId = 1";
 
                 using (var temp = await User.Connection!.QueryMultipleAsync(sql))
                 {
                     var cities = temp.Read<City>();
+                    var districts = temp.Read<District>();
+                    var locations = temp.Read<Location>();
                     var streets = temp.Read<Street>();
-                    var registrations = temp.Read<Registration>();
-                    DbList = registrations.Select(x => (BaseAddress)new Registration
+                    var addresses = temp.Read<Address>();
+                    DbList = addresses.Select(x => (BaseAddress)new Address
                     {
                         Id = x.Id,
                         RoleId = x.RoleId,
                         CityId = x.CityId,
                         City = x.CityId != 0 ? cities.First(c => c.Id == x.CityId) : new(),
+                        DistrictId = x.DistrictId,
+                        District = x.DistrictId != 0 ? districts.First(d => d.Id == x.DistrictId) : new(),
+                        LocationId = x.LocationId,
+                        Location = x.LocationId != 0 ? locations.First(l => l.Id == x.LocationId) : new(),
                         StreetId = x.StreetId,
                         Street = x.StreetId != 0 ? streets.First(s => s.Id == x.StreetId) : new(),
                         HouseNum = x.HouseNum,
-                        FlatNum = x.FlatNum,
                         Parameters = x.UpdateParameters()
-                    }).Where(r => id == 0 ? r.SearchString().Contains(search) : r.Id == id)
-                      .Where(r => r.Id != 0).OrderBy(r => r.City.Name).ThenBy(r => r.Street.Name).ToList();
+                    }).Where(a => id == 0 ? a.SearchString().Contains(search) : a.Id == id)
+                      .Where(a => a.Id != 0).OrderBy(a => a.City.Name).ThenBy(a => a.Street.Name).ToList();
                 }
                 User.Close();
             }
@@ -48,30 +57,32 @@ namespace Models
             if (User.IsConnect)
             {
                 string selectQuery = $@"insert addresses
-                    (roleId, cityId, streetId, houseNum, flatNum) values
-                    (
-                    @{nameof(Registration.RoleId)},
-                    @{nameof(Registration.CityId)},
-                    @{nameof(Registration.StreetId)},
-                    @{nameof(Registration.HouseNum)},
-                    @{nameof(Registration.FlatNum)}
-                    )";
+                    (roleId, cityId, districtId, locationId, streetId, houseNum)
+                    values (
+                    @{nameof(Address.RoleId)},
+                    @{nameof(Address.CityId)},
+                    @{nameof(Address.DistrictId)},
+                    @{nameof(Address.LocationId)},
+                    @{nameof(Address.StreetId)},
+                    @{nameof(Address.HouseNum)})";
                 await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
         }
+
         public override async Task ChangeSqlAsync()
         {
             await User.ConnectAsync();
             if (User.IsConnect)
             {
                 string selectQuery = $@"update addresses set 
-                    roleId = @{nameof(Registration.RoleId)},
-                    cityId = @{nameof(Registration.CityId)},
-                    streetId = @{nameof(Registration.StreetId)},
-                    houseNum = @{nameof(Registration.HouseNum)},
-                    flatNum = @{nameof(Registration.FlatNum)}
-                    where Id = @{nameof(Registration.Id)};";
+                    roleId = @{nameof(Address.RoleId)},
+                    cityId = @{nameof(Address.CityId)},
+                    districtId = @{nameof(Address.DistrictId)},
+                    locationId = @{nameof(Address.LocationId)},
+                    streetId = @{nameof(Address.StreetId)},
+                    houseNum = @{nameof(Address.HouseNum)}
+                    where Id = @{nameof(Address.Id)};";
                 await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
@@ -82,7 +93,7 @@ namespace Models
             if (User.IsConnect)
             {
                 string selectQuery = $@"delete from addresses 
-                                        where Id = @{nameof(Registration.Id)};";
+                                        where Id = @{nameof(Address.Id)};";
                 await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }

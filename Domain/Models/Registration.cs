@@ -6,8 +6,6 @@ namespace Models
     {
         private string flatNum;
         public string FlatNum { get => flatNum; set => flatNum = value; }
-        public string LongString => $"{City.Name,-19}{Street.Name,-28}{HouseNum,-12}{FlatNum,-10}";
-
 
         public Registration() : base()
         {
@@ -31,6 +29,7 @@ namespace Models
             Street street = parameters["Street"].Wrap<Street>();
             string houseNum = parameters["HouseNum"].Wrap<string>();
             string flatNum = parameters["FlatNum"].Wrap<string>();
+
             if (city.ChooseEmpty == true || city.Id != 0)
             {
                 City = city;
@@ -55,6 +54,8 @@ namespace Models
             registration.Parameters = new Dictionary<string, object>(Parameters);
             return registration;
         }
+
+        public override string LongString() => $"{City.Name,-19}{Street.Name,-28}{HouseNum,-12}{FlatNum,-10}";
         public override string ShortString() => $"{City.Name}, {Street.Name}, {HouseNum}";
         public override string SearchString() => $"{City.Name}{Street.Name}{HouseNum}{FlatNum}".PrepareToSearch();
         public override string ToString() => $"{LongString}";
@@ -84,7 +85,8 @@ namespace Models
             if (City.Equals(toCompare.City) &&
                 Street.Equals(toCompare.Street) &&
                 HouseNum.Equals(toCompare.HouseNum) &&
-                FlatNum.Equals(toCompare.FlatNum)) return true;
+                FlatNum.Equals(toCompare.FlatNum))
+                return true;
             return false;
         }
 

@@ -68,8 +68,8 @@ namespace Models
         public override string SearchString() => $"{Number}".PrepareToSearch();
         public override string Summary() => PassportText.Summary(this);
 
-        public override string ToString() => $"{number} {registration} {issuedBy} {issueDate.ToShortDateString()}";
-        
+        public override string ToString() => $"{number} {issuedBy} {issueDate.ToShortDateString()} {registration.ShortString()}";
+
         public override Passport Clone()
         {
             Passport item = (Passport)MemberwiseClone();
@@ -88,7 +88,8 @@ namespace Models
             Passport toCompare = (Passport)obj;
             if (Number.Equals(toCompare.Number) &&
                 IssueDate.Equals(toCompare.IssueDate) &&
-                IssuedBy.Equals(toCompare.IssuedBy)) return true;
+                IssuedBy.Equals(toCompare.IssuedBy))
+                return true;
             return false;
         }
         public override int GetHashCode() => Number.GetHashCode() +

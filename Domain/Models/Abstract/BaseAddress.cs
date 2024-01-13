@@ -23,6 +23,7 @@ namespace Models
             houseNum = string.Empty;
         }
         public abstract string ShortString();
+        public abstract string LongString();
 
 
     }

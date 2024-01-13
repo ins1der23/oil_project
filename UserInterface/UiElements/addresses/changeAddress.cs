@@ -45,7 +45,7 @@ namespace Handbooks
                             street = await StreetControl.Start(city);
                             break;
                         case 4: // Изменить номер дома
-                            houseNum = GetString(AddrText.changeHouseNum);
+                            houseNum = GetString(AddressText.changeHouseNum);
                             break;
                         case 5: // Вернуться в предыдущее меню
                             flag = false;
@@ -70,7 +70,7 @@ namespace Handbooks
                             street = await StreetControl.Start(city);
                             break;
                         case 3: // Изменить номер дома
-                            houseNum = GetString(AddrText.changeHouseNum);
+                            houseNum = GetString(AddressText.changeHouseNum);
                             break;
                         case 4: // Сохранить или вернуться в предыдущее меню
                             flag = false;
@@ -82,21 +82,21 @@ namespace Handbooks
             await ShowString(address.Summary(), delay: 100);
             if (address.SearchString != addressOld.SearchString)
             {
-                choice = await MenuToChoice(CommonText.yesOrNo, AddrText.confirmChanges, CommonText.choice, clear: false, noNull: true);
+                choice = await MenuToChoice(CommonText.yesOrNo, AddressText.confirmChanges, CommonText.choice, clear: false, noNull: true);
                 if (choice == 1)
                 {
                     Addresses addresses = new();
                     bool exist = await addresses.CheckExist(user, address);
-                    if (exist) await ShowString(AddrText.addressExist);
+                    if (exist) await ShowString(AddressText.addressExist);
                     else
                     {
-                        await ShowString(AddrText.addressChanged);
+                        await ShowString(AddressText.addressChanged);
                         if (toSql) address = await addresses.SaveChanges(user, address);
                         return address;
                     }
                 }
             }
-            await ShowString(AddrText.addressNotChanged);
+            await ShowString(AddressText.addressNotChanged);
             return addressOld;
         }
     }

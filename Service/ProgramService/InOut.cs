@@ -17,7 +17,7 @@ public static class InOut
     /// </summary>
     /// <param name="text"> Текст для вывода</param>
     /// <param name="clear"> Очистить консоль </param>
-    public static async Task ShowString(string text, bool clear = false, int delay = 1000)
+    public static async Task ShowString(string text, bool clear = true, int delay = 1000)
     {
         if (clear) Console.Clear();
         Console.WriteLine(text);
@@ -43,7 +43,7 @@ public static class InOut
         if (clear) Console.Clear();
         var menu = new Menu(menuChoices, menuName);
         Console.WriteLine(menu);
-        if (menuChoices.Count == 0) await ShowString(CommonText.notFound, delay: 100);
+        if (menuChoices.Count == 0) await ShowString(CommonText.notFound, delay: 100, clear: false);
         if (noNull) return menu.MenuChoice(invite, noNull: true);
         else return menu.MenuChoice(invite);
 

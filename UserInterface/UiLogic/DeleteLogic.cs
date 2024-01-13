@@ -16,11 +16,11 @@ namespace Service
                 items!.Clear();
                 items!.Append(item);
                 await items.DeleteSqlAsync();
-                await ShowString(Deleted);
+                await ShowString(Deleted, clear: false);
                 item.ChooseEmpty = true;
                 return item.SetEmpty();
             }
-            await ShowString(DelCancel);
+            await ShowString(DelCancel, clear: false);
             return item;
         }
     }

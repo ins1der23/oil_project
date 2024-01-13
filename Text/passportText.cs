@@ -7,7 +7,7 @@ namespace MenusAndChoices
         //Passport
         public static string Summary(Passport passport)
         {
-            string registration = passport.RegistrationId == 0 ? "Регистрация не указана" : passport.Registration.ShortString;
+            string registration = passport.RegistrationId == 0 ? "Регистрация не указана" : passport.Registration.ShortString();
             Console.Clear();
             return @$"
         Серия и номер паспорта:   {passport.Number}

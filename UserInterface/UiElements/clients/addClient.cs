@@ -16,7 +16,7 @@ namespace Handbooks
             {
                 clientToAdd.Name = GetString(ClientText.nameRestrict);
             } while (clientToAdd.Name == string.Empty);
-            await ShowString(AddrText.addressChoosing, delay: 100);
+            await ShowString(AddressText.addressChoosing, delay: 100);
             bool flag = true;
             while (flag)
             {
@@ -25,7 +25,7 @@ namespace Handbooks
                 {
                     clientToAdd.AddressId = address.Id;
                     clientToAdd.Address = address;
-                    await ShowString(AddrText.addressChoosen);
+                    await ShowString(AddressText.addressChoosen);
                     flag = false;
                 }
                 else
@@ -33,7 +33,7 @@ namespace Handbooks
                     bool levOneFlag = true;
                     while (levOneFlag)
                     {
-                        choice = await MenuToChoice(AddrText.searchAgainOrAddAddress, AddrText.addressNotChoosen, CommonText.choice);
+                        choice = await MenuToChoice(AddressText.searchAgainOrAddAddress, AddressText.addressNotChoosen, CommonText.choice);
                         switch (choice)
                         {
                             case 1: // Повторить поиск

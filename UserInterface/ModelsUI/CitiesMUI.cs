@@ -11,8 +11,9 @@ public class Cities : CitiesRepo, IServiceUI<City>
 {
     public async Task<City> ChangeAndAdd(City item)
     {
+        await ShowString(item.ToString(), clear: true);
         var parameters = item.GetEmptyParameters();
-        string name = await GetStringAsync(CommonText.changeName);
+        string name = await GetStringAsync(CommonText.changeName, clear: false);
         parameters["Name"] = name;
         item.Change(parameters);
         Clear();

@@ -88,7 +88,8 @@ namespace Models
             Location toCompare = (Location)obj;
             if (Name.Equals(toCompare.Name) &&
                 City.Equals(toCompare.City) &&
-                District.Equals(toCompare.District)) return true;
+                District.Equals(toCompare.District))
+                return true;
             return false;
         }
         public override int GetHashCode() => Name.GetHashCode() + City.GetHashCode() + District.GetHashCode();

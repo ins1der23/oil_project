@@ -2,8 +2,21 @@ using Models;
 
 namespace MenusAndChoices
 {
-    public static class AddrText
+    public static class AddressText
     {
+        public static string Summary(Address address)
+        {
+            string district = address.DistrictId == 0 ? "Основной" : address.District.ToString();
+            string location = address.LocationId == 0 ? "Основной" : address.Location.ToString();
+
+            Console.Clear();
+            return @$"
+        Город:        {address.City.Name}
+        Район:        {district}
+        Микрорайон:   {location}
+        Улица:        {address.Street.Name}
+        Номер дома:   {address.HouseNum}";
+        }
 
         public static readonly List<string> searchAgainOrAddAddress = new() {
                                 "Повторить поиск адреса",
@@ -37,20 +50,7 @@ namespace MenusAndChoices
         public static readonly string changeAddress = "Изменить адрес?";
         public static readonly string addressChoosen = "АДРЕС ВЫБРАН";
         public static readonly string addAddress = "Добавить адрес?";
-        public static string Summary(this Address address)
-        {
-            Console.Clear();
-            if (address.CityId == 1) return @$"
-        Город:        {address.City.Name}
-        Район:        {address.District.Name}
-        Микрорайон:   {address.Location.Name}
-        Улица:        {address.Street.Name}
-        Номер дома:   {address.HouseNum}";
-            return @$"
-        Город:        {address.City.Name}
-        Улица:        {address.Street.Name}
-        Номер дома:   {address.HouseNum}";
-        }
+
         // ChangeAddress
         public static List<string> ChangeOptions(this Address address)
         {

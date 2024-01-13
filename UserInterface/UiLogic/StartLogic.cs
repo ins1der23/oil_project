@@ -20,7 +20,7 @@ namespace Service
                     switch (choice)
                     {
                         case 1: // Повторить поиск
-                            await ShowString(CommonText.returnToSearch);
+                            await ShowString(CommonText.returnToSearch, clear: false);
                             break;
                         case 2: // Добавить элемент
                             if (adding)
@@ -29,20 +29,20 @@ namespace Service
                                 if (itemNew.Id != 0)
                                 {
                                     item = itemNew;
-                                    await ShowString(ItemChoosen);
+                                    await ShowString(ItemChoosen, clear: false);
                                 }
-                                else await ShowString(ItemNotChoosen);
+                                else await ShowString(ItemNotChoosen, clear: false);
                                 mainFlag = false;
                             }
-                            else await ShowString(CommonText.notAvailable);
+                            else await ShowString(CommonText.notAvailable, clear: false);
                             break;
                         case 3: // Назначить пустой элемент
-                            await ShowString(CommonText.emptyElement);
+                            await ShowString(CommonText.emptyElement, clear: false);
                             item.ChooseEmpty = true;
                             mainFlag = false;
                             break;
                         case 4: // Отменить добавление элемента и вернуться в предыдущее меню
-                            await ShowString(ItemNotChoosen);
+                            await ShowString(ItemNotChoosen, clear: false);
                             mainFlag = false;
                             break;
                     }
@@ -56,13 +56,13 @@ namespace Service
                         switch (choice)
                         {
                             case 1: // Выбрать
-                                await ShowString(ItemChoosen);
+                                await ShowString(ItemChoosen, clear: false);
                                 levelOneFlag = false;
                                 mainFlag = false;
                                 break;
                             case 2: //Изменить
                                 if (changing) item = await ChangeLogic<I, L>.Start(item);
-                                else await ShowString(CommonText.notAvailable);
+                                else await ShowString(CommonText.notAvailable, clear: false);
                                 break;
                             case 3: // Удалить
                                 if (deleting)
@@ -70,19 +70,19 @@ namespace Service
                                     item = await DeleteLogic<I, L>.Start(item);
                                     levelOneFlag = false;
                                     mainFlag = false;
-                                    await ShowString(ItemNotChoosen);
+                                    await ShowString(ItemNotChoosen, clear: false);
                                 }
-                                else await ShowString(CommonText.notAvailable);
+                                else await ShowString(CommonText.notAvailable, clear: false);
                                 break;
                             case 4: // Вернуться к поиску
                                 levelOneFlag = false;
-                                await ShowString(CommonText.returnToSearch);
+                                await ShowString(CommonText.returnToSearch, clear: false);
                                 break;
                             case 5: // Вернуться в предыдущее меню
                                 levelOneFlag = false;
                                 mainFlag = false;
                                 item.SetEmpty();
-                                await ShowString(ItemNotChoosen);
+                                await ShowString(ItemNotChoosen, clear: false);
                                 break;
                         }
                     }

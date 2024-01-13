@@ -24,7 +24,7 @@ namespace Handbooks
                         case 1: // Вернуться к поиску города еще раз
                             break;
                         case 2: // Отменить добавление адреса и вернуться в предыдущее меню
-                            await ShowString(AddrText.addressNotChoosen);
+                            await ShowString(AddressText.addressNotChoosen);
                             return new Address();
                     }
                 }
@@ -43,7 +43,7 @@ namespace Handbooks
                         case 1: // Вернуться к поиску микрорайона еще раз
                             break;
                         case 2: // Отменить добавление адреса и вернуться в предыдущее меню
-                            await ShowString(AddrText.addressNotChoosen);
+                            await ShowString(AddressText.addressNotChoosen);
                             return new Address();
                     }
                 }
@@ -63,7 +63,7 @@ namespace Handbooks
                         case 1: // Вернуться к поиску улицы еще раз
                             break;
                         case 2: // Отменить добавление адреса и вернуться в предыдущее меню
-                            await ShowString(AddrText.addressNotChoosen);
+                            await ShowString(AddressText.addressNotChoosen);
                             return new Address();
                     }
                 }
@@ -80,24 +80,24 @@ namespace Handbooks
                 District = location.District,
                 StreetId = street.Id,
                 Street = street,
-                HouseNum = GetString(AddrText.houseNum)
+                HouseNum = GetString(AddressText.houseNum)
             };
             
             flag = true;
             while (flag)
             {
                 await ShowString(address.Summary(), delay: 0);
-                choice = await MenuToChoice(AddrText.saveOptions, string.Empty, CommonText.choice, clear: false, noNull: true);
+                choice = await MenuToChoice(AddressText.saveOptions, string.Empty, CommonText.choice, clear: false, noNull: true);
                 switch (choice)
                 {
                     case 1: // Сохранить адрес
                         Addresses addresses = new();
                         bool exist = await addresses.CheckExist(user, address);
-                        if (exist) await ShowString(AddrText.addressExist);
+                        if (exist) await ShowString(AddressText.addressExist);
                         else
                         {
                             address = await addresses.SaveGetId(user, address);
-                            await ShowString(AddrText.addressAdded);
+                            await ShowString(AddressText.addressAdded);
                             flag = false;
                         }
                         break;
@@ -105,7 +105,7 @@ namespace Handbooks
                         address = await ChangeAddress.Start(address, toSql: false);
                         break;
                     case 3: // Не сохранять адрес
-                        await ShowString(AddrText.addressNotAdded);
+                        await ShowString(AddressText.addressNotAdded);
                         address = new();
                         flag = false;
                         break;

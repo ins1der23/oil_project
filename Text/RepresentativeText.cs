@@ -7,9 +7,9 @@ namespace MenusAndChoices
         public static string Summary(Representative representative)
         {
             string registration = representative.Passport.RegistrationId == 0 
-            ? "Регистрация не указана" : representative.Passport.Registration.ShortString;
+            ? "Регистрация не указана" : representative.Passport.Registration.ShortString();
             string client = representative.ClientId == 0 
-            ? "Клиент не назначен" : representative.Client.Address.ShortString;
+            ? "Клиент не назначен" : representative.Client.Address.ShortString();
             Console.Clear();
             return @$"
         ФИО:                      {representative}

@@ -17,7 +17,7 @@ namespace Handbooks
                 address = await FindAddress.Start();
                 if (address.Id == 0)
                 {
-                    choice = await MenuToChoice(AddrText.searchAgainOrAddAddress, AddrText.addressNotChoosen, CommonText.choice);
+                    choice = await MenuToChoice(AddressText.searchAgainOrAddAddress, AddressText.addressNotChoosen, CommonText.choice);
                     switch (choice)
                     {
                         case 1: // Повторить поиск адреса
@@ -28,14 +28,14 @@ namespace Handbooks
                             if (address.Id != 0)
                             {
                                 address = addressNew;
-                                await ShowString(AddrText.addressChoosen);
+                                await ShowString(AddressText.addressChoosen);
                                 flag = false;
                             }
-                            else await ShowString(AddrText.addressNotChoosen);
+                            else await ShowString(AddressText.addressNotChoosen);
                             flag = false;
                             break;
                         case 3: // Отменить выбор адреса и вернуться в предыдущее меню
-                            await ShowString(AddrText.addressNotChoosen);
+                            await ShowString(AddressText.addressNotChoosen);
                             flag = false;
                             break;
                     }
@@ -45,11 +45,11 @@ namespace Handbooks
                     bool levelOneFlag = true;
                     while (levelOneFlag)
                     {
-                        choice = await MenuToChoice(AddrText.options, address.LongString, invite: CommonText.choice, noNull: true);
+                        choice = await MenuToChoice(AddressText.options, address.LongString, invite: CommonText.choice, noNull: true);
                         switch (choice)
                         {
                             case 1: // Выбрать 
-                                await ShowString(AddrText.addressChoosen);
+                                await ShowString(AddressText.addressChoosen);
                                 levelOneFlag = false;
                                 flag = false;
                                 break;
@@ -67,7 +67,7 @@ namespace Handbooks
                                 levelOneFlag = false;
                                 flag = false;
                                 address = new();
-                                await ShowString(AddrText.addressNotChoosen);
+                                await ShowString(AddressText.addressNotChoosen);
                                 break;
                         }
                     }

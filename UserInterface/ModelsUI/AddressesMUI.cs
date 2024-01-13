@@ -5,7 +5,7 @@ using Models;
 
 
 namespace UserInterface;
-public class Registrations : RegistrationsRepo, IServiceUI<BaseAddress>
+public class Addresses : AddressesRepo, IServiceUI<BaseAddress>
 {
     public async Task<BaseAddress> ChangeAndAdd(BaseAddress item)
     {

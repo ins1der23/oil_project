@@ -10,7 +10,7 @@ namespace Handbooks
         public static async Task<Address> Start()
         {
             var user = Settings.User;
-            string search = GetString(AddrText.addressSearch).PrepareToSearch();
+            string search = GetString(AddressText.addressSearch).PrepareToSearch();
             var addressList = new Addresses();
             await addressList.GetFromSqlAsync(user, search);
             bool flag = true;
@@ -18,7 +18,7 @@ namespace Handbooks
             int choice;
             while (flag)
             {
-                choice = await MenuToChoice(addressList.ToStringList(), AddrText.addressesFound, CommonText.choiceOrEmpty);
+                choice = await MenuToChoice(addressList.ToStringList(), AddressText.addressesFound, CommonText.choiceOrEmpty);
                 if (choice != 0) address = addressList.GetFromList(choice);
                 flag = false;
             }

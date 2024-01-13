@@ -5,7 +5,15 @@ namespace MenusAndChoices
 {
     public static class RegistrationText
     {
-
+        public static string Summary(Registration registration)
+        {
+            Console.Clear();
+            return @$"
+        Город:        {registration.City.Name}
+        Улица:        {registration.Street.Name}
+        Номер дома:   {registration.HouseNum}
+        Квартира:     {registration.FlatNum}";
+        }
         // Registartions MUI
         public static readonly string houseNum = "Введите номер дома";
         public static readonly string flatNum = "Введите номер квартиры";
@@ -64,22 +72,5 @@ namespace MenusAndChoices
 
 
 
-
-
-
-
-
-
-        public static string Summary(Registration registration)
-        {
-            Console.Clear();
-            return @$"
-        Город:        {registration.City.Name}
-        Улица:        {registration.Street.Name}
-        Номер дома:   {registration.HouseNum}
-        Квартира:     {registration.FlatNum}
-        
-        ";
-        }
     }
 }

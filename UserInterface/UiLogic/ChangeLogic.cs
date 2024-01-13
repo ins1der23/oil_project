@@ -30,11 +30,10 @@ namespace Service
                 {
                     bool exist = await items.CheckExist(item);
                     if (toSql && !exist) item = await items.SaveChanges(item);
-                    await ShowString(ItemChanged);
+                    await ShowString(ItemChanged, clear: false);
                     return item;
                 }
             }
-            await ShowString(ChangeCancel);
             return itemOld;
         }
     }

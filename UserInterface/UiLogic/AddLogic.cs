@@ -25,11 +25,11 @@ namespace Service
                 {
                     case 1: // Сохранить элемент
                         bool exist = await items.CheckExist(item);
-                        if (exist) await ShowString(ItemExist);
+                        if (exist) await ShowString(ItemExist, clear: false);
                         else
                         {
                             item = await items.SaveGetId(item);
-                            await ShowString(ItemAdded);
+                            await ShowString(ItemAdded, clear: false);
                             return item;
                         }
                         flag = false;
@@ -42,7 +42,7 @@ namespace Service
                         break;
                 }
             }
-            await ShowString(ItemNotAdded);
+            await ShowString(ItemNotAdded, clear: false);
             return item.SetEmpty();
         }
     }

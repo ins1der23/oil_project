@@ -28,13 +28,13 @@ public class Passports : PassportsRepo, IServiceUI<Passport>
                     item.Change(parameters);
                     break;
                 case 3: // Изменить дату выдачи
-                    await ShowString(item.ToString(), clear: false);
-                    DateTime issueDate = await GetDateAsync(PassportText.changeDate);
+                    await ShowString(item.ToString(), clear: true);
+                    DateTime issueDate = await GetDateAsync(PassportText.changeDate, clear:false); 
                     parameters["IssueDate"] = issueDate;
                     item.Change(parameters);
                     break;
                 case 4: // Изменить адрес регистрации
-                    Registration registration = await RegistrationsUI.Start();
+                    Registration registration = await ChangeRegistrationUI.Start(item.Registration);
                     parameters["Registration"] = registration;
                     item.Change(parameters);
                     break;
