@@ -5,9 +5,9 @@ using Models;
 
 
 namespace UserInterface;
-public class Registrations : RegistrationsRepo, IServiceUI<Registration>
+public class Registrations : RegistrationsRepo, IServiceUI<BaseAddress>
 {
-    public async Task<Registration> ChangeAndAdd(Registration item)
+    public async Task<BaseAddress> ChangeAndAdd(BaseAddress item)
     {
         int choice;
         bool flag = true;
@@ -28,6 +28,7 @@ public class Registrations : RegistrationsRepo, IServiceUI<Registration>
                     item.Change(parameters);
                     break;
                 case 3: // Изменить номер дома и квартиру
+                    await ShowString(item.ShortString(), clear: false);
                     string houseNum = await GetStringAsync(RegistrationText.changeHouseNum);
                     string flatNum = await GetStringAsync(RegistrationText.changeFlatNum);
                     parameters["HouseNum"] = houseNum;
@@ -44,7 +45,7 @@ public class Registrations : RegistrationsRepo, IServiceUI<Registration>
         return item;
     }
 
-    public async Task<Registration> CreateAndAdd()
+    public async Task<BaseAddress> CreateAndAdd()
     {
         {
             City city = await CityUI.Start();

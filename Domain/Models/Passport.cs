@@ -68,13 +68,8 @@ namespace Models
         public override string SearchString() => $"{Number}".PrepareToSearch();
         public override string Summary() => PassportText.Summary(this);
 
-        public override string ToString()
-        {
-            string registration = RegistrationId == 0 ? "Регистрация не указана" : Registration.ToString();
-            string passport = $"{Number}";
-            return $"{passport} {registration} {issuedBy}";
-        }
-
+        public override string ToString() => $"{number} {registration} {issuedBy} {issueDate.ToShortDateString()}";
+        
         public override Passport Clone()
         {
             Passport item = (Passport)MemberwiseClone();

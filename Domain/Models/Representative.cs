@@ -12,6 +12,7 @@ namespace Models
 
         public Representative() : base()
         {
+            RoleId = 2;
             client = new();
             UpdateParameters();
         }

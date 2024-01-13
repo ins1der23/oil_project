@@ -23,14 +23,15 @@ namespace Models
             await User.ConnectAsync();
             if (User.IsConnect)
             {
-                string sql = @"select * from humans as h;";
+                string sql = @"select * from humans where roleId = 2;";
 
                 using (var temp = await User.Connection!.QueryMultipleAsync(sql))
                 {
-                    var representers = temp.Read<Representative>();
-                    DbList = representers.Select(x => (Human)new Representative
+                    var representatives = temp.Read<Representative>();
+                    DbList = representatives.Select(x => (Human)new Representative
                     {
                         Id = x.Id,
+                        RoleId = x.RoleId,
                         Name = x.Name,
                         Middlename = x.Middlename,
                         Surname = x.Surname,
@@ -52,12 +53,15 @@ namespace Models
             if (User.IsConnect)
             {
                 string selectQuery = $@"insert humans 
-                    (name, middlename, surname, passportId, ClientId)
-                    values (@{nameof(Representative.Name)},
+                    (roleId, name, middlename, surname, passportId, ClientId)
+                    values (
+                            @{nameof(Representative.RoleId)},
+                            @{nameof(Representative.Name)},
                             @{nameof(Representative.Middlename)},
                             @{nameof(Representative.Surname)},
                             @{nameof(Representative.PassportId)},
-                            @{nameof(Representative.ClientId)})";
+                            @{nameof(Representative.ClientId)}
+                            )";
                 await User.Connection!.ExecuteAsync(selectQuery, DbList);
                 User.Close();
             }
@@ -68,6 +72,7 @@ namespace Models
             if (User.IsConnect)
             {
                 string selectQuery = $@"update humans set
+                    roleId = @{nameof(Representative.RoleId)},
                     name = @{nameof(Representative.Name)},
                     middlename = @{nameof(Representative.Middlename)},
                     surname = @{nameof(Representative.Surname)},
@@ -81,7 +86,7 @@ namespace Models
 
         public override async Task DeleteSqlAsync()
         {
-           await User.ConnectAsync();
+            await User.ConnectAsync();
             if (User.IsConnect)
             {
                 string selectQuery = $@"delete from humans 

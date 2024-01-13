@@ -17,18 +17,18 @@ public class Passports : PassportsRepo, IServiceUI<Passport>
             switch (choice)
             {
                 case 1: // Изменить номер
-                    await ShowString(item.Number.ToString(), clear:true);
+                    await ShowString(item.ToString(), clear: true);
                     var number = await GetDoubleAsync(PassportText.changeNumber, clear: false);
-                    if(number !=0) parameters["Number"] = number;
+                    if (number != 0) parameters["Number"] = number;
                     item.Change(parameters);
                     break;
                 case 2: // Изменить место выдачи
-                    IssuedBy issuedBy = await IssuedsUI.Start(); 
+                    IssuedBy issuedBy = await IssuedsUI.Start();
                     parameters["IssuedBy"] = issuedBy;
                     item.Change(parameters);
                     break;
                 case 3: // Изменить дату выдачи
-                    await ShowString(item.IssueDate.ToShortDateString(), clear:false);
+                    await ShowString(item.ToString(), clear: false);
                     DateTime issueDate = await GetDateAsync(PassportText.changeDate);
                     parameters["IssueDate"] = issueDate;
                     item.Change(parameters);
@@ -55,7 +55,7 @@ public class Passports : PassportsRepo, IServiceUI<Passport>
         Registration registration = new();
         var issueDate = GetDate(PassportText.date);
         int choice = await MenuToChoice(CommonText.yesOrNo, PassportText.addRegistration, CommonText.choice, noNull: true);
-        if (choice == 1) registration = await RegistrationsUI.Start();
+        if (choice == 1) registration = await AddRegistrationUI.Start();
         var item = new Passport()
         {
             Number = number,

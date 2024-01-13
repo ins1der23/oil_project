@@ -36,7 +36,7 @@ namespace Models
                         IssuedBy = x.IssuedId != 0 ? issued.First(i => i.Id == x.IssuedId) : new(),
                         IssueDate = x.IssueDate,
                         RegistrationId = x.RegistrationId,
-                        Registration = x.RegistrationId != 0 ? regList.First(a => a.Id == x.RegistrationId) : new(),
+                        Registration = x.RegistrationId != 0 ? (Registration)regList.First(a => a.Id == x.RegistrationId) : new Registration(),
                     }).Where(p => id == 0 ? p.SearchString().Contains(search) : p.Id == id).ToList();
                 }
                 User.Close();

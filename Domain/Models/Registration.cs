@@ -2,37 +2,24 @@ using MenusAndChoices;
 
 namespace Models
 {
-    public class Registration : BaseElement<Registration>
+    public class Registration : BaseAddress
     {
-        private int cityId;
-        private City city;
-        private int streetId;
-        private Street street;
-        private string houseNum;
         private string flatNum;
-
-        public int CityId { get => cityId; set => cityId = value; }
-        public virtual City City { get => city; set => city = value; }
-        public int StreetId { get => streetId; set => streetId = value; }
-        public virtual Street Street { get => street!; set => street = value; }
-        public string HouseNum { get => houseNum; set => houseNum = value; }
         public string FlatNum { get => flatNum; set => flatNum = value; }
         public string LongString => $"{City.Name,-19}{Street.Name,-28}{HouseNum,-12}{FlatNum,-10}";
-        public string ShortString => $"{City.Name}, {Street.Name}, {HouseNum}";
+
 
         public Registration() : base()
         {
-            city = new();
-            street = new();
-            houseNum = string.Empty;
+            RoleId = 2;
             flatNum = string.Empty;
             UpdateParameters();
         }
         public override Dictionary<string, object> UpdateParameters()
         {
-            Parameters["City"] = city;
-            Parameters["Street"] = street;
-            Parameters["HouseNum"] = houseNum;
+            Parameters["City"] = City;
+            Parameters["Street"] = Street;
+            Parameters["HouseNum"] = HouseNum;
             Parameters["FlatNum"] = flatNum;
             return Parameters;
         }
@@ -63,20 +50,21 @@ namespace Models
         public override Registration Clone()
         {
             Registration registration = (Registration)MemberwiseClone();
-            registration.City = city;
-            registration.Street = street;
+            registration.City = City;
+            registration.Street = Street;
             registration.Parameters = new Dictionary<string, object>(Parameters);
             return registration;
         }
+        public override string ShortString() => $"{City.Name}, {Street.Name}, {HouseNum}";
         public override string SearchString() => $"{City.Name}{Street.Name}{HouseNum}{FlatNum}".PrepareToSearch();
         public override string ToString() => $"{LongString}";
 
         public override Registration SetEmpty()
         {
             Id = 0;
-            cityId = 0;
+            CityId = 0;
             City = new();
-            streetId = 0;
+            StreetId = 0;
             Street = new();
             HouseNum = string.Empty;
             FlatNum = string.Empty;

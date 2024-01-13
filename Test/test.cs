@@ -25,10 +25,6 @@ namespace Testing
                         Addresses addressSql = new();
                         await addressSql.GetFromSqlAsync(user);
                         await ShowString("Addresses OK", false, delay);
-
-
-
-
                         Districts districts = new();
                         await districts.GetFromSqlAsync();
                         await ShowString("Districts OK", false, delay);
@@ -55,7 +51,7 @@ namespace Testing
                         if (!agreements.IsEmpty()) await ShowString("Agreements OK", false, delay);
                         break;
                     case 2: // Тест методов
-                        var item = await PassportsUI.Start();
+                        var item = await RepresentativesUI.Start();
                         Console.WriteLine(item);
                         Console.ReadLine();
                         break;

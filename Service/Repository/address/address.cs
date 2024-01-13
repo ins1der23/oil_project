@@ -52,7 +52,7 @@ namespace Models
                             select * from districts as d;
                             select * from locations as l;
                             select * from streets as s;
-                            select * from addresses as a";
+                            select * from addresses as a where roleId = 1";
 
                 using (var temp = await user.Connection!.QueryMultipleAsync(sql))
                 {
@@ -64,6 +64,7 @@ namespace Models
                     AddressList = addresses.Select(x => new Address
                     {
                         Id = x.Id,
+                        RoleId = x.RoleId,
                         CityId = x.CityId,
                         City = cities.First(c => c.Id == x.CityId),
                         DistrictId = x.DistrictId,
@@ -71,7 +72,7 @@ namespace Models
                         LocationId = x.LocationId,
                         Location = x.LocationId != 0 ? locations.First(l => l.Id == x.LocationId) : new(),
                         StreetId = x.StreetId,
-                        Street = streets.Where(s => s.Id == x.StreetId).First(),
+                        Street = x.StreetId != 0 ? streets.Where(s => s.Id == x.StreetId).First() : new(),
                         HouseNum = x.HouseNum
                         // Parameters = x.UpdateParameters()
                     }).Where(a => id == 0 ? a.SearchString().Contains(search) : a.Id == id).ToList();
@@ -85,8 +86,9 @@ namespace Models
             if (user.IsConnect)
             {
                 string selectQuery = $@"insert Addresses
-                    (cityId, districtId, locationId, streetId, houseNum)
+                    (roleId, cityId, districtId, locationId, streetId, houseNum)
                     values (
+                    @{nameof(Address.RoleId)},
                     @{nameof(Address.CityId)},
                     @{nameof(Address.DistrictId)},
                     @{nameof(Address.LocationId)},
@@ -103,6 +105,7 @@ namespace Models
             if (user.IsConnect)
             {
                 string selectQuery = $@"update Addresses set 
+                    roleId = @{nameof(Address.RoleId)},
                     cityId = @{nameof(Address.CityId)},
                     districtId = @{nameof(Address.DistrictId)},
                     locationId = @{nameof(Address.LocationId)},

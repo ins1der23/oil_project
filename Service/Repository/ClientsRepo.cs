@@ -38,7 +38,7 @@ namespace Models
                         Name = x.Name,
                         Phone = x.Phone,
                         AddressId = x.AddressId,
-                        Address = addressList.Where(a => a.Id == x.AddressId).First(),
+                        Address = x.AddressId != 0 ? addressList.Where(a => a.Id == x.AddressId).First() : new(),
                         Agreements = agreementList.Where(agr => agr.ClientId == x.Id).ToList(),
                         Representatives = repList.Where(p => p.ClientId == x.Id).ToList(),
                         Comment = x.Comment,

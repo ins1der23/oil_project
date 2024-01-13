@@ -2,12 +2,14 @@ namespace Models
 {
     public abstract class Human : BaseElement<Human>
     {
+        private int roleId;
         private string name;
         private string middlename;
         private string surname;
         private int passportId;
         private Passport passport;
 
+        public int RoleId { get => roleId; set => roleId = value; }
         public string Name { get => name; set => name = value; }
         public string Middlename { get => middlename; set => middlename = value; }
         public string Surname { get => surname; set => surname = value; }

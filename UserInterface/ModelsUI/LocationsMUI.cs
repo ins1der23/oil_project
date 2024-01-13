@@ -18,6 +18,7 @@ public class Locations : LocationsRepo, IServiceUI<Location>
 
             {
                 case 1: // Изменить название
+                    await ShowString(item.ToString(), clear: true);
                     string name = await GetStringAsync(CommonText.changeName);
                     parameters.Add("Name", name);
                     item.Change(parameters);

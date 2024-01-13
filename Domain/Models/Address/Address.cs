@@ -2,17 +2,13 @@
 
 namespace Models
 {
-    public class Address : BaseElement<Address>
+    public class Address : BaseAddress
     {
-        public int CityId { get; set; }
-        public virtual City City { get; set; }
         public int DistrictId { get; set; }
         public virtual District District { get; set; }
         public int LocationId { get; set; }
         public virtual Location Location { get; set; }
-        public int StreetId { get; set; }
-        public virtual Street Street { get; set; }
-        public string HouseNum { get; set; }
+
         public string LongString
         {
             get
@@ -22,22 +18,14 @@ namespace Models
             }
 
         }
-        public string ShortString
-        {
-            get
-            {
-                if (CityId == 1) return $"{Street.Name}, {HouseNum}";
-                else return $"{City.Name}, {Street.Name}, {HouseNum}";
-            }
-        }
+
 
         public Address()
         {
-            City = new();
+
             District = new();
             Location = new();
-            Street = new();
-            HouseNum = string.Empty;
+
         }
 
         public void Change(City city, District district, Location location, Street street, string houseNum)
@@ -66,6 +54,13 @@ namespace Models
         }
 
         public override string SearchString() => $"{City.Name}{Street.Name}{HouseNum}".PrepareToSearch();
+        public override string ShortString()
+        {
+
+            if (CityId == 1) return $"{Street.Name}, {HouseNum}";
+            else return $"{City.Name}, {Street.Name}, {HouseNum}";
+
+        }
         public override Address Clone()
         {
             Address address = (Address)MemberwiseClone();

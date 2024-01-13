@@ -53,7 +53,7 @@ namespace MenusAndChoices
         public static readonly List<string> searchAgainMenu = new() {
                                 "Повторить поиск",
                                 "Добавить",
-                                "Назначить пустой",
+                                "Назначить пустой элемент",
                                 "Возврат в предыдущее меню"};
 
         public static readonly List<string> showOrFind = new() {

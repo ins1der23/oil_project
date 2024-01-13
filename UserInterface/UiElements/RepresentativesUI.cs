@@ -5,9 +5,9 @@ using Service;
 
 namespace UserInterface;
 
-public class RepresentativeUI : StartLogic<Human, Representatives>
+public class RepresentativesUI : StartLogic<Human, Representatives>
 {
-    public static async Task<Human> Start(object cutOffBy = null!)
+    public static async Task<Representative> Start(object cutOffBy = null!)
     {
         items = new Representatives();
         item = new Representative();
@@ -25,6 +25,6 @@ public class RepresentativeUI : StartLogic<Human, Representatives>
         ItemChoosen = RepresentativeText.choosen;
         ItemNotChoosen = RepresentativeText.notChoosen;
 
-        return await StartLogic<Human, Representatives>.Start(cutOffBy: cutOffBy);
+        return (Representative)await StartLogic<Human, Representatives>.Start(cutOffBy: cutOffBy);
     }
 }

@@ -5,13 +5,13 @@ using UserInterface;
 
 namespace Handbooks
 {
-    public class RegistrationsUI : StartLogic<Registration, Registrations>
+    public class RegistrationsUI : StartLogic<BaseAddress, Registrations>
     {
         public static async Task<Registration> Start()
         {
             items = new Registrations();
             item = new Registration();
-            
+
             Deleted = RegistrationText.deleted;
             DelCancel = RegistrationText.delCancel;
             SaveOptions = RegistrationText.saveOptions;
@@ -25,7 +25,7 @@ namespace Handbooks
             ItemChoosen = RegistrationText.choosen;
             ItemNotChoosen = RegistrationText.notChoosen;
 
-            return await StartLogic<Registration, Registrations>.Start();
+            return (Registration)await StartLogic<BaseAddress, Registrations>.Start();
         }
     }
 }
